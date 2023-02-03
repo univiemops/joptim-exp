@@ -49,7 +49,7 @@ const App = () => {
 const Tile = () => {
   const [assigned, setAssigned] = React.useState(false);
   return (
-    <div className="Tile" onClick={() => setAssigned(assigned == false)}>
+    <div className="Tile" onClick={() => setAssigned(assigned === false)}>
       {assigned && (
         <svg className="SVG-circle">
           <circle
