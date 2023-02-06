@@ -6,14 +6,20 @@ const n = 4;
 
 const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800", "pink"];
 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+}
+
 const task_sizes = Array.from(
   { length: n },
-  () => 10 * Math.floor(Math.random() * 10)
+  () => 10 * getRandomIntInclusive(1, 10)
 );
 
 const agent_sizes = Array.from(
   { length: n },
-  () => 10 * Math.floor(Math.random() * 10)
+  () => 10 * getRandomIntInclusive(0, 10)
 );
 
 const App = () => {
