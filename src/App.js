@@ -33,8 +33,6 @@ const App = () => {
     setAssignments(newAssignments);
   };
 
-  console.log(assignments);
-
   return (
     <div className="App">
       <div className="App-header">
