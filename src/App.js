@@ -25,7 +25,13 @@ const App = () => {
       (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
     );
     if (index === -1) {
+      let indexOther = newAssignments.findIndex((a) => a[0] === coordinates[0]);
+
       newAssignments.push(coordinates);
+      if (indexOther !== -1) {
+        newAssignments.splice(indexOther, 1);
+      }
+      console.log("indexOther", indexOther);
     } else {
       newAssignments.splice(index, 1);
     }
