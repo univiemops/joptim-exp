@@ -92,14 +92,7 @@ const AssignTile = (props) => {
     <div className="Tile" onClick={onClick}>
       {active && (
         <svg className="SVG-circle">
-          <circle
-            cx="40"
-            cy="40"
-            r="20"
-            stroke="black"
-            strokeWidth="3"
-            fill="lightgray"
-          />
+          <circle className="SVG-inner" />
         </svg>
       )}
     </div>
@@ -121,23 +114,24 @@ const TaskTile = (props) => {
 const AgentTile = (props) => {
   const { size, activeTasks } = props;
 
-  const load = activeTasks
-    .map((task) => task_sizes[task])
-    .reduce((partialSum, a) => partialSum + a, 0);
-
   return (
     <div className="Agent-tile">
       <div
         style={{ height: String(size).concat("%") }}
         className="Agent-tile-inner-capacity"
       ></div>
-      <div
-        className="Agent-tile-inner-load"
-        style={{
-          height: String(load).concat("%"),
-          backgroundColor: "lightblue",
-        }}
-      ></div>
+      <div className="Agent-tile-load-container">
+        {activeTasks.map((task, idx) => (
+          <div
+            key={idx}
+            className="Agent-tile-load"
+            style={{
+              minHeight: String(task_sizes[task]).concat("%"),
+              backgroundColor: cmap[task],
+            }}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 };
