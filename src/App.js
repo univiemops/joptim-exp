@@ -4,7 +4,7 @@ import React from "react";
 const m = 4;
 const n = 4;
 
-const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800"];
+const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800", "pink"];
 
 const task_sizes = Array.from(
   { length: n },
@@ -17,6 +17,24 @@ const agent_sizes = Array.from(
 );
 
 const App = () => {
+  const [assignments, setAssignments] = React.useState([]);
+
+  const handleTileClick = (coordinates) => {
+    let newAssignments = [...assignments];
+    let index = newAssignments.findIndex(
+      (innerArray) =>
+        innerArray[0] === coordinates[0] && innerArray[1] === coordinates[1]
+    );
+    if (index === -1) {
+      newAssignments.push(coordinates);
+    } else {
+      newAssignments.splice(index, 1);
+    }
+    setAssignments(newAssignments);
+  };
+
+  console.log(assignments);
+
   return (
     <div className="App">
       <div className="App-header">
@@ -25,19 +43,41 @@ const App = () => {
           <div className="Game-container-left">
             <EmptyTile />
             {task_sizes.map((val, idx) => (
-              <TaskTile value={val} color={cmap[idx]} />
+              <TaskTile key={idx} value={val} color={cmap[idx]} />
             ))}
           </div>
           <div className="Game-container-right">
             <div className="Tile-row">
-              {agent_sizes.map((val) => (
-                <AgentTile value={val} />
+              {agent_sizes.map((val, idx) => (
+                <AgentTile key={idx} value={val} />
               ))}
             </div>
             <div className="Tile-container">
-              {Array(n).fill(
-                <div className="Tile-row">{Array(m).fill(<Tile />)}</div>
-              )}
+              {Array.from({ length: n }).map((_, i) => (
+                <div key={i} className="Tile-row">
+                  {Array.from({ length: m }).map((_, j) => {
+                    let active = false;
+                    let coordinates = [i, j];
+                    if (
+                      assignments.findIndex(
+                        (a) =>
+                          a[0] === coordinates[0] && a[1] === coordinates[1]
+                      ) !== -1
+                    ) {
+                      active = true;
+                    }
+
+                    return (
+                      <AssignTile
+                        key={j}
+                        active={active}
+                        coordinates={coordinates}
+                        onClick={() => handleTileClick(coordinates)}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -46,18 +86,19 @@ const App = () => {
   );
 };
 
-const Tile = () => {
-  const [assigned, setAssigned] = React.useState(false);
+const AssignTile = (props) => {
+  const { coordinates, onClick, active } = props;
+
   return (
-    <div className="Tile" onClick={() => setAssigned(assigned === false)}>
-      {assigned && (
+    <div className="Tile" onClick={onClick}>
+      {active && (
         <svg className="SVG-circle">
           <circle
             cx="40"
             cy="40"
             r="20"
             stroke="black"
-            stroke-width="3"
+            strokeWidth="3"
             fill="lightgray"
           />
         </svg>
