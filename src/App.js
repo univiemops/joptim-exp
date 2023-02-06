@@ -35,7 +35,8 @@ const App = () => {
   return (
     <div className="App">
       <div className="App-header">
-        <p>Assignment Task (hit F5 to refresh)</p>
+        <h2>Allocation matrix</h2>
+        <p>Press F5 for a new task</p>
         <div className="Game-container">
           <div className="Game-container-left">
             <EmptyTile />
