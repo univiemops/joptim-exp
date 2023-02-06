@@ -128,12 +128,3 @@
   max-height: 100%;
   max-width: 100%;
 }
-
-.SVG-inner {
-  cx: 40;
-  cy: 40;
-  r: 20;
-  stroke: black;
-  stroke-width: 3;
-  fill: lightgray;
-}

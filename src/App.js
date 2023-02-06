@@ -92,7 +92,14 @@ const AssignTile = (props) => {
     <div className="Tile" onClick={onClick}>
       {active && (
         <svg className="SVG-circle">
-          <circle className="SVG-inner" />
+          <circle
+            cx="40"
+            cy="40"
+            r="20"
+            stroke="black"
+            strokeWidth="3"
+            fill="lightgray"
+          />
         </svg>
       )}
     </div>
