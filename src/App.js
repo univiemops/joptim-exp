@@ -22,8 +22,7 @@ const App = () => {
   const handleTileClick = (coordinates) => {
     let newAssignments = [...assignments];
     let index = newAssignments.findIndex(
-      (innerArray) =>
-        innerArray[0] === coordinates[0] && innerArray[1] === coordinates[1]
+      (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
     );
     if (index === -1) {
       newAssignments.push(coordinates);
@@ -40,27 +39,35 @@ const App = () => {
         <div className="Game-container">
           <div className="Game-container-left">
             <EmptyTile />
-            {task_sizes.map((val, idx) => (
-              <TaskTile key={idx} value={val} color={cmap[idx]} />
+            {task_sizes.map((size, idx) => (
+              <TaskTile key={idx} size={size} color={cmap[idx]} />
             ))}
           </div>
           <div className="Game-container-right">
             <div className="Tile-row">
-              {agent_sizes.map((val, idx) => (
-                <AgentTile key={idx} value={val} />
-              ))}
+              {agent_sizes.map((size, i) => {
+                const activeTasks = assignments
+                  .filter((innerArray) => innerArray[1] === i)
+                  .map((innerArray) => innerArray[0]);
+
+                return (
+                  <AgentTile
+                    key={i}
+                    i={i}
+                    size={size}
+                    activeTasks={activeTasks}
+                  />
+                );
+              })}
             </div>
             <div className="Tile-container">
               {Array.from({ length: n }).map((_, i) => (
                 <div key={i} className="Tile-row">
                   {Array.from({ length: m }).map((_, j) => {
                     let active = false;
-                    let coordinates = [i, j];
                     if (
-                      assignments.findIndex(
-                        (a) =>
-                          a[0] === coordinates[0] && a[1] === coordinates[1]
-                      ) !== -1
+                      assignments.findIndex((a) => a[0] === i && a[1] === j) !==
+                      -1
                     ) {
                       active = true;
                     }
@@ -69,8 +76,7 @@ const App = () => {
                       <AssignTile
                         key={j}
                         active={active}
-                        coordinates={coordinates}
-                        onClick={() => handleTileClick(coordinates)}
+                        onClick={() => handleTileClick([i, j])}
                       />
                     );
                   })}
@@ -85,7 +91,7 @@ const App = () => {
 };
 
 const AssignTile = (props) => {
-  const { coordinates, onClick, active } = props;
+  const { onClick, active } = props;
 
   return (
     <div className="Tile" onClick={onClick}>
@@ -105,23 +111,37 @@ const AssignTile = (props) => {
   );
 };
 
-const TaskTile = ({ value, color }) => {
+const TaskTile = (props) => {
+  const { size, color } = props;
   return (
     <div className="Task-tile">
       <div
-        style={{ width: String(value).concat("%"), backgroundColor: color }}
+        style={{ width: String(size).concat("%"), backgroundColor: color }}
         className="Task-tile-inner"
       ></div>
     </div>
   );
 };
 
-const AgentTile = ({ value }) => {
+const AgentTile = (props) => {
+  const { i, size, activeTasks } = props;
+
+  const load = activeTasks
+    .map((task) => task_sizes[task])
+    .reduce((partialSum, a) => partialSum + a, 0);
+
   return (
     <div className="Agent-tile">
       <div
-        style={{ height: String(value).concat("%") }}
-        className="Agent-tile-inner"
+        style={{ height: String(size).concat("%") }}
+        className="Agent-tile-inner-capacity"
+      ></div>
+      <div
+        className="Agent-tile-inner-load"
+        style={{
+          height: String(load).concat("%"),
+          backgroundColor: "lightblue",
+        }}
       ></div>
     </div>
   );

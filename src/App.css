@@ -49,6 +49,7 @@
 }
 
 .Agent-tile {
+  position: relative;
   background-color: white;
   border-color: white;
   border-style: solid;
@@ -60,12 +61,25 @@
   align-items: flex-end;
 }
 
-.Agent-tile-inner {
+.Agent-tile-inner-capacity {
+  position: absolute;
   background-color: white;
   border-width: 1px 1px 0px 1px;
   border-style: dashed;
   border-color: gray;
   width: 100%;
+  display: flex;
+  align-items: flex-end;
+  z-index: 100;
+}
+
+.Agent-tile-inner-load {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0.6;
+  z-index: 110;
 }
 
 .Task-tile {
