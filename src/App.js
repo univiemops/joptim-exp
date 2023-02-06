@@ -51,12 +51,7 @@ const App = () => {
                   .map((innerArray) => innerArray[0]);
 
                 return (
-                  <AgentTile
-                    key={i}
-                    i={i}
-                    size={size}
-                    activeTasks={activeTasks}
-                  />
+                  <AgentTile key={i} size={size} activeTasks={activeTasks} />
                 );
               })}
             </div>
@@ -124,7 +119,7 @@ const TaskTile = (props) => {
 };
 
 const AgentTile = (props) => {
-  const { i, size, activeTasks } = props;
+  const { size, activeTasks } = props;
 
   const load = activeTasks
     .map((task) => task_sizes[task])
