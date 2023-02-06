@@ -19,23 +19,39 @@ const agent_sizes = Array.from(
 const App = () => {
   const [assignments, setAssignments] = React.useState([]);
 
-  const handleTileClick = (coordinates) => {
-    let newAssignments = [...assignments];
-    let index = newAssignments.findIndex(
-      (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
-    );
-    if (index === -1) {
-      let indexOther = newAssignments.findIndex((a) => a[0] === coordinates[0]);
+  const handleTileClick = (e, coordinates) => {
+    const capacity = agent_sizes[coordinates[1]];
+    const oldLoad = assignments
+      .filter((a) => a[1] === coordinates[1])
+      .map((a) => task_sizes[a[0]])
+      .reduce((a, b) => a + b, 0);
+    const newLoad = task_sizes[coordinates[0]];
+    const limitReached = capacity - oldLoad - newLoad < 0;
 
-      newAssignments.push(coordinates);
-      if (indexOther !== -1) {
-        newAssignments.splice(indexOther, 1);
-      }
-      console.log("indexOther", indexOther);
+    if (limitReached) {
+      e.target.style.backgroundColor = "lightgray";
+      setTimeout(() => {
+        e.target.style.backgroundColor = "";
+      }, 100);
     } else {
-      newAssignments.splice(index, 1);
+      let newAssignments = [...assignments];
+      let index = newAssignments.findIndex(
+        (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
+      );
+      if (index === -1) {
+        let indexOther = newAssignments.findIndex(
+          (a) => a[0] === coordinates[0]
+        );
+
+        newAssignments.push(coordinates);
+        if (indexOther !== -1) {
+          newAssignments.splice(indexOther, 1);
+        }
+      } else {
+        newAssignments.splice(index, 1);
+      }
+      setAssignments(newAssignments);
     }
-    setAssignments(newAssignments);
   };
 
   return (
@@ -78,7 +94,7 @@ const App = () => {
                       <AssignTile
                         key={j}
                         active={active}
-                        onClick={() => handleTileClick([i, j])}
+                        onClick={(e) => handleTileClick(e, [i, j])}
                       />
                     );
                   })}
