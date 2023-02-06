@@ -42,7 +42,7 @@ const App = () => {
       } else {
         newAssignments.push(coordinates);
       }
-      if (indexOther !== -1) {
+      if (indexOther !== -1 && !limitReached) {
         newAssignments.splice(indexOther, 1);
       }
     } else {
