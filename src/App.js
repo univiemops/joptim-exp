@@ -25,12 +25,12 @@ function getRandomIntInclusive(min, max) {
 
 const task_sizes = Array.from(
   { length: n },
-  () => 10 * getRandomIntInclusive(1, 10)
+  () => 10 * getRandomIntInclusive(1, 9)
 );
 
 const agent_sizes = Array.from(
   { length: n },
-  () => 10 * getRandomIntInclusive(0, 10)
+  () => 10 * getRandomIntInclusive(1, 10)
 );
 
 const App = () => {
