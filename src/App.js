@@ -71,8 +71,7 @@ const App = () => {
   return (
     <div className="App">
       <div className="App-header">
-        <h2>Allocation matrix</h2>
-        <span>Press F5 for a new task</span>
+        <h2>Optimization task</h2>
         <div className="Game-container">
           <div className="Game-container-left">
             <EmptyTile />

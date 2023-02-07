@@ -112,7 +112,7 @@
 .Agent-tile-inner-capacity {
   position: absolute;
   background-color: white;
-  border-width: 1.5px 1.5px 0px 1.5px;
+  border-width: 1px 1px 0px 1px;
   border-style: dashed;
   border-color: gray;
   width: 100%;
@@ -148,6 +148,7 @@
   font-size: 16pt;
   display: flex;
   justify-content: flex-end;
+  opacity: 0.85;
 }
 
 .Task-tile-inner {
