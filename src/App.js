@@ -8,13 +8,13 @@ const n = 5;
 // const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800"];
 
 const cmap = [
-  "#EE7733",
   "#0077BB",
+  "#EE7733",
+  "#009988",
   "#EE3377",
   "#33BBEE",
-  "#009988",
-  "#CC3311",
   "#BBBBBB",
+  "#CC3311",
 ];
 
 function getRandomIntInclusive(min, max) {
