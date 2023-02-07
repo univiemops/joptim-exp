@@ -1,10 +1,21 @@
 import "./App.css";
 import React from "react";
 
-const m = 4;
-const n = 4;
+const m = 5;
+const n = 5;
 
-const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800", "pink"];
+// university
+// const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800"];
+
+const cmap = [
+  "#EE7733",
+  "#0077BB",
+  "#EE3377",
+  "#33BBEE",
+  "#009988",
+  "#CC3311",
+  "#BBBBBB",
+];
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -61,7 +72,7 @@ const App = () => {
     <div className="App">
       <div className="App-header">
         <h2>Allocation matrix</h2>
-        <p>Press F5 for a new task</p>
+        <span>Press F5 for a new task</span>
         <div className="Game-container">
           <div className="Game-container-left">
             <EmptyTile />
@@ -119,11 +130,11 @@ const AssignTile = (props) => {
       {active && (
         <svg className="SVG-circle">
           <circle
-            cx="40"
-            cy="40"
-            r="20"
+            cx="50%"
+            cy="50%"
+            r="20%"
             stroke="black"
-            strokeWidth="3"
+            strokeWidth="4%"
             fill="lightgray"
           />
         </svg>
