@@ -71,7 +71,7 @@ const App = () => {
   return (
     <div className="App">
       <div className="App-header">
-        <h2>Optimization task</h2>
+        <h3>Assignment Optimization Task</h3>
         <div className="Game-container">
           <div className="Game-container-left">
             <EmptyTile />
