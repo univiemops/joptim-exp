@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: web.Dockerfile
+    image: joptim-web
+    hostname: joptim-web
+    container_name: joptim-web
+    volumes:
+       - .:/app
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      joptim:
+        aliases:
+          - joptim-web
+
+volumes:
+  .:
+
+networks:
+  joptim:
