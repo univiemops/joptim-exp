@@ -1,12 +1,13 @@
 FROM debian:bullseye
 
+COPY . /app
 WORKDIR /app
 
 RUN apt update || : && apt install curl -y
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt install -y nodejs 
 RUN npm i -g serve
-RUN ls -la && npm run build
+RUN ls -la && cwd && npm run build
 
 EXPOSE 8080
 

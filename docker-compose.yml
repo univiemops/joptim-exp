@@ -9,8 +9,6 @@ services:
     image: joptim-web
     hostname: joptim-web
     container_name: joptim-web
-    volumes:
-       - .:/app
     restart: always
     ports:
       - "8080:8080"
@@ -18,9 +16,6 @@ services:
       joptim:
         aliases:
           - joptim-web
-
-volumes:
-  .:
 
 networks:
   joptim:
