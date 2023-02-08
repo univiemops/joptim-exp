@@ -75,9 +75,19 @@ const App = () => {
         <div className="Game-container">
           <div className="Game-container-left">
             <EmptyTile />
-            {task_sizes.map((size, idx) => (
-              <TaskTile key={idx} size={size} color={cmap[idx]} />
-            ))}
+            {task_sizes.map((size, idx) => {
+              const assigned =
+                assignments.filter((innerArray) => innerArray[0] == idx)
+                  .length == 1;
+              return (
+                <TaskTile
+                  key={idx}
+                  size={size}
+                  color={cmap[idx]}
+                  assigned={assigned}
+                />
+              );
+            })}
           </div>
           <div className="Game-container-right">
             <div className="Tile-row">
@@ -143,11 +153,15 @@ const AssignTile = (props) => {
 };
 
 const TaskTile = (props) => {
-  const { size, color } = props;
+  const { size, color, assigned } = props;
   return (
     <div className="Task-tile">
       <div
-        style={{ width: String(size).concat("%"), backgroundColor: color }}
+        style={{
+          width: String(size).concat("%"),
+          backgroundColor: color,
+          opacity: assigned && 0.4,
+        }}
         className="Task-tile-inner"
       ></div>
     </div>
