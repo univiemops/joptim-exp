@@ -77,7 +77,7 @@ const App = () => {
             <EmptyTile />
             {task_sizes.map((size, idx) => {
               const assigned =
-                assignments.filter((innerArray) => innerArray[0] == idx)
+                assignments.filter((innerArray) => innerArray[0] === idx)
                   .length == 1;
               return (
                 <TaskTile
