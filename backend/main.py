@@ -3,9 +3,9 @@ import databases
 import sqlalchemy
 from typing import List
 from fastapi import FastAPI
-from pydantic import BaseModel
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from schemas import *
 
 load_dotenv()
 
@@ -28,17 +28,6 @@ engine = sqlalchemy.create_engine(
     DATABASE_URL
 )
 # metadata.create_all(engine)
-
-
-class NoteIn(BaseModel):
-    text: str
-    completed: bool
-
-
-class Note(BaseModel):
-    id: int
-    text: str
-    completed: bool
 
 
 app = FastAPI()
