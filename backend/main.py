@@ -5,15 +5,17 @@ from typing import List
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
-from schemas import *
+import schemas
 
-load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+###############
+### MODELS ####
+###############
 
-database = databases.Database(DATABASE_URL)
 
 metadata = sqlalchemy.MetaData()
+
+# notes table
 
 notes = sqlalchemy.Table(
     "notes",
@@ -23,11 +25,35 @@ notes = sqlalchemy.Table(
     sqlalchemy.Column("completed", sqlalchemy.Boolean),
 )
 
+# results table
+
+results = sqlalchemy.Table(
+    "results",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("result", sqlalchemy.JSON),
+)
+
+##############################
+# SET UP DATABASE CONNECTION #
+##############################
+
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+database = databases.Database(DATABASE_URL)
 
 engine = sqlalchemy.create_engine(
     DATABASE_URL
 )
 # metadata.create_all(engine)
+
+
+##############
+# APP CONFIG #
+##############
 
 
 app = FastAPI()
@@ -47,6 +73,11 @@ app.add_middleware(
 )
 
 
+#############
+# API CALLS #
+#############
+
+
 @app.on_event("startup")
 async def startup():
     await database.connect()
@@ -57,14 +88,14 @@ async def shutdown():
     await database.disconnect()
 
 
-@app.get("/notes/", response_model=List[Note])
+@app.get("/notes/", response_model=List[schemas.Note])
 async def read_notes():
     query = notes.select()
     return await database.fetch_all(query)
 
 
-@app.post("/notes/", response_model=Note)
-async def create_note(note: NoteIn):
+@app.post("/notes/", response_model=schemas.Note)
+async def create_note(note: schemas.NoteIn):
     print(note)
     query = notes.insert().values(text=note.text, completed=note.completed)
     last_record_id = await database.execute(query)
