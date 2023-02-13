@@ -16,7 +16,7 @@ const cmap = [
   "#CC3311",
 ];
 
-function getRandomIntInclusive(min, max) {
+function getRandomIntInclusive(min: number, max: number): number {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
@@ -32,10 +32,15 @@ const agent_sizes = Array.from(
   () => 10 * getRandomIntInclusive(1, 10)
 );
 
-const Game = () => {
-  const [assignments, setAssignments] = React.useState([]);
+const Game: React.FC = () => {
+  const [assignments, setAssignments] = React.useState<Array<[number, number]>>(
+    []
+  );
 
-  const handleTileClick = (e, coordinates) => {
+  const handleTileClick = (
+    e: React.MouseEvent<HTMLDivElement>,
+    coordinates: [number, number]
+  ) => {
     let newAssignments = [...assignments];
     let index = newAssignments.findIndex(
       (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
@@ -51,9 +56,9 @@ const Game = () => {
       const limitReached = capacity - oldLoad - newLoad < 0;
 
       if (limitReached) {
-        e.target.style.backgroundColor = "lightgray";
+        (e.target as HTMLDivElement).style.backgroundColor = "lightgray";
         setTimeout(() => {
-          e.target.style.backgroundColor = "";
+          (e.target as HTMLDivElement).style.backgroundColor = "";
         }, 100);
       } else {
         newAssignments.push(coordinates);
@@ -130,7 +135,12 @@ const Game = () => {
   );
 };
 
-const AssignTile = (props) => {
+interface PropsAssignTile {
+  active: boolean;
+  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
+}
+
+const AssignTile: React.FC<PropsAssignTile> = (props) => {
   const { onClick, active } = props;
 
   return (
@@ -151,15 +161,25 @@ const AssignTile = (props) => {
   );
 };
 
-const TaskTile = (props) => {
+interface PropsTaskTile {
+  size: number;
+  color: string;
+  assigned: boolean;
+}
+
+const TaskTile: React.FC<PropsTaskTile> = (props) => {
   const { size, color, assigned } = props;
+  let opacity: number = 1;
+  if (assigned) {
+    opacity = 0.4;
+  }
   return (
     <div className="Task-tile">
       <div
         style={{
           width: String(size).concat("%"),
           backgroundColor: color,
-          opacity: assigned && 0.4,
+          opacity: opacity,
         }}
         className="Task-tile-inner"
       ></div>
@@ -167,7 +187,12 @@ const TaskTile = (props) => {
   );
 };
 
-const AgentTile = (props) => {
+interface PropsAgentTile {
+  size: number;
+  activeTasks: number[];
+}
+
+const AgentTile: React.FC<PropsAgentTile> = (props) => {
   const { size, activeTasks } = props;
 
   return (
