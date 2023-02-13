@@ -2,20 +2,81 @@ version: "3.7"
 
 services:
 
-  web:
+  db:
     build:
       context: .
-      dockerfile: web.Dockerfile
-    image: joptim-web
-    hostname: joptim-web
-    container_name: joptim-web
+      dockerfile: db.Dockerfile
+    image: joptim-db
+    container_name: joptim-db
+    hostname: joptim-db
     restart: always
+    volumes:
+      - ./db:/var/lib/postgresql/data
     ports:
-      - "8080:8080"
+      - "5432:5432"
     networks:
       joptim:
         aliases:
-          - joptim-web
+          - joptim-db
 
 networks:
   joptim:
+
+
+volumes:
+  db:
+
+    # nginx:
+    #   image: nginx:1.23.2-alpine
+    #   hostname: joptim-nx
+    #   container_name: joptim-nx
+    #   volumes:
+    #     - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    #     - ./key.pem:/root/ssl/key.pem
+    #     - ./cert.pem:/root/ssl/cert.pem
+    #   ports:
+    #     - "443:443"
+    #   networks:
+    #     joptim:
+    #       aliases:
+    #         - joptim-nginx
+    #   restart: always
+    #   depends_on:
+    #     - web
+
+
+    # api:
+    #   build:
+    #     context: .
+    #     dockerfile: api.Dockerfile
+    #   image: joptim-api
+    #   hostname: joptim-api
+    #   container_name: joptim-api
+    #   volumes:
+    #      - .:/app
+    #   restart: always
+    #   ports:
+    #     - "8000:8000"
+    #   networks:
+    #     joptim:
+    #       aliases:
+    #         - joptim-api
+
+
+
+    # web:
+    #   build:
+    #     context: .
+    #     dockerfile: web.Dockerfile
+    #   image: joptim-web
+    #   hostname: joptim-web
+    #   container_name: joptim-web
+    #   restart: always
+    #   ports:
+    #     - "8080:8080"
+    #   networks:
+    #     joptim:
+    #       aliases:
+    #         - joptim-web
+
+

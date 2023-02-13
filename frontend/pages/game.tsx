@@ -1,4 +1,3 @@
-import "./App.css";
 import React from "react";
 
 const m = 5;
@@ -33,7 +32,7 @@ const agent_sizes = Array.from(
   () => 10 * getRandomIntInclusive(1, 10)
 );
 
-const App = () => {
+const Game = () => {
   const [assignments, setAssignments] = React.useState([]);
 
   const handleTileClick = (e, coordinates) => {
@@ -197,4 +196,4 @@ const EmptyTile = () => {
   return <div className="Empty-tile"></div>;
 };
 
-export default App;
+export default Game;
