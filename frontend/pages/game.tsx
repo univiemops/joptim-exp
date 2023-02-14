@@ -96,83 +96,79 @@ const Game: React.FC = () => {
     setAssignments(newAssignments);
   };
 
-  return (
-    agents.length > 0 &&
-    tasks.length > 0 && (
-      <div className="App">
-        <div className="App-header">
-          <h3>
-            Assignment Optimization{" "}
-            <span
-              style={
-                databaseConnected ? { color: "green" } : { color: "black" }
-              }
-            >
-              Task
-            </span>
-          </h3>
-          <div className="Game-container">
-            <div className="Game-container-left">
-              <EmptyTile />
-              {tasks.map((size, idx) => {
-                const assigned =
-                  assignments.filter((innerArray) => innerArray[0] === idx)
-                    .length === 1;
+  return agents.length > 0 && tasks.length > 0 ? (
+    <div className="App">
+      <div className="App-header">
+        <h3>
+          Assignment Optimization{" "}
+          <span
+            style={databaseConnected ? { color: "green" } : { color: "black" }}
+          >
+            Task
+          </span>
+        </h3>
+        <div className="Game-container">
+          <div className="Game-container-left">
+            <EmptyTile />
+            {tasks.map((size, idx) => {
+              const assigned =
+                assignments.filter((innerArray) => innerArray[0] === idx)
+                  .length === 1;
+              return (
+                <TaskTile
+                  key={idx}
+                  size={size}
+                  color={cmap[idx]}
+                  assigned={assigned}
+                />
+              );
+            })}
+          </div>
+          <div className="Game-container-right">
+            <div className="Tile-row">
+              {agents.map((size, i) => {
+                const activeTasks = assignments
+                  .filter((innerArray) => innerArray[1] === i)
+                  .map((innerArray) => innerArray[0]);
                 return (
-                  <TaskTile
-                    key={idx}
+                  <AgentTile
+                    key={i}
                     size={size}
-                    color={cmap[idx]}
-                    assigned={assigned}
+                    activeTasks={activeTasks}
+                    tasks={tasks}
                   />
                 );
               })}
             </div>
-            <div className="Game-container-right">
-              <div className="Tile-row">
-                {agents.map((size, i) => {
-                  const activeTasks = assignments
-                    .filter((innerArray) => innerArray[1] === i)
-                    .map((innerArray) => innerArray[0]);
-                  return (
-                    <AgentTile
-                      key={i}
-                      size={size}
-                      activeTasks={activeTasks}
-                      tasks={tasks}
-                    />
-                  );
-                })}
-              </div>
-              <div className="Tile-container">
-                {agents.map((_, i) => (
-                  <div key={i} className="Tile-row">
-                    {tasks.map((_, j) => {
-                      let active = false;
-                      if (
-                        assignments.findIndex(
-                          (a) => a[0] === i && a[1] === j
-                        ) !== -1
-                      ) {
-                        active = true;
-                      }
+            <div className="Tile-container">
+              {agents.map((_, i) => (
+                <div key={i} className="Tile-row">
+                  {tasks.map((_, j) => {
+                    let active = false;
+                    if (
+                      assignments.findIndex((a) => a[0] === i && a[1] === j) !==
+                      -1
+                    ) {
+                      active = true;
+                    }
 
-                      return (
-                        <AssignTile
-                          key={j}
-                          active={active}
-                          onClick={(e) => handleTileClick(e, [i, j])}
-                        />
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
+                    return (
+                      <AssignTile
+                        key={j}
+                        active={active}
+                        onClick={(e) => handleTileClick(e, [i, j])}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
-    )
+    </div>
+  ) : (
+    <div></div>
   );
 };
 
