@@ -43,6 +43,7 @@ const Game: React.FC = () => {
 
   // runs at startup and every time trial changes
   useEffect(() => {
+    setAssignments([]);
     const m = 5; // only for fallback
     const n = 5;
     const tasksFallback = Array.from(
@@ -72,7 +73,6 @@ const Game: React.FC = () => {
           console.log("fetched game from fallback");
         });
     };
-    setAssignments([]);
     fetchGame();
   }, [trial]);
 
