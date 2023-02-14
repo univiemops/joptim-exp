@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="App">
       <div className="App-header">
-        <h1 style={{ color: "#303030" }}>Behavioral experiment</h1>
+        <h1>Behavioral experiment</h1>
 
         <Link href="/game">
           <Button
@@ -16,7 +16,7 @@ export default function Home() {
             variant="contained"
             style={{
               fontSize: "xx-large",
-              background: "#303030",
+              background: "#000000",
               textTransform: "none",
               padding: ".5rem 3rem .2rem 3rem",
             }}

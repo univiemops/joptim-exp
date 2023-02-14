@@ -113,8 +113,8 @@ const Game: React.FC = () => {
   return agents.length > 0 && tasks.length > 0 ? (
     <div className="App">
       <div className="App-header">
-        <h3 style={{ color: "#303030" }}>
-          Assignment Optimization{" "}
+        <h3>
+          Assignment Optimization
           <span
             style={databaseConnected ? { color: "green" } : { color: "black" }}
           >
@@ -185,7 +185,7 @@ const Game: React.FC = () => {
           variant="contained"
           style={{
             fontSize: "x-large",
-            background: "#303030",
+            background: "#000000",
             textTransform: "none",
             padding: ".5rem 3rem .2rem 3rem",
           }}
