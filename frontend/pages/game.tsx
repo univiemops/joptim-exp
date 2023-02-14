@@ -187,10 +187,10 @@ const Game: React.FC = () => {
             fontSize: "x-large",
             background: "#303030",
             textTransform: "none",
-            padding: ".5rem 3.5rem .25rem 3.5rem",
+            padding: ".5rem 3rem .2rem 3rem",
           }}
         >
-          Submit
+          SUBMIT
         </Button>
       </div>
     </div>
