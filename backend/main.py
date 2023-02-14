@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import schemas
-import json
+
 
 ###############
 ### MODELS ####
@@ -33,6 +33,7 @@ results = sqlalchemy.Table(
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("result", sqlalchemy.JSON),
 )
+
 
 ##############################
 # SET UP DATABASE CONNECTION #
@@ -113,6 +114,7 @@ async def read_results():
     #    result_dict['result'] = json.loads(result_dict['result'])
     #    array.append(schemas.Result(**result_dict))
     #return array
+
 
 @app.post("/results/", response_model=schemas.Result)
 async def create_result(result: schemas.ResultIn):
