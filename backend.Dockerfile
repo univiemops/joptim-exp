@@ -3,6 +3,8 @@ FROM python:3.9-bullseye
 COPY backend /app
 WORKDIR /app
 
+RUN rm __pycache__ -rf
+RUN rm venv -rf
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 RUN alembic upgrade head
 
