@@ -32,6 +32,13 @@ In alembic.ini, find this line and change it to your own database url:
 sqlalchemy.url = postgresql://joptim_user:joptim_pass@localhost/joptim
 ```
 
+Run database migration
+
+```bash
+alembic upgrade +1
+
+```
+
 Run the development server
 
 ```bash
