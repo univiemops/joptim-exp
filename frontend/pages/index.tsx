@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="App">
       <div className="App-header">
-        <h1>Behavioral experiment</h1>
+        <h1 style={{ color: "#303030" }}>Behavioral experiment</h1>
 
         <Link href="/game">
           <Button

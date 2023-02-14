@@ -113,7 +113,7 @@ const Game: React.FC = () => {
   return agents.length > 0 && tasks.length > 0 ? (
     <div className="App">
       <div className="App-header">
-        <h3>
+        <h3 style={{ color: "#303030" }}>
           Assignment Optimization{" "}
           <span
             style={databaseConnected ? { color: "green" } : { color: "black" }}
