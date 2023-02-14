@@ -14,6 +14,19 @@ const cmap = [
   "#CC3311",
 ];
 
+function sumOfArray(ar: Array<number>) {
+  var sum = 0;
+  for (var i = 0; i < ar.length; i++) {
+    if (typeof ar[i] == `number`) sum += ar[i];
+  }
+  return sum;
+}
+
+const formatter = new Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
+
 function getRandomIntInclusive(min: number, max: number): number {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -207,8 +220,10 @@ interface PropsTaskTile {
 const TaskTile: React.FC<PropsTaskTile> = (props) => {
   const { size, color, assigned } = props;
   let opacity: number = 1;
+  let filter: string = "";
   if (assigned) {
-    opacity = 0.4;
+    opacity = 0.2;
+    filter = "grayscale(50%)";
   }
   return (
     <div className="Task-tile">
@@ -216,6 +231,7 @@ const TaskTile: React.FC<PropsTaskTile> = (props) => {
         style={{
           width: String(size).concat("%"),
           backgroundColor: color,
+          filter: filter,
           opacity: opacity,
         }}
         className="Task-tile-inner"
@@ -234,29 +250,41 @@ const AgentTile: React.FC<PropsAgentTile> = (props) => {
   const { size, activeTasks, tasks } = props;
 
   return (
-    <div className="Agent-tile">
-      <div
-        style={{ height: String(size).concat("%") }}
-        className="Agent-tile-inner-capacity"
-      ></div>
-      <div className="Agent-tile-load-container">
-        {activeTasks.map((task, idx) => (
-          <div
-            key={idx}
-            className="Agent-tile-load"
-            style={{
-              minHeight: String(tasks[task]).concat("%"),
-              backgroundColor: cmap[task],
-            }}
-          ></div>
-        ))}
+    <div>
+      <span>
+        {formatter.format(
+          (sumOfArray(activeTasks.map((task) => tasks[task])) / size) * 100
+        )}
+      </span>
+      <div className="Agent-tile">
+        <div
+          style={{ height: String(size).concat("%") }}
+          className="Agent-tile-inner-capacity"
+        ></div>
+        <div className="Agent-tile-load-container">
+          {activeTasks.map((task, idx) => (
+            <div
+              key={idx}
+              className="Agent-tile-load"
+              style={{
+                minHeight: String(tasks[task]).concat("%"),
+                backgroundColor: cmap[task],
+              }}
+            ></div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 const EmptyTile = () => {
-  return <div className="Empty-tile"></div>;
+  return (
+    <div>
+      <span>%</span>
+      <div className="Empty-tile"></div>
+    </div>
+  );
 };
 
 export default Game;
