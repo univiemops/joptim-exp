@@ -189,6 +189,7 @@ const Game: React.FC = () => {
             textTransform: "none",
             padding: ".5rem 3rem .2rem 3rem",
           }}
+          // onClick={fetchGame()}
         >
           SUBMIT
         </Button>
