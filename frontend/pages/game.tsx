@@ -23,7 +23,7 @@ function getRandomIntInclusive(min: number, max: number): number {
 }
 
 const task_sizes = Array.from(
-  { length: n },
+  { length: m },
   () => 10 * getRandomIntInclusive(1, 9)
 );
 

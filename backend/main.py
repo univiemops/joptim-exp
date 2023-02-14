@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import schemas
+import random
 
 
 ###############
@@ -102,6 +103,19 @@ async def create_note(note: schemas.NoteIn):
     last_record_id = await database.execute(query)
     return {**note.dict(), "id": last_record_id}
 
+
+@app.get("/game/")
+def new_game():
+
+    m = 5 # number of tasks
+    n = 5 # number of agents
+
+    limit_tasks = (1,9)
+    limit_agents = (1,10)
+
+    task_sizes = random.sample(10*list(range(*limit_tasks)), m) 
+    agent_sizes = random.sample(list(range(*limit_agents)), n)
+    return {"task_sizes":[task_sizes], "agent_sizes":[agent_sizes]}
 
 @app.get("/results/", response_model=List[schemas.Result])
 async def read_results():
