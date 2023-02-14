@@ -19,6 +19,19 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
+Create `.env` file with your own database url
+
+```
+echo "DATABASE_URL=postgresql://joptim_user:joptim_pass@localhost/joptim" > .env
+
+```
+
+In alembic.ini, find this line and change it to your own database url:
+
+```
+sqlalchemy.url = postgresql://joptim_user:joptim_pass@localhost/joptim
+```
+
 Run the development server
 
 ```bash
