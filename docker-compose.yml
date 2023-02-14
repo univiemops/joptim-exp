@@ -42,41 +42,41 @@ volumes:
     #         - joptim-nginx
     #   restart: always
     #   depends_on:
-    #     - web
+    #     - frontend
 
 
-    # api:
+    # backend:
     #   build:
     #     context: .
-    #     dockerfile: api.Dockerfile
-    #   image: joptim-api
-    #   hostname: joptim-api
-    #   container_name: joptim-api
-    #   volumes:
-    #      - .:/app
+    #     dockerfile: backend.Dockerfile
+    #   image: joptim-backend
+    #   hostname: joptim-backend
+    #   container_name: joptim-backend
+    # #  volumes:
+    # #     - .:/app
     #   restart: always
     #   ports:
     #     - "8000:8000"
     #   networks:
     #     joptim:
     #       aliases:
-    #         - joptim-api
+    #         - joptim-backend
 
 
 
-    # web:
+    # frontend:
     #   build:
     #     context: .
-    #     dockerfile: web.Dockerfile
-    #   image: joptim-web
-    #   hostname: joptim-web
-    #   container_name: joptim-web
+    #     dockerfile: frontend.Dockerfile
+    #   image: joptim-frontend
+    #   hostname: joptim-frontend
+    #   container_name: joptim-frontend
     #   restart: always
     #   ports:
     #     - "8080:8080"
     #   networks:
     #     joptim:
     #       aliases:
-    #         - joptim-web
+    #         - joptim-frontend
 
 
