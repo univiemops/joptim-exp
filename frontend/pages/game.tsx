@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Paper, Button } from "@mui/material";
+import { Button } from "@mui/material";
 
 // university
 // const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800"];

@@ -1,26 +1,30 @@
-import Head from "next/head";
 import { Inter } from "@next/font/google";
 import Link from "next/link";
+import { Button } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <>
-      <Head>
-        <title>Behavioral experiment</title>
-        <meta name="description" content="Behavioral experiment" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="app">
+    <div className="App">
+      <div className="App-header">
         <h1>Behavioral experiment</h1>
-        <ul>
-          <li>
-            <Link href="/game">Optimization Game</Link>
-          </li>
-        </ul>
+
+        <Link href="/game">
+          <Button
+            size="large"
+            variant="contained"
+            style={{
+              fontSize: "xx-large",
+              background: "#303030",
+              textTransform: "none",
+              padding: ".5rem 3rem .2rem 3rem",
+            }}
+          >
+            START
+          </Button>
+        </Link>
       </div>
-    </>
+    </div>
   );
 }
