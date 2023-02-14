@@ -114,7 +114,7 @@ const Game: React.FC = () => {
     <div className="App">
       <div className="App-header">
         <h3>
-          Assignment Optimization
+          Assignment Optimization{" "}
           <span
             style={databaseConnected ? { color: "green" } : { color: "black" }}
           >
