@@ -180,7 +180,11 @@ const Game: React.FC = () => {
           </div>
           <div className="Game-container-right"></div>
         </div>
-        <Button size="large" variant="outlined">
+        <Button
+          size="large"
+          variant="contained"
+          style={{ background: "#303030" }}
+        >
           Submit
         </Button>
       </div>
