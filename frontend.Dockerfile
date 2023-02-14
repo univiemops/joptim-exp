@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-COPY . /app
+COPY frontend /app
 WORKDIR /app
 
 RUN apt update || : && apt install curl -y
