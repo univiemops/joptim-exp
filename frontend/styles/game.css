@@ -1,7 +1,7 @@
 /* default for phones landscape */
 :root {
-  --tile-size: 2rem;
-  --tile-size-long: 4rem;
+  --tile-size: 1.666rem;
+  --tile-size-long: 3.5rem;
 
   --default-font-size: medium;
   --font-mono: "Fira Mono", monospace;
@@ -54,8 +54,8 @@
 /*  for tables big desktop */
 @media only screen and (min-width: 1800px) {
   :root {
-    --tile-size: 6rem;
-    --tile-size-long: 12rem;
+    --tile-size: 5.5rem;
+    --tile-size-long: 11rem;
   }
 }
 

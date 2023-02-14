@@ -183,7 +183,12 @@ const Game: React.FC = () => {
         <Button
           size="large"
           variant="contained"
-          style={{ background: "#303030" }}
+          style={{
+            fontSize: "x-large",
+            background: "#303030",
+            textTransform: "none",
+            padding: ".5rem 3.5rem .25rem 3.5rem",
+          }}
         >
           Submit
         </Button>
