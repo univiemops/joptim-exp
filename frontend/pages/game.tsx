@@ -34,19 +34,6 @@ function getRandomIntInclusive(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
-const m = 5;
-const n = 5;
-
-const tasksFallback = Array.from(
-  { length: m },
-  () => 10 * getRandomIntInclusive(1, 9)
-);
-
-const agentsFallback = Array.from(
-  { length: n },
-  () => 10 * getRandomIntInclusive(1, 10)
-);
-
 const Game: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
@@ -68,6 +55,17 @@ const Game: React.FC = () => {
         })
         .catch((error) => {
           console.log(error);
+          const m = 5; // only for fallback
+          const n = 5;
+          const tasksFallback = Array.from(
+            { length: m },
+            () => 10 * getRandomIntInclusive(1, 9)
+          );
+
+          const agentsFallback = Array.from(
+            { length: n },
+            () => 10 * getRandomIntInclusive(1, 10)
+          );
           setTasks(tasksFallback);
           setAgents(agentsFallback);
           setDatabaseConnected(false);
