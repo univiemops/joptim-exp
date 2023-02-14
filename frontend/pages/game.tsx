@@ -1,7 +1,5 @@
 import React from "react";
-
-const m = 5;
-const n = 5;
+import { useState, useEffect } from "react";
 
 // university
 // const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800"];
@@ -22,20 +20,46 @@ function getRandomIntInclusive(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
-const task_sizes = Array.from(
+const m = 5;
+const n = 5;
+
+const tasksFallback = Array.from(
   { length: m },
   () => 10 * getRandomIntInclusive(1, 9)
 );
 
-const agent_sizes = Array.from(
+const agentsFallback = Array.from(
   { length: n },
   () => 10 * getRandomIntInclusive(1, 10)
 );
 
 const Game: React.FC = () => {
-  const [assignments, setAssignments] = React.useState<Array<[number, number]>>(
-    []
-  );
+  const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
+  const [tasks, setTasks] = useState<Array<number>>([]);
+  const [agents, setAgents] = useState<Array<number>>([]);
+  const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log("useEffect is starting");
+    const fetchGame = () => {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/game/`)
+        .then((response) => response.json())
+        .then((json) => {
+          setTasks(json["tasks"]);
+          setAgents(json["agents"]);
+          setDatabaseConnected(true);
+          console.log("fetched game from backend");
+        })
+        .catch((error) => {
+          console.log(error);
+          setTasks(tasksFallback);
+          setAgents(agentsFallback);
+          setDatabaseConnected(false);
+          console.log("fetched game from fallback");
+        });
+    };
+    fetchGame();
+  }, []);
 
   const handleTileClick = (
     e: React.MouseEvent<HTMLDivElement>,
@@ -47,12 +71,12 @@ const Game: React.FC = () => {
     );
     if (index === -1) {
       let indexOther = newAssignments.findIndex((a) => a[0] === coordinates[0]);
-      const capacity = agent_sizes[coordinates[1]];
+      const capacity = agents[coordinates[1]];
       const oldLoad = assignments
         .filter((a) => a[1] === coordinates[1])
-        .map((a) => task_sizes[a[0]])
+        .map((a) => tasks[a[0]])
         .reduce((a, b) => a + b, 0);
-      const newLoad = task_sizes[coordinates[0]];
+      const newLoad = tasks[coordinates[0]];
       const limitReached = capacity - oldLoad - newLoad < 0;
 
       if (limitReached) {
@@ -73,65 +97,82 @@ const Game: React.FC = () => {
   };
 
   return (
-    <div className="App">
-      <div className="App-header">
-        <h3>Assignment Optimization Task</h3>
-        <div className="Game-container">
-          <div className="Game-container-left">
-            <EmptyTile />
-            {task_sizes.map((size, idx) => {
-              const assigned =
-                assignments.filter((innerArray) => innerArray[0] === idx)
-                  .length === 1;
-              return (
-                <TaskTile
-                  key={idx}
-                  size={size}
-                  color={cmap[idx]}
-                  assigned={assigned}
-                />
-              );
-            })}
-          </div>
-          <div className="Game-container-right">
-            <div className="Tile-row">
-              {agent_sizes.map((size, i) => {
-                const activeTasks = assignments
-                  .filter((innerArray) => innerArray[1] === i)
-                  .map((innerArray) => innerArray[0]);
-
+    agents.length > 0 &&
+    tasks.length > 0 && (
+      <div className="App">
+        <div className="App-header">
+          <h3>
+            Assignment Optimization{" "}
+            <span
+              style={
+                databaseConnected ? { color: "green" } : { color: "black" }
+              }
+            >
+              Task
+            </span>
+          </h3>
+          <div className="Game-container">
+            <div className="Game-container-left">
+              <EmptyTile />
+              {tasks.map((size, idx) => {
+                const assigned =
+                  assignments.filter((innerArray) => innerArray[0] === idx)
+                    .length === 1;
                 return (
-                  <AgentTile key={i} size={size} activeTasks={activeTasks} />
+                  <TaskTile
+                    key={idx}
+                    size={size}
+                    color={cmap[idx]}
+                    assigned={assigned}
+                  />
                 );
               })}
             </div>
-            <div className="Tile-container">
-              {Array.from({ length: n }).map((_, i) => (
-                <div key={i} className="Tile-row">
-                  {Array.from({ length: m }).map((_, j) => {
-                    let active = false;
-                    if (
-                      assignments.findIndex((a) => a[0] === i && a[1] === j) !==
-                      -1
-                    ) {
-                      active = true;
-                    }
+            <div className="Game-container-right">
+              <div className="Tile-row">
+                {agents.map((size, i) => {
+                  const activeTasks = assignments
+                    .filter((innerArray) => innerArray[1] === i)
+                    .map((innerArray) => innerArray[0]);
+                  return (
+                    <AgentTile
+                      key={i}
+                      size={size}
+                      activeTasks={activeTasks}
+                      tasks={tasks}
+                    />
+                  );
+                })}
+              </div>
+              <div className="Tile-container">
+                {agents.map((_, i) => (
+                  <div key={i} className="Tile-row">
+                    {tasks.map((_, j) => {
+                      let active = false;
+                      if (
+                        assignments.findIndex(
+                          (a) => a[0] === i && a[1] === j
+                        ) !== -1
+                      ) {
+                        active = true;
+                      }
 
-                    return (
-                      <AssignTile
-                        key={j}
-                        active={active}
-                        onClick={(e) => handleTileClick(e, [i, j])}
-                      />
-                    );
-                  })}
-                </div>
-              ))}
+                      return (
+                        <AssignTile
+                          key={j}
+                          active={active}
+                          onClick={(e) => handleTileClick(e, [i, j])}
+                        />
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 
@@ -190,10 +231,11 @@ const TaskTile: React.FC<PropsTaskTile> = (props) => {
 interface PropsAgentTile {
   size: number;
   activeTasks: number[];
+  tasks: Array<number>;
 }
 
 const AgentTile: React.FC<PropsAgentTile> = (props) => {
-  const { size, activeTasks } = props;
+  const { size, activeTasks, tasks } = props;
 
   return (
     <div className="Agent-tile">
@@ -207,7 +249,7 @@ const AgentTile: React.FC<PropsAgentTile> = (props) => {
             key={idx}
             className="Agent-tile-load"
             style={{
-              minHeight: String(task_sizes[task]).concat("%"),
+              minHeight: String(tasks[task]).concat("%"),
               backgroundColor: cmap[task],
             }}
           ></div>

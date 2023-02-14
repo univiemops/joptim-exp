@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import schemas
-import random
+import numpy as np
 
 
 ###############
@@ -107,27 +107,32 @@ async def create_note(note: schemas.NoteIn):
 @app.get("/game/")
 def new_game():
 
-    m = 5 # number of tasks
-    n = 5 # number of agents
+    m = 5  # number of tasks
+    n = 5  # number of agents
 
-    limit_tasks = (1,9)
-    limit_agents = (1,10)
+    steps = 10
 
-    task_sizes = random.sample(10*list(range(*limit_tasks)), m) 
-    agent_sizes = random.sample(list(range(*limit_agents)), n)
-    return {"task_sizes":[task_sizes], "agent_sizes":[agent_sizes]}
+    lim_tasks = (1, 9+1)
+    lim_agents = (1, 10+1)
+
+    tasks = (steps*np.random.randint(*
+             lim_tasks, size=m)).tolist()
+    agents = (steps*np.random.randint(*
+              lim_agents, size=n)).tolist()
+    return {"tasks": tasks, "agents": agents}
+
 
 @app.get("/results/", response_model=List[schemas.Result])
 async def read_results():
     query = results.select()
     response = await database.fetch_all(query)
     return response
-    #array = []
-    #for r in response:
+    # array = []
+    # for r in response:
     #    result_dict = r.__dict__
     #    result_dict['result'] = json.loads(result_dict['result'])
     #    array.append(schemas.Result(**result_dict))
-    #return array
+    # return array
 
 
 @app.post("/results/", response_model=schemas.Result)
