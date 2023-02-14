@@ -52,7 +52,9 @@ const Game: React.FC = () => {
   const [tasks, setTasks] = useState<Array<number>>([]);
   const [agents, setAgents] = useState<Array<number>>([]);
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
+  const [trial, setTrial] = useState<number>(1);
 
+  // runs at startup and every time trial changes
   useEffect(() => {
     console.log("useEffect is starting");
     const fetchGame = () => {
@@ -72,8 +74,9 @@ const Game: React.FC = () => {
           console.log("fetched game from fallback");
         });
     };
+    setAssignments([]);
     fetchGame();
-  }, []);
+  }, [trial]);
 
   const handleTileClick = (
     e: React.MouseEvent<HTMLDivElement>,
@@ -189,7 +192,7 @@ const Game: React.FC = () => {
             textTransform: "none",
             padding: ".5rem 3rem .2rem 3rem",
           }}
-          // onClick={fetchGame()}
+          onClick={() => setTrial(trial + 1)}
         >
           SUBMIT
         </Button>
