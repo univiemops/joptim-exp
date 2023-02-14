@@ -2,6 +2,21 @@
 :root {
   --tile-size: 2rem;
   --tile-size-long: 4rem;
+
+  --default-font-size: medium;
+  --font-mono: "Fira Mono", monospace;
+  --pure-white: #ffffff;
+  --primary-color: #b9c6d2;
+  --secondary-color: #d0dde9;
+  --tertiary-color: #edf0f8;
+  --accent-color: #0063a6;
+  --heading-color: rgba(0, 0, 0, 0.7);
+  --text-color: #444444;
+  --selected-color: deepskyblue;
+  --background-without-opacity: rgba(255, 255, 255, 0.7);
+  --column-width: 42rem;
+  --column-margin-top: 4rem;
+  font-size: var(--default-font-size);
 }
 
 /* for phones portrait */
@@ -55,7 +70,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   font-size: calc(10px + 2vmin);
   /* color: white; */
   color: black;
@@ -68,18 +83,31 @@
 
 .Game-container {
   display: flex;
+  overflow: auto;
   background-color: white;
   flex-direction: row;
-  max-width: 100vh;
+  max-width: 100%;
   overflow: hidden;
+  justify-content: flex-start;
+  align-content: center;
 }
 
 .Game-container-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.Game-container-middle {
+  display: flex;
   flex-direction: column;
 }
 
 .Game-container-right {
+  display: flex;
   flex-direction: column;
+  width: var(--tile-size-long);
+  max-width: 100%;
+  flex-shrink: 1;
 }
 
 .Tile-container {

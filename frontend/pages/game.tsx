@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Paper, Button } from "@mui/material";
 
 // university
 // const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800"];
@@ -137,7 +138,7 @@ const Game: React.FC = () => {
               );
             })}
           </div>
-          <div className="Game-container-right">
+          <div className="Game-container-middle">
             <div className="Tile-row">
               {agents.map((size, i) => {
                 const activeTasks = assignments
@@ -177,7 +178,11 @@ const Game: React.FC = () => {
               ))}
             </div>
           </div>
+          <div className="Game-container-right"></div>
         </div>
+        <Button size="large" variant="outlined">
+          Submit
+        </Button>
       </div>
     </div>
   ) : (
