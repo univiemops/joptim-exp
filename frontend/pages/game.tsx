@@ -43,6 +43,17 @@ const Game: React.FC = () => {
 
   // runs at startup and every time trial changes
   useEffect(() => {
+    const m = 5; // only for fallback
+    const n = 5;
+    const tasksFallback = Array.from(
+      { length: m },
+      () => 10 * getRandomIntInclusive(1, 9)
+    );
+
+    const agentsFallback = Array.from(
+      { length: n },
+      () => 10 * getRandomIntInclusive(1, 10)
+    );
     console.log("useEffect is starting");
     const fetchGame = () => {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/game/`)
@@ -55,17 +66,6 @@ const Game: React.FC = () => {
         })
         .catch((error) => {
           console.log(error);
-          const m = 5; // only for fallback
-          const n = 5;
-          const tasksFallback = Array.from(
-            { length: m },
-            () => 10 * getRandomIntInclusive(1, 9)
-          );
-
-          const agentsFallback = Array.from(
-            { length: n },
-            () => 10 * getRandomIntInclusive(1, 10)
-          );
           setTasks(tasksFallback);
           setAgents(agentsFallback);
           setDatabaseConnected(false);
