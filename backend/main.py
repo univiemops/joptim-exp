@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import schemas
-
+import json
 
 ###############
 ### MODELS ####
@@ -100,3 +100,23 @@ async def create_note(note: schemas.NoteIn):
     query = notes.insert().values(text=note.text, completed=note.completed)
     last_record_id = await database.execute(query)
     return {**note.dict(), "id": last_record_id}
+
+
+@app.get("/results/", response_model=List[schemas.Result])
+async def read_results():
+    query = results.select()
+    response = await database.fetch_all(query)
+    return response
+    #array = []
+    #for r in response:
+    #    result_dict = r.__dict__
+    #    result_dict['result'] = json.loads(result_dict['result'])
+    #    array.append(schemas.Result(**result_dict))
+    #return array
+
+@app.post("/results/", response_model=schemas.Result)
+async def create_result(result: schemas.ResultIn):
+    print(result)
+    query = results.insert().values(result=result.result)
+    last_record_id = await database.execute(query)
+    return {**result.dict(), "id": last_record_id}
