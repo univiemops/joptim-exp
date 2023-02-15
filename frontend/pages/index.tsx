@@ -18,7 +18,7 @@ export default function Home() {
               fontSize: "xx-large",
               background: "#000000",
               textTransform: "none",
-              padding: ".5rem 3rem .2rem 3rem",
+              padding: ".3rem 3rem .3rem 3rem",
             }}
           >
             START

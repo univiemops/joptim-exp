@@ -40,22 +40,12 @@ const Game: React.FC = () => {
   const [agents, setAgents] = useState<Array<number>>([]);
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [trial, setTrial] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // runs at startup and every time trial changes
   useEffect(() => {
-    setAssignments([]);
-    const m = 5; // only for fallback
-    const n = 5;
-    const tasksFallback = Array.from(
-      { length: m },
-      () => 10 * getRandomIntInclusive(1, 9)
-    );
-
-    const agentsFallback = Array.from(
-      { length: n },
-      () => 10 * getRandomIntInclusive(1, 10)
-    );
     console.log("useEffect is starting");
+    setLoading(true);
     const fetchGame = () => {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/game/`)
         .then((response) => response.json())
@@ -63,13 +53,28 @@ const Game: React.FC = () => {
           setTasks(json["tasks"]);
           setAgents(json["agents"]);
           setDatabaseConnected(true);
+          setAssignments([]);
+          setLoading(false);
           console.log("fetched game from backend");
         })
         .catch((error) => {
           console.log(error);
+          const m = 5; // only for fallback
+          const n = 5;
+          const tasksFallback = Array.from(
+            { length: m },
+            () => 10 * getRandomIntInclusive(1, 9)
+          );
+
+          const agentsFallback = Array.from(
+            { length: n },
+            () => 10 * getRandomIntInclusive(1, 10)
+          );
           setTasks(tasksFallback);
           setAgents(agentsFallback);
           setDatabaseConnected(false);
+          setAssignments([]);
+          setLoading(false);
           console.log("fetched game from fallback");
         });
     };
@@ -80,6 +85,9 @@ const Game: React.FC = () => {
     e: React.MouseEvent<HTMLDivElement>,
     coordinates: [number, number]
   ) => {
+
+    if (loading === false) {
+
     let newAssignments = [...assignments];
     let index = newAssignments.findIndex(
       (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
@@ -109,7 +117,7 @@ const Game: React.FC = () => {
       newAssignments.splice(index, 1);
     }
     setAssignments(newAssignments);
-  };
+  }};
 
   return agents.length > 0 && tasks.length > 0 ? (
     <div className="App">
@@ -123,7 +131,7 @@ const Game: React.FC = () => {
           </span>
         </h3>
         <div className="Game-container">
-          <div className="Game-container-left">
+          <div className="Game-container-left" style={loading?{opacity:.3}:{}}>
             <EmptyTile />
             {tasks.map((size, idx) => {
               const assigned =
@@ -140,45 +148,48 @@ const Game: React.FC = () => {
             })}
           </div>
           <div className="Game-container-middle">
-            <div className="Tile-row">
-              {agents.map((size, i) => {
-                const activeTasks = assignments
-                  .filter((innerArray) => innerArray[1] === i)
-                  .map((innerArray) => innerArray[0]);
-                return (
-                  <AgentTile
-                    key={i}
-                    size={size}
-                    activeTasks={activeTasks}
-                    tasks={tasks}
-                  />
-                );
-              })}
-            </div>
-            <div className="Tile-container">
-              {agents.map((_, i) => (
-                <div key={i} className="Tile-row">
-                  {tasks.map((_, j) => {
-                    let active = false;
-                    if (
-                      assignments.findIndex((a) => a[0] === i && a[1] === j) !==
-                      -1
-                    ) {
-                      active = true;
-                    }
+              <div className="Tile-row" style={loading?{opacity:.3}:{}}>
+                {agents.map((size, i) => {
+                  const activeTasks = assignments
+                    .filter((innerArray) => innerArray[1] === i)
+                    .map((innerArray) => innerArray[0]);
+                  return (
+                    <AgentTile
+                      key={i}
+                      size={size}
+                      activeTasks={activeTasks}
+                      tasks={tasks}
+                    />
+                  );
+                })}
+              </div>
+              <div className="Tile-container">
+              {loading && <div className="loading-spinner"></div>}
+                {agents.map((_, i) => (
+                  <div key={i} className="Tile-row" style={loading?{opacity:.3}:{}}>
+                    {tasks.map((_, j) => {
+                      let active = false;
+                      if (
+                        assignments.findIndex(
+                          (a) => a[0] === i && a[1] === j
+                        ) !== -1
+                      ) {
+                        active = true;
+                      }
 
-                    return (
-                      <AssignTile
-                        key={j}
-                        active={active}
-                        onClick={(e) => handleTileClick(e, [i, j])}
-                      />
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
+                      return (
+                        <AssignTile
+                          key={j}
+                          active={active}
+                          onClick={(e) => handleTileClick(e, [i, j])}
+                        />
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
           </div>
+
           <div className="Game-container-right"></div>
         </div>
         <Button
@@ -188,7 +199,7 @@ const Game: React.FC = () => {
             fontSize: "x-large",
             background: "#000000",
             textTransform: "none",
-            padding: ".5rem 3rem .2rem 3rem",
+            padding: ".3rem 3rem .3rem 3rem",
           }}
           onClick={() => setTrial(trial + 1)}
         >
