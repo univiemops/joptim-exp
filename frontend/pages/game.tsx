@@ -42,10 +42,38 @@ const Game: React.FC = () => {
   const [trial, setTrial] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
 
+
+  const handleSubmit = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/results/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({result:{
+          tasks: tasks,
+          agents: agents,
+          assignments: assignments
+        }}),
+      });
+  
+      if (!res.ok) {
+        throw new Error("Failed to submit data");
+      }
+  
+      const json = await res.json();
+        console.log("json response from API", json)
+    } catch (error) {
+      // Handle the error
+      console.error(error);
+    }
+  };
+
   // runs at startup and every time trial changes
   useEffect(() => {
     console.log("useEffect is starting");
     setLoading(true);
+    handleSubmit();
     const fetchGame = () => {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/game/`)
         .then((response) => response.json())
