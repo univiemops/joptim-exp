@@ -1,6 +1,57 @@
 version: "3.7"
 
+# TODOs
+# 1. nginx config file
+# 2. only container with ports exposed should be nginx (others reachable via docker-network)
+
 services:
+  nginx:
+    image: nginx:1.23.2-alpine
+    hostname: joptim-nx
+    container_name: joptim-nx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    networks:
+      joptim:
+        aliases:
+          - joptim-nginx
+    restart: always
+    depends_on:
+      - frontend
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    image: joptim-backend
+    hostname: joptim-backend
+    container_name: joptim-backend
+    #  volumes:
+    #     - .:/app
+    restart: always
+    ports:
+      - "8000:8000"
+    networks:
+      joptim:
+        aliases:
+          - joptim-backend
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    image: joptim-frontend
+    hostname: joptim-frontend
+    container_name: joptim-frontend
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      joptim:
+        aliases:
+          - joptim-frontend
 
   db:
     build:
@@ -22,61 +73,5 @@ services:
 networks:
   joptim:
 
-
 volumes:
   db:
-
-    # nginx:
-    #   image: nginx:1.23.2-alpine
-    #   hostname: joptim-nx
-    #   container_name: joptim-nx
-    #   volumes:
-    #     - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    #     - ./key.pem:/root/ssl/key.pem
-    #     - ./cert.pem:/root/ssl/cert.pem
-    #   ports:
-    #     - "443:443"
-    #   networks:
-    #     joptim:
-    #       aliases:
-    #         - joptim-nginx
-    #   restart: always
-    #   depends_on:
-    #     - frontend
-
-
-    # backend:
-    #   build:
-    #     context: .
-    #     dockerfile: backend.Dockerfile
-    #   image: joptim-backend
-    #   hostname: joptim-backend
-    #   container_name: joptim-backend
-    # #  volumes:
-    # #     - .:/app
-    #   restart: always
-    #   ports:
-    #     - "8000:8000"
-    #   networks:
-    #     joptim:
-    #       aliases:
-    #         - joptim-backend
-
-
-
-    # frontend:
-    #   build:
-    #     context: .
-    #     dockerfile: frontend.Dockerfile
-    #   image: joptim-frontend
-    #   hostname: joptim-frontend
-    #   container_name: joptim-frontend
-    #   restart: always
-    #   ports:
-    #     - "8080:8080"
-    #   networks:
-    #     joptim:
-    #       aliases:
-    #         - joptim-frontend
-
-
