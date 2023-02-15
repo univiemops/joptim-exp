@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+
+  db:
+    build:
+      context: .
+      dockerfile: db.Dockerfile
+    image: joptim-db
+    container_name: joptim-db-dev
+    hostname: joptim-db-dev
+    restart: always
+    volumes:
+      - ./db-dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      joptim:
+        aliases:
+          - joptim-db
+
+networks:
+  joptim:
+
+
+volumes:
+  db:

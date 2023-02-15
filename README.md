@@ -2,13 +2,40 @@
 
 next.js + fastapi + postgres
 
-## Database
+## Production
+
+### Setup database
+
+Make sure these are the same as in db.Dockerfile
+
+```
+echo "DATABASE_URL=postgresql://joptim_user:joptim_pass@localhost/joptim" > .env
+
+```
+
+In alembic.ini, find this line and change it to your own database url:
+
+```
+sqlalchemy.url = postgresql://joptim_user:joptim_pass@localhost/joptim
+```
+
+Go back to project root directory
+
+### Run application
 
 ```bash
 docker-compose up
 ```
 
-## Backend
+## Development
+
+### Database
+
+```bash
+docker-compose -f docker-compose.dev.yml up
+```
+
+### Backend
 
 Setup
 
@@ -19,7 +46,7 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-Create `.env` file with your own database url
+Create `.env` file with your own database url.
 
 ```
 echo "DATABASE_URL=postgresql://joptim_user:joptim_pass@localhost/joptim" > .env
@@ -35,7 +62,7 @@ sqlalchemy.url = postgresql://joptim_user:joptim_pass@localhost/joptim
 Run database migration
 
 ```bash
-alembic upgrade +1
+alembic upgrade head
 
 ```
 
@@ -47,7 +74,7 @@ uvicorn main:app --reload
 
 Open http://localhost:8000/docs with your browser to see the result.
 
-## Frontend
+### Frontend
 
 Install dependencies
 
