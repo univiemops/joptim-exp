@@ -9,6 +9,7 @@ next.js + fastapi + postgres
 Make sure these are the same as in db.Dockerfile
 
 ```
+cd backend
 echo "DATABASE_URL=postgresql://joptim_user:joptim_pass@localhost/joptim" > .env
 ```
 
@@ -18,9 +19,9 @@ In alembic.ini, find this line and change it to your own database url:
 sqlalchemy.url = postgresql://joptim_user:joptim_pass@localhost/joptim
 ```
 
-Go back to project root directory
-
 ### Run application
+
+Go back to project root directory and run
 
 ```bash
 docker-compose up
