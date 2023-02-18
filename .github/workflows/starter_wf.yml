@@ -30,6 +30,6 @@ jobs:
         run: npm run build
         working-directory: frontend
       - name: Run tests
-        run: npm run test
+        run: npm install --save-dev jest && npm run test
         working-directory: frontend
 
