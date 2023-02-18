@@ -1,8 +1,8 @@
-![starter workflow](https://github.com/dominikpegler/joptim-game/actions/workflows/starter_wf.yml/badge.svg)
-
 # joptim-game
 
-next.js + fastapi + postgres
+![starter workflow](https://github.com/dominikpegler/joptim-game/actions/workflows/starter_wf.yml/badge.svg)
+
+Next.js + FastAPI + PostgreSQL
 
 ## Production
 
