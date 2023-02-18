@@ -1,4 +1,4 @@
-# joptim-game
+# JOptim Web Experiment
 
 ![starter workflow](https://github.com/dominikpegler/joptim-game/actions/workflows/starter_wf.yml/badge.svg)
 
