@@ -29,9 +29,6 @@ jobs:
       - name: Build the app
         run: npm run build
         working-directory: frontend
-      - name: Install jest
-        run: npm install -g jest
-        working-directory: frontend
       - name: Run tests
         run: npm run test -- --passWithNoTests
         working-directory: frontend
