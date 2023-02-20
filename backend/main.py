@@ -108,11 +108,11 @@ async def create_note(note: schemas.NoteIn):
 def new_game():
 
     m = 6  # number of tasks
-    n = 5  # number of agents
+    n = 4  # number of agents
 
     steps = 10
 
-    lim_tasks = (1, 9+1)
+    lim_tasks = (1, 7+1)
     lim_agents = (1, 10+1)
 
     tasks = (steps*np.random.randint(*
