@@ -42,7 +42,6 @@ const Game: React.FC = () => {
   const [trial, setTrial] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
 
-
   const handleSubmit = async () => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/results/`, {
@@ -50,19 +49,21 @@ const Game: React.FC = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({result:{
-          tasks: tasks,
-          agents: agents,
-          assignments: assignments
-        }}),
+        body: JSON.stringify({
+          result: {
+            tasks: tasks,
+            agents: agents,
+            assignments: assignments,
+          },
+        }),
       });
-  
+
       if (!res.ok) {
         throw new Error("Failed to submit data");
       }
-  
+
       const json = await res.json();
-        console.log("json response from API", json)
+      console.log("json response from API", json);
     } catch (error) {
       // Handle the error
       console.error(error);
@@ -113,39 +114,40 @@ const Game: React.FC = () => {
     e: React.MouseEvent<HTMLDivElement>,
     coordinates: [number, number]
   ) => {
-
     if (loading === false) {
+      let newAssignments = [...assignments];
+      let index = newAssignments.findIndex(
+        (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
+      );
+      if (index === -1) {
+        let indexOther = newAssignments.findIndex(
+          (a) => a[0] === coordinates[0]
+        );
+        const capacity = agents[coordinates[1]];
+        const oldLoad = assignments
+          .filter((a) => a[1] === coordinates[1])
+          .map((a) => tasks[a[0]])
+          .reduce((a, b) => a + b, 0);
+        const newLoad = tasks[coordinates[0]];
+        const limitReached = capacity - oldLoad - newLoad < 0;
 
-    let newAssignments = [...assignments];
-    let index = newAssignments.findIndex(
-      (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
-    );
-    if (index === -1) {
-      let indexOther = newAssignments.findIndex((a) => a[0] === coordinates[0]);
-      const capacity = agents[coordinates[1]];
-      const oldLoad = assignments
-        .filter((a) => a[1] === coordinates[1])
-        .map((a) => tasks[a[0]])
-        .reduce((a, b) => a + b, 0);
-      const newLoad = tasks[coordinates[0]];
-      const limitReached = capacity - oldLoad - newLoad < 0;
-
-      if (limitReached) {
-        (e.target as HTMLDivElement).style.backgroundColor = "lightgray";
-        setTimeout(() => {
-          (e.target as HTMLDivElement).style.backgroundColor = "";
-        }, 100);
+        if (limitReached) {
+          (e.target as HTMLDivElement).style.backgroundColor = "lightgray";
+          setTimeout(() => {
+            (e.target as HTMLDivElement).style.backgroundColor = "";
+          }, 100);
+        } else {
+          newAssignments.push(coordinates);
+        }
+        if (indexOther !== -1 && !limitReached) {
+          newAssignments.splice(indexOther, 1);
+        }
       } else {
-        newAssignments.push(coordinates);
+        newAssignments.splice(index, 1);
       }
-      if (indexOther !== -1 && !limitReached) {
-        newAssignments.splice(indexOther, 1);
-      }
-    } else {
-      newAssignments.splice(index, 1);
+      setAssignments(newAssignments);
     }
-    setAssignments(newAssignments);
-  }};
+  };
 
   return agents.length > 0 && tasks.length > 0 ? (
     <div className="App">
@@ -159,7 +161,10 @@ const Game: React.FC = () => {
           </span>
         </h3>
         <div className="Game-container">
-          <div className="Game-container-left" style={loading?{opacity:.3}:{}}>
+          <div
+            className="Game-container-left"
+            style={loading ? { opacity: 0.3 } : {}}
+          >
             <EmptyTile />
             {tasks.map((size, idx) => {
               const assigned =
@@ -176,46 +181,49 @@ const Game: React.FC = () => {
             })}
           </div>
           <div className="Game-container-middle">
-              <div className="Tile-row" style={loading?{opacity:.3}:{}}>
-                {agents.map((size, i) => {
-                  const activeTasks = assignments
-                    .filter((innerArray) => innerArray[1] === i)
-                    .map((innerArray) => innerArray[0]);
-                  return (
-                    <AgentTile
-                      key={i}
-                      size={size}
-                      activeTasks={activeTasks}
-                      tasks={tasks}
-                    />
-                  );
-                })}
-              </div>
-              <div className="Tile-container">
+            <div className="Tile-row" style={loading ? { opacity: 0.3 } : {}}>
+              {agents.map((size, i) => {
+                const activeTasks = assignments
+                  .filter((innerArray) => innerArray[1] === i)
+                  .map((innerArray) => innerArray[0]);
+                return (
+                  <AgentTile
+                    key={i}
+                    size={size}
+                    activeTasks={activeTasks}
+                    tasks={tasks}
+                  />
+                );
+              })}
+            </div>
+            <div className="Tile-container">
               {loading && <div className="loading-spinner"></div>}
-                {agents.map((_, i) => (
-                  <div key={i} className="Tile-row" style={loading?{opacity:.3}:{}}>
-                    {tasks.map((_, j) => {
-                      let active = false;
-                      if (
-                        assignments.findIndex(
-                          (a) => a[0] === i && a[1] === j
-                        ) !== -1
-                      ) {
-                        active = true;
-                      }
+              {tasks.map((_, i) => (
+                <div
+                  key={i}
+                  className="Tile-row"
+                  style={loading ? { opacity: 0.3 } : {}}
+                >
+                  {agents.map((_, j) => {
+                    let active = false;
+                    if (
+                      assignments.findIndex((a) => a[0] === i && a[1] === j) !==
+                      -1
+                    ) {
+                      active = true;
+                    }
 
-                      return (
-                        <AssignTile
-                          key={j}
-                          active={active}
-                          onClick={(e) => handleTileClick(e, [i, j])}
-                        />
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
+                    return (
+                      <AssignTile
+                        key={j}
+                        active={active}
+                        onClick={(e) => handleTileClick(e, [i, j])}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="Game-container-right"></div>

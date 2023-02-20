@@ -209,19 +209,19 @@
 
 @keyframes spinner {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
 
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 .loading-spinner {
-  position:absolute;
+  position: absolute;
   z-index: 4000;
   top: 0;
-  left:0;
+  left: 0;
   bottom: 0;
   right: 0;
   margin: auto;
@@ -232,5 +232,5 @@
   border-top: 10px solid gray;
   /* Black */
   border-radius: 50%;
-  animation: spinner 1.0s linear infinite;
+  animation: spinner 1s linear infinite;
 }
