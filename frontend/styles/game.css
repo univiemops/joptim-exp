@@ -1,7 +1,10 @@
 /* default for phones landscape */
+
 :root {
+  --rows: 4;
+  --cols: 6;
   --box-size: 200px;
-  --tile-size: calc(var(--box-size) / 9);
+  --tile-size: calc(var(--box-size) / (3 + max(var(--rows), var(--cols))));
   --tile-size-long: calc(var(--tile-size) * 2);
   --default-font-size: medium;
   --font-mono: "Fira Mono", monospace;
