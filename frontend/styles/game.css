@@ -1,8 +1,11 @@
 /* default for phones landscape */
-:root {
-  --tile-size: 1.666rem;
-  --tile-size-long: 3.5rem;
 
+/* --rows and --cols variables are defined in game.tsx */
+
+:root {
+  --box-size: 200px;
+  --tile-size: calc(var(--box-size) / (3 + max(var(--rows), var(--cols))));
+  --tile-size-long: calc(var(--tile-size) * 2);
   --default-font-size: medium;
   --font-mono: "Fira Mono", monospace;
   --pure-white: #ffffff;
@@ -18,44 +21,46 @@
   --column-margin-top: 4rem;
   font-size: var(--default-font-size);
 }
-
+/* 
 /* for phones portrait */
 @media only screen and (min-height: 400px) {
   :root {
-    --tile-size: 3rem;
-    --tile-size-long: 6rem;
+    --box-size: 350px;
   }
 }
 
 /* for tablets portrait */
 @media only screen and (min-width: 600px) and (min-height: 600px) {
   :root {
-    --tile-size: 4rem;
-    --tile-size-long: 8rem;
+    --box-size: 750px;
   }
 }
 
 /* for tablets landscape */
 @media only screen and (min-width: 900px) {
   :root {
-    --tile-size: 4rem;
-    --tile-size-long: 8rem;
+    --box-size: 550px;
   }
 }
 
 /* for desktop */
 @media only screen and (min-width: 1200px) {
   :root {
-    --tile-size: 5rem;
-    --tile-size-long: 10rem;
+    --box-size: 600px;
   }
 }
 
 /*  for tables big desktop */
 @media only screen and (min-width: 1800px) {
   :root {
-    --tile-size: 5.5rem;
-    --tile-size-long: 11rem;
+    --box-size: 600px;
+  }
+}
+
+/*  for tables big desktop */
+@media only screen and (min-width: 2000px) {
+  :root {
+    --box-size: 900px;
   }
 }
 
@@ -86,7 +91,8 @@
   overflow: auto;
   background-color: white;
   flex-direction: row;
-  max-width: 100%;
+  height: var(--box-size);
+  max-width: var(--box-size);
   overflow: hidden;
   justify-content: flex-start;
   align-content: center;
@@ -118,11 +124,7 @@
   border-color: gray;
   border-style: solid;
   border-width: 1px;
-}
-
-.Tile-row {
-  display: flex;
-  flex-direction: row;
+  max-height: 100%;
 }
 
 .Agent-tile {
@@ -194,12 +196,25 @@
 }
 
 .Tile {
+  display: flex;
+  background-color: white;
   border-color: gray;
   border-style: solid;
   border-width: 1px;
   width: var(--tile-size);
   height: var(--tile-size);
+  justify-content: flex-end;
   cursor: pointer;
+}
+
+.Tile-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.Tile-row-agents {
+  display: flex;
+  flex-direction: row;
 }
 
 .SVG-circle {

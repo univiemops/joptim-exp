@@ -84,12 +84,22 @@ const Game: React.FC = () => {
           setDatabaseConnected(true);
           setAssignments([]);
           setLoading(false);
+          document.documentElement.style.setProperty(
+            `--rows`,
+            `${json["tasks"].length()}`
+          );
+          document.documentElement.style.setProperty(
+            `--cols`,
+            `${json["agents"].length()}`
+          );
           console.log("fetched game from backend");
         })
         .catch((error) => {
           console.log(error);
-          const m = 5; // only for fallback
-          const n = 5;
+          const m = 6; // only for fallback
+          const n = 4;
+          document.documentElement.style.setProperty(`--rows`, `${m}`);
+          document.documentElement.style.setProperty(`--cols`, `${n}`);
           const tasksFallback = Array.from(
             { length: m },
             () => 10 * getRandomIntInclusive(1, 9)
@@ -181,7 +191,10 @@ const Game: React.FC = () => {
             })}
           </div>
           <div className="Game-container-middle">
-            <div className="Tile-row" style={loading ? { opacity: 0.3 } : {}}>
+            <div
+              className="Tile-row-agents"
+              style={loading ? { opacity: 0.3 } : {}}
+            >
               {agents.map((size, i) => {
                 const activeTasks = assignments
                   .filter((innerArray) => innerArray[1] === i)
