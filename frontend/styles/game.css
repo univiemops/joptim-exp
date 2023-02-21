@@ -3,7 +3,7 @@
 /* --rows and --cols variables are defined in game.tsx */
 
 :root {
-  --box-size: 200px;
+  --box-size: 220px;
   --tile-size: calc(var(--box-size) / (3 + max(var(--rows), var(--cols))));
   --tile-size-long: calc(var(--tile-size) * 2);
   --default-font-size: medium;

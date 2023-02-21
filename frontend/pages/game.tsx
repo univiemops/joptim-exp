@@ -11,8 +11,9 @@ const cmap = [
   "#009988",
   "#EE3377",
   "#33BBEE",
-  "#BBBBBB",
+  "#A71C49", //"#BBBBBB",
   "#CC3311",
+  "#F6A800",
 ];
 
 function sumOfArray(ar: Array<number>) {
@@ -96,8 +97,8 @@ const Game: React.FC = () => {
         })
         .catch((error) => {
           console.log(error);
-          const m = 7; // only for fallback
-          const n = 5;
+          const m = 8; // only for fallback
+          const n = 7;
           document.documentElement.style.setProperty(`--rows`, `${m}`);
           document.documentElement.style.setProperty(`--cols`, `${n}`);
           const tasksFallback = Array.from(
@@ -327,11 +328,8 @@ const AgentTile: React.FC<PropsAgentTile> = (props) => {
 
   return (
     <div>
-      <span>
-        {formatter.format(
-          (sumOfArray(activeTasks.map((task) => tasks[task])) / size) * 100
-        )}
-      </span>
+      <span>{sumOfArray(activeTasks.map((task) => tasks[task]))}</span>
+      {/* <span style={{ fontSize: 16 }}>/{size}</span> */}
       <div className="Agent-tile">
         <div
           style={{ height: String(size).concat("%") }}
@@ -357,7 +355,7 @@ const AgentTile: React.FC<PropsAgentTile> = (props) => {
 const EmptyTile = () => {
   return (
     <div>
-      <span>%</span>
+      <span>↱</span>
       <div className="Empty-tile"></div>
     </div>
   );
