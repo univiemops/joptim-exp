@@ -96,8 +96,8 @@ const Game: React.FC = () => {
         })
         .catch((error) => {
           console.log(error);
-          const m = 6; // only for fallback
-          const n = 4;
+          const m = 7; // only for fallback
+          const n = 5;
           document.documentElement.style.setProperty(`--rows`, `${m}`);
           document.documentElement.style.setProperty(`--cols`, `${n}`);
           const tasksFallback = Array.from(
