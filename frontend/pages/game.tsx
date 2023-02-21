@@ -88,8 +88,8 @@ const Game: React.FC = () => {
         })
         .catch((error) => {
           console.log(error);
-          const m = 5; // only for fallback
-          const n = 5;
+          const m = 4; // only for fallback
+          const n = 6;
           const tasksFallback = Array.from(
             { length: m },
             () => 10 * getRandomIntInclusive(1, 9)
@@ -181,7 +181,10 @@ const Game: React.FC = () => {
             })}
           </div>
           <div className="Game-container-middle">
-            <div className="Tile-row" style={loading ? { opacity: 0.3 } : {}}>
+            <div
+              className="Tile-row-agents"
+              style={loading ? { opacity: 0.3 } : {}}
+            >
               {agents.map((size, i) => {
                 const activeTasks = assignments
                   .filter((innerArray) => innerArray[1] === i)
