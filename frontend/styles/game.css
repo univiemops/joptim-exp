@@ -1,8 +1,8 @@
 /* default for phones landscape */
 
+/* --rows and --cols variables are defined in game.tsx */
+
 :root {
-  --rows: 4;
-  --cols: 6;
   --box-size: 200px;
   --tile-size: calc(var(--box-size) / (3 + max(var(--rows), var(--cols))));
   --tile-size-long: calc(var(--tile-size) * 2);
