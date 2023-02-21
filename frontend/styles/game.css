@@ -3,7 +3,7 @@
 /* --rows and --cols variables are defined in game.tsx */
 
 :root {
-  --box-size: 220px;
+  --box-size: 240px;
   --tile-size: calc(var(--box-size) / (3 + max(var(--rows), var(--cols))));
   --tile-size-long: calc(var(--tile-size) * 2);
   --default-font-size: medium;
@@ -124,6 +124,9 @@
   border-color: gray;
   border-style: solid;
   border-width: 1px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   max-height: 100%;
 }
 
@@ -133,6 +136,9 @@
   border-color: white;
   border-style: solid;
   border-width: 1px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   width: var(--tile-size);
   height: var(--tile-size-long);
   font-size: 16pt;
@@ -146,6 +152,9 @@
   border-width: 1px 1px 0px 1px;
   border-style: dashed;
   border-color: gray;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   width: 100%;
   display: flex;
   align-items: flex-end;
@@ -174,6 +183,9 @@
   border-color: white;
   border-style: solid;
   border-width: 1px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   width: var(--tile-size-long);
   height: var(--tile-size);
   font-size: 16pt;
@@ -191,6 +203,9 @@
   border-color: white;
   border-style: solid;
   border-width: 1px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   width: var(--tile-size-long);
   height: var(--tile-size-long);
 }
@@ -201,6 +216,9 @@
   border-color: gray;
   border-style: solid;
   border-width: 1px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   width: var(--tile-size);
   height: var(--tile-size);
   justify-content: flex-end;

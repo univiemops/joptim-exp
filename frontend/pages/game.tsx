@@ -303,16 +303,25 @@ const TaskTile: React.FC<PropsTaskTile> = (props) => {
     filter = "grayscale(50%)";
   }
   return (
-    <div className="Task-tile">
-      <div
-        style={{
-          width: String(size).concat("%"),
-          backgroundColor: color,
-          filter: filter,
-          opacity: opacity,
-        }}
-        className="Task-tile-inner"
-      ></div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+      }}
+    >
+      <span style={{ filter: filter, opacity: opacity }}>{size}</span>
+      <div className="Task-tile">
+        <div
+          style={{
+            width: String(size).concat("%"),
+            backgroundColor: color,
+            filter: filter,
+            opacity: opacity,
+          }}
+          className="Task-tile-inner"
+        ></div>
+      </div>
     </div>
   );
 };
@@ -326,9 +335,18 @@ interface PropsAgentTile {
 const AgentTile: React.FC<PropsAgentTile> = (props) => {
   const { size, activeTasks, tasks } = props;
 
+  const remainingSize =
+    size - sumOfArray(activeTasks.map((task) => tasks[task]));
+  let opacity: number = 1;
+  let filter: string = "";
+  if (remainingSize === 0) {
+    opacity = 0.2;
+    filter = "grayscale(50%)";
+  }
+
   return (
-    <div>
-      <span>{sumOfArray(activeTasks.map((task) => tasks[task]))}</span>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <span style={{ filter: filter, opacity: opacity }}>{remainingSize}</span>
       {/* <span style={{ fontSize: 16 }}>/{size}</span> */}
       <div className="Agent-tile">
         <div
