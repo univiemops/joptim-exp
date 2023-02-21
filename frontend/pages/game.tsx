@@ -84,12 +84,22 @@ const Game: React.FC = () => {
           setDatabaseConnected(true);
           setAssignments([]);
           setLoading(false);
+          document.documentElement.style.setProperty(
+            `--rows`,
+            `${json["tasks"].length()}`
+          );
+          document.documentElement.style.setProperty(
+            `--cols`,
+            `${json["agents"].length()}`
+          );
           console.log("fetched game from backend");
         })
         .catch((error) => {
           console.log(error);
-          const m = 4; // only for fallback
-          const n = 6;
+          const m = 6; // only for fallback
+          const n = 4;
+          document.documentElement.style.setProperty(`--rows`, `${m}`);
+          document.documentElement.style.setProperty(`--cols`, `${n}`);
           const tasksFallback = Array.from(
             { length: m },
             () => 10 * getRandomIntInclusive(1, 9)
