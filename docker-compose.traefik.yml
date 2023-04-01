@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+
+  backend:
+    build:
+      context: backend
+      dockerfile: backend.Dockerfile
+    image: joptim-backend
+    restart: always
+    depends_on:
+      - db
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "alembic upgrade head && gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000",
+      ]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.joptim-backend.rule=PathPrefix(`/joptim-api`)"
+      - "traefik.http.services.joptim-backend.loadbalancer.server.port=8000"
+      - "traefik.http.routers.joptim-backend.entrypoints=websecure"
+      - "traefik.http.routers.joptim-backend.tls=true"
+    networks:
+      - traefik-network
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: frontend.Dockerfile
+    image: joptim-frontend
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.joptim.rule=PathPrefix(`/joptim`)"
+      - "traefik.http.services.joptim.loadbalancer.server.port=3000"
+      - "traefik.http.routers.joptim.entrypoints=websecure"
+      - "traefik.http.routers.joptim.tls=true"
+
+    networks:
+      - traefik-network
+
+  db:
+    build:
+      context: database
+      dockerfile: db.Dockerfile
+    image: joptim-db
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/db:/var/lib/postgresql/data
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    external: true
+
+volumes:
+  db:

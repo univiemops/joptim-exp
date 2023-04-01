@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  db:
+    build:
+      context: database
+      dockerfile: db.Dockerfile
+    image: joptim-db-dev
+    restart: always
+    volumes:
+      - ./database/db-dev:/var/lib/postgresql/data
+    networks:
+      - joptim-dev
+
+  backend:
+    build:
+      context: backend
+      dockerfile: backend.dev.Dockerfile
+    image: joptim-backend-dev
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "alembic upgrade head && uvicorn main:app --proxy-headers --host 0.0.0.0 --env-file env_dev --port 8000 --reload",
+      ]
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - joptim-dev
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: frontend.dev.Dockerfile
+    image: joptim-frontend-dev
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+
+volumes:
+  db-dev:
+
+networks:
+  joptim-dev:
