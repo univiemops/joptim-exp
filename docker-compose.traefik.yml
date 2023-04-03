@@ -47,12 +47,8 @@ services:
       dockerfile: db.Dockerfile
     image: joptim-db
     restart: always
-    ports:
-      - "5432:5432"
     volumes:
       - ./database/db:/var/lib/postgresql/data
-    networks:
-      - traefik-network
 
 networks:
   traefik-network:
