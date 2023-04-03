@@ -14,7 +14,7 @@ services:
       [
         "bash",
         "-c",
-        "alembic upgrade head && uvicorn main:app --proxy-headers --host 0.0.0.0 --env-file .env --port 8000 --root-path /joptim-api --workers 4",
+        "alembic upgrade head && uvicorn main:app --no-docs --no-redoc --proxy-headers --host 0.0.0.0 --env-file .env --port 8000 --root-path /joptim-api --workers 4",
       ]
     labels:
       - "traefik.enable=true"
