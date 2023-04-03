@@ -21,7 +21,7 @@ services:
       [
         "bash",
         "-c",
-        "alembic upgrade head && uvicorn main:app --proxy-headers --host 0.0.0.0 --env-file env_dev --port 8000 --reload",
+        "alembic -c alembic_dev.ini upgrade head && uvicorn main:app --proxy-headers --host 0.0.0.0 --env-file env_dev --port 8000 --reload",
       ]
     volumes:
       - ./backend:/app
