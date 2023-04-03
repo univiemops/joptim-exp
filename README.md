@@ -67,5 +67,6 @@ Go to your browser, open [http://localhost:3000/joptim](http://localhost:3000/jo
 
 ## TODOs
 * Finalize experimental design
+* Enable Prolific integration
 * Remove fallback trial generation if no backend is available
 * Admin page for downloading the collected data via browser (Authentication required)
