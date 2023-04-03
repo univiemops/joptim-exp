@@ -9,6 +9,13 @@
 
 ### Setup database
 
+Create `db.Dockerfile` and add your database credentials
+
+```bash
+cd database
+cp db.dev.Dockerfile db.Dockerfile
+```
+
 Make sure these are the same as in db.Dockerfile
 
 ```bash
