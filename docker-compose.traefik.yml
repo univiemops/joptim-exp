@@ -40,7 +40,6 @@ services:
       - "traefik.http.services.joptim.loadbalancer.server.port=3000"
       - "traefik.http.routers.joptim.entrypoints=websecure"
       - "traefik.http.routers.joptim.tls=true"
-
     networks:
       - traefik-network
 
@@ -52,8 +51,8 @@ services:
     restart: always
     volumes:
       - ./database/db:/var/lib/postgresql/data
-   networks:
-     - joptim-db
+    networks:
+      - joptim-db
 
 networks:
   traefik-network:
