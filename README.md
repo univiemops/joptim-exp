@@ -14,10 +14,15 @@ Make sure these are the same as in db.Dockerfile
 ```bash
 cd backend
 echo "DATABASE_URL=postgresql://joptim_user:joptim_pass@db/joptim" > .env
+```
+
+Create alembic.ini, 
+
+```bash
 cp alembic_dev.ini alembic.ini
 ```
 
-In alembic.ini, find this line and change it to your own database url:
+... find this line and change it to your own database url:
 
 ```
 sqlalchemy.url = postgresql://joptim_user:joptim_pass@db/joptim
