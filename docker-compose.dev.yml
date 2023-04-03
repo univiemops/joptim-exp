@@ -27,6 +27,7 @@ services:
       - ./backend:/app
     ports:
       - "8000:8000"
+    restart: always
     depends_on:
       - db
     networks:
@@ -37,6 +38,7 @@ services:
       context: frontend
       dockerfile: frontend.dev.Dockerfile
     image: joptim-frontend-dev
+    restart: always
     command: npm run dev
     volumes:
       - ./frontend:/app
