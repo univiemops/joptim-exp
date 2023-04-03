@@ -2,7 +2,7 @@ version: "3"
 
 services:
 
-  backend:
+  backend-joptim:
     build:
       context: backend
       dockerfile: backend.Dockerfile
