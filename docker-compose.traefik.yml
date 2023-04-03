@@ -26,7 +26,6 @@ services:
       - "traefik.http.routers.simi-choice-backend.middlewares=stripprefix@docker"
     networks:
       - traefik-network
-      - joptim-db
 
   frontend:
     build:
@@ -47,17 +46,17 @@ services:
     build:
       context: database
       dockerfile: db.Dockerfile
+    hostname: joptim-db
     image: joptim-db
     restart: always
     volumes:
       - ./database/db:/var/lib/postgresql/data
     networks:
-      - joptim-db
+      - traefik-network
 
 networks:
   traefik-network:
     external: true
-  joptim-db:
   
 volumes:
   db:
