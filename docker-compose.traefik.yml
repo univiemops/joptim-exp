@@ -14,14 +14,15 @@ services:
       [
         "bash",
         "-c",
-        "alembic upgrade head && gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000",
-      ]
+        "alembic -c alembic.ini upgrade head && uvicorn main:app --proxy-headers --host 0.0.0.0 --env-file .env --port 8000 --root-path /joptim-api --workers 4",      ]
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.joptim-backend.rule=PathPrefix(`/joptim-api`)"
       - "traefik.http.services.joptim-backend.loadbalancer.server.port=8000"
       - "traefik.http.routers.joptim-backend.entrypoints=websecure"
       - "traefik.http.routers.joptim-backend.tls=true"
+      - "traefik.http.middlewares.stripprefix.stripprefix.prefixes=/joptim-api"
+      - "traefik.http.routers.simi-choice-backend.middlewares=stripprefix@docker"
     networks:
       - traefik-network
 
