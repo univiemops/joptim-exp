@@ -4,7 +4,7 @@ services:
   db:
     build:
       context: database
-      dockerfile: db.Dockerfile
+      dockerfile: db.dev.Dockerfile
     image: joptim-db-dev
     restart: always
     volumes:
