@@ -22,7 +22,7 @@ Create `alembic.ini`,
 cp alembic_dev.ini alembic.ini
 ```
 
-... open it in a text editor and change it to your own database url:
+... open it in a text editor and change this line to your own database url:
 
 ```
 sqlalchemy.url = postgresql://joptim_user:joptim_pass@db/joptim
