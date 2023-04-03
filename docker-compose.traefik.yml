@@ -46,6 +46,7 @@ services:
     build:
       context: database
       dockerfile: db.Dockerfile
+    hostname: joptim-db
     image: joptim-db
     restart: always
     volumes:
