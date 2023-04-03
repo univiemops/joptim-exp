@@ -6,6 +6,7 @@ services:
       context: database
       dockerfile: db.dev.Dockerfile
     image: joptim-db-dev
+    hostname: joptim-db
     restart: always
     volumes:
       - ./database/db-dev:/var/lib/postgresql/data
