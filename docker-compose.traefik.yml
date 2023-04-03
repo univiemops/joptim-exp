@@ -57,6 +57,7 @@ services:
 networks:
   traefik-network:
     external: true
+  joptim-db:
   
 volumes:
   db:
