@@ -18,7 +18,8 @@ services:
       ]
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.joptim-backend.rule=PathPrefix(`/joptim-api`)"
+      - "traefik.http.routers.joptim-backend.rule=Host(`localhost`) && PathPrefix(`/joptim-api`)"
+        #- "traefik.http.routers.joptim-backend.rule=PathPrefix(`/joptim-api`)"
       - "traefik.http.services.joptim-backend.loadbalancer.server.port=8000"
       - "traefik.http.routers.joptim-backend.entrypoints=websecure"
       - "traefik.http.routers.joptim-backend.tls=true"
@@ -26,6 +27,7 @@ services:
       - "traefik.http.routers.joptim-backend.middlewares=strip_joptim@docker"
     networks:
       - traefik-network
+      - database
 
   frontend:
     build:
@@ -39,6 +41,7 @@ services:
       - "traefik.http.services.joptim.loadbalancer.server.port=3000"
       - "traefik.http.routers.joptim.entrypoints=websecure"
       - "traefik.http.routers.joptim.tls=true"
+      - "traefik.docker.network=traefik-network"
     networks:
       - traefik-network
 
@@ -46,18 +49,18 @@ services:
     build:
       context: database
       dockerfile: db.Dockerfile
-    hostname: joptim-db
     image: joptim-db
     restart: always
     volumes:
       - ./database/db:/var/lib/postgresql/data
     networks:
-      - traefik-network
-      
+      - database
 
 networks:
   traefik-network:
     external: true
-  
+  database:
+    driver: bridge
+
 volumes:
   db:

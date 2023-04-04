@@ -1,1 +1,1 @@
-DATABASE_URL=postgresql://joptim_user:joptim_pass@joptim-db/joptim
+DATABASE_URL=postgresql://user:pass@db/db

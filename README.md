@@ -20,7 +20,7 @@ Make sure these are the same as in db.Dockerfile
 
 ```bash
 cd backend
-echo "DATABASE_URL=postgresql://joptim_user:joptim_pass@db/joptim" > .env
+echo "DATABASE_URL=postgresql://user:pass@db/db" > .env
 ```
 
 Create `alembic.ini`, 
