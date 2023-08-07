@@ -2,7 +2,7 @@
 
 ![starter workflow](https://github.com/dominikpegler/joptim-game/actions/workflows/starter_wf.yml/badge.svg)
 
-* Web experiment for collecting human solutions for general assignment problems 
+* Web experiment for collecting human solutions in general assignment problems 
 * Next.js + FastAPI + PostgreSQL
 
 ## Production
