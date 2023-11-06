@@ -73,7 +73,6 @@ const Game: React.FC = () => {
 
   // runs at startup and every time trial changes
   useEffect(() => {
-    console.log("useEffect is starting");
     setLoading(true);
     handleSubmit();
     const fetchGame = () => {
