@@ -87,11 +87,11 @@ const Game: React.FC = () => {
           setLoading(false);
           document.documentElement.style.setProperty(
             `--rows`,
-            `${json["tasks"].length()}`
+            `${json["tasks"].length}`
           );
           document.documentElement.style.setProperty(
             `--cols`,
-            `${json["agents"].length()}`
+            `${json["agents"].length}`
           );
           console.log("fetched game from backend");
         })

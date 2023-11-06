@@ -1,5 +1,6 @@
 FROM postgres:14-alpine
 
+ENV DB_USER user
 ENV POSTGRES_USER user
 ENV POSTGRES_PASSWORD pass
 ENV POSTGRES_DB db

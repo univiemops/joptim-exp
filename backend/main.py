@@ -106,7 +106,6 @@ async def create_note(note: schemas.NoteIn):
 
 @app.get("/game/")
 def new_game():
-
     m = 7  # number of tasks
     n = 5  # number of agents
 
