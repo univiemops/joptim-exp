@@ -5,6 +5,10 @@
 * Web experiment for collecting human solutions in general assignment problems 
 * Next.js + FastAPI + PostgreSQL
 
+## Prerequisite
+
+Place `trials.pkl` file into the backend folder. If file is missing or the backend is not set up correctly, the frontend will fall back to an own random trial generation.
+
 ## Production
 
 ### Setup database

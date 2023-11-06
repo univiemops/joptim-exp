@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import schemas
 import numpy as np
+import pickle
 
 
 ###############
@@ -47,9 +48,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 database = databases.Database(DATABASE_URL)
 
-engine = sqlalchemy.create_engine(
-    DATABASE_URL
-)
+engine = sqlalchemy.create_engine(DATABASE_URL)
 # metadata.create_all(engine)
 
 
@@ -60,11 +59,7 @@ engine = sqlalchemy.create_engine(
 
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:3000"
-]
+origins = ["http://localhost", "http://localhost:8080", "http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -73,6 +68,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+#########################
+# LOAD TRIALS FROM FILE #
+#########################
+
+try:
+    with open("trials.pkl", "rb") as pickle_file:
+        trials = pickle.load(pickle_file)
+        print(len(trials), "trials loaded.")
+except Exception as e:
+    print("Failed to load trials from trials.pkl:", e)
 
 
 #############
@@ -104,20 +111,30 @@ async def create_note(note: schemas.NoteIn):
     return {**note.dict(), "id": last_record_id}
 
 
+# @app.get("/game/")
+# def new_game():
+#     """
+#     Random trial generation.
+#     """
+#     m = 7  # number of tasks
+#     n = 5  # number of agents
+#     steps = 10
+#     lim_tasks = (1, 7 + 1)
+#     lim_agents = (1, 10 + 1)
+#     tasks = (steps * np.random.randint(*lim_tasks, size=m)).tolist()
+#     agents = (steps * np.random.randint(*lim_agents, size=n)).tolist()
+#     return {"tasks": tasks, "agents": agents}
+
+
 @app.get("/game/")
 def new_game():
-    m = 7  # number of tasks
-    n = 5  # number of agents
+    """Take trials from file."""
 
-    steps = 10
+    print("Loading Trial from file.")
+    random_trial_idx = np.random.randint(len(trials))
+    tasks = trials[random_trial_idx]["task_loads"].tolist()
+    agents = trials[random_trial_idx]["worker_capacities"].tolist()
 
-    lim_tasks = (1, 7+1)
-    lim_agents = (1, 10+1)
-
-    tasks = (steps*np.random.randint(*
-             lim_tasks, size=m)).tolist()
-    agents = (steps*np.random.randint(*
-              lim_agents, size=n)).tolist()
     return {"tasks": tasks, "agents": agents}
 
 
