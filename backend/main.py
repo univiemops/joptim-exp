@@ -57,7 +57,10 @@ engine = sqlalchemy.create_engine(DATABASE_URL)
 ##############
 
 
-app = FastAPI()
+app = FastAPI(
+    docs_url=None,  # Disable docs (Swagger UI)
+    redoc_url=None,  # Disable redoc
+)
 
 origins = ["http://localhost", "http://localhost:8080", "http://localhost:3000"]
 
