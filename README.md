@@ -70,6 +70,7 @@ docker-compose -f docker-compose.dev.yml up
 Go to your browser, open [http://localhost:3000/joptim](http://localhost:3000/joptim) or [http://localhost:8000/docs](http://localhost:8000/docs) for the API and start developing.
 
 ## TODOs
+* Fix: Error "blocked mixed content". Immediately after startup this error can occur and frontend will thus fall back to random trial generation. Vanishes usually within a minute. 
 * Finalize experimental design
 * Enable Prolific integration
 * Remove fallback trial generation if no backend is available
