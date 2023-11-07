@@ -35,6 +35,12 @@ function getRandomIntInclusive(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
 }
 
+console.log(
+  "process.env.NEXT_PUBLIC_API_URL:",
+  process.env.NEXT_PUBLIC_API_URL
+);
+const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
+
 const Game: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
@@ -44,10 +50,6 @@ const Game: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
-    console.log("process.env.NEXT_PUBLIC_API_URL"),
-      process.env.NEXT_PUBLIC_API_URL;
-    // const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL; // is undefined
-    const OPTIONAL_SUBURI = "";
     try {
       const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
         method: "POST",
@@ -80,7 +82,7 @@ const Game: React.FC = () => {
     setLoading(true);
     handleSubmit();
     const fetchGame = () => {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/game/`)
+      fetch(`${OPTIONAL_SUBURI}/game/`)
         .then((response) => response.json())
         .then((json) => {
           setTasks(json["tasks"]);
