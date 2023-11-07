@@ -44,6 +44,8 @@ const Game: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
+    console.log("process.env.NEXT_PUBLIC_API_URL"),
+      process.env.NEXT_PUBLIC_API_URL;
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/results/`, {
         method: "POST",
