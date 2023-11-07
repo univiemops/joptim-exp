@@ -74,10 +74,12 @@ For debugging purposes or when developing it may help to temporarily enable the 
 
 In `backend/main.py`:
 
+```
 app = FastAPI(
     # docs_url=None,  # Disable docs (Swagger UI)
     # redoc_url=None,  # Disable redoc
 )
+```
 
 Then go to:
 
