@@ -46,8 +46,10 @@ const Game: React.FC = () => {
   const handleSubmit = async () => {
     console.log("process.env.NEXT_PUBLIC_API_URL"),
       process.env.NEXT_PUBLIC_API_URL;
+    // const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL; // is undefined
+    const OPTIONAL_SUBURI = "";
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/results/`, {
+      const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
