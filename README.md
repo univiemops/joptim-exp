@@ -66,8 +66,22 @@ Experiment is now running on `https://<servername>/joptim`
 ```bash
 docker-compose -f docker-compose.dev.yml up
 ```
+Go to your browser, open [http://localhost:3000/joptim](http://localhost:3000/joptim) for the API and start developing.
 
-Go to your browser, open [http://localhost:3000/joptim](http://localhost:3000/joptim) or [http://localhost:8000/docs](http://localhost:8000/docs) for the API and start developing.
+## Debugging
+
+For debugging purposes or when developing it may help to temporarily enable the fastapi docs. Comment out the following lines of code (for security reasons, it should be disabled in production).
+
+In `backend/main.py`:
+
+app = FastAPI(
+    # docs_url=None,  # Disable docs (Swagger UI)
+    # redoc_url=None,  # Disable redoc
+)
+
+Then go to:
+
+[http://localhost:8000/docs](http://localhost:8000/docs)
 
 ## TODOs
 * Fix: Error "blocked mixed content". Immediately after startup this error can occur and frontend will thus fall back to random trial generation. Vanishes usually within a minute. 
