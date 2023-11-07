@@ -17,13 +17,13 @@ services:
       ]
     labels:
       - "traefik.enable=true"
-      #- "traefik.http.routers.joptim-backend.rule=Host(`localhost`) && PathPrefix(`/joptim-api`)"
       - "traefik.http.routers.joptim-backend.rule=PathPrefix(`/joptim-api`)"
       - "traefik.http.services.joptim-backend.loadbalancer.server.port=8000"
       - "traefik.http.routers.joptim-backend.entrypoints=websecure"
       - "traefik.http.routers.joptim-backend.tls=true"
       - "traefik.http.middlewares.strip_joptim.stripprefix.prefixes=/joptim-api"
       - "traefik.http.routers.joptim-backend.middlewares=strip_joptim@docker"
+      - "traefik.docker.network=traefik-network"
     networks:
       - traefik-network
       - database
@@ -40,7 +40,6 @@ services:
       - "traefik.http.services.joptim.loadbalancer.server.port=3000"
       - "traefik.http.routers.joptim.entrypoints=websecure"
       - "traefik.http.routers.joptim.tls=true"
-      - "traefik.docker.network=traefik-network"
     networks:
       - traefik-network
 
