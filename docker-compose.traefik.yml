@@ -1,7 +1,6 @@
 version: "3"
 
 services:
-
   backend:
     build:
       context: backend
@@ -18,8 +17,8 @@ services:
       ]
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.joptim-backend.rule=Host(`localhost`) && PathPrefix(`/joptim-api`)"
-        #- "traefik.http.routers.joptim-backend.rule=PathPrefix(`/joptim-api`)"
+      #- "traefik.http.routers.joptim-backend.rule=Host(`localhost`) && PathPrefix(`/joptim-api`)"
+      - "traefik.http.routers.joptim-backend.rule=PathPrefix(`/joptim-api`)"
       - "traefik.http.services.joptim-backend.loadbalancer.server.port=8000"
       - "traefik.http.routers.joptim-backend.entrypoints=websecure"
       - "traefik.http.routers.joptim-backend.tls=true"
