@@ -2,19 +2,20 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 
-// university
-// const cmap = ["#0063A6", "#A71C49", "#DD4814", "#F6A800"];
+// prototype color map
+// const cmap = [
+//  "#0077BB",
+//  "#EE7733",
+//  "#009988",
+//  "#EE3377",
+//  "#33BBEE",
+//  "#A71C49",
+//  "#CC3311",
+//  "#F6A800",
+//];
 
-const cmap = [
-  "#0077BB",
-  "#EE7733",
-  "#009988",
-  "#EE3377",
-  "#33BBEE",
-  "#A71C49",
-  "#CC3311",
-  "#F6A800",
-];
+// https://personal.sron.nl/~pault/#sec:qualitative
+const cmap = ["#CC6677", "#332288", "#DDCC77", "#117733", "#88CCEE", "#882255", "#44AA99", "#999933", "#AA4499", "#DDDDDD"]
 
 function sumOfArray(ar: Array<number>) {
   var sum = 0;
