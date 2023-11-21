@@ -133,10 +133,16 @@ async def create_note(note: schemas.NoteIn):
 def new_game():
     """Take trials from file."""
 
+    ordered = True
+
     print("Loading Trial from file.")
     random_trial_idx = np.random.randint(len(trials))
-    tasks = trials[random_trial_idx]["task_loads"].tolist()
-    agents = trials[random_trial_idx]["worker_capacities"].tolist()
+    if ordered:
+        tasks = trials[random_trial_idx]["task_loads_ordered"].tolist()
+        agents = trials[random_trial_idx]["worker_capacities_ordered"].tolist()
+    else:
+        tasks = trials[random_trial_idx]["task_loads"].tolist()
+        agents = trials[random_trial_idx]["worker_capacities"].tolist()
 
     return {"tasks": tasks, "agents": agents}
 
