@@ -3,14 +3,16 @@ import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 
 const cmap = [
-  "#0077BB",
-  "#EE7733",
-  "#009988",
-  "#EE3377",
-  "#33BBEE",
-  "#A71C49",
-  "#CC3311",
-  "#F6A800",
+  "#CC6677",
+  "#332288",
+  "#DDCC77",
+  "#117733",
+  "#88CCEE",
+  "#882255",
+  "#44AA99",
+  "#999933",
+  "#AA4499",
+  "#DDDDDD",
 ];
 
 function sumOfArray(ar: Array<number>) {
