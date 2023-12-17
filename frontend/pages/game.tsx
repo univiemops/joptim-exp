@@ -2,7 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserDoctor, faBed } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserDoctor,
+  faBed,
+  faDotCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 // prototype color map
 // const cmap = [
@@ -460,7 +464,7 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
           className="task-label"
           style={{ filter: filter, opacity: opacity }}
         >
-          {size}
+          {size} <FontAwesomeIcon icon={faBed} color={color} size={"1x"} />
         </span>
       </div>
     </>
@@ -491,6 +495,8 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
         className="agent-label"
         style={{ filter: filter, opacity: opacity }}
       >
+        <FontAwesomeIcon icon={faUserDoctor} size={"1x"} />
+        <br />
         {remainingSize}
       </span>
     </div>

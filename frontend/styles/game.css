@@ -190,20 +190,22 @@ h1 {
 }
 
 .Game-container-outer-left-empty {
-  min-width: calc(var(--tile-size-long) * 0.5);
-  min-height: calc(var(--tile-size-long) * 0.5);
+  /* alt. 0.5 */
+  min-width: calc(var(--tile-size-long) * 1);
+  min-height: calc(var(--tile-size-long) * 1);
 }
 
 .Game-container-outer-left-empty-mini {
-  min-width: calc(var(--tile-size-long-mini) * 0.5);
-  min-height: calc(var(--tile-size-long-mini) * 0.5);
+  /* alt. 0.5 */
+  min-width: calc(var(--tile-size-long-mini) * 1);
+  min-height: calc(var(--tile-size-long-mini) * 1);
 }
 
 .Game-container-ylabels,
 .Game-container-ylabels-inner {
   display: flex;
   flex-direction: column;
-  min-width: calc(var(--tile-size-long) * 0.5);
+  /* min-width: calc(var(--tile-size-long) * 0.5); */
 }
 
 .Game-container-ylabels,
@@ -215,21 +217,23 @@ h1 {
 .Game-container-ylabels-inner-mini {
   display: flex;
   flex-direction: column;
-  min-width: calc(var(--tile-size-long-mini) * 0.5);
+  /* min-width: calc(var(--tile-size-long-mini) * 0.5); */
 }
 
 .Game-container-xlabels,
 .Game-container-xlabels-inner {
+  /* alt. 0.5 */
   display: flex;
   flex-direction: row;
-  min-height: calc(var(--tile-size-long) * 0.5);
+  min-height: calc(var(--tile-size-long) * 1);
 }
 
 .Game-container-xlabels-mini,
 .Game-container-xlabels-inner-mini {
+  /* alt. 0.5 */
   display: flex;
   flex-direction: row;
-  min-height: calc(var(--tile-size-long-mini) * 0.5);
+  min-height: calc(var(--tile-size-long-mini) * 1);
 }
 
 .Game-container-xlabels,

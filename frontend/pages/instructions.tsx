@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import { faUserDoctor, faBed } from "@fortawesome/free-solid-svg-icons";
 import { faUserDoctor, faBed } from "@fortawesome/free-solid-svg-icons";
 
 const cmap = [
@@ -386,7 +385,7 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
           className="task-label-mini"
           style={{ filter: filter, opacity: opacity }}
         >
-          {size}
+          {size} <FontAwesomeIcon icon={faBed} color={color} size={"1x"} />
         </span>
       </div>
     </>
@@ -417,6 +416,8 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
         className="agent-label-mini"
         style={{ filter: filter, opacity: opacity }}
       >
+        <FontAwesomeIcon icon={faUserDoctor} size={"1x"} />
+        <br />
         {remainingSize}
       </span>
     </div>
