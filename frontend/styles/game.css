@@ -177,12 +177,14 @@ h1 {
   max-width: var(--box-size-mini);
 }
 
-.Game-container-outer-left {
+.Game-container-outer-left,
+.Game-container-outer-left-mini {
   display: flex;
   flex-direction: column;
 }
 
-.Game-container-outer-right {
+.Game-container-outer-right,
+.Game-container-outer-right-mini {
   display: flex;
   flex-direction: column;
 }
@@ -244,17 +246,20 @@ h1 {
   align-content: center;
 }
 
-.Game-container-inner-left {
+.Game-container-inner-left,
+.Game-container-inner-left-mini {
   display: flex;
   flex-direction: column;
 }
 
-.Game-container-inner-middle {
+.Game-container-inner-middle,
+.Game-container-inner-middle-mini {
   display: flex;
   flex-direction: column;
 }
 
-.Game-container-inner-right {
+.Game-container-inner-right,
+.Game-container-inner-right-mini {
   flex-direction: column;
   width: var(--tile-size-long);
   max-width: 100%;
@@ -299,13 +304,9 @@ h1 {
   width: var(--tile-size);
 }
 
-.agent-label {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  z-index: 999;
-  font-size: 3vmin;
+.agent-label-outer-mini {
+  position: relative;
+  width: var(--tile-size-mini);
 }
 
 .Agent-tile-inner-capacity {
@@ -364,13 +365,37 @@ h1 {
   height: var(--tile-size);
 }
 
-.task-label {
+.task-label-outer-mini {
+  position: relative;
+  height: var(--tile-size-mini);
+}
+
+.task-label,
+.task-label-mini {
   position: absolute;
   right: 10%;
   top: 50%;
   transform: translate(0%, -50%);
   z-index: 999;
-  font-size: 3vmin;
+}
+
+.agent-label,
+.agent-label-mini {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  z-index: 999;
+}
+
+.task-label,
+.agent-label {
+  font-size: 1.33vmax;
+}
+
+.task-label-mini,
+.agent-label-mini {
+  font-size: 1vmax;
 }
 
 .Task-tile-inner {

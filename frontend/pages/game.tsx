@@ -237,7 +237,6 @@ const Game: React.FC = () => {
                 })}
               </div>
             </div>
-
             <div className="Game-container-inner">
               <div
                 className="Game-container-inner-left"
@@ -375,28 +374,68 @@ const TaskTile: React.FC<PropsTaskTile> = (props) => {
     filter = "grayscale(50%)";
   }
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div className="Task-tile">
-          <div
-            style={{
-              width: String(size).concat("%"),
-              backgroundColor: color,
-              filter: filter,
-              opacity: opacity,
-            }}
-            className="Task-tile-inner"
-          ></div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <div className="Task-tile">
+        <div
+          style={{
+            width: String(size).concat("%"),
+            backgroundColor: color,
+            filter: filter,
+            opacity: opacity,
+          }}
+          className="Task-tile-inner"
+        ></div>
+      </div>
+    </div>
+  );
+};
+
+interface PropsAgentTile {
+  size: number;
+  activeTasks: number[];
+  tasks: Array<number>;
+}
+
+const AgentTile: React.FC<PropsAgentTile> = (props) => {
+  const { size, activeTasks, tasks } = props;
+
+  const remainingSize =
+    size - sumOfArray(activeTasks.map((task) => tasks[task]));
+  let opacity: number = 1;
+  let filter: string = "";
+  if (remainingSize === 0) {
+    opacity = 0.2;
+    filter = "grayscale(50%)";
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div className="Agent-tile">
+        <div
+          style={{ height: String(size).concat("%") }}
+          className="Agent-tile-inner-capacity"
+        ></div>
+        <div className="Agent-tile-load-container">
+          {activeTasks.map((task, idx) => (
+            <div
+              key={idx}
+              className="Agent-tile-load"
+              style={{
+                minHeight: String(tasks[task]).concat("%"),
+                backgroundColor: cmap[task],
+              }}
+            ></div>
+          ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -454,48 +493,6 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
       >
         {remainingSize}
       </span>
-    </div>
-  );
-};
-
-interface PropsAgentTile {
-  size: number;
-  activeTasks: number[];
-  tasks: Array<number>;
-}
-
-const AgentTile: React.FC<PropsAgentTile> = (props) => {
-  const { size, activeTasks, tasks } = props;
-
-  const remainingSize =
-    size - sumOfArray(activeTasks.map((task) => tasks[task]));
-  let opacity: number = 1;
-  let filter: string = "";
-  if (remainingSize === 0) {
-    opacity = 0.2;
-    filter = "grayscale(50%)";
-  }
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <div className="Agent-tile">
-        <div
-          style={{ height: String(size).concat("%") }}
-          className="Agent-tile-inner-capacity"
-        ></div>
-        <div className="Agent-tile-load-container">
-          {activeTasks.map((task, idx) => (
-            <div
-              key={idx}
-              className="Agent-tile-load"
-              style={{
-                minHeight: String(tasks[task]).concat("%"),
-                backgroundColor: cmap[task],
-              }}
-            ></div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };

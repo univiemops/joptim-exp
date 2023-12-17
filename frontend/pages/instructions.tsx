@@ -154,9 +154,6 @@ const TaskTileMini: React.FC<PropsTaskTile> = (props) => {
         alignItems: "center",
       }}
     >
-      <span style={{ filter: filter, opacity: opacity }}>
-        {size} <FontAwesomeIcon icon={faBed} color={color} />
-      </span>
       <div className="Task-tile-mini">
         <div
           style={{
@@ -192,10 +189,6 @@ const AgentTileMini: React.FC<PropsAgentTile> = (props) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <FontAwesomeIcon icon={faUserDoctor} color={"#5b5b5b"} />
-      <span style={{ filter: filter, opacity: opacity }}>{remainingSize}</span>
-
-      {/* <span style={{ fontSize: 16 }}>/{size}</span> */}
       <div className="Agent-tile-mini">
         <div
           style={{ height: String(size).concat("%") }}
@@ -218,16 +211,6 @@ const AgentTileMini: React.FC<PropsAgentTile> = (props) => {
   );
 };
 
-const EmptyTileMini = () => {
-  return (
-    <div className="Arrow-tile">
-      <span>↱</span>
-      <br />
-      <div style={{ fontSize: "20px", color: "white" }}> .</div>
-      <div className="Empty-tile-mini"></div>
-    </div>
-  );
-};
 const GameContainer = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([70, 55, 45, 40, 20, 10]);
@@ -278,62 +261,176 @@ const GameContainer = () => {
   };
 
   return (
-    <div className="Game-container-mini">
-      <div className="Game-container-left">
-        <EmptyTileMini />
-        {tasks.map((size, idx) => {
-          const assigned =
-            assignments.filter((innerArray) => innerArray[0] === idx).length ===
-            1;
-          return (
-            <TaskTileMini
-              key={idx}
-              size={size}
-              color={cmap[idx]}
-              assigned={assigned}
-            />
-          );
-        })}
-      </div>
-      <div className="Game-container-middle">
-        <div className="Tile-row-agents">
-          {agents.map((size, i) => {
-            const activeTasks = assignments
-              .filter((innerArray) => innerArray[1] === i)
-              .map((innerArray) => innerArray[0]);
-            return (
-              <AgentTileMini
-                key={i}
-                size={size}
-                activeTasks={activeTasks}
-                tasks={tasks}
-              />
-            );
-          })}
+    <div className="Game-container-outer-mini">
+      <div className="Game-container-outer-left-mini">
+        <div className="Game-container-outer-left-empty-mini"></div>
+        <div className="Game-container-ylabels-mini">
+          <EmptyTileYMini />
+          <div className="Game-container-ylabels-inner-mini">
+            {tasks.map((size, idx) => {
+              const assigned =
+                assignments.filter((innerArray) => innerArray[0] === idx)
+                  .length === 1;
+              return (
+                <YLabelTile
+                  key={idx}
+                  size={size}
+                  color={cmap[idx]}
+                  assigned={assigned}
+                />
+              );
+            })}
+          </div>
         </div>
-        <div className="Tile-container">
-          {tasks.map((_, i) => (
-            <div key={i} className="Tile-row">
-              {agents.map((_, j) => {
-                let active = false;
-                if (
-                  assignments.findIndex((a) => a[0] === i && a[1] === j) !== -1
-                ) {
-                  active = true;
-                }
-
+      </div>
+      <div className="Game-container-outer-right-mini">
+        <div className="Game-container-xlabels-mini">
+          <EmptyTileXMini />
+          <div className="Game-container-xlabels-inner-mini">
+            {agents.map((size, i) => {
+              const activeTasks = assignments
+                .filter((innerArray) => innerArray[1] === i)
+                .map((innerArray) => innerArray[0]);
+              return (
+                <XLabelTile
+                  key={i}
+                  size={size}
+                  activeTasks={activeTasks}
+                  tasks={tasks}
+                />
+              );
+            })}
+          </div>
+        </div>
+        <div className="Game-container-inner-mini">
+          <div className="Game-container-inner-left-mini">
+            <EmptyTileMini />
+            {tasks.map((size, idx) => {
+              const assigned =
+                assignments.filter((innerArray) => innerArray[0] === idx)
+                  .length === 1;
+              return (
+                <TaskTileMini
+                  key={idx}
+                  size={size}
+                  color={cmap[idx]}
+                  assigned={assigned}
+                />
+              );
+            })}
+          </div>
+          <div className="Game-container-inner-middle">
+            <div className="Tile-row-agents">
+              {agents.map((size, i) => {
+                const activeTasks = assignments
+                  .filter((innerArray) => innerArray[1] === i)
+                  .map((innerArray) => innerArray[0]);
                 return (
-                  <AssignTileMini
-                    key={j}
-                    active={active}
-                    onClick={(e) => handleTileClick(e, [i, j])}
+                  <AgentTileMini
+                    key={i}
+                    size={size}
+                    activeTasks={activeTasks}
+                    tasks={tasks}
                   />
                 );
               })}
             </div>
-          ))}
+            <div className="Tile-container">
+              {tasks.map((_, i) => (
+                <div key={i} className="Tile-row">
+                  {agents.map((_, j) => {
+                    let active = false;
+                    if (
+                      assignments.findIndex((a) => a[0] === i && a[1] === j) !==
+                      -1
+                    ) {
+                      active = true;
+                    }
+
+                    return (
+                      <AssignTileMini
+                        key={j}
+                        active={active}
+                        onClick={(e) => handleTileClick(e, [i, j])}
+                      />
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
+};
+
+interface PropsYLabelTile {
+  size: number;
+  color: string;
+  assigned: boolean;
+}
+
+const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
+  const { size, color, assigned } = props;
+  let opacity: number = 1;
+  let filter: string = "";
+  if (assigned) {
+    opacity = 0.2;
+    filter = "grayscale(50%)";
+  }
+  return (
+    <>
+      <div className="task-label-outer-mini">
+        <span
+          className="task-label-mini"
+          style={{ filter: filter, opacity: opacity }}
+        >
+          {size}
+        </span>
+      </div>
+    </>
+  );
+};
+
+interface PropsXLabelTile {
+  size: number;
+  activeTasks: number[];
+  tasks: Array<number>;
+}
+
+const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
+  const { size, activeTasks, tasks } = props;
+
+  const remainingSize =
+    size - sumOfArray(activeTasks.map((task) => tasks[task]));
+  let opacity: number = 1;
+  let filter: string = "";
+  if (remainingSize === 0) {
+    opacity = 0.2;
+    filter = "grayscale(50%)";
+  }
+
+  return (
+    <div className="agent-label-outer-mini">
+      <span
+        className="agent-label-mini"
+        style={{ filter: filter, opacity: opacity }}
+      >
+        {remainingSize}
+      </span>
+    </div>
+  );
+};
+
+const EmptyTileMini = () => {
+  return <div className="Empty-tile-mini"></div>;
+};
+
+const EmptyTileYMini = () => {
+  return <div className="Empty-tile-y-mini"></div>;
+};
+
+const EmptyTileXMini = () => {
+  return <div className="Empty-tile-x-mini"></div>;
 };
