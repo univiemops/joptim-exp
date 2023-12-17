@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//import { faUserDoctor, faBed } from "@fortawesome/free-solid-svg-icons";
+import { faUserDoctor, faBed } from "@fortawesome/free-solid-svg-icons";
 
 const cmap = [
   "#CC6677",
@@ -31,16 +34,18 @@ export default function Instructions() {
           <h1>Instructions</h1>
 
           <p>
-            Welcome to the <b>Assignment Optimization Experiment</b>!
+            Welcome to the <b>Optimal Assignment Experiment</b>!
           </p>
           <p>
-            In this experiment, you will see a matrix in the center of the
-            screen with <b>tasks</b> (rows) and <b>agents</b> (columns). We want
-            you to assign each task to one of the agents. Note that agents can
-            take more than one task if they have the available resources (see
-            the height of their dashed bars). The tasks also have a certain
-            size, represented by the length of their bars, but can only be
-            assigned to 1 agent.
+            In the center of the screen you will se a matrix with{" "}
+            <b>patient (rows)</b> and <b>doctors (columns)</b>. Each doctor has
+            a fixed capacity and each patient a fixed need for care, indicated
+            by the numbers. Please try to assign each patient to one of the
+            doctors.{" "}
+          </p>
+          <p>
+            Note: Each doctor can take more than one patient if their capacity
+            allows it. Each patient can only be assigned once.
           </p>
           <div
             style={{
@@ -52,30 +57,30 @@ export default function Instructions() {
           >
             <p>
               <i>
-                <b>Example Matrix</b>
+                <b>Example Exercise</b>
               </i>
             </p>
             <div className="instructions-game-container-wrapper-outer">
-              <div className="instructions-text-agents">AGENTS</div>
+              {/* <div className="instructions-text-agents">DOCTORS</div> */}
               <div className="instructions-game-container-wrapper">
-                <div className="instructions-text-tasks">TASKS</div>
+                {/* <div className="instructions-text-tasks">PATIENTS</div> */}
                 <GameContainer />
               </div>
             </div>
           </div>
 
           <p>
-            To assign a task to an agent, simply{" "}
+            To assign a patient to a doctor, simply{" "}
             <b>click on the corresponding cell</b> in the matrix. Once assigned,
             the cell will be marked with a circle. You can undo your assignment
-            by clicking on the same cell or assigning the task to a different
-            agent if it has sufficient resources. When you are satisfied with
+            by clicking on the same cell or assigning the patient to a different
+            doctor if it has sufficient resources. When you are satisfied with
             your assignments, click the Submit button to complete the trial.
           </p>
 
           <p>
             Please note that it will not always be possible to assign all of the
-            tasks, but <b>try to assign the tasks as best you can.</b>
+            patients, but <b>try to assign the patients as best you can.</b>
           </p>
           <p>Thank you for participating in this experiment!</p>
           <div className="instructions-footer">
@@ -149,7 +154,9 @@ const TaskTileMini: React.FC<PropsTaskTile> = (props) => {
         alignItems: "center",
       }}
     >
-      <span style={{ filter: filter, opacity: opacity }}>{size}</span>
+      <span style={{ filter: filter, opacity: opacity }}>
+        {size} <FontAwesomeIcon icon={faBed} color={color} />
+      </span>
       <div className="Task-tile-mini">
         <div
           style={{
@@ -185,7 +192,9 @@ const AgentTileMini: React.FC<PropsAgentTile> = (props) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
+      <FontAwesomeIcon icon={faUserDoctor} color={"#5b5b5b"} />
       <span style={{ filter: filter, opacity: opacity }}>{remainingSize}</span>
+
       {/* <span style={{ fontSize: 16 }}>/{size}</span> */}
       <div className="Agent-tile-mini">
         <div
@@ -211,16 +220,18 @@ const AgentTileMini: React.FC<PropsAgentTile> = (props) => {
 
 const EmptyTileMini = () => {
   return (
-    <div>
+    <div className="Arrow-tile">
       <span>↱</span>
+      <br />
+      <div style={{ fontSize: "20px", color: "white" }}> .</div>
       <div className="Empty-tile-mini"></div>
     </div>
   );
 };
 const GameContainer = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
-  const [tasks, setTasks] = useState<Array<number>>([20, 30, 70, 10, 40]);
-  const [agents, setAgents] = useState<Array<number>>([40, 80, 20, 50]);
+  const [tasks, setTasks] = useState<Array<number>>([70, 55, 45, 40, 20, 10]);
+  const [agents, setAgents] = useState<Array<number>>([80, 70, 60, 20]);
 
   if (typeof document !== "undefined") {
     document.documentElement.style.setProperty(`--box-size-mini`, `20rem`);
