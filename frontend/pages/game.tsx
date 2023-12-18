@@ -451,12 +451,10 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
   let opacity: number = 1;
   let filter: string = "";
   let animation: boolean = false;
-  let opacityTool: string = 0.3;
   if (assigned) {
     opacity = 0.2;
     filter = "grayscale(50%)";
     animation = true;
-    opacityTool = 1;
   }
   return (
     <>
@@ -464,14 +462,9 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
         <div className="task-label">
           <span style={{ filter: filter, opacity: opacity }}>{size} </span>
           <FontAwesomeIcon
-            // icon={faGear}
             icon={faBox}
-            //spin={animation}
-            // shake={animation}
-            //color={"gray"}
             color={color}
             size={"1x"}
-            //opacity={opacityTool}
             opacity={opacity}
           />
         </div>
@@ -513,7 +506,7 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
           icon={faShip}
           //color={"#f5c211"}
           color={"#241f31"}
-          beat={animation}
+          // beat={animation}
           size={"1x"}
           opacity={opacityWorker}
         />
