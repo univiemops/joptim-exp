@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHelmetSafety, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faShip } from "@fortawesome/free-solid-svg-icons";
 
 // prototype color map
 // const cmap = [
@@ -461,14 +462,18 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
     <>
       <div className="task-label-outer">
         <div className="task-label">
+          <span style={{ filter: filter, opacity: opacity }}>{size} </span>
           <FontAwesomeIcon
-            icon={faGear}
-            spin={animation}
-            color={"gray"}
+            // icon={faGear}
+            icon={faBox}
+            //spin={animation}
+            // shake={animation}
+            //color={"gray"}
+            color={color}
             size={"1x"}
-            opacity={opacityTool}
+            //opacity={opacityTool}
+            opacity={opacity}
           />
-          <span style={{ filter: filter, opacity: opacity }}> {size}</span>
         </div>
       </div>
     </>
@@ -489,14 +494,14 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   let opacity: number = 1;
   let opacityWorker: number = 0.6;
   let filter: string = "";
-  let beat: boolean = false;
+  let animation: boolean = false;
   if (remainingSize === 0) {
     opacity = 0.2;
     filter = "grayscale(50%)";
   }
 
   if (remainingSize !== size) {
-    beat = true;
+    animation = true;
     opacityWorker = 1;
   }
 
@@ -504,9 +509,11 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
     <div className="agent-label-outer">
       <div className="agent-label">
         <FontAwesomeIcon
-          icon={faHelmetSafety}
-          color={"#f5c211"}
-          beat={beat}
+          //icon={faHelmetSafety}
+          icon={faShip}
+          //color={"#f5c211"}
+          color={"#1a5fb4"}
+          beat={animation}
           size={"1x"}
           opacity={opacityWorker}
         />
