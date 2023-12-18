@@ -512,7 +512,7 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
           //icon={faHelmetSafety}
           icon={faShip}
           //color={"#f5c211"}
-          color={"#1a5fb4"}
+          color={"#241f31"}
           beat={animation}
           size={"1x"}
           opacity={opacityWorker}
