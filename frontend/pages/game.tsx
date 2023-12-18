@@ -2,11 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUserDoctor,
-  faBed,
-  faDotCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHelmetSafety, faHammer } from "@fortawesome/free-solid-svg-icons";
 
 // prototype color map
 // const cmap = [
@@ -453,19 +449,27 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
   const { size, color, assigned } = props;
   let opacity: number = 1;
   let filter: string = "";
+  let shake: boolean = false;
+  let opacityTool: string = 0.3;
   if (assigned) {
     opacity = 0.2;
     filter = "grayscale(50%)";
+    shake = true;
+    opacityTool = 1;
   }
   return (
     <>
       <div className="task-label-outer">
-        <span
-          className="task-label"
-          style={{ filter: filter, opacity: opacity }}
-        >
-          {size} <FontAwesomeIcon icon={faBed} color={color} size={"1x"} />
-        </span>
+        <div className="task-label">
+          <FontAwesomeIcon
+            icon={faHammer}
+            shake={shake}
+            color={"gray"}
+            size={"1x"}
+            opacity={opacityTool}
+          />
+          <span style={{ filter: filter, opacity: opacity }}> {size}</span>
+        </div>
       </div>
     </>
   );
@@ -483,22 +487,34 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   const remainingSize =
     size - sumOfArray(activeTasks.map((task) => tasks[task]));
   let opacity: number = 1;
+  let opacityWorker: number = 0.6;
   let filter: string = "";
+  let beat: boolean = false;
   if (remainingSize === 0) {
     opacity = 0.2;
     filter = "grayscale(50%)";
   }
 
+  if (remainingSize !== size) {
+    beat = true;
+    opacityWorker = 1;
+  }
+
   return (
     <div className="agent-label-outer">
-      <span
-        className="agent-label"
-        style={{ filter: filter, opacity: opacity }}
-      >
-        <FontAwesomeIcon icon={faUserDoctor} size={"1x"} />
+      <div className="agent-label">
+        <FontAwesomeIcon
+          icon={faHelmetSafety}
+          color={"#f5c211"}
+          beat={beat}
+          size={"1x"}
+          opacity={opacityWorker}
+        />
         <br />
-        {remainingSize}
-      </span>
+        <span style={{ filter: filter, opacity: opacity }}>
+          {remainingSize}
+        </span>
+      </div>
     </div>
   );
 };
