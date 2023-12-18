@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHelmetSafety, faHammer } from "@fortawesome/free-solid-svg-icons";
+import { faHelmetSafety, faGear } from "@fortawesome/free-solid-svg-icons";
 
 // prototype color map
 // const cmap = [
@@ -449,12 +449,12 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
   const { size, color, assigned } = props;
   let opacity: number = 1;
   let filter: string = "";
-  let shake: boolean = false;
+  let animation: boolean = false;
   let opacityTool: string = 0.3;
   if (assigned) {
     opacity = 0.2;
     filter = "grayscale(50%)";
-    shake = true;
+    animation = true;
     opacityTool = 1;
   }
   return (
@@ -462,8 +462,8 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
       <div className="task-label-outer">
         <div className="task-label">
           <FontAwesomeIcon
-            icon={faHammer}
-            shake={shake}
+            icon={faGear}
+            spin={animation}
             color={"gray"}
             size={"1x"}
             opacity={opacityTool}
