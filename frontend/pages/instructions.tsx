@@ -145,13 +145,13 @@ const TaskTileMini: React.FC<PropsTaskTile> = (props) => {
   );
 };
 
-interface PropsAgentTile {
+interface PropsWorkerTile {
   size: number;
   activeTasks: number[];
   tasks: Array<number>;
 }
 
-const AgentTileMini: React.FC<PropsAgentTile> = (props) => {
+const WorkerTileMini: React.FC<PropsWorkerTile> = (props) => {
   const { size, activeTasks, tasks } = props;
 
   const remainingSize =
@@ -165,16 +165,16 @@ const AgentTileMini: React.FC<PropsAgentTile> = (props) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <div className="Agent-tile-mini">
+      <div className="Worker-tile-mini">
         <div
           style={{ height: String(size).concat("%") }}
-          className="Agent-tile-inner-capacity"
+          className="Worker-tile-inner-capacity"
         ></div>
-        <div className="Agent-tile-load-container">
+        <div className="Worker-tile-load-container">
           {activeTasks.map((task, idx) => (
             <div
               key={idx}
-              className="Agent-tile-load"
+              className="Worker-tile-load"
               style={{
                 minHeight: String(tasks[task]).concat("%"),
                 backgroundColor: cmap[task],
@@ -190,7 +190,7 @@ const AgentTileMini: React.FC<PropsAgentTile> = (props) => {
 const GameContainer = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([70, 55, 45, 40, 20, 10]);
-  const [agents, setAgents] = useState<Array<number>>([80, 70, 60, 20]);
+  const [workers, setWorkers] = useState<Array<number>>([80, 70, 60, 20]);
 
   if (typeof document !== "undefined") {
     document.documentElement.style.setProperty(`--box-size-mini`, `20rem`);
@@ -199,7 +199,7 @@ const GameContainer = () => {
     document.documentElement.style.setProperty(`--rows`, `${tasks.length}`);
   }
   if (typeof document !== "undefined") {
-    document.documentElement.style.setProperty(`--cols`, `${agents.length}`);
+    document.documentElement.style.setProperty(`--cols`, `${workers.length}`);
   }
   const handleTileClick = (
     e: React.MouseEvent<HTMLDivElement>,
@@ -211,7 +211,7 @@ const GameContainer = () => {
     );
     if (index === -1) {
       let indexOther = newAssignments.findIndex((a) => a[0] === coordinates[0]);
-      const capacity = agents[coordinates[1]];
+      const capacity = workers[coordinates[1]];
       const oldLoad = assignments
         .filter((a) => a[1] === coordinates[1])
         .map((a) => tasks[a[0]])
@@ -263,7 +263,7 @@ const GameContainer = () => {
         <div className="Game-container-xlabels-mini">
           <EmptyTileXMini />
           <div className="Game-container-xlabels-inner-mini">
-            {agents.map((size, i) => {
+            {workers.map((size, i) => {
               const activeTasks = assignments
                 .filter((innerArray) => innerArray[1] === i)
                 .map((innerArray) => innerArray[0]);
@@ -296,13 +296,13 @@ const GameContainer = () => {
             })}
           </div>
           <div className="Game-container-inner-middle">
-            <div className="Tile-row-agents">
-              {agents.map((size, i) => {
+            <div className="Tile-row-workers">
+              {workers.map((size, i) => {
                 const activeTasks = assignments
                   .filter((innerArray) => innerArray[1] === i)
                   .map((innerArray) => innerArray[0]);
                 return (
-                  <AgentTileMini
+                  <WorkerTileMini
                     key={i}
                     size={size}
                     activeTasks={activeTasks}
@@ -314,7 +314,7 @@ const GameContainer = () => {
             <div className="Tile-container">
               {tasks.map((_, i) => (
                 <div key={i} className="Tile-row">
-                  {agents.map((_, j) => {
+                  {workers.map((_, j) => {
                     let active = false;
                     if (
                       assignments.findIndex((a) => a[0] === i && a[1] === j) !==
@@ -388,9 +388,9 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   }
 
   return (
-    <div className="agent-label-outer-mini">
+    <div className="Worker-label-outer-mini">
       <span
-        className="agent-label-mini"
+        className="Worker-label-mini"
         style={{ filter: filter, opacity: opacity }}
       >
         {remainingSize}
