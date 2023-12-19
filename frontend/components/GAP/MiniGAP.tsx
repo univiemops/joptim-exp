@@ -10,6 +10,7 @@ import { WorkerTileMini } from "./Tiles/WorkerTile";
 import { XLabelTileMini, YLabelTileMini } from "./Tiles/LabelTiles";
 import { AssignTileMini } from "./Tiles/AssignTile";
 import { GAPProps } from "./types";
+import styles from "./GAP.module.css";
 
 const MiniGAP: React.FC<GAPProps> = ({
   loading,
@@ -19,12 +20,12 @@ const MiniGAP: React.FC<GAPProps> = ({
   handleTileClick,
 }) => {
   return (
-    <div className="Game-container-outer-mini">
-      <div className="Game-container-outer-left-mini">
-        <div className="Game-container-outer-left-empty-mini"></div>
-        <div className="Game-container-ylabels-mini">
+    <div className={styles.container_outer_mini}>
+      <div className={styles.container_outer_left_mini}>
+        <div className={styles.container_outer_left_empty_mini}></div>
+        <div className={styles.container_ylabels_mini}>
           <EmptyTileYMini />
-          <div className="Game-container-ylabels-inner-mini">
+          <div className={styles.container_ylabels_inner_mini}>
             {tasks.map((size, idx) => {
               const assigned =
                 assignments.filter((innerArray) => innerArray[0] === idx)
@@ -41,10 +42,10 @@ const MiniGAP: React.FC<GAPProps> = ({
           </div>
         </div>
       </div>
-      <div className="Game-container-outer-right-mini">
-        <div className="Game-container-xlabels-mini">
+      <div className={styles.container_outer_right_mini}>
+        <div className={styles.container_xlabels_mini}>
           <EmptyTileXMini />
-          <div className="Game-container-xlabels-inner-mini">
+          <div className={styles.container_xlabels_inner_mini}>
             {workers.map((size, i) => {
               const activeTasks = assignments
                 .filter((innerArray) => innerArray[1] === i)
@@ -60,8 +61,8 @@ const MiniGAP: React.FC<GAPProps> = ({
             })}
           </div>
         </div>
-        <div className="Game-container-inner-mini">
-          <div className="Game-container-inner-left-mini">
+        <div className={styles.container_inner_mini}>
+          <div className={styles.container_inner_left_mini}>
             <EmptyTileMini />
             {tasks.map((size, idx) => {
               const assigned =
@@ -77,8 +78,8 @@ const MiniGAP: React.FC<GAPProps> = ({
               );
             })}
           </div>
-          <div className="Game-container-inner-middle">
-            <div className="Tile-row-workers">
+          <div className={styles.container_inner_middle}>
+            <div className={styles.tile_row_workers}>
               {workers.map((size, i) => {
                 const activeTasks = assignments
                   .filter((innerArray) => innerArray[1] === i)
@@ -93,9 +94,9 @@ const MiniGAP: React.FC<GAPProps> = ({
                 );
               })}
             </div>
-            <div className="Tile-container">
+            <div className={styles.tile_container}>
               {tasks.map((_, i) => (
-                <div key={i} className="Tile-row">
+                <div key={i} className={styles.tile_row}>
                   {workers.map((_, j) => {
                     let active = false;
                     if (
