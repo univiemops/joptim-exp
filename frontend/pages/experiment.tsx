@@ -11,6 +11,8 @@ console.log(
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
+let startTime: number | null = null;
+
 const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
@@ -19,7 +21,8 @@ const Experiment: React.FC = () => {
   const [trial, setTrial] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (reactionTime: number) => {
+    console.log(`Reaction time: ${reactionTime} milliseconds`);
     try {
       const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
         method: "POST",
@@ -49,7 +52,16 @@ const Experiment: React.FC = () => {
   // runs at startup and every time trial changes
   useEffect(() => {
     setLoading(true);
-    handleSubmit();
+    console.log("trial no.", trial);
+    if (trial > 1) {
+      if (startTime !== null) {
+        const endTime: number = performance.now();
+        const reactionTime: number = endTime - startTime;
+        startTime = null;
+
+        handleSubmit(reactionTime);
+      }
+    }
     const fetchGame = () => {
       fetch(`${OPTIONAL_SUBURI}/game/`)
         .then((response) => response.json())
@@ -93,6 +105,7 @@ const Experiment: React.FC = () => {
         });
     };
     fetchGame();
+    startTime = performance.now();
   }, [trial]);
 
   const handleTileClick = (

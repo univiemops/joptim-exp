@@ -11,11 +11,6 @@
   height: var(--tile-size-long);
 }
 
-.worker_label_outer {
-  position: relative;
-  width: var(--tile-size);
-}
-
 .worker_tile_inner_capacity {
   position: absolute;
   background-color: white;
@@ -71,6 +66,11 @@
   z-index: 999;
 }
 
+.worker_label_outer {
+  position: relative;
+  width: var(--tile-size);
+}
+
 .worker_label {
   position: absolute;
   bottom: 10%;
@@ -79,9 +79,12 @@
   z-index: 999;
 }
 
-.task_label,
-.worker_label {
+.task_label {
   font-size: 1.33vmax;
+}
+
+.worker_label {
+  font-size: 1vmax;
 }
 
 .task_tile_inner {

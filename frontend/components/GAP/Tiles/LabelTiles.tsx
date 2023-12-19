@@ -38,15 +38,16 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   return (
     <div className={styles.worker_label_outer}>
       <div className={styles.worker_label}>
-        <FontAwesomeIcon
-          icon={faBoxOpen}
-          color={"#241f31"}
-          size={"1x"}
-          opacity={opacityWorker}
-        />
-        <br />
-        <span style={{ filter: filter, opacity: opacity }}>
-          {remainingSize}
+        <span style={{ filter: filter, opacity: 1 }}>
+          {size - remainingSize}
+          <br />
+          {size}
+          <FontAwesomeIcon
+            icon={faBoxOpen}
+            color={"#241f31"}
+            size={"1x"}
+            opacity={1}
+          />
         </span>
       </div>
     </div>
