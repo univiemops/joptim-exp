@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@mui/material";
-import MiniGAPWrapper from "@/components/GAP/MiniGAPWrapper";
+import InstructionGAPWrapper from "@/components/GAP/InstructionGAPWrapper";
 
 export default function Instructions() {
   return (
@@ -37,7 +37,7 @@ export default function Instructions() {
             </p>
             <div className="instructions-game-container-wrapper-outer">
               <div className="instructions-game-container-wrapper">
-                <MiniGAPWrapper />
+                <InstructionGAPWrapper />
               </div>
             </div>
           </div>

@@ -1,5 +1,4 @@
-.worker_tile,
-.worker_tile_mini {
+.worker_tile {
   position: relative;
   background-color: white;
   border-color: white;
@@ -8,26 +7,13 @@
   font-size: 16pt;
   display: flex;
   align-items: flex-end;
-}
-
-.worker_tile {
   width: var(--tile-size);
   height: var(--tile-size-long);
-}
-
-.worker_tile_mini {
-  width: var(--tile-size_mini);
-  height: var(--tile-size-long_mini);
 }
 
 .worker_label_outer {
   position: relative;
   width: var(--tile-size);
-}
-
-.worker_label_outer_mini {
-  position: relative;
-  width: var(--tile-size_mini);
 }
 
 .worker_tile_inner_capacity {
@@ -42,7 +28,7 @@
   z-index: 100;
 }
 
-.worker_tile_load-container {
+.worker_tile_load_container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -59,8 +45,7 @@
   opacity: 0.95;
 }
 
-.task_tile,
-.task_tile_mini {
+.task_tile {
   background-color: white;
   border-color: white;
   border-style: solid;
@@ -69,16 +54,8 @@
   display: flex;
   justify-content: flex-end;
   opacity: 0.95;
-}
-
-.task_tile {
   width: var(--tile-size-long);
   height: var(--tile-size);
-}
-
-.task_tile_mini {
-  width: var(--tile-size-long_mini);
-  height: var(--tile-size_mini);
 }
 
 .task_label_outer {
@@ -86,13 +63,7 @@
   height: var(--tile-size);
 }
 
-.task_label_outer_mini {
-  position: relative;
-  height: var(--tile-size_mini);
-}
-
-.task_label,
-.task_label_mini {
+.task_label {
   position: absolute;
   right: 10%;
   top: 50%;
@@ -100,8 +71,7 @@
   z-index: 999;
 }
 
-.worker_label,
-.worker_label_mini {
+.worker_label {
   position: absolute;
   bottom: 10%;
   left: 50%;
@@ -112,11 +82,6 @@
 .task_label,
 .worker_label {
   font-size: 1.33vmax;
-}
-
-.task_label_mini,
-.worker_label_mini {
-  font-size: 1vmax;
 }
 
 .task_tile_inner {
@@ -130,22 +95,11 @@
   height: calc(var(--tile-size-long) * 1);
 }
 
-.empty_tile_mini,
-.empty_tile_y_mini {
-  width: 100%;
-  height: calc(var(--tile-size-long_mini) * 1);
-}
-
 .empty_tile_x {
   width: calc(var(--tile-size-long) * 1);
 }
 
-.empty_tile_x_mini {
-  width: calc(var(--tile-size-long_mini) * 1);
-}
-
-.tile,
-.tile_mini {
+.tile {
   display: flex;
   background-color: white;
   border-color: gray;
@@ -153,14 +107,6 @@
   border-width: 1px;
   justify-content: flex-end;
   cursor: pointer;
-}
-
-.tile {
   width: var(--tile-size);
   height: var(--tile-size);
-}
-
-.tile_mini {
-  width: var(--tile-size_mini);
-  height: var(--tile-size_mini);
 }
