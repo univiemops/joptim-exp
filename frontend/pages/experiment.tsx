@@ -14,7 +14,7 @@ const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
-  const [agents, setAgents] = useState<Array<number>>([]);
+  const [workers, setWorkers] = useState<Array<number>>([]);
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [trial, setTrial] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,7 +29,7 @@ const Experiment: React.FC = () => {
         body: JSON.stringify({
           result: {
             tasks: tasks,
-            agents: agents,
+            workers: workers,
             assignments: assignments,
           },
         }),
@@ -56,7 +56,7 @@ const Experiment: React.FC = () => {
         .then((response) => response.json())
         .then((json) => {
           setTasks(json["tasks"]);
-          setAgents(json["agents"]);
+          setWorkers(json["agents"]);
           setDatabaseConnected(true);
           setAssignments([]);
           setLoading(false);
@@ -81,12 +81,12 @@ const Experiment: React.FC = () => {
             () => 10 * getRandomIntInclusive(1, 9)
           );
 
-          const agentsFallback = Array.from(
+          const workersFallback = Array.from(
             { length: n },
             () => 10 * getRandomIntInclusive(1, 10)
           );
           setTasks(tasksFallback);
-          setAgents(agentsFallback);
+          setWorkers(workersFallback);
           setDatabaseConnected(false);
           setAssignments([]);
           setLoading(false);
@@ -109,7 +109,7 @@ const Experiment: React.FC = () => {
         let indexOther = newAssignments.findIndex(
           (a) => a[0] === coordinates[0]
         );
-        const capacity = agents[coordinates[1]];
+        const capacity = workers[coordinates[1]];
         const oldLoad = assignments
           .filter((a) => a[1] === coordinates[1])
           .map((a) => tasks[a[0]])
@@ -135,7 +135,7 @@ const Experiment: React.FC = () => {
     }
   };
 
-  return agents.length > 0 && tasks.length > 0 ? (
+  return workers.length > 0 && tasks.length > 0 ? (
     <div className="App">
       <div className="App-header">
         <h3>
@@ -150,7 +150,7 @@ const Experiment: React.FC = () => {
           loading={loading}
           tasks={tasks}
           assignments={assignments}
-          agents={agents}
+          workers={workers}
           handleTileClick={handleTileClick}
         />{" "}
         <Button

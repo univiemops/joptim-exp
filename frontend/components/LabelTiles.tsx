@@ -29,8 +29,8 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   }
 
   return (
-    <div className="agent-label-outer">
-      <div className="agent-label">
+    <div className="Worker-label-outer">
+      <div className="Worker-label">
         <FontAwesomeIcon
           icon={faBoxOpen}
           color={"#241f31"}

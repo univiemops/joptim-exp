@@ -10,12 +10,12 @@ const GAP: React.FC<{
   loading: boolean;
   tasks: number[];
   assignments: [number, number][];
-  agents: number[];
+  workers: number[];
   handleTileClick: (
     e: React.MouseEvent<HTMLDivElement>,
     coordinates: [number, number]
   ) => void;
-}> = ({ loading, tasks, assignments, agents, handleTileClick }) => {
+}> = ({ loading, tasks, assignments, workers, handleTileClick }) => {
   return (
     <div className="Game-container-outer">
       <div className="Game-container-outer-left">
@@ -50,7 +50,7 @@ const GAP: React.FC<{
             className="Game-container-xlabels-inner"
             style={loading ? { opacity: 0.3 } : {}}
           >
-            {agents.map((size, i) => {
+            {workers.map((size, i) => {
               const activeTasks = assignments
                 .filter((innerArray) => innerArray[1] === i)
                 .map((innerArray) => innerArray[0]);
@@ -87,10 +87,10 @@ const GAP: React.FC<{
           </div>
           <div className="Game-container-inner-middle">
             <div
-              className="Tile-row-agents"
+              className="Tile-row-workers"
               style={loading ? { opacity: 0.3 } : {}}
             >
-              {agents.map((size, i) => {
+              {workers.map((size, i) => {
                 const activeTasks = assignments
                   .filter((innerArray) => innerArray[1] === i)
                   .map((innerArray) => innerArray[0]);
@@ -112,7 +112,7 @@ const GAP: React.FC<{
                   className="Tile-row"
                   style={loading ? { opacity: 0.3 } : {}}
                 >
-                  {agents.map((_, j) => {
+                  {workers.map((_, j) => {
                     let active = false;
                     if (
                       assignments.findIndex((a) => a[0] === i && a[1] === j) !==

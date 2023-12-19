@@ -123,7 +123,7 @@ div {
   align-items: flex-end;
 }
 
-.instructions-text-agents {
+.instructions-text-workers {
   height: var(--tile-size-mini);
   text-align: center;
   vertical-align: middle;
@@ -281,8 +281,8 @@ h1 {
   max-height: 100%;
 }
 
-.Agent-tile,
-.Agent-tile-mini {
+.Worker-tile,
+.Worker-tile-mini {
   position: relative;
   background-color: white;
   border-color: white;
@@ -293,27 +293,27 @@ h1 {
   align-items: flex-end;
 }
 
-.Agent-tile {
+.Worker-tile {
   width: var(--tile-size);
   height: var(--tile-size-long);
 }
 
-.Agent-tile-mini {
+.Worker-tile-mini {
   width: var(--tile-size-mini);
   height: var(--tile-size-long-mini);
 }
 
-.agent-label-outer {
+.Worker-label-outer {
   position: relative;
   width: var(--tile-size);
 }
 
-.agent-label-outer-mini {
+.Worker-label-outer-mini {
   position: relative;
   width: var(--tile-size-mini);
 }
 
-.Agent-tile-inner-capacity {
+.Worker-tile-inner-capacity {
   position: absolute;
   background-color: white;
   border-width: 1px 1px 0px 1px;
@@ -325,7 +325,7 @@ h1 {
   z-index: 100;
 }
 
-.Agent-tile-load-container {
+.Worker-tile-load-container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -335,7 +335,7 @@ h1 {
   z-index: 110;
 }
 
-.Agent-tile-load {
+.Worker-tile-load {
   width: 100%;
   display: flex;
   align-items: flex-end;
@@ -383,8 +383,8 @@ h1 {
   z-index: 999;
 }
 
-.agent-label,
-.agent-label-mini {
+.Worker-label,
+.Worker-label-mini {
   position: absolute;
   bottom: 10%;
   left: 50%;
@@ -393,12 +393,12 @@ h1 {
 }
 
 .task-label,
-.agent-label {
+.Worker-label {
   font-size: 1.33vmax;
 }
 
 .task-label-mini,
-.agent-label-mini {
+.Worker-label-mini {
   font-size: 1vmax;
 }
 
@@ -453,7 +453,7 @@ h1 {
   flex-direction: row;
 }
 
-.Tile-row-agents {
+.Tile-row-workers {
   display: flex;
   flex-direction: row;
 }

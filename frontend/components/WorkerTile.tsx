@@ -2,13 +2,13 @@ import React from "react";
 import { sumOfArray } from "@/utils/helperFunctions";
 import cmap from "@/constants/colors";
 
-interface PropsAgentTile {
+interface PropsWorkerTile {
   size: number;
   activeTasks: number[];
   tasks: Array<number>;
 }
 
-const WorkerTile: React.FC<PropsAgentTile> = (props) => {
+const WorkerTile: React.FC<PropsWorkerTile> = (props) => {
   const { size, activeTasks, tasks } = props;
 
   const remainingSize =
@@ -22,16 +22,16 @@ const WorkerTile: React.FC<PropsAgentTile> = (props) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <div className="Agent-tile">
+      <div className="Worker-tile">
         <div
           style={{ height: String(size).concat("%") }}
-          className="Agent-tile-inner-capacity"
+          className="Worker-tile-inner-capacity"
         ></div>
-        <div className="Agent-tile-load-container">
+        <div className="Worker-tile-load-container">
           {activeTasks.map((task, idx) => (
             <div
               key={idx}
-              className="Agent-tile-load"
+              className="Worker-tile-load"
               style={{
                 minHeight: String(tasks[task]).concat("%"),
                 backgroundColor: cmap[task],
