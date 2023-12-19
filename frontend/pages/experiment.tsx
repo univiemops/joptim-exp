@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { getRandomIntInclusive } from "../utils/helperFunctions";
-import GAP from "../components/GAP";
+import GAP from "../components/GAP/GAP";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
@@ -42,7 +42,6 @@ const Experiment: React.FC = () => {
       const json = await res.json();
       console.log("json response from API", json);
     } catch (error) {
-      // Handle the error
       console.error(error);
     }
   };

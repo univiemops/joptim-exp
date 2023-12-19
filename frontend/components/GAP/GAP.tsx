@@ -1,29 +1,28 @@
 import React from "react";
-import cmap from "../constants/colors";
-import { EmptyTile, EmptyTileX, EmptyTileY } from "../components/EmptyTiles";
-import TaskTile from "../components/TaskTile";
-import WorkerTile from "../components/WorkerTile";
-import { XLabelTile, YLabelTile } from "../components/LabelTiles";
-import AssignTile from "../components/AssignTile";
+import cmap from "../../constants/colors";
+import { EmptyTile, EmptyTileX, EmptyTileY } from "./Tiles/EmptyTiles";
+import { TaskTile } from "./Tiles/TaskTile";
+import { WorkerTile } from "./Tiles/WorkerTile";
+import { XLabelTile, YLabelTile } from "./Tiles/LabelTiles";
+import { AssignTile } from "./Tiles/AssignTile";
+import { GAPProps } from "./types";
+import styles from "./GAP.module.css";
 
-const GAP: React.FC<{
-  loading: boolean;
-  tasks: number[];
-  assignments: [number, number][];
-  workers: number[];
-  handleTileClick: (
-    e: React.MouseEvent<HTMLDivElement>,
-    coordinates: [number, number]
-  ) => void;
-}> = ({ loading, tasks, assignments, workers, handleTileClick }) => {
+const GAP: React.FC<GAPProps> = ({
+  loading,
+  tasks,
+  assignments,
+  workers,
+  handleTileClick,
+}) => {
   return (
-    <div className="Game-container-outer">
-      <div className="Game-container-outer-left">
-        <div className="Game-container-outer-left-empty"></div>
-        <div className="Game-container-ylabels">
+    <div className={styles.outer}>
+      <div className={styles.outer_left}>
+        <div className={styles.outer_left_empty}></div>
+        <div className={styles.ylabels}>
           <EmptyTileY />
           <div
-            className="Game-container-ylabels-inner"
+            className={styles.ylabels_inner}
             style={loading ? { opacity: 0.3 } : {}}
           >
             {tasks.map((size, idx) => {
@@ -42,11 +41,11 @@ const GAP: React.FC<{
           </div>
         </div>
       </div>
-      <div className="Game-container-outer-right">
-        <div className="Game-container-xlabels">
+      <div className={styles.outer_right}>
+        <div className={styles.xlabels}>
           <EmptyTileX />
           <div
-            className="Game-container-xlabels-inner"
+            className={styles.xlabels_inner}
             style={loading ? { opacity: 0.3 } : {}}
           >
             {workers.map((size, i) => {
@@ -64,9 +63,9 @@ const GAP: React.FC<{
             })}
           </div>
         </div>
-        <div className="Game-container-inner">
+        <div className={styles.inner}>
           <div
-            className="Game-container-inner-left"
+            className={styles.inner_left}
             style={loading ? { opacity: 0.3 } : {}}
           >
             <EmptyTile />
@@ -84,9 +83,9 @@ const GAP: React.FC<{
               );
             })}
           </div>
-          <div className="Game-container-inner-middle">
+          <div className={styles.inner_middle}>
             <div
-              className="Tile-row-workers"
+              className={styles.tile_row_workers}
               style={loading ? { opacity: 0.3 } : {}}
             >
               {workers.map((size, i) => {
@@ -103,12 +102,12 @@ const GAP: React.FC<{
                 );
               })}
             </div>
-            <div className="Tile-container">
+            <div className={styles.tile_container}>
               {loading && <div className="loading-spinner"></div>}
               {tasks.map((_, i) => (
                 <div
                   key={i}
-                  className="Tile-row"
+                  className={styles.tile_row}
                   style={loading ? { opacity: 0.3 } : {}}
                 >
                   {workers.map((_, j) => {
@@ -132,7 +131,7 @@ const GAP: React.FC<{
               ))}
             </div>
           </div>
-          <div className="Game-container-inner-right"></div>
+          <div className={styles.inner_right}></div>
         </div>
       </div>
     </div>
