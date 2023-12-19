@@ -33,6 +33,7 @@ const Experiment: React.FC = () => {
             tasks: tasks,
             workers: workers,
             assignments: assignments,
+            //rt: reactionTime,
           },
         }),
       });
