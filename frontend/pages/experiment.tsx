@@ -139,11 +139,11 @@ const Experiment: React.FC = () => {
     <div className="App">
       <div className="App-header">
         <h3>
-          Assignment{" "}
+          Assign the books to{" "}
           <span
             style={databaseConnected ? { color: "green" } : { color: "black" }}
           >
-            Optimization
+            boxes
           </span>
         </h3>
         <GAP
