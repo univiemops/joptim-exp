@@ -10,7 +10,6 @@ console.log(
 );
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
-
 let startTime: number | null = null;
 
 const Experiment: React.FC = () => {
@@ -58,7 +57,6 @@ const Experiment: React.FC = () => {
         const endTime: number = performance.now();
         const reactionTime: number = endTime - startTime;
         startTime = null;
-
         handleSubmit(reactionTime);
       }
     }
