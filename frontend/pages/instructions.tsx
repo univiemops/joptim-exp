@@ -1,27 +1,8 @@
 import Link from "next/link";
 import { Button } from "@mui/material";
 import { useState, useEffect } from "react";
-
-const cmap = [
-  "#CC6677",
-  "#332288",
-  "#DDCC77",
-  "#117733",
-  "#88CCEE",
-  "#882255",
-  "#44AA99",
-  "#999933",
-  "#AA4499",
-  "#DDDDDD",
-];
-
-function sumOfArray(ar: Array<number>) {
-  var sum = 0;
-  for (var i = 0; i < ar.length; i++) {
-    if (typeof ar[i] == `number`) sum += ar[i];
-  }
-  return sum;
-}
+import cmap from "../constants/colors";
+import { sumOfArray } from "../utils/helperFunctions";
 
 export default function Instructions() {
   return (

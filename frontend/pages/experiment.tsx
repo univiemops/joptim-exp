@@ -1,43 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
+import cmap from "../constants/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHelmetSafety, faGear } from "@fortawesome/free-solid-svg-icons";
-import { faBox, faShip } from "@fortawesome/free-solid-svg-icons";
-
-// prototype color map
-// const cmap = [
-//  "#0077BB",
-//  "#EE7733",
-//  "#009988",
-//  "#EE3377",
-//  "#33BBEE",
-//  "#A71C49",
-//  "#CC3311",
-//  "#F6A800",
-//];
-
-// https://personal.sron.nl/~pault/#sec:qualitative
-const cmap = [
-  "#CC6677",
-  "#332288",
-  "#DDCC77",
-  "#117733",
-  "#88CCEE",
-  "#882255",
-  "#44AA99",
-  "#999933",
-  "#AA4499",
-  "#DDDDDD",
-];
-
-function sumOfArray(ar: Array<number>) {
-  var sum = 0;
-  for (var i = 0; i < ar.length; i++) {
-    if (typeof ar[i] == `number`) sum += ar[i];
-  }
-  return sum;
-}
+import { faBoxOpen, faBook } from "@fortawesome/free-solid-svg-icons";
+import { sumOfArray } from "../utils/helperFunctions";
 
 // const formatter = new Intl.NumberFormat("en-US", {
 //   minimumFractionDigits: 0,
@@ -451,10 +418,12 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
   let opacity: number = 1;
   let filter: string = "";
   let animation: boolean = false;
+  let opacityTool: number = 0.5;
   if (assigned) {
     opacity = 0.2;
     filter = "grayscale(50%)";
     animation = true;
+    opacityTool = 1.0;
   }
   return (
     <>
@@ -462,8 +431,13 @@ const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
         <div className="task-label">
           <span style={{ filter: filter, opacity: opacity }}>{size} </span>
           <FontAwesomeIcon
-            icon={faBox}
+            //icon={faBox}
+            icon={faBook}
+            //icon={faHammer}
             color={color}
+            //spin={animation}
+            //shake={animation}
+            //color="gray"
             size={"1x"}
             opacity={opacity}
           />
@@ -502,11 +476,11 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
     <div className="agent-label-outer">
       <div className="agent-label">
         <FontAwesomeIcon
-          //icon={faHelmetSafety}
-          icon={faShip}
+          icon={faBoxOpen}
+          //icon={faShip}
           //color={"#f5c211"}
           color={"#241f31"}
-          // beat={animation}
+          //beat={animation}
           size={"1x"}
           opacity={opacityWorker}
         />
