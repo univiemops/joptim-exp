@@ -2,10 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import cmap from "../constants/colors";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBoxOpen, faBook } from "@fortawesome/free-solid-svg-icons";
-import { sumOfArray, getRandomIntInclusive } from "../utils/helperFunctions";
+import { getRandomIntInclusive } from "../utils/helperFunctions";
 import { EmptyTile, EmptyTileX, EmptyTileY } from "../components/EmptyTiles";
+import TaskTile from "../components/TaskTile";
+import WorkerTile from "../components/WorkerTile";
+import { XLabelTile, YLabelTile } from "../components/LabelTiles";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
@@ -226,7 +227,7 @@ const Experiment: React.FC = () => {
                       .filter((innerArray) => innerArray[1] === i)
                       .map((innerArray) => innerArray[0]);
                     return (
-                      <AgentTile
+                      <WorkerTile
                         key={i}
                         size={size}
                         activeTasks={activeTasks}
@@ -314,172 +315,6 @@ const AssignTile: React.FC<PropsAssignTile> = (props) => {
           />
         </svg>
       )}
-    </div>
-  );
-};
-
-interface PropsTaskTile {
-  size: number;
-  color: string;
-  assigned: boolean;
-}
-
-const TaskTile: React.FC<PropsTaskTile> = (props) => {
-  const { size, color, assigned } = props;
-  let opacity: number = 1;
-  let filter: string = "";
-  if (assigned) {
-    opacity = 0.2;
-    filter = "grayscale(50%)";
-  }
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <div className="Task-tile">
-        <div
-          style={{
-            width: String(size).concat("%"),
-            backgroundColor: color,
-            filter: filter,
-            opacity: opacity,
-          }}
-          className="Task-tile-inner"
-        ></div>
-      </div>
-    </div>
-  );
-};
-
-interface PropsAgentTile {
-  size: number;
-  activeTasks: number[];
-  tasks: Array<number>;
-}
-
-const AgentTile: React.FC<PropsAgentTile> = (props) => {
-  const { size, activeTasks, tasks } = props;
-
-  const remainingSize =
-    size - sumOfArray(activeTasks.map((task) => tasks[task]));
-  let opacity: number = 1;
-  let filter: string = "";
-  if (remainingSize === 0) {
-    opacity = 0.2;
-    filter = "grayscale(50%)";
-  }
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <div className="Agent-tile">
-        <div
-          style={{ height: String(size).concat("%") }}
-          className="Agent-tile-inner-capacity"
-        ></div>
-        <div className="Agent-tile-load-container">
-          {activeTasks.map((task, idx) => (
-            <div
-              key={idx}
-              className="Agent-tile-load"
-              style={{
-                minHeight: String(tasks[task]).concat("%"),
-                backgroundColor: cmap[task],
-              }}
-            ></div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-interface PropsYLabelTile {
-  size: number;
-  color: string;
-  assigned: boolean;
-}
-
-const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
-  const { size, color, assigned } = props;
-  let opacity: number = 1;
-  let filter: string = "";
-  let animation: boolean = false;
-  let opacityTool: number = 0.5;
-  if (assigned) {
-    opacity = 0.2;
-    filter = "grayscale(50%)";
-    animation = true;
-    opacityTool = 1.0;
-  }
-  return (
-    <>
-      <div className="task-label-outer">
-        <div className="task-label">
-          <span style={{ filter: filter, opacity: opacity }}>{size} </span>
-          <FontAwesomeIcon
-            //icon={faBox}
-            icon={faBook}
-            //icon={faHammer}
-            color={color}
-            //spin={animation}
-            //shake={animation}
-            //color="gray"
-            size={"1x"}
-            opacity={opacity}
-          />
-        </div>
-      </div>
-    </>
-  );
-};
-
-interface PropsXLabelTile {
-  size: number;
-  activeTasks: number[];
-  tasks: Array<number>;
-}
-
-const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
-  const { size, activeTasks, tasks } = props;
-
-  const remainingSize =
-    size - sumOfArray(activeTasks.map((task) => tasks[task]));
-  let opacity: number = 1;
-  let opacityWorker: number = 0.6;
-  let filter: string = "";
-  let animation: boolean = false;
-  if (remainingSize === 0) {
-    opacity = 0.2;
-    filter = "grayscale(50%)";
-  }
-
-  if (remainingSize !== size) {
-    animation = true;
-    opacityWorker = 1;
-  }
-
-  return (
-    <div className="agent-label-outer">
-      <div className="agent-label">
-        <FontAwesomeIcon
-          icon={faBoxOpen}
-          //icon={faShip}
-          //color={"#f5c211"}
-          color={"#241f31"}
-          //beat={animation}
-          size={"1x"}
-          opacity={opacityWorker}
-        />
-        <br />
-        <span style={{ filter: filter, opacity: opacity }}>
-          {remainingSize}
-        </span>
-      </div>
     </div>
   );
 };

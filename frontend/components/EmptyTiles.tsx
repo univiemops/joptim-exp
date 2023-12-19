@@ -1,3 +1,5 @@
+import React from "react";
+
 export const EmptyTile = () => {
   return <div className="Empty-tile"></div>;
 };
