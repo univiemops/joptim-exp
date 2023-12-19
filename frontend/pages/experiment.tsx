@@ -4,26 +4,17 @@ import { Button } from "@mui/material";
 import cmap from "../constants/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBoxOpen, faBook } from "@fortawesome/free-solid-svg-icons";
-import { sumOfArray } from "../utils/helperFunctions";
-
-// const formatter = new Intl.NumberFormat("en-US", {
-//   minimumFractionDigits: 0,
-//   maximumFractionDigits: 0,
-// });
-
-function getRandomIntInclusive(min: number, max: number): number {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
-}
+import { sumOfArray, getRandomIntInclusive } from "../utils/helperFunctions";
+import { EmptyTile, EmptyTileX, EmptyTileY } from "../components/EmptyTiles";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
   process.env.NEXT_PUBLIC_API_URL
 );
+
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
-const Game: React.FC = () => {
+const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
   const [agents, setAgents] = useState<Array<number>>([]);
@@ -493,16 +484,4 @@ const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   );
 };
 
-const EmptyTile = () => {
-  return <div className="Empty-tile"></div>;
-};
-
-const EmptyTileY = () => {
-  return <div className="Empty-tile-y"></div>;
-};
-
-const EmptyTileX = () => {
-  return <div className="Empty-tile-x"></div>;
-};
-
-export default Game;
+export default Experiment;

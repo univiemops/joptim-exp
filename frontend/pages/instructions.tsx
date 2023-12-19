@@ -39,9 +39,7 @@ export default function Instructions() {
               </i>
             </p>
             <div className="instructions-game-container-wrapper-outer">
-              {/* <div className="instructions-text-agents">DOCTORS</div> */}
               <div className="instructions-game-container-wrapper">
-                {/* <div className="instructions-text-tasks">PATIENTS</div> */}
                 <GameContainer />
               </div>
             </div>
