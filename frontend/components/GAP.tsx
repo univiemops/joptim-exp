@@ -22,7 +22,6 @@ const GAP: React.FC<{
         <div className="Game-container-outer-left-empty"></div>
         <div className="Game-container-ylabels">
           <EmptyTileY />
-
           <div
             className="Game-container-ylabels-inner"
             style={loading ? { opacity: 0.3 } : {}}
@@ -133,7 +132,6 @@ const GAP: React.FC<{
               ))}
             </div>
           </div>
-
           <div className="Game-container-inner-right"></div>
         </div>
       </div>
