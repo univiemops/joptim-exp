@@ -7,6 +7,7 @@ import { EmptyTile, EmptyTileX, EmptyTileY } from "../components/EmptyTiles";
 import TaskTile from "../components/TaskTile";
 import WorkerTile from "../components/WorkerTile";
 import { XLabelTile, YLabelTile } from "../components/LabelTiles";
+import AssignTile from "../components/AssignTile";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
@@ -289,32 +290,6 @@ const Experiment: React.FC = () => {
   ) : (
     <div>
       <div className="loading-spinner"></div>
-    </div>
-  );
-};
-
-interface PropsAssignTile {
-  active: boolean;
-  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
-}
-
-const AssignTile: React.FC<PropsAssignTile> = (props) => {
-  const { onClick, active } = props;
-
-  return (
-    <div className="Tile" onClick={onClick}>
-      {active && (
-        <svg className="SVG-circle">
-          <circle
-            cx="50%"
-            cy="50%"
-            r="20%"
-            stroke="black"
-            strokeWidth="4%"
-            fill="lightgray"
-          />
-        </svg>
-      )}
     </div>
   );
 };
