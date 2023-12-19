@@ -60,7 +60,7 @@ export default function Instructions() {
           </p>
           <p>Thank you for participating in this experiment!</p>
           <div className="instructions-footer">
-            <Link href="/game">
+            <Link href="/experiment">
               <Button
                 size="large"
                 variant="contained"
