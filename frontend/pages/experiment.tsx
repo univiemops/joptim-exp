@@ -22,54 +22,62 @@ const Experiment: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [paused, setPaused] = React.useState<boolean>(true);
 
+  // runs after the experiment is "unpaused" before the next trial
+  useEffect(() => {
+    console.log("loading is", loading);
+    if (paused === false) {
+      const fetchGame = () => {
+        setLoading(true);
+        fetch(`${OPTIONAL_SUBURI}/game/`)
+          .then((response) => response.json())
+          .then((json) => {
+            setTasks(json["tasks"]);
+            setWorkers(json["agents"]);
+            setDatabaseConnected(true);
+            setAssignments([]);
+            setLoading(false);
+            document.documentElement.style.setProperty(
+              `--rows`,
+              `${json["tasks"].length}`
+            );
+            document.documentElement.style.setProperty(
+              `--cols`,
+              `${json["agents"].length}`
+            );
+            console.log("fetched game from backend");
+          })
+          .catch((error) => {
+            console.log(error);
+            const m = getRandomIntInclusive(6, 8); // only for fallback
+            const n = getRandomIntInclusive(5, 8);
+            document.documentElement.style.setProperty(`--rows`, `${m}`);
+            document.documentElement.style.setProperty(`--cols`, `${n}`);
+            const tasksFallback = Array.from(
+              { length: m },
+              () => 10 * getRandomIntInclusive(1, 9)
+            );
+
+            const workersFallback = Array.from(
+              { length: n },
+              () => 10 * getRandomIntInclusive(1, 10)
+            );
+            setTasks(tasksFallback);
+            setWorkers(workersFallback);
+            setDatabaseConnected(false);
+            setAssignments([]);
+            setLoading(false);
+            console.log("fetched game from fallback");
+          });
+      };
+      fetchGame();
+    }
+  }, [paused]);
+
   const handleUnpause = () => {
     setPaused(false);
-    const fetchGame = () => {
-      setLoading(true);
-      fetch(`${OPTIONAL_SUBURI}/game/`)
-        .then((response) => response.json())
-        .then((json) => {
-          setTasks(json["tasks"]);
-          setWorkers(json["agents"]);
-          setDatabaseConnected(true);
-          setAssignments([]);
-          setLoading(false);
-          document.documentElement.style.setProperty(
-            `--rows`,
-            `${json["tasks"].length}`
-          );
-          document.documentElement.style.setProperty(
-            `--cols`,
-            `${json["agents"].length}`
-          );
-          console.log("fetched game from backend");
-        })
-        .catch((error) => {
-          console.log(error);
-          const m = getRandomIntInclusive(6, 8); // only for fallback
-          const n = getRandomIntInclusive(5, 8);
-          document.documentElement.style.setProperty(`--rows`, `${m}`);
-          document.documentElement.style.setProperty(`--cols`, `${n}`);
-          const tasksFallback = Array.from(
-            { length: m },
-            () => 10 * getRandomIntInclusive(1, 9)
-          );
-
-          const workersFallback = Array.from(
-            { length: n },
-            () => 10 * getRandomIntInclusive(1, 10)
-          );
-          setTasks(tasksFallback);
-          setWorkers(workersFallback);
-          setDatabaseConnected(false);
-          setAssignments([]);
-          setLoading(false);
-          console.log("fetched game from fallback");
-        });
-    };
-    fetchGame();
     startTime = performance.now();
   };
+
   const handlePause = () => {
     setPaused(true);
   };
@@ -106,15 +114,16 @@ const Experiment: React.FC = () => {
   // runs at startup and every time trial changes
   useEffect(() => {
     console.log("trial no.", trial);
+
     if (trial > 1) {
       if (startTime !== null) {
         const endTime: number = performance.now();
         const reactionTime: number = endTime - startTime;
         startTime = null;
         handleSubmit(reactionTime);
+        handlePause();
       }
     }
-    handlePause();
   }, [trial]);
 
   const handleTileClick = (
@@ -155,8 +164,7 @@ const Experiment: React.FC = () => {
       setAssignments(newAssignments);
     }
   };
-
-  return workers.length > 0 && tasks.length > 0 ? (
+  return (
     <div className="App">
       <Backdrop
         sx={{
@@ -166,6 +174,16 @@ const Experiment: React.FC = () => {
         }}
         open={paused}
       >
+        <span
+          style={{
+            color: "black",
+            fontWeight: "bold",
+            fontSize: "x-large",
+            margin: "2rem",
+          }}
+        >
+          Trial {trial}
+        </span>
         <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
           Click <b>Continue</b> when ready to proceed.
         </span>
@@ -213,10 +231,6 @@ const Experiment: React.FC = () => {
           SUBMIT
         </Button>
       </div>
-    </div>
-  ) : (
-    <div>
-      <div className="loading-spinner"></div>
     </div>
   );
 };
