@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "pages/**/*.ts", "pages/**/*.tsx", "pages/notes.js", "components/GAP/Tiles/AssignTileMini.tsx", "components/GAP/Tiles/TaskTileMini.tsx", "components/GAP/Tiles/WorkerTileMini.tsx", "components/GAP/Tiles/LabelTilesMini.tsx", "components/GAP/Tiles/EmptyTilesMini.tsx", "components/GAP/MiniGAPWrapper.tsx"],
+  "include": ["next-env.d.ts", "pages/**/*.ts", "pages/**/*.tsx", "pages/notes.js", "components/GAP/Tiles/AssignTileMini.tsx", "components/GAP/Tiles/TaskTileMini.tsx", "components/GAP/Tiles/WorkerTileMini.tsx", "components/GAP/Tiles/LabelTilesMini.tsx", "components/GAP/Tiles/EmptyTilesMini.tsx", "components/GAP/InstructionGAPWrapper.tsx"],
   "exclude": ["node_modules"]
 }

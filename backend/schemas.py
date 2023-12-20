@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+
 # from datetime import datetime
 
 
@@ -13,12 +14,10 @@ class Note(BaseModel):
     completed: bool
 
 
-
-
 class Result(BaseModel):
     id: int
     result: dict
 
+
 class ResultIn(BaseModel):
     result: dict
-

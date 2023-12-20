@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { getRandomIntInclusive } from "../utils/helperFunctions";
 import GAP from "../components/GAP/GAP";
+import Backdrop from "@mui/material/Backdrop";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
@@ -19,49 +20,12 @@ const Experiment: React.FC = () => {
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [trial, setTrial] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const [paused, setPaused] = React.useState<boolean>(true);
 
-  const handleSubmit = async (reactionTime: number) => {
-    console.log(`Reaction time: ${reactionTime} milliseconds`);
-    try {
-      const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          result: {
-            tasks: tasks,
-            workers: workers,
-            assignments: assignments,
-            //rt: reactionTime,
-          },
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to submit data");
-      }
-
-      const json = await res.json();
-      console.log("json response from API", json);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // runs at startup and every time trial changes
-  useEffect(() => {
-    setLoading(true);
-    console.log("trial no.", trial);
-    if (trial > 1) {
-      if (startTime !== null) {
-        const endTime: number = performance.now();
-        const reactionTime: number = endTime - startTime;
-        startTime = null;
-        handleSubmit(reactionTime);
-      }
-    }
+  const handleUnpause = () => {
+    setPaused(false);
     const fetchGame = () => {
+      setLoading(true);
       fetch(`${OPTIONAL_SUBURI}/game/`)
         .then((response) => response.json())
         .then((json) => {
@@ -105,6 +69,52 @@ const Experiment: React.FC = () => {
     };
     fetchGame();
     startTime = performance.now();
+  };
+  const handlePause = () => {
+    setPaused(true);
+  };
+
+  const handleSubmit = async (reactionTime: number) => {
+    console.log(`Reaction time: ${reactionTime} milliseconds`);
+    try {
+      const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          result: {
+            tasks: tasks,
+            workers: workers,
+            assignments: assignments,
+            rt: reactionTime,
+          },
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit data");
+      }
+
+      const json = await res.json();
+      console.log("json response from API", json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // runs at startup and every time trial changes
+  useEffect(() => {
+    console.log("trial no.", trial);
+    if (trial > 1) {
+      if (startTime !== null) {
+        const endTime: number = performance.now();
+        const reactionTime: number = endTime - startTime;
+        startTime = null;
+        handleSubmit(reactionTime);
+      }
+    }
+    handlePause();
   }, [trial]);
 
   const handleTileClick = (
@@ -148,6 +158,31 @@ const Experiment: React.FC = () => {
 
   return workers.length > 0 && tasks.length > 0 ? (
     <div className="App">
+      <Backdrop
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundColor: "#fff",
+          flexDirection: "column",
+        }}
+        open={paused}
+      >
+        <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
+          Click 'Continue' when ready to proceed.
+        </span>
+        <Button
+          size="large"
+          variant="contained"
+          style={{
+            fontSize: "x-large",
+            background: "#000000",
+            textTransform: "none",
+            padding: ".3rem 3rem .3rem 3rem",
+          }}
+          onClick={handleUnpause}
+        >
+          CONTINUE
+        </Button>
+      </Backdrop>
       <div className="App-header">
         <h3>
           Assign the books to{" "}
