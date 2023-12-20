@@ -18,54 +18,46 @@ const PauseBackdrop: React.FC<{
       }}
       open={paused}
     >
-      <span
-        style={{
-          color: "black",
-          fontSize: "x-large",
-          margin: "2rem",
-        }}
-      >
-        {trial === 1 ? (
-          <div>Start!</div>
-        ) : (
-          nAssigned > 0 && (
-            <div>
-              <b>Trial completed!</b>
-              <br />
-              <br />
-              Optimal costs: {optimal_costs}
-              <br />
-              Your costs: {costs}
-            </div>
-          )
-        )}
-      </span>
-      <span
-        style={{
-          color: "black",
-          fontWeight: "bold",
-          fontSize: "x-large",
-          margin: "2rem",
-        }}
-      >
-        Trial {trial}
-      </span>
-      <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
-        Click <b>Continue</b> when ready to proceed.
-      </span>
-      <Button
-        size="large"
-        variant="contained"
-        style={{
-          fontSize: "x-large",
-          background: "#000000",
-          textTransform: "none",
-          padding: ".3rem 3rem .3rem 3rem",
-        }}
-        onClick={handleUnpause}
-      >
-        CONTINUE
-      </Button>
+      {paused && (
+        <>
+          <span
+            style={{
+              color: "black",
+              fontSize: "x-large",
+              margin: "2rem",
+            }}
+          >
+            {trial === 1 ? (
+              <div>Start!</div>
+            ) : (
+              <div>
+                <b>Trial completed!</b>
+                <br />
+                <br />
+                Optimal costs: {optimal_costs}
+                <br />
+                Your costs: {costs}
+              </div>
+            )}
+          </span>
+          <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
+            Click <b>Continue</b> when ready to proceed to <b>Trial {trial}</b>.
+          </span>
+          <Button
+            size="large"
+            variant="contained"
+            style={{
+              fontSize: "x-large",
+              background: "#000000",
+              textTransform: "none",
+              padding: ".3rem 3rem .3rem 3rem",
+            }}
+            onClick={handleUnpause}
+          >
+            CONTINUE
+          </Button>
+        </>
+      )}
     </Backdrop>
   );
 };
