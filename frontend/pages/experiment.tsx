@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
-import { getRandomIntInclusive } from "../utils/helperFunctions";
+import { getRandomIntInclusive, getCosts } from "../utils/helperFunctions";
 import GAP from "../components/GAP/GAP";
 import PauseBackdrop from "../components/PauseBackdrop";
 
@@ -17,6 +17,7 @@ const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
   const [workers, setWorkers] = useState<Array<number>>([]);
+  const [costs, setCosts] = useState<number>(0);
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [trial, setTrial] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,6 +33,7 @@ const Experiment: React.FC = () => {
           .then((json) => {
             setTasks(json["tasks"]);
             setWorkers(json["agents"]);
+            setCosts(json["costs"]);
             setDatabaseConnected(true);
             setAssignments([]);
             setLoading(false);
@@ -84,6 +86,12 @@ const Experiment: React.FC = () => {
 
   const handleSubmit = async (reactionTime: number) => {
     console.log(`Reaction time: ${reactionTime} milliseconds`);
+    console.log(
+      "costs are",
+      getCosts(tasks, assignments),
+      "while optimal costs are",
+      costs
+    );
     try {
       const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
         method: "POST",
@@ -169,6 +177,8 @@ const Experiment: React.FC = () => {
       <PauseBackdrop
         paused={paused}
         trial={trial}
+        costs={getCosts(tasks, assignments)}
+        optimal_costs={costs}
         handleUnpause={handleUnpause}
       />
       <div className="App-header">

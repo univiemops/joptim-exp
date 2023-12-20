@@ -4,8 +4,10 @@ import { Button, Backdrop } from "@mui/material";
 const PauseBackdrop: React.FC<{
   paused: boolean;
   trial: number;
+  costs: number;
+  optimal_costs: number;
   handleUnpause: () => void;
-}> = ({ paused, trial, handleUnpause }) => {
+}> = ({ paused, trial, costs, optimal_costs, handleUnpause }) => {
   return (
     <Backdrop
       sx={{
@@ -15,6 +17,19 @@ const PauseBackdrop: React.FC<{
       }}
       open={paused}
     >
+      <span
+        style={{
+          color: "black",
+          fontWeight: "bold",
+          fontSize: "x-large",
+          margin: "2rem",
+        }}
+      >
+        {trial === 1
+          ? "Start!"
+          : costs &&
+            `The best solution has costs of ${optimal_costs}. You achieved costs of ${costs}.`}
+      </span>
       <span
         style={{
           color: "black",
