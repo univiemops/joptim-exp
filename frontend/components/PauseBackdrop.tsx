@@ -6,8 +6,9 @@ const PauseBackdrop: React.FC<{
   trial: number;
   costs: number;
   optimal_costs: number;
+  nAssigned: number;
   handleUnpause: () => void;
-}> = ({ paused, trial, costs, optimal_costs, handleUnpause }) => {
+}> = ({ paused, trial, costs, optimal_costs, nAssigned, handleUnpause }) => {
   return (
     <Backdrop
       sx={{
@@ -20,15 +21,24 @@ const PauseBackdrop: React.FC<{
       <span
         style={{
           color: "black",
-          fontWeight: "bold",
           fontSize: "x-large",
           margin: "2rem",
         }}
       >
-        {trial === 1
-          ? "Start!"
-          : costs &&
-            `The best solution has costs of ${optimal_costs}. You achieved costs of ${costs}.`}
+        {trial === 1 ? (
+          <div>"Start!"</div>
+        ) : (
+          nAssigned > 0 && (
+            <div>
+              <b>Trial completed!</b>
+              <br />
+              <br />
+              Optimal costs: {optimal_costs}
+              <br />
+              Your costs: {costs}
+            </div>
+          )
+        )}
       </span>
       <span
         style={{

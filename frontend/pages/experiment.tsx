@@ -179,6 +179,7 @@ const Experiment: React.FC = () => {
         trial={trial}
         costs={getCosts(tasks, assignments)}
         optimal_costs={costs}
+        nAssigned={assignments.length}
         handleUnpause={handleUnpause}
       />
       <div className="App-header">
