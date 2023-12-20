@@ -143,8 +143,11 @@ def new_game():
     else:
         tasks = trials[random_trial_idx]["task_loads"].tolist()
         agents = trials[random_trial_idx]["worker_capacities"].tolist()
-
-    return {"tasks": tasks, "agents": agents}
+    return {
+        "tasks": tasks,
+        "agents": agents,
+        "costs": trials[random_trial_idx]["costs"],
+    }
 
 
 @app.get("/results/", response_model=List[schemas.Result])

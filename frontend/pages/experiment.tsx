@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { getRandomIntInclusive } from "../utils/helperFunctions";
 import GAP from "../components/GAP/GAP";
-import Backdrop from "@mui/material/Backdrop";
+import PauseBackdrop from "../components/PauseBackdrop";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
@@ -24,7 +24,6 @@ const Experiment: React.FC = () => {
 
   // runs after the experiment is "unpaused" before the next trial
   useEffect(() => {
-    console.log("loading is", loading);
     if (paused === false) {
       const fetchGame = () => {
         setLoading(true);
@@ -45,6 +44,7 @@ const Experiment: React.FC = () => {
               `${json["agents"].length}`
             );
             console.log("fetched game from backend");
+            console.log("entire data from back is:", json);
           })
           .catch((error) => {
             console.log(error);
@@ -166,41 +166,11 @@ const Experiment: React.FC = () => {
   };
   return (
     <div className="App">
-      <Backdrop
-        sx={{
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          backgroundColor: "#fff",
-          flexDirection: "column",
-        }}
-        open={paused}
-      >
-        <span
-          style={{
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "x-large",
-            margin: "2rem",
-          }}
-        >
-          Trial {trial}
-        </span>
-        <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
-          Click <b>Continue</b> when ready to proceed.
-        </span>
-        <Button
-          size="large"
-          variant="contained"
-          style={{
-            fontSize: "x-large",
-            background: "#000000",
-            textTransform: "none",
-            padding: ".3rem 3rem .3rem 3rem",
-          }}
-          onClick={handleUnpause}
-        >
-          CONTINUE
-        </Button>
-      </Backdrop>
+      <PauseBackdrop
+        paused={paused}
+        trial={trial}
+        handleUnpause={handleUnpause}
+      />
       <div className="App-header">
         <h3>
           Assign the books to{" "}
