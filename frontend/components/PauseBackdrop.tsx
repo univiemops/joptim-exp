@@ -34,9 +34,21 @@ const PauseBackdrop: React.FC<{
                 <b>Trial completed!</b>
                 <br />
                 <br />
-                Optimal costs: {optimal_costs}
+                {optimal_costs < costs ? (
+                  <div>
+                    Your costs are <b>{costs}</b>, but the optimal solution has{" "}
+                    <b>{optimal_costs}</b>.
+                  </div>
+                ) : (
+                  <div>
+                    You found an{" "}
+                    <span style={{ color: "darkgreen", fontWeight: "bold" }}>
+                      optimal solution
+                    </span>{" "}
+                    (costs: {costs}).
+                  </div>
+                )}
                 <br />
-                Your costs: {costs}
               </div>
             )}
           </span>
