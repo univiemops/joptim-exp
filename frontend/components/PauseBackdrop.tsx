@@ -26,7 +26,7 @@ const PauseBackdrop: React.FC<{
         }}
       >
         {trial === 1 ? (
-          <div>"Start!"</div>
+          <div>Start!</div>
         ) : (
           nAssigned > 0 && (
             <div>
