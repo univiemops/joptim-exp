@@ -167,7 +167,7 @@ const Experiment: React.FC = () => {
         open={paused}
       >
         <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
-          Click 'Continue' when ready to proceed.
+          Click <b>Continue</b> when ready to proceed.
         </span>
         <Button
           size="large"
