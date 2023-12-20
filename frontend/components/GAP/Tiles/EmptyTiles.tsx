@@ -9,5 +9,13 @@ export const EmptyTileY = () => {
 };
 
 export const EmptyTileX = () => {
-  return <div className={styles.empty_tile_x}></div>;
+  return (
+    <div className={styles.empty_tile_x}>
+      <div className={styles.empty_tile_label}>
+        <span style={{ opacity: 0.65 }}>Assigned</span>
+        <br />
+        <span style={{ fontWeight: "bold" }}>Total</span>
+      </div>
+    </div>
+  );
 };

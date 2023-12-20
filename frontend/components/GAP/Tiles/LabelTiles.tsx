@@ -22,7 +22,7 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   const remainingSize =
     size - sumOfArray(activeTasks.map((task) => tasks[task]));
   let opacity: number = 1;
-  let opacityWorker: number = 0.6;
+  let opacityWorker: number = 0.2;
   let filter: string = "";
   let animation: boolean = false;
   if (remainingSize === 0) {
@@ -32,7 +32,7 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
 
   if (remainingSize !== size) {
     animation = true;
-    opacityWorker = 1;
+    opacityWorker = 0.65;
   }
 
   return (
@@ -44,10 +44,13 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
           size={"1x"}
           opacity={1}
         />
-        <span style={{ filter: filter, opacity: 1 }}>
-          <b>{size - remainingSize}</b>
-          <br></br>
-          {size}
+        <br />
+        <span style={{ filter: filter, opacity: opacityWorker }}>
+          {size - remainingSize}
+        </span>
+        <br />
+        <span>
+          <b>{size}</b>
         </span>
       </div>
     </div>

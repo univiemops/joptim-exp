@@ -71,7 +71,8 @@
   width: var(--tile-size);
 }
 
-.worker_label {
+.worker_label,
+.empty_tile_label {
   position: absolute;
   bottom: 10%;
   left: 50%;
@@ -80,12 +81,14 @@
 }
 
 .task_label {
-  font-size: 1.2vmax;
   font-weight: bold;
 }
 
-.worker_label {
-  font-size: 1.2vmax;
+.task_label,
+.worker_label,
+.empty_tile_label {
+  /* font-size: 1.2vmax; */
+  font-size: calc(var(--tile-size-long) / 5);
 }
 
 .task_tile_inner {
@@ -93,14 +96,16 @@
   position: relative;
 }
 
-.empty_tile,
-.empty_tile_y {
-  width: 100%;
-  height: calc(var(--tile-size-long) * 1);
+.empty_tile_x {
+  position: relative;
+  width: calc(var(--tile-size-long) * 1);
 }
 
-.empty_tile_x {
-  width: calc(var(--tile-size-long) * 1);
+.empty_tile,
+.empty_tile_y {
+  position: relative;
+  width: 100%;
+  height: calc(var(--tile-size-long) * 1);
 }
 
 .tile {
