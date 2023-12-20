@@ -80,11 +80,12 @@
 }
 
 .task_label {
-  font-size: 1.33vmax;
+  font-size: 1.2vmax;
+  font-weight: bold;
 }
 
 .worker_label {
-  font-size: 1vmax;
+  font-size: 1.2vmax;
 }
 
 .task_tile_inner {
