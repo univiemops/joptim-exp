@@ -1,9 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Button } from "@mui/material";
 import { getRandomIntInclusive, getCosts } from "../utils/helperFunctions";
-import GAP from "../components/GAP/GAP";
-import PauseBackdrop from "../components/PauseBackdrop";
+import StimulusPage from "../components/experiment/StimulusPage";
+import ConfirmationPage from "../components/experiment/ConfirmationPage";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
@@ -22,13 +21,30 @@ const Experiment: React.FC = () => {
   >([]);
   const [costs, setCosts] = useState<number>(0);
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
-  const [trial, setTrial] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
-  const [paused, setPaused] = React.useState<boolean>(true);
+
+  // remove this instead of isTrialcompleted
+  const [trial, setTrial] = useState<number>(1);
+  const [isTrialCompleted, setTrialCompleted] = useState<boolean>(false);
+
+  const handleTrialComplete = () => {
+    if (startTime != null) {
+      const endTime: number = performance.now();
+      const reactionTime: number = endTime - startTime;
+      startTime = null;
+      handleSubmit(reactionTime);
+      setTrialCompleted(true);
+    }
+  };
+
+  const handleContinue = () => {
+    setTrial(trial + 1);
+    setTrialCompleted(false);
+  };
 
   // runs after the experiment is "unpaused" before the next trial
   useEffect(() => {
-    if (paused === false) {
+    if (isTrialCompleted === false) {
       const fetchGame = () => {
         setLoading(true);
         fetch(`${OPTIONAL_SUBURI}/game/`)
@@ -50,7 +66,6 @@ const Experiment: React.FC = () => {
               `${json["agents"].length}`
             );
             console.log("fetched game from backend");
-            console.log("entire data from back is:", json);
           })
           .catch((error) => {
             console.log(error);
@@ -75,27 +90,12 @@ const Experiment: React.FC = () => {
             console.log("fetched game from fallback");
           });
       };
+      startTime = performance.now();
       fetchGame();
     }
-  }, [paused]);
-
-  const handleUnpause = () => {
-    setPaused(false);
-    startTime = performance.now();
-  };
-
-  const handlePause = () => {
-    setPaused(true);
-  };
+  }, [isTrialCompleted]);
 
   const handleSubmit = async (reactionTime: number) => {
-    console.log(`Reaction time: ${reactionTime} milliseconds`);
-    console.log(
-      "costs are",
-      getCosts(tasks, assignments),
-      "while optimal costs are",
-      costs
-    );
     try {
       const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
         method: "POST",
@@ -123,110 +123,33 @@ const Experiment: React.FC = () => {
     }
   };
 
-  // runs at startup and every time trial changes
-  useEffect(() => {
-    console.log("trial no.", trial);
-
-    if (trial > 1) {
-      if (startTime !== null) {
-        const endTime: number = performance.now();
-        const reactionTime: number = endTime - startTime;
-        startTime = null;
-        handleSubmit(reactionTime);
-        handlePause();
-      }
-    }
-  }, [trial]);
-
-  const handleTileClick = (
-    e: React.MouseEvent<HTMLDivElement>,
-    coordinates: [number, number]
-  ) => {
-    if (loading === false) {
-      let newAssignments = [...assignments];
-      let index = newAssignments.findIndex(
-        (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
-      );
-      if (index === -1) {
-        let indexOther = newAssignments.findIndex(
-          (a) => a[0] === coordinates[0]
-        );
-        const capacity = workers[coordinates[1]];
-        const oldLoad = assignments
-          .filter((a) => a[1] === coordinates[1])
-          .map((a) => tasks[a[0]])
-          .reduce((a, b) => a + b, 0);
-        const newLoad = tasks[coordinates[0]];
-        const limitReached = capacity - oldLoad - newLoad < 0;
-
-        if (limitReached) {
-          (e.target as HTMLDivElement).style.backgroundColor = "lightgray";
-          setTimeout(() => {
-            (e.target as HTMLDivElement).style.backgroundColor = "";
-          }, 100);
-        } else {
-          newAssignments.push(coordinates);
-        }
-        if (indexOther !== -1 && !limitReached) {
-          newAssignments.splice(indexOther, 1);
-        }
-      } else {
-        newAssignments.splice(index, 1);
-      }
-      setAssignments(newAssignments);
-    }
-  };
   return (
     <div className="App">
-      <PauseBackdrop
-        paused={paused}
-        trial={trial}
-        costs={getCosts(tasks, assignments)}
-        optimal_costs={costs}
-        assignments={assignments}
-        assignmentsOptimal={assignmentsOptimal}
-        tasks={tasks}
-        workers={workers}
-        handleUnpause={handleUnpause}
-      />
-      {paused === false ? (
-        <div className="App-header">
-          <h3>
-            Assign the books to{" "}
-            <span
-              style={
-                databaseConnected ? { color: "green" } : { color: "black" }
-              }
-            >
-              boxes
-            </span>
-          </h3>
-          <GAP
-            loading={loading}
-            tasks={tasks}
+      <div className="App-header">
+        {isTrialCompleted ? (
+          <ConfirmationPage
+            trial={trial}
+            costs={getCosts(tasks, assignments)}
+            optimal_costs={costs}
             assignments={assignments}
+            assignmentsOptimal={assignmentsOptimal}
+            tasks={tasks}
             workers={workers}
-            handleTileClick={handleTileClick}
-            freeze={false}
-            icons={true}
-          />{" "}
-          <Button
-            size="large"
-            variant="contained"
-            style={{
-              fontSize: "x-large",
-              background: "#000000",
-              textTransform: "none",
-              padding: ".3rem 3rem .3rem 3rem",
-            }}
-            onClick={() => setTrial(trial + 1)}
-          >
-            SUBMIT
-          </Button>
-        </div>
-      ) : (
-        <div></div>
-      )}
+            onContinue={handleContinue}
+          />
+        ) : (
+          <StimulusPage
+            trial={trial}
+            loading={loading}
+            assignments={assignments}
+            setAssignments={setAssignments}
+            tasks={tasks}
+            workers={workers}
+            databaseConnected={databaseConnected}
+            onComplete={handleTrialComplete}
+          />
+        )}
+      </div>
     </div>
   );
 };
