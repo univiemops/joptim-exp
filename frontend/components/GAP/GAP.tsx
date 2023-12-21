@@ -14,6 +14,7 @@ const GAP: React.FC<GAPProps> = ({
   assignments,
   workers,
   handleTileClick,
+  freeze,
 }) => {
   return (
     <div className={styles.outer}>
@@ -124,6 +125,7 @@ const GAP: React.FC<GAPProps> = ({
                         key={j}
                         active={active}
                         onClick={(e) => handleTileClick(e, [i, j])}
+                        freeze={freeze}
                       />
                     );
                   })}

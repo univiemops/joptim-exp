@@ -17,6 +17,9 @@ const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
   const [workers, setWorkers] = useState<Array<number>>([]);
+  const [assignmentsOptimal, setAssignmentsOptimal] = useState<
+    Array<[number, number]>
+  >([]);
   const [costs, setCosts] = useState<number>(0);
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [trial, setTrial] = useState<number>(1);
@@ -34,6 +37,7 @@ const Experiment: React.FC = () => {
             setTasks(json["tasks"]);
             setWorkers(json["agents"]);
             setCosts(json["costs"]);
+            setAssignmentsOptimal(json["assignments_optimal"]);
             setDatabaseConnected(true);
             setAssignments([]);
             setLoading(false);
@@ -179,7 +183,10 @@ const Experiment: React.FC = () => {
         trial={trial}
         costs={getCosts(tasks, assignments)}
         optimal_costs={costs}
-        nAssigned={assignments.length}
+        assignments={assignments}
+        assignmentsOptimal={assignmentsOptimal}
+        tasks={tasks}
+        workers={workers}
         handleUnpause={handleUnpause}
       />
       <div className="App-header">
@@ -197,6 +204,7 @@ const Experiment: React.FC = () => {
           assignments={assignments}
           workers={workers}
           handleTileClick={handleTileClick}
+          freeze={false}
         />{" "}
         <Button
           size="large"

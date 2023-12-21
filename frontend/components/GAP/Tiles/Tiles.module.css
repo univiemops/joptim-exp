@@ -108,14 +108,22 @@
   height: calc(var(--tile-size-long) * 1);
 }
 
-.tile {
+.tile,
+.tile_disabled {
   display: flex;
   background-color: white;
   border-color: gray;
   border-style: solid;
   border-width: 1px;
   justify-content: flex-end;
-  cursor: pointer;
   width: var(--tile-size);
   height: var(--tile-size);
+}
+
+.tile {
+  cursor: pointer;
+}
+
+.tile_disabled {
+  cursor: default;
 }

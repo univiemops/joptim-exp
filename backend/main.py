@@ -140,13 +140,20 @@ def new_game():
     if ordered:
         tasks = trials[random_trial_idx]["task_loads_ordered"].tolist()
         agents = trials[random_trial_idx]["worker_capacities_ordered"].tolist()
+        sm = trials[random_trial_idx]["solution_matrix_ordered"]
+
     else:
         tasks = trials[random_trial_idx]["task_loads"].tolist()
         agents = trials[random_trial_idx]["worker_capacities"].tolist()
+        sm = trials[random_trial_idx]["solution_matrix"]
+
+    costs = trials[random_trial_idx]["costs"]
+    assignments = [[int(i), int(j)] for i, j in np.sort((np.where(sm == 1))).T]
     return {
         "tasks": tasks,
         "agents": agents,
-        "costs": trials[random_trial_idx]["costs"],
+        "costs": costs,
+        "assignments_optimal": assignments,
     }
 
 
