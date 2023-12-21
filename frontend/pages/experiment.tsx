@@ -189,37 +189,43 @@ const Experiment: React.FC = () => {
         workers={workers}
         handleUnpause={handleUnpause}
       />
-      <div className="App-header">
-        <h3>
-          Assign the books to{" "}
-          <span
-            style={databaseConnected ? { color: "green" } : { color: "black" }}
+      {paused === false ? (
+        <div className="App-header">
+          <h3>
+            Assign the books to{" "}
+            <span
+              style={
+                databaseConnected ? { color: "green" } : { color: "black" }
+              }
+            >
+              boxes
+            </span>
+          </h3>
+          <GAP
+            loading={loading}
+            tasks={tasks}
+            assignments={assignments}
+            workers={workers}
+            handleTileClick={handleTileClick}
+            freeze={false}
+          />{" "}
+          <Button
+            size="large"
+            variant="contained"
+            style={{
+              fontSize: "x-large",
+              background: "#000000",
+              textTransform: "none",
+              padding: ".3rem 3rem .3rem 3rem",
+            }}
+            onClick={() => setTrial(trial + 1)}
           >
-            boxes
-          </span>
-        </h3>
-        <GAP
-          loading={loading}
-          tasks={tasks}
-          assignments={assignments}
-          workers={workers}
-          handleTileClick={handleTileClick}
-          freeze={false}
-        />{" "}
-        <Button
-          size="large"
-          variant="contained"
-          style={{
-            fontSize: "x-large",
-            background: "#000000",
-            textTransform: "none",
-            padding: ".3rem 3rem .3rem 3rem",
-          }}
-          onClick={() => setTrial(trial + 1)}
-        >
-          SUBMIT
-        </Button>
-      </div>
+            SUBMIT
+          </Button>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
