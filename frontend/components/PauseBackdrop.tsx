@@ -53,7 +53,7 @@ const PauseBackdrop: React.FC<{
                     </div>
                   ) : (
                     <div>
-                      You found an{" "}
+                      <b>Trial completed!</b> You found an{" "}
                       <span style={{ color: "darkgreen", fontWeight: "bold" }}>
                         optimal solution
                       </span>{" "}
