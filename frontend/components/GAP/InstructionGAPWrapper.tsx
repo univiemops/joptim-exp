@@ -56,6 +56,7 @@ const InstructionGAPWrapper = () => {
       tasks={tasks}
       assignments={assignments}
       workers={workers}
+      freeze={false}
       handleTileClick={handleTileClick}
     />
   );
