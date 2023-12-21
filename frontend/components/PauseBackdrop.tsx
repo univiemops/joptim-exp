@@ -70,6 +70,7 @@ const PauseBackdrop: React.FC<{
                     assignments={assignments}
                     workers={workers}
                     freeze={true}
+                    icons={false}
                   />
                   <GAP
                     loading={false}
@@ -77,6 +78,7 @@ const PauseBackdrop: React.FC<{
                     assignments={assignmentsOptimal}
                     workers={workers}
                     freeze={true}
+                    icons={false}
                   />
                 </div>
               </>
