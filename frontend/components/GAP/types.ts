@@ -10,4 +10,5 @@ export interface GAPProps {
     coordinates: [number, number]
   ) => void;
   freeze: boolean;
+  icons: boolean;
 }

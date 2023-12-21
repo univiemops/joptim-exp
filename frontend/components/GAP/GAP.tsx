@@ -15,6 +15,7 @@ const GAP: React.FC<GAPProps> = ({
   workers,
   handleTileClick,
   freeze,
+  icons,
 }) => {
   return (
     <div className={styles.outer}>
@@ -36,6 +37,7 @@ const GAP: React.FC<GAPProps> = ({
                   size={size}
                   color={cmap[idx]}
                   assigned={assigned}
+                  icons={icons}
                 />
               );
             })}
@@ -59,6 +61,7 @@ const GAP: React.FC<GAPProps> = ({
                   size={size}
                   activeTasks={activeTasks}
                   tasks={tasks}
+                  icons={icons}
                 />
               );
             })}

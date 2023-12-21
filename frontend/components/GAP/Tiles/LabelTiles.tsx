@@ -8,16 +8,18 @@ interface PropsXLabelTile {
   size: number;
   activeTasks: number[];
   tasks: Array<number>;
+  icons: boolean;
 }
 
 interface PropsYLabelTile {
   size: number;
   color: string;
   assigned: boolean;
+  icons: boolean;
 }
 
 export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
-  const { size, activeTasks, tasks } = props;
+  const { size, activeTasks, tasks, icons } = props;
 
   const remainingSize =
     size - sumOfArray(activeTasks.map((task) => tasks[task]));
@@ -38,12 +40,14 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   return (
     <div className={styles.worker_label_outer}>
       <div className={styles.worker_label}>
-        <FontAwesomeIcon
-          icon={faBoxOpen}
-          color={"#241f31"}
-          size={"1x"}
-          opacity={1}
-        />
+        {icons && (
+          <FontAwesomeIcon
+            icon={faBoxOpen}
+            color={"#241f31"}
+            size={"1x"}
+            opacity={1}
+          />
+        )}
         <br />
         <span style={{ filter: filter, opacity: opacityWorker }}>
           {size - remainingSize}
@@ -58,7 +62,7 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
 };
 
 export const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
-  const { size, color, assigned } = props;
+  const { size, color, assigned, icons } = props;
   let opacity: number = 1;
   let filter: string = "";
   let animation: boolean = false;
@@ -74,12 +78,14 @@ export const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
       <div className={styles.task_label_outer}>
         <div className={styles.task_label}>
           <span style={{ filter: filter, opacity: opacity }}>{size} </span>
-          <FontAwesomeIcon
-            icon={faBook}
-            color={color}
-            size={"1x"}
-            opacity={opacity}
-          />
+          {icons && (
+            <FontAwesomeIcon
+              icon={faBook}
+              color={color}
+              size={"1x"}
+              opacity={opacity}
+            />
+          )}
         </div>
       </div>
     </>

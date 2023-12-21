@@ -208,6 +208,7 @@ const Experiment: React.FC = () => {
             workers={workers}
             handleTileClick={handleTileClick}
             freeze={false}
+            icons={false}
           />{" "}
           <Button
             size="large"
