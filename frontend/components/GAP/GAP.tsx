@@ -124,7 +124,7 @@ const GAP: React.FC<GAPProps> = ({
                       <AssignTile
                         key={j}
                         active={active}
-                        onClick={(e) => handleTileClick(e, [i, j])}
+                        onClick={(e) => handleTileClick?.(e, [i, j])}
                         freeze={freeze}
                       />
                     );
