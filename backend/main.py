@@ -146,9 +146,8 @@ def new_game():
         tasks = trials[random_trial_idx]["task_loads"].tolist()
         agents = trials[random_trial_idx]["worker_capacities"].tolist()
         sm = trials[random_trial_idx]["solution_matrix"]
-
     costs = trials[random_trial_idx]["costs"]
-    assignments = [[int(i), int(j)] for i, j in np.sort((np.where(sm == 1))).T]
+    assignments = [[int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm == 1)).T)]
     return {
         "tasks": tasks,
         "agents": agents,
