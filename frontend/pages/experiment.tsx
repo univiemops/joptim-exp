@@ -23,9 +23,8 @@ const Experiment: React.FC = () => {
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // remove this instead of isTrialcompleted
-  const [trial, setTrial] = useState<number>(1);
-  const [isTrialCompleted, setTrialCompleted] = useState<boolean>(false);
+  const [trial, setTrial] = useState<number>(0);
+  const [isTrialCompleted, setTrialCompleted] = useState<boolean>(true);
 
   const handleTrialComplete = () => {
     if (startTime != null) {

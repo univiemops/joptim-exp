@@ -26,6 +26,7 @@ const ConfirmationPage: React.FC<{
       style={{
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <span
@@ -35,15 +36,17 @@ const ConfirmationPage: React.FC<{
           margin: "2rem",
         }}
       >
-        {trial === 1 ? (
-          <div>Start!</div>
+        {trial === 0 ? (
+          <div>
+            <b>Start!</b>
+          </div>
         ) : (
           <>
             <div>
               {optimal_costs < costs ? (
                 <div>
-                  <b>Trial completed!</b> Your costs are <b>{costs}</b>, the
-                  optimal solution has <b>{optimal_costs}</b>.
+                  <b>Trial {trial} completed!</b> Your costs are <b>{costs}</b>,
+                  the optimal solution has <b>{optimal_costs}</b>.
                 </div>
               ) : (
                 <div>
@@ -79,7 +82,7 @@ const ConfirmationPage: React.FC<{
         )}
       </span>
       <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
-        Click <b>Continue</b> when ready to proceed to <b>Trial {trial}</b>.
+        Click <b>Continue</b> when you are ready to proceed.
       </span>
       <Button
         size="large"

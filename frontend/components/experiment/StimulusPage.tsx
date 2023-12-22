@@ -61,14 +61,14 @@ const StimulusPage: React.FC<{
   };
   return (
     <>
-      <h3>
-        Assign the books to{" "}
+      <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
+        Trial {trial}: Assign the books to{" "}
         <span
           style={databaseConnected ? { color: "green" } : { color: "black" }}
         >
           boxes
         </span>
-      </h3>
+      </span>
       <GAP
         loading={loading}
         tasks={tasks}
