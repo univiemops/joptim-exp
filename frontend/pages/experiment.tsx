@@ -6,7 +6,7 @@ import ConfirmationPage from "../components/experiment/ConfirmationPage";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
-  process.env.NEXT_PUBLIC_API_URL
+  process.env.NEXT_PUBLIC_API_URL,
 );
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
@@ -58,11 +58,11 @@ const Experiment: React.FC = () => {
             setLoading(false);
             document.documentElement.style.setProperty(
               `--rows`,
-              `${json["tasks"].length}`
+              `${json["tasks"].length}`,
             );
             document.documentElement.style.setProperty(
               `--cols`,
-              `${json["agents"].length}`
+              `${json["agents"].length}`,
             );
             console.log("fetched game from backend");
           })
@@ -74,12 +74,12 @@ const Experiment: React.FC = () => {
             document.documentElement.style.setProperty(`--cols`, `${n}`);
             const tasksFallback = Array.from(
               { length: m },
-              () => 10 * getRandomIntInclusive(1, 9)
+              () => 10 * getRandomIntInclusive(1, 9),
             );
 
             const workersFallback = Array.from(
               { length: n },
-              () => 10 * getRandomIntInclusive(1, 10)
+              () => 10 * getRandomIntInclusive(1, 10),
             );
             setTasks(tasksFallback);
             setWorkers(workersFallback);
