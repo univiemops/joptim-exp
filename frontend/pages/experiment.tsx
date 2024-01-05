@@ -38,7 +38,7 @@ const Experiment: React.FC = () => {
 
   const handleContinue = () => {
     if (trial === nTrialsIntro) {
-      var msg = `Reached maximum number of trials: ${trial}`;
+      var msg = `Reached maximum number of trials: ${trial}. In a future version of the experiment your will be taken to part two, the side-by-side solution trials. For now we will continue with solving assignment problems.`;
       alert(msg);
     }
     setTrial(trial + 1);

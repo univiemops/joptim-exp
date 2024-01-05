@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 const ConfirmationPage: React.FC<{
   trial: number;
   utility: number;
-  optimal_costs: number;
+  optimal_utility: number;
   assignments: Array<[number, number]>;
   assignmentsOptimal: Array<[number, number]>;
   tasks: Array<number>;
