@@ -4,6 +4,7 @@ import { getRandomIntInclusive, getUtility } from "../utils/helperFunctions";
 import StimulusPage from "../components/experiment/StimulusPage";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
 import nTrialsIntro from "../constants/trials";
+import { useRouter } from "next/router";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
@@ -28,6 +29,9 @@ const Experiment: React.FC = () => {
   const [isPartOneCompleted, setPartOneCompleted] = useState<boolean>(false);
   const [trialPairs, setTrialPairs] = useState<number>(0);
   const [isTrialPairCompleted, setTrialPairCompleted] = useState<boolean>(true);
+  const router = useRouter();
+  const { PID } = router.query;
+  console.log("PID", PID, "has entered the experiment");
 
   const handleTrialComplete = () => {
     if (startTime != null) {

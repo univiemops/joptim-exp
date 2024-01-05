@@ -3,12 +3,16 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@mui/material";
 import InstructionGAPWrapper from "@/components/GAP/InstructionGAPWrapper";
+import { useRouter } from "next/router";
 
 export default function Instructions() {
+  const router = useRouter();
+  const { PID } = router.query;
+  console.log("PID", PID, "has entered the instructions");
   return (
     <div className="App">
       <div className="App-header">
-        <div className="instructions">
+        <div className="instrucggtions">
           <h1>Instructions</h1>
           <p>
             Welcome to the <b>Optimal Assignment Experiment</b>!
@@ -74,7 +78,7 @@ export default function Instructions() {
             for participating in this experiment!
           </p>
           <div className="instructions-footer">
-            <Link href="/experiment">
+            <Link href={`/experiment?PID=${PID}`}>
               <Button
                 size="large"
                 variant="contained"
