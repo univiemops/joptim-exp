@@ -18,22 +18,24 @@ export default function Instructions() {
             how people evaluate complex problems.
           </p>
           <p>
-            In the first part, we will introduce you to a special problem called
-            the generalized assignment problem and let you solve some examples
-            to make sure you understand it. In the second part, we will show you
+            In <b>part on</b>, we will introduce you to a special problem called
+            the Generalized Asignment Problem and let you solve some examples to
+            make sure you understand it. In <b>part two</b>, we will show you
             pairs of solutions to different problems, and we want you to choose
             the solution that you find easier to understand. But more about that
             later. For now, let's start with an introduction to our Generalized
             Assignment Problem:
-          </p>
+          </p>{" "}
           <p>
-            In the center of the screen you will se a matrix with{" "}
-            <b>books (rows)</b> and <b>boxes (columns)</b>. Each box has a fixed
+            {" "}
+            In the center of the screen you will see a matrix with{" "}
+            <b>books (rows)</b> and <b>boxes (columns)</b>. The <b>goal</b> is
+            to fill up the boxes as much as possible. Each box has a fixed
             capacity and each book a fixed size, indicated by the numbers.
             Please try to assign each book to one of the boxes. Note: Each box
             can take more than one book if their capacity allows it. Each book
             can only be assigned once.{" "}
-          </p>
+          </p>{" "}
           <div
             style={{
               display: "flex",
@@ -42,27 +44,27 @@ export default function Instructions() {
               width: "100%",
             }}
           >
+            {" "}
             <p>
+              {" "}
               <i>
-                <b>Example Exercise</b>
-              </i>
-            </p>
+                <b>Example Exercise</b>{" "}
+              </i>{" "}
+            </p>{" "}
             <div className="instructions-game-container-wrapper-outer">
               <div className="instructions-game-container-wrapper">
-                <InstructionGAPWrapper />
-              </div>
-            </div>
+                <InstructionGAPWrapper />{" "}
+              </div>{" "}
+            </div>{" "}
           </div>
-
           <p>
             To assign a book to a box, simply{" "}
-            <b>click on the corresponding cell</b> in the matrix. Once assigned,
-            the cell will be marked with a circle. You can undo your assignment
-            by clicking on the same cell or assigning the book to a different
-            box if it has sufficient resources. When you are satisfied with your
-            assignments, click the Submit button to complete the trial.
+            <b>click on the corresponding cell</b> in the matrix. You can try it
+            out here. Once assigned, the cell will be marked with a circle. You
+            can undo your assignment by clicking on the same cell or assigning
+            the book to a different box if it has sufficient resources. When you
+            are satisfied with your assignments, click the <b>SUBMIT</b> button.
           </p>
-
           <p>
             Please note that it will not always be possible to assign all of the
             books, but <b>try to assign the books as best you can.</b>

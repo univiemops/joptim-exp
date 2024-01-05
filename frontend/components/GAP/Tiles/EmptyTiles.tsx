@@ -12,7 +12,7 @@ export const EmptyTileX = () => {
   return (
     <div className={styles.empty_tile_x}>
       <div className={styles.empty_tile_label}>
-        <span style={{ opacity: 0.65 }}>Assigned</span>
+        <span style={{ opacity: 0.65 }}>Filled</span>
         <br />
         <span style={{ fontWeight: "bold" }}>Total</span>
       </div>
