@@ -25,6 +25,9 @@ const Experiment: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [trial, setTrial] = useState<number>(0);
   const [isTrialCompleted, setTrialCompleted] = useState<boolean>(true);
+  const [isPartOneCompleted, setPartOneCompleted] = useState<boolean>(false);
+  const [trialPairs, setTrialPairs] = useState<number>(0);
+  const [isTrialPairCompleted, setTrialPairCompleted] = useState<boolean>(true);
 
   const handleTrialComplete = () => {
     if (startTime != null) {
@@ -38,8 +41,7 @@ const Experiment: React.FC = () => {
 
   const handleContinue = () => {
     if (trial === nTrialsIntro) {
-      var msg = `Reached maximum number of trials: ${trial}. In a future version of the experiment your will be taken to part two, the side-by-side solution trials. For now we will continue with solving assignment problems.`;
-      alert(msg);
+      setPartOneCompleted(true);
     }
     setTrial(trial + 1);
     setTrialCompleted(false);
@@ -129,7 +131,13 @@ const Experiment: React.FC = () => {
   return (
     <div className="App">
       <div className="App-header">
-        {isTrialCompleted ? (
+        {isPartOneCompleted ? (
+          <div>
+            Part one = done. thank you!
+            <br /> Here we will soon include a text so you know what happens
+            next (part two) <br /> ... as well as a <b>CONTINUE</b> button.
+          </div>
+        ) : isTrialCompleted ? (
           <ConfirmationPage
             trial={trial}
             utility={getUtility(tasks, assignments)}
