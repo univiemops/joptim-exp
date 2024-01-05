@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { getRandomIntInclusive, getUtility } from "../utils/helperFunctions";
 import StimulusPage from "../components/experiment/StimulusPage";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
-import nTrialsIntro from "../constants/trials.ts";
+import nTrialsIntro from "../constants/trials";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
