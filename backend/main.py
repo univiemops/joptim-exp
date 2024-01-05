@@ -11,7 +11,7 @@ import pickle
 
 
 ###############
-### MODELS ####
+# MODELS      #
 ###############
 
 
@@ -133,25 +133,17 @@ async def create_note(note: schemas.NoteIn):
 def new_game():
     """Take trials from file."""
 
-    ordered = True
-
     print("Loading Trial from file.")
     random_trial_idx = np.random.randint(len(trials))
-    if ordered:
-        tasks = trials[random_trial_idx]["task_loads_ordered"].tolist()
-        agents = trials[random_trial_idx]["worker_capacities_ordered"].tolist()
-        sm = trials[random_trial_idx]["solution_matrix_ordered"]
-
-    else:
-        tasks = trials[random_trial_idx]["task_loads"].tolist()
-        agents = trials[random_trial_idx]["worker_capacities"].tolist()
-        sm = trials[random_trial_idx]["solution_matrix"]
-    costs = trials[random_trial_idx]["costs"]
+    tasks = trials[random_trial_idx]["task_loads"].tolist()
+    agents = trials[random_trial_idx]["worker_capacities"].tolist()
+    sm = trials[random_trial_idx]["solution_matrix"]
+    utility = trials[random_trial_idx]["utility"]
     assignments = [[int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm == 1)).T)]
     return {
         "tasks": tasks,
         "agents": agents,
-        "costs": costs,
+        "utility": utility,
         "assignments_optimal": assignments,
     }
 

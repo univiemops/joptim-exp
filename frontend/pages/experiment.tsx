@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { getRandomIntInclusive, getCosts } from "../utils/helperFunctions";
+import { getRandomIntInclusive, getUtility } from "../utils/helperFunctions";
 import StimulusPage from "../components/experiment/StimulusPage";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
+import nTrialsIntro from "../constants/trials.ts";
 
 console.log(
   "process.env.NEXT_PUBLIC_API_URL:",
@@ -19,10 +20,9 @@ const Experiment: React.FC = () => {
   const [assignmentsOptimal, setAssignmentsOptimal] = useState<
     Array<[number, number]>
   >([]);
-  const [costs, setCosts] = useState<number>(0);
+  const [utility, setUtility] = useState<number>(0);
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-
   const [trial, setTrial] = useState<number>(0);
   const [isTrialCompleted, setTrialCompleted] = useState<boolean>(true);
 
@@ -37,6 +37,10 @@ const Experiment: React.FC = () => {
   };
 
   const handleContinue = () => {
+    if (trial === nTrialsIntro) {
+      var msg = `Reached maximum number of trials: ${trial}`;
+      alert(msg);
+    }
     setTrial(trial + 1);
     setTrialCompleted(false);
   };
@@ -51,7 +55,7 @@ const Experiment: React.FC = () => {
           .then((json) => {
             setTasks(json["tasks"]);
             setWorkers(json["agents"]);
-            setCosts(json["costs"]);
+            setUtility(json["utility"]);
             setAssignmentsOptimal(json["assignments_optimal"]);
             setDatabaseConnected(true);
             setAssignments([]);
@@ -128,8 +132,8 @@ const Experiment: React.FC = () => {
         {isTrialCompleted ? (
           <ConfirmationPage
             trial={trial}
-            costs={getCosts(tasks, assignments)}
-            optimal_costs={costs}
+            utility={getUtility(tasks, assignments)}
+            optimal_utility={utility}
             assignments={assignments}
             assignmentsOptimal={assignmentsOptimal}
             tasks={tasks}
