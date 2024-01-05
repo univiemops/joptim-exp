@@ -23,7 +23,7 @@ export default function Instructions() {
             to make sure you understand it. In the second part, we will show you
             pairs of solutions to different problems, and we want you to choose
             the solution that you find easier to understand. But more about that
-            later. For now, let's start with an introduction to our Generalized
+            later. For now, let us start with an introduction to our Generalized
             Assignment Problem:
           </p>
           <p>
