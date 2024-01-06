@@ -3,6 +3,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getURLParameter } from "../utils/webFunctions";
+import React from "react";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
