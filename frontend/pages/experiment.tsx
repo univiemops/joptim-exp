@@ -73,14 +73,11 @@ const Experiment: React.FC = () => {
   };
 
   // runs once we got XID from the URL
-
   useEffect(() => {
     if (XID != undefined) {
       if (Array.isArray(XID)) {
-        // Handle array case accordingly, e.g., use XID[0] or join the array elements
-        getUserData(XID[0]); // Assuming you want the first element of the array
+        getUserData(XID[0]);
       } else {
-        // Handle string case
         getUserData(XID);
       }
     }

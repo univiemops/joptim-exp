@@ -44,7 +44,10 @@ export default function Home() {
         query: { XID: xid },
       });
     } else {
-      if (getURLParameter("PROLIFIC_PID") != "") {
+      if (
+        getURLParameter("PROLIFIC_PID") !== undefined &&
+        getURLParameter("PROLIFIC_PID") !== ""
+      ) {
         const res = getXid(getURLParameter("PROLIFIC_PID"), setXid);
       }
     }
