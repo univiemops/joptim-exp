@@ -31,31 +31,21 @@ const getXid = async (
     console.error(error);
   }
 };
-
 export default function Home() {
-  const [xid, setXid] = useState<string>();
-  const router = useRouter();
-  // runs only once at the beginning set PID from url params, and move
-  // to instructions
+  const [xid, setXid] = useState<string | undefined>();
+
   useEffect(() => {
-    if (xid != undefined) {
+    const prolificPid = getURLParameter("PROLIFIC_PID");
+
+    if (!xid && prolificPid && prolificPid !== "") {
+      getXid(prolificPid, setXid);
+    } else if (xid) {
       router.push({
         pathname: "/instructions",
         query: { XID: xid },
       });
-    } else {
-      if (
-        getURLParameter("PROLIFIC_PID") !== undefined &&
-        getURLParameter("PROLIFIC_PID") !== ""
-      ) {
-        const prolificPid = getURLParameter("PROLIFIC_PID");
-        if (prolificPid !== undefined && prolificPid !== "") {
-          const res = getXid(prolificPid, setXid);
-        }
-      }
     }
   }, [xid]);
-
   return (
     <div className="App">
       <div className="App-header">
