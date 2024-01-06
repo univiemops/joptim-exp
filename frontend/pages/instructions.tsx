@@ -12,7 +12,7 @@ export default function Instructions() {
   return (
     <div className="App">
       <div className="App-header">
-        <div className="instrucggtions">
+        <div className="instructions">
           <h1>Instructions</h1>
           <p>
             Welcome to the <b>Optimal Assignment Experiment</b>!

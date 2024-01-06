@@ -10,12 +10,42 @@ import numpy as np
 import pickle
 
 
-###############
-# MODELS      #
-###############
-
+#
+# MODELS
+#
 
 metadata = sqlalchemy.MetaData()
+
+
+# survey results table
+
+survey = sqlalchemy.Table(
+    "survey",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("user_id", sqlalchemy.Integer),
+    sqlalchemy.Column("result", sqlalchemy.JSON),
+)
+
+# single trial results table
+
+results = sqlalchemy.Table(
+    "results",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("user_id", sqlalchemy.Integer),
+    sqlalchemy.Column("result", sqlalchemy.JSON),
+)
+
+# dual trial results table
+
+results_dual = sqlalchemy.Table(
+    "results_dual",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("user_id", sqlalchemy.Integer),
+    sqlalchemy.Column("result", sqlalchemy.JSON),
+)
 
 # notes table
 
@@ -27,19 +57,29 @@ notes = sqlalchemy.Table(
     sqlalchemy.Column("completed", sqlalchemy.Boolean),
 )
 
-# results table
+# user table
 
-results = sqlalchemy.Table(
-    "results",
+# when someone enters the app this table is checked
+# if pid already exists, if yes id is returned
+# if it doesnt exist, a new user is created
+
+user = sqlalchemy.Table(
+    "user",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("result", sqlalchemy.JSON),
+    sqlalchemy.Column("pid", sqlalchemy.String),
+    sqlalchemy.Column("xid", sqlalchemy.String),
+    sqlalchemy.Column("consent", sqlalchemy.Boolean),
+    sqlalchemy.Column("survey", sqlalchemy.Boolean),
+    sqlalchemy.Column("completed_1", sqlalchemy.Boolean),
+    sqlalchemy.Column("completed_2", sqlalchemy.Boolean),
+    sqlalchemy.Column("notes", sqlalchemy.Boolean),
 )
 
 
-##############################
-# SET UP DATABASE CONNECTION #
-##############################
+#
+# SET UP DATABASE CONNECTION
+#
 
 
 load_dotenv()
@@ -49,7 +89,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 database = databases.Database(DATABASE_URL)
 
 engine = sqlalchemy.create_engine(DATABASE_URL)
-# metadata.create_all(engine)
+metadata.create_all(engine)
 
 
 ##############
@@ -108,25 +148,47 @@ async def read_notes():
 
 @app.post("/notes/", response_model=schemas.Note)
 async def create_note(note: schemas.NoteIn):
-    print(note)
     query = notes.insert().values(text=note.text, completed=note.completed)
     last_record_id = await database.execute(query)
     return {**note.dict(), "id": last_record_id}
 
 
-# @app.get("/game/")
-# def new_game():
-#     """
-#     Random trial generation.
-#     """
-#     m = 7  # number of tasks
-#     n = 5  # number of agents
-#     steps = 10
-#     lim_tasks = (1, 7 + 1)
-#     lim_agents = (1, 10 + 1)
-#     tasks = (steps * np.random.randint(*lim_tasks, size=m)).tolist()
-#     agents = (steps * np.random.randint(*lim_agents, size=n)).tolist()
-#     return {"tasks": tasks, "agents": agents}
+# test post requests: curl -X POST "http://localhost:8000/xid/" -H "Content-Type: application/json" -d '{"pid": "Hello"}'
+
+
+@app.get("/users/", response_model=List[schemas.User])
+async def read_users():
+    query = user.select()
+    return await database.fetch_all(query)
+
+
+@app.post("/xid/")
+async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
+    """Returns XID for a given Participant ID"""
+
+    import random
+    import string
+
+    query = user.select().where(user.c.pid == participant_id.pid)
+    response = await database.fetch_one(query)
+    if response is not None:
+        return {**response}
+    else:
+        random_xid = "".join(random.choices(string.ascii_letters + string.digits, k=32))
+        new_user_values = {
+            "pid": participant_id.pid,
+            "xid": random_xid,
+            "consent": False,
+            "survey": False,
+            "completed_1": False,
+            "completed_2": False,
+            "notes": False,
+        }
+
+        query = user.insert().values(new_user_values)
+        last_record_id = await database.execute(query)
+        # return {**result.dict(), "id": last_record_id}
+        return new_user_values
 
 
 @app.get("/game/")
@@ -153,12 +215,6 @@ async def read_results():
     query = results.select()
     response = await database.fetch_all(query)
     return response
-    # array = []
-    # for r in response:
-    #    result_dict = r.__dict__
-    #    result_dict['result'] = json.loads(result_dict['result'])
-    #    array.append(schemas.Result(**result_dict))
-    # return array
 
 
 @app.post("/results/", response_model=schemas.Result)

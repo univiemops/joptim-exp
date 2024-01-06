@@ -21,3 +21,18 @@ class Result(BaseModel):
 
 class ResultIn(BaseModel):
     result: dict
+
+
+class ParticipantIdIn(BaseModel):
+    pid: str
+
+
+class User(BaseModel):
+    id: int
+    pid: str
+    xid: str
+    consent: bool
+    survey: bool
+    completed_1: bool
+    completed_2: bool
+    notes: bool
