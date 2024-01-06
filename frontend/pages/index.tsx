@@ -33,10 +33,9 @@ const getXid = async (
 };
 export default function Home() {
   const [xid, setXid] = useState<string | undefined>();
-
+  const router = useRouter();
   useEffect(() => {
     const prolificPid = getURLParameter("PROLIFIC_PID");
-
     if (!xid && prolificPid && prolificPid !== "") {
       getXid(prolificPid, setXid);
     } else if (xid) {
