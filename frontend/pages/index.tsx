@@ -4,17 +4,47 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getURLParameter } from "../utils/webFunctions";
 
+const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
+
+const getXid = async (pid: string, setXid) => {
+  try {
+    const res = await fetch(`${OPTIONAL_SUBURI}/xid/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        pid: pid,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch xid");
+    }
+    const json = await res.json();
+    setXid(json.xid);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export default function Home() {
+  const [xid, setXid] = useState<string>();
   const router = useRouter();
   // runs only once at the beginning set PID from url params, and move
   // to instructions
   useEffect(() => {
-    console.log("PID", getURLParameter("PROLIFIC_PID"));
-    router.push({
-      pathname: "/instructions",
-      query: { PID: getURLParameter("PROLIFIC_PID") },
-    });
-  }, []);
+    if (xid != undefined) {
+      router.push({
+        pathname: "/instructions",
+        query: { XID: xid },
+      });
+    } else {
+      if (getURLParameter("PROLIFIC_PID") != "") {
+        const res = getXid(getURLParameter("PROLIFIC_PID"), setXid);
+      }
+    }
+  }, [xid]);
 
   return (
     <div className="App">

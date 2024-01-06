@@ -7,8 +7,7 @@ import { useRouter } from "next/router";
 
 export default function Instructions() {
   const router = useRouter();
-  const { PID } = router.query;
-  console.log("PID", PID, "has entered the instructions");
+  const { XID } = router.query;
   return (
     <div className="App">
       <div className="App-header">
@@ -78,7 +77,7 @@ export default function Instructions() {
             for participating in this experiment!
           </p>
           <div className="instructions-footer">
-            <Link href={`/experiment?PID=${PID}`}>
+            <Link href={`/experiment?PID=${XID}`}>
               <Button
                 size="large"
                 variant="contained"

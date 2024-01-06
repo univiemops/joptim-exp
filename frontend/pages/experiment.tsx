@@ -30,7 +30,7 @@ const Experiment: React.FC = () => {
   const [trialPairs, setTrialPairs] = useState<number>(0);
   const [isTrialPairCompleted, setTrialPairCompleted] = useState<boolean>(true);
   const router = useRouter();
-  const { PID } = router.query;
+  const { XID } = router.query;
 
   const handleTrialComplete = () => {
     if (startTime != null) {
