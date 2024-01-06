@@ -6,13 +6,12 @@ import ConfirmationPage from "../components/experiment/ConfirmationPage";
 import nTrialsIntro from "../constants/trials";
 import { useRouter } from "next/router";
 
-console.log(
-  "process.env.NEXT_PUBLIC_API_URL:",
-  process.env.NEXT_PUBLIC_API_URL,
-);
-
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
+
+interface UserDataProps {
+  [key: string]: boolean | string; // Define allowed value types
+}
 
 const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
@@ -29,6 +28,7 @@ const Experiment: React.FC = () => {
   const [isPartOneCompleted, setPartOneCompleted] = useState<boolean>(false);
   const [trialPairs, setTrialPairs] = useState<number>(0);
   const [isTrialPairCompleted, setTrialPairCompleted] = useState<boolean>(true);
+  const [userData, setUserData] = useState<UserDataProps>({});
   const router = useRouter();
   const { XID } = router.query;
 
@@ -49,6 +49,35 @@ const Experiment: React.FC = () => {
     setTrial(trial + 1);
     setTrialCompleted(false);
   };
+
+  const getUserData = async (xid: string) => {
+    try {
+      const res = await fetch(`${OPTIONAL_SUBURI}/user/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          xid: XID,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch user");
+      }
+      const json = await res.json();
+      setUserData(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // runs once we got XID from the URL
+  useEffect(() => {
+    if (XID != undefined) {
+      getUserData(XID);
+    }
+  }, [XID]);
 
   // runs after the experiment is "unpaused" before the next trial
   useEffect(() => {
@@ -73,29 +102,12 @@ const Experiment: React.FC = () => {
               `--cols`,
               `${json["agents"].length}`,
             );
-            console.log("fetched game from backend");
           })
           .catch((error) => {
             console.log(error);
-            const m = getRandomIntInclusive(6, 8); // only for fallback
-            const n = getRandomIntInclusive(5, 8);
-            document.documentElement.style.setProperty(`--rows`, `${m}`);
-            document.documentElement.style.setProperty(`--cols`, `${n}`);
-            const tasksFallback = Array.from(
-              { length: m },
-              () => 10 * getRandomIntInclusive(1, 9),
+            alert(
+              "Oops! Unable to connect to the server. Please try again later.",
             );
-
-            const workersFallback = Array.from(
-              { length: n },
-              () => 10 * getRandomIntInclusive(1, 10),
-            );
-            setTasks(tasksFallback);
-            setWorkers(workersFallback);
-            setDatabaseConnected(false);
-            setAssignments([]);
-            setLoading(false);
-            console.log("fetched game from fallback");
           });
       };
       startTime = performance.now();
@@ -125,7 +137,6 @@ const Experiment: React.FC = () => {
       }
 
       const json = await res.json();
-      console.log("json response from API", json);
     } catch (error) {
       console.error(error);
     }

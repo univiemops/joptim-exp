@@ -27,6 +27,10 @@ class ParticipantIdIn(BaseModel):
     pid: str
 
 
+class PseudoIdIn(BaseModel):
+    xid: str
+
+
 class User(BaseModel):
     id: int
     pid: str

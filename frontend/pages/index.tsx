@@ -6,7 +6,10 @@ import { getURLParameter } from "../utils/webFunctions";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
-const getXid = async (pid: string, setXid) => {
+const getXid = async (
+  pid: string,
+  setXid: React.Dispatch<React.SetStateAction<string | undefined>>,
+) => {
   try {
     const res = await fetch(`${OPTIONAL_SUBURI}/xid/`, {
       method: "POST",

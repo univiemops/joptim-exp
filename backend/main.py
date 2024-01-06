@@ -162,6 +162,21 @@ async def read_users():
     return await database.fetch_all(query)
 
 
+@app.post("/user/")
+async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
+    query = user.select().where(user.c.xid == pseudo_id.xid)
+    response = await database.fetch_one(query)
+    user_values = {
+        "xid": response.xid,
+        "consent": response.consent,
+        "survey": response.survey,
+        "completed_1": response.completed_1,
+        "completed_2": response.completed_2,
+        "notes": response.notes,
+    }
+    return user_values
+
+
 @app.post("/xid/")
 async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
     """Returns XID for a given Participant ID"""

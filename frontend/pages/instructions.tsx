@@ -77,7 +77,7 @@ export default function Instructions() {
             for participating in this experiment!
           </p>
           <div className="instructions-footer">
-            <Link href={`/experiment?PID=${XID}`}>
+            <Link href={`/experiment?XID=${XID}`}>
               <Button
                 size="large"
                 variant="contained"
