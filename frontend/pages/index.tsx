@@ -48,7 +48,10 @@ export default function Home() {
         getURLParameter("PROLIFIC_PID") !== undefined &&
         getURLParameter("PROLIFIC_PID") !== ""
       ) {
-        const res = getXid(getURLParameter("PROLIFIC_PID"), setXid);
+        const prolificPid = getURLParameter("PROLIFIC_PID");
+        if (prolificPid !== undefined && prolificPid !== "") {
+          const res = getXid(prolificPid, setXid);
+        }
       }
     }
   }, [xid]);
