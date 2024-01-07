@@ -67,12 +67,28 @@ const Experiment: React.FC = () => {
   const { XID } = router.query;
 
   const handleTrialComplete1 = () => {
-    if (startTime != null) {
+    if (startTime !== null) {
       const endTime: number = performance.now();
       const reactionTime: number = endTime - startTime;
+
+      if (!isNaN(reactionTime)) {
+        handleSubmit1(
+          userData["xid"],
+          tasks,
+          workers,
+          assignments,
+          reactionTime,
+        );
+        setTrialCompleted1(true);
+      } else {
+        console.error(
+          "Variable reactionTime is not a valid number, submitted default value 0.",
+        );
+        handleSubmit1(userData["xid"], tasks, workers, assignments, 0);
+        setTrialCompleted1(true);
+      }
+
       startTime = null;
-      handleSubmit1(userData["xid"], tasks, workers, assignments, reactionTime);
-      setTrialCompleted1(true);
     }
   };
 
