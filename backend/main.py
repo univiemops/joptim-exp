@@ -68,7 +68,7 @@ user = sqlalchemy.Table(
     "user",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("pid", sqlalchemy.String),
+    sqlalchemy.Column("pid", sqlalchemy.String, unique=True),
     sqlalchemy.Column("xid", sqlalchemy.String),
     sqlalchemy.Column("consent", sqlalchemy.Boolean),
     sqlalchemy.Column("survey", sqlalchemy.Boolean),

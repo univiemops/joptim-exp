@@ -25,24 +25,53 @@ const getXid = async (
     }
     const json = await res.json();
     setXid(json.xid);
+    console.log(json.xid, "was set for", pid);
   } catch (error) {
     console.error(error);
   }
 };
+
+// export default function Home() {
+//   const [xid, setXid] = useState<string | undefined>();
+//   const router = useRouter();
+
+//   const prolificPid = getURLParameter("PROLIFIC_PID");
+
+//   useEffect(() => {
+//     if (prolificPid && prolificPid !== "" && !xid) {
+//       getXid(prolificPid, setXid);
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     if (xid) {
+//       router.push({
+//         pathname: "/instructions",
+//         query: { XID: xid },
+//       });
+//     }
+//   }, [xid, router]);
+
 export default function Home() {
   const [xid, setXid] = useState<string | undefined>();
   const router = useRouter();
+
   useEffect(() => {
     const prolificPid = getURLParameter("PROLIFIC_PID");
     if (!xid && prolificPid && prolificPid !== "") {
       getXid(prolificPid, setXid);
-    } else if (xid) {
+    }
+  }, []);
+
+  useEffect(() => {
+    if (xid) {
       router.push({
         pathname: "/instructions",
         query: { XID: xid },
       });
     }
   }, [xid]);
+
   return (
     <div className="App">
       <div className="App-header"></div>
