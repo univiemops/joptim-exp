@@ -5,21 +5,25 @@ from pydantic import BaseModel, Field
 
 class NoteIn(BaseModel):
     text: str
+    xid: str
     completed: bool
 
 
 class Note(BaseModel):
     id: int
+    xid: str
     text: str
     completed: bool
 
 
 class Result(BaseModel):
     id: int
+    xid: str
     result: dict
 
 
 class ResultIn(BaseModel):
+    xid: str
     result: dict
 
 

@@ -23,7 +23,7 @@ survey = sqlalchemy.Table(
     "survey",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("user_id", sqlalchemy.Integer),
+    sqlalchemy.Column("xid", sqlalchemy.String),
     sqlalchemy.Column("result", sqlalchemy.JSON),
 )
 
@@ -33,7 +33,7 @@ results = sqlalchemy.Table(
     "results",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("user_id", sqlalchemy.Integer),
+    sqlalchemy.Column("xid", sqlalchemy.String),
     sqlalchemy.Column("result", sqlalchemy.JSON),
 )
 
@@ -43,7 +43,7 @@ results_dual = sqlalchemy.Table(
     "results_dual",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("user_id", sqlalchemy.Integer),
+    sqlalchemy.Column("xid", sqlalchemy.String),
     sqlalchemy.Column("result", sqlalchemy.JSON),
 )
 
@@ -53,6 +53,7 @@ notes = sqlalchemy.Table(
     "notes",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("xid", sqlalchemy.String),
     sqlalchemy.Column("text", sqlalchemy.String),
     sqlalchemy.Column("completed", sqlalchemy.Boolean),
 )
@@ -89,6 +90,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 database = databases.Database(DATABASE_URL)
 
 engine = sqlalchemy.create_engine(DATABASE_URL)
+
 metadata.create_all(engine)
 
 
@@ -181,6 +183,8 @@ async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
 async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
     """Returns XID for a given Participant ID"""
 
+    # TODO: Bugfix: At the moment, every user is created twice!
+
     import random
     import string
 
@@ -225,6 +229,17 @@ def new_game():
     }
 
 
+@app.post("/results/", response_model=schemas.Result)
+async def create_result(result: schemas.ResultIn):
+    print(result)
+    query = results.insert().values(xid=result.xid, result=result.result)
+    last_record_id = await database.execute(query)
+    return {**result.dict(), "id": last_record_id}
+
+
+# DOWNLOAD CALLS
+
+
 @app.get("/results/", response_model=List[schemas.Result])
 async def read_results():
     query = results.select()
@@ -232,9 +247,38 @@ async def read_results():
     return response
 
 
-@app.post("/results/", response_model=schemas.Result)
-async def create_result(result: schemas.ResultIn):
-    print(result)
-    query = results.insert().values(result=result.result)
-    last_record_id = await database.execute(query)
-    return {**result.dict(), "id": last_record_id}
+# TEST CALLS
+
+
+@app.get("/tables")
+async def get_tables():
+    async with database.transaction():
+        tables = engine.table_names()
+        return {"tables": tables}
+
+
+@app.get("/tables/{table_name}", response_model=List[dict])
+async def get_table_content(table_name: str):
+    async with database.transaction():
+        if not engine.has_table(table_name):
+            raise HTTPException(status_code=404, detail="Table not found")
+
+        table = sqlalchemy.Table(table_name, metadata, autoload_with=engine)
+        query = sqlalchemy.select(table)
+        result_proxy = await database.fetch_all(query)
+        result = [dict(row) for row in result_proxy]
+        return result
+
+
+@app.get("/table_fields/{table_name}", response_model=List[str])
+async def get_table_fields(table_name: str):
+    async with database.transaction():
+        if not await database.fetch_val(
+            f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{table_name}')"
+        ):
+            raise HTTPException(status_code=404, detail="Table not found")
+
+        columns_query = f"SELECT column_name FROM information_schema.columns WHERE table_name = '{table_name}'"
+        result = await database.fetch_all(columns_query)
+        fields = [row["column_name"] for row in result]
+        return fields

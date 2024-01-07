@@ -9,6 +9,40 @@ import { useRouter } from "next/router";
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
 
+const handleSubmit1 = async (
+  xid,
+  tasks,
+  workers,
+  assignments,
+  reactionTime: number,
+) => {
+  try {
+    const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        xid: xid,
+        result: {
+          tasks: tasks,
+          workers: workers,
+          assignments: assignments,
+          rt: reactionTime,
+        },
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to submit data");
+    }
+
+    const json = await res.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 interface UserDataProps {
   [key: string]: boolean | string; // Define allowed value types
 }
@@ -24,30 +58,33 @@ const Experiment: React.FC = () => {
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [trial, setTrial] = useState<number>(0);
-  const [isTrialCompleted, setTrialCompleted] = useState<boolean>(true);
-  const [isPartOneCompleted, setPartOneCompleted] = useState<boolean>(false);
-  const [trialPairs, setTrialPairs] = useState<number>(0);
-  const [isTrialPairCompleted, setTrialPairCompleted] = useState<boolean>(true);
+  const [isTrialCompleted1, setTrialCompleted1] = useState<boolean>(true);
+  const [isCompleted1, setCompleted1] = useState<boolean>(false);
+  const [trial2, setTrial2] = useState<number>(0);
+  const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserDataProps>({});
   const router = useRouter();
   const { XID } = router.query;
 
-  const handleTrialComplete = () => {
+  const handleTrialComplete1 = () => {
     if (startTime != null) {
       const endTime: number = performance.now();
       const reactionTime: number = endTime - startTime;
       startTime = null;
-      handleSubmit(reactionTime);
-      setTrialCompleted(true);
+      handleSubmit1(userData["xid"], tasks, workers, assignments, reactionTime);
+      setTrialCompleted1(true);
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue1 = () => {
     if (trial === nTrialsIntro) {
-      setPartOneCompleted(true);
+      var userDataNew = userData;
+      userDataNew["completed_1"] = true;
+      setUserData(userDataNew);
+      console.log(userData);
     }
     setTrial(trial + 1);
-    setTrialCompleted(false);
+    setTrialCompleted1(false);
   };
 
   const getUserData = async (xid: string) => {
@@ -67,12 +104,12 @@ const Experiment: React.FC = () => {
       }
       const json = await res.json();
       setUserData(json);
+      console.log(json);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // runs once we got XID from the URL
   useEffect(() => {
     if (XID != undefined) {
       if (Array.isArray(XID)) {
@@ -83,9 +120,8 @@ const Experiment: React.FC = () => {
     }
   }, [XID]);
 
-  // runs after the experiment is "unpaused" before the next trial
   useEffect(() => {
-    if (isTrialCompleted === false) {
+    if (isTrialCompleted1 === false) {
       const fetchGame = () => {
         setLoading(true);
         fetch(`${OPTIONAL_SUBURI}/game/`)
@@ -117,45 +153,18 @@ const Experiment: React.FC = () => {
       startTime = performance.now();
       fetchGame();
     }
-  }, [isTrialCompleted]);
-
-  const handleSubmit = async (reactionTime: number) => {
-    try {
-      const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          result: {
-            tasks: tasks,
-            workers: workers,
-            assignments: assignments,
-            rt: reactionTime,
-          },
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to submit data");
-      }
-
-      const json = await res.json();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  }, [isTrialCompleted1]);
 
   return (
     <div className="App">
       <div className="App-header">
-        {isPartOneCompleted ? (
+        {userData["completed_1"] === true ? (
           <div>
             Part one = done. thank you!
             <br /> Here we will soon include a text so you know what happens
             next (part two) <br /> ... as well as a <b>CONTINUE</b> button.
           </div>
-        ) : isTrialCompleted ? (
+        ) : isTrialCompleted1 ? (
           <ConfirmationPage
             trial={trial}
             utility={getUtility(tasks, assignments)}
@@ -164,7 +173,7 @@ const Experiment: React.FC = () => {
             assignmentsOptimal={assignmentsOptimal}
             tasks={tasks}
             workers={workers}
-            onContinue={handleContinue}
+            onContinue={handleContinue1}
           />
         ) : (
           <StimulusPage
@@ -175,7 +184,7 @@ const Experiment: React.FC = () => {
             tasks={tasks}
             workers={workers}
             databaseConnected={databaseConnected}
-            onComplete={handleTrialComplete}
+            onComplete={handleTrialComplete1}
           />
         )}
       </div>
