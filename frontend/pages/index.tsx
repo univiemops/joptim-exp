@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getURLParameter } from "../utils/webFunctions";
 import React from "react";
 
@@ -52,19 +52,37 @@ const getXid = async (
 //     }
 //   }, [xid, router]);
 
+// export default function Home() {
+//   const [xid, setXid] = useState<string | undefined>();
+//   const router = useRouter();
+
+//   useEffect(() => {
+//     const prolificPid = getURLParameter("PROLIFIC_PID");
+//     if (!xid && prolificPid && prolificPid !== "") {
+//       getXid(prolificPid, setXid);
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     if (xid) {
+//       router.push({
+//         pathname: "/instructions",
+//         query: { XID: xid },
+//       });
+//     }
+//   }, [xid]);
+
 export default function Home() {
   const [xid, setXid] = useState<string | undefined>();
   const router = useRouter();
+  const getXidCalled = useRef(false); // Ref to track if getXid was called
 
   useEffect(() => {
     const prolificPid = getURLParameter("PROLIFIC_PID");
-    if (!xid && prolificPid && prolificPid !== "") {
+    if (!xid && prolificPid && prolificPid !== "" && !getXidCalled.current) {
+      getXidCalled.current = true; // Set to true to prevent further calls
       getXid(prolificPid, setXid);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (xid) {
+    } else if (xid) {
       router.push({
         pathname: "/instructions",
         query: { XID: xid },
