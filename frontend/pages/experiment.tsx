@@ -10,12 +10,12 @@ const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
 
 const handleSubmit1 = async (
-  xid,
-  tasks,
-  workers,
-  assignments,
+  xid: string,
+  workers: Array<number>,
+  tasks: Array<number>,
+  assignments: Array<[number, number]>,
   reactionTime: number,
-) => {
+): Promise<void> => {
   try {
     const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
       method: "POST",
