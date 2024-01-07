@@ -86,6 +86,5 @@ Then go to:
 [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ## TODOs
-* Fix: Error "blocked mixed content". Immediately after startup this error can occur and frontend will thus fall back to random trial generation. Vanishes usually within a minute. 
 * Finalize experimental design
 * Admin page for downloading the collected data via browser (Authentication required)
