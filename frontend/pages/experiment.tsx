@@ -72,14 +72,23 @@ const Experiment: React.FC = () => {
       const reactionTime: number = endTime - startTime;
 
       if (!isNaN(reactionTime)) {
-        handleSubmit1(
-          userData["xid"],
-          tasks,
-          workers,
-          assignments,
-          reactionTime,
-        );
-        setTrialCompleted1(true);
+        // Check if reactionTime is a valid number
+        const xidFromUserData: string | boolean = userData["xid"];
+        if (typeof xidFromUserData === "string") {
+          // Check if it's a string
+          handleSubmit1(
+            xidFromUserData,
+            tasks,
+            workers,
+            assignments,
+            reactionTime,
+          );
+          setTrialCompleted1(true);
+        } else {
+          console.error(
+            "Variable xid is not a valid string. Trial not submitted.",
+          );
+        }
       } else {
         console.error(
           "Variable reactionTime is not a valid number, submitted default value 0.",
