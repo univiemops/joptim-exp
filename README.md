@@ -88,6 +88,4 @@ Then go to:
 ## TODOs
 * Fix: Error "blocked mixed content". Immediately after startup this error can occur and frontend will thus fall back to random trial generation. Vanishes usually within a minute. 
 * Finalize experimental design
-* Enable Prolific integration
-* Remove fallback trial generation if no backend is available
 * Admin page for downloading the collected data via browser (Authentication required)
