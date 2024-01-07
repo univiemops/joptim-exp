@@ -31,47 +31,6 @@ const getXid = async (
   }
 };
 
-// export default function Home() {
-//   const [xid, setXid] = useState<string | undefined>();
-//   const router = useRouter();
-
-//   const prolificPid = getURLParameter("PROLIFIC_PID");
-
-//   useEffect(() => {
-//     if (prolificPid && prolificPid !== "" && !xid) {
-//       getXid(prolificPid, setXid);
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     if (xid) {
-//       router.push({
-//         pathname: "/instructions",
-//         query: { XID: xid },
-//       });
-//     }
-//   }, [xid, router]);
-
-// export default function Home() {
-//   const [xid, setXid] = useState<string | undefined>();
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     const prolificPid = getURLParameter("PROLIFIC_PID");
-//     if (!xid && prolificPid && prolificPid !== "") {
-//       getXid(prolificPid, setXid);
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     if (xid) {
-//       router.push({
-//         pathname: "/instructions",
-//         query: { XID: xid },
-//       });
-//     }
-//   }, [xid]);
-
 export default function Home() {
   const [xid, setXid] = useState<string | undefined>();
   const router = useRouter();

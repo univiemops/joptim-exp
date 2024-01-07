@@ -183,8 +183,6 @@ async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
 async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
     """Returns XID for a given Participant ID"""
 
-    # TODO: Bugfix: At the moment, every user is created twice!
-
     import random
     import string
 
@@ -206,7 +204,6 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
 
         query = user.insert().values(new_user_values)
         last_record_id = await database.execute(query)
-        # return {**result.dict(), "id": last_record_id}
         return new_user_values
 
 
