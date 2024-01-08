@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@mui/material";
 import InstructionGAPWrapper from "@/components/GAP/InstructionGAPWrapper";
@@ -8,16 +8,6 @@ import { useRouter } from "next/router";
 export default function Instructions() {
   const router = useRouter();
   const { XID } = router.query;
-
-  useLayoutEffect(() => {
-    // runs only if the user has already interacted with the page,
-    // i.e. user has left the welcome page by clicking "continue"
-    try {
-      document.documentElement.requestFullscreen();
-    } catch (error) {
-      console.error("Error requesting fullscreen:", error);
-    }
-  });
 
   return (
     <div className="App">
