@@ -5,74 +5,79 @@ import GAP from "../GAP/GAP";
 const StimulusPage2: React.FC<{
   trial: number;
   loading: boolean;
-  assignments: Array<[number, number]>;
-  setAssignments: (newAssignments: Array<[number, number]>) => void;
+  assignments1: Array<[number, number]>;
+  assignments2: Array<[number, number]>;
   tasks: Array<number>;
   workers: Array<number>;
-  databaseConnected: boolean;
   onComplete: () => void;
 }> = ({
   trial,
   loading,
-  assignments,
-  setAssignments,
+  assignments1,
+  assignments2,
   tasks,
   workers,
-  databaseConnected,
   onComplete,
 }) => {
-  const handleTileClick = (
-    e: React.MouseEvent<HTMLDivElement>,
-    coordinates: [number, number],
-  ) => {
-    if (loading === false) {
-      let newAssignments = [...assignments];
-      let index = newAssignments.findIndex(
-        (a) => a[0] === coordinates[0] && a[1] === coordinates[1],
-      );
-      if (index === -1) {
-        let indexOther = newAssignments.findIndex(
-          (a) => a[0] === coordinates[0],
-        );
-        const capacity = workers[coordinates[1]];
-        const oldLoad = assignments
-          .filter((a) => a[1] === coordinates[1])
-          .map((a) => tasks[a[0]])
-          .reduce((a, b) => a + b, 0);
-        const newLoad = tasks[coordinates[0]];
-        const limitReached = capacity - oldLoad - newLoad < 0;
+  const [selected, setSelected] = React.useState<number>(0);
 
-        if (limitReached) {
-          (e.target as HTMLDivElement).style.backgroundColor = "lightgray";
-          setTimeout(() => {
-            (e.target as HTMLDivElement).style.backgroundColor = "";
-          }, 100);
-        } else {
-          newAssignments.push(coordinates);
-        }
-        if (indexOther !== -1 && !limitReached) {
-          newAssignments.splice(indexOther, 1);
-        }
-      } else {
-        newAssignments.splice(index, 1);
-      }
-      setAssignments(newAssignments);
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    if (loading === false) {
+      setSelected(index);
     }
   };
+
   return (
     <>
       <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
-        Trial {trial}: Which of the two solutions do find easier to understand?
+        Trial {trial}: Which of the two solutions do you find easier to
+        understand?
       </span>
-      <GAP
-        loading={loading}
-        tasks={tasks}
-        assignments={assignments}
-        workers={workers}
-        handleTileClick={handleTileClick}
-        freeze={false}
-        icons={true}
-      />{" "}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          maxWidth: "100%",
+        }}
+      >
+        {" "}
+        <div
+          onClick={(e) => handleClick(e, 1)}
+          style={
+            selected === 1
+              ? { border: "5px solid lightgreen", cursor: "pointer" }
+              : { border: "5px solid #efefef", cursor: "pointer" }
+          }
+        >
+          <GAP
+            loading={false}
+            tasks={tasks}
+            assignments={assignments1}
+            workers={workers}
+            freeze={false}
+            icons={false}
+          />
+        </div>
+        <div
+          onClick={(e) => handleClick(e, 2)}
+          style={
+            selected === 2
+              ? { border: "5px solid lightgreen", cursor: "pointer" }
+              : { border: "5px solid #efefef", cursor: "pointer" }
+          }
+        >
+          <GAP
+            loading={false}
+            tasks={tasks}
+            assignments={assignments2}
+            workers={workers}
+            freeze={false}
+            icons={false}
+          />
+        </div>
+      </div>
       <Button
         size="large"
         variant="contained"

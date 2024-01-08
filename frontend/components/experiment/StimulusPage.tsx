@@ -9,7 +9,6 @@ const StimulusPage: React.FC<{
   setAssignments: (newAssignments: Array<[number, number]>) => void;
   tasks: Array<number>;
   workers: Array<number>;
-  databaseConnected: boolean;
   onComplete: () => void;
 }> = ({
   trial,
@@ -18,21 +17,20 @@ const StimulusPage: React.FC<{
   setAssignments,
   tasks,
   workers,
-  databaseConnected,
   onComplete,
 }) => {
   const handleTileClick = (
     e: React.MouseEvent<HTMLDivElement>,
-    coordinates: [number, number]
+    coordinates: [number, number],
   ) => {
     if (loading === false) {
       let newAssignments = [...assignments];
       let index = newAssignments.findIndex(
-        (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
+        (a) => a[0] === coordinates[0] && a[1] === coordinates[1],
       );
       if (index === -1) {
         let indexOther = newAssignments.findIndex(
-          (a) => a[0] === coordinates[0]
+          (a) => a[0] === coordinates[0],
         );
         const capacity = workers[coordinates[1]];
         const oldLoad = assignments
@@ -62,12 +60,7 @@ const StimulusPage: React.FC<{
   return (
     <>
       <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
-        Trial {trial}: Assign the books to{" "}
-        <span
-          style={databaseConnected ? { color: "green" } : { color: "black" }}
-        >
-          boxes
-        </span>
+        Trial {trial}: Assign the books to boxes
       </span>
       <GAP
         loading={loading}

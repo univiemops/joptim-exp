@@ -4,30 +4,15 @@ import { Button } from "@mui/material";
 
 const ConfirmationPage2: React.FC<{
   trial: number;
-  utility: number;
-  optimal_utility: number;
-  assignments: Array<[number, number]>;
-  assignmentsOptimal: Array<[number, number]>;
-  tasks: Array<number>;
-  workers: Array<number>;
   onContinue: () => void;
-}> = ({
-  trial,
-  utility,
-  optimal_utility,
-  assignments,
-  assignmentsOptimal,
-  tasks,
-  workers,
-  onContinue,
-}) => {
+}> = ({ trial, onContinue }) => {
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        maxWidth: "100%",
+        maxWidth: "min(100%,900px)",
       }}
     >
       <div
@@ -40,55 +25,20 @@ const ConfirmationPage2: React.FC<{
       >
         {trial === 0 ? (
           <div>
-            <b>Start!</b>
+            <p>
+              Now that you have a good understanding of what the Generalized
+              Assignment Problem ist, let's start with <b>part two</b>!
+            </p>
+            <p>
+              In the following trials you will not solve problems like before,
+              but you will always be shown two solutions. We want to know from
+              you which of these two solutions you prefer.
+            </p>
           </div>
         ) : (
-          <>
-            <div>
-              {optimal_utility > utility ? (
-                <div>
-                  <b>Trial {trial} completed!</b> Your score is <b>{utility}</b>
-                  , the optimal solution is <b>{optimal_utility}</b>.
-                </div>
-              ) : (
-                <div>
-                  <b>Trial completed!</b> You found an{" "}
-                  <span style={{ color: "darkgreen", fontWeight: "bold" }}>
-                    optimal solution
-                  </span>{" "}
-                  (score: {utility}).
-                </div>
-              )}
-              <br />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                maxWidth: "100%",
-              }}
-            >
-              {" "}
-              <GAP
-                loading={false}
-                tasks={tasks}
-                assignments={assignments}
-                workers={workers}
-                freeze={true}
-                icons={false}
-              />
-              <GAP
-                loading={false}
-                tasks={tasks}
-                assignments={assignmentsOptimal}
-                workers={workers}
-                freeze={true}
-                icons={false}
-              />
-            </div>
-          </>
+          <div>
+            <b>Finished trial {trial}</b>
+          </div>
         )}
       </div>
       <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>

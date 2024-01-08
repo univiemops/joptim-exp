@@ -215,14 +215,21 @@ def new_game():
     random_trial_idx = np.random.randint(len(trials))
     tasks = trials[random_trial_idx]["task_loads"].tolist()
     agents = trials[random_trial_idx]["worker_capacities"].tolist()
-    sm = trials[random_trial_idx]["solution_matrix"]
+    sm_1 = trials[random_trial_idx]["solution_matrix_1"]
+    sm_2 = trials[random_trial_idx]["solution_matrix_2"]
     utility = trials[random_trial_idx]["utility"]
-    assignments = [[int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm == 1)).T)]
+    assignments_1 = [
+        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm_1 == 1)).T)
+    ]
+    assignments_2 = [
+        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm_2 == 1)).T)
+    ]
     return {
         "tasks": tasks,
         "agents": agents,
         "utility": utility,
-        "assignments_optimal": assignments,
+        "assignments_optimal_1": assignments_1,
+        "assignments_optimal_2": assignments_2,
     }
 
 

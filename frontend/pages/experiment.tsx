@@ -23,6 +23,9 @@ const Experiment: React.FC = () => {
   const [assignmentsOptimal, setAssignmentsOptimal] = useState<
     Array<[number, number]>
   >([]);
+  const [assignmentsOptimal2, setAssignmentsOptimal2] = useState<
+    Array<[number, number]>
+  >([]);
   const [utility, setUtility] = useState<number>(0);
   const [databaseConnected, setDatabaseConnected] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -70,7 +73,6 @@ const Experiment: React.FC = () => {
     if (startTime !== null) {
       const endTime: number = performance.now();
       const reactionTime: number = endTime - startTime;
-
       if (!isNaN(reactionTime)) {
         const xidFromUserData: string | boolean = userData["xid"];
         if (typeof xidFromUserData === "string") {
@@ -152,6 +154,7 @@ const Experiment: React.FC = () => {
     }
   }, [XID]);
 
+  // runs when Trial in part 1 is completed
   useEffect(() => {
     if (isTrialCompleted1 === false) {
       const fetchGame = () => {
@@ -162,7 +165,8 @@ const Experiment: React.FC = () => {
             setTasks(json["tasks"]);
             setWorkers(json["agents"]);
             setUtility(json["utility"]);
-            setAssignmentsOptimal(json["assignments_optimal"]);
+            setAssignmentsOptimal(json["assignments_optimal_1"]);
+            setAssignmentsOptimal2(json["assignments_optimal_2"]);
             setDatabaseConnected(true);
             setAssignments([]);
             setLoading(false);
@@ -186,31 +190,58 @@ const Experiment: React.FC = () => {
       fetchGame();
     }
   }, [isTrialCompleted1]);
-  console.log("completed_1?", userData["completed_1"]);
+
+  // runs when Trial in part 2 is completed
+  useEffect(() => {
+    if (isTrialCompleted2 === false) {
+      const fetchGame = () => {
+        setLoading(true);
+        fetch(`${OPTIONAL_SUBURI}/game/`)
+          .then((response) => response.json())
+          .then((json) => {
+            setTasks(json["tasks"]);
+            setWorkers(json["agents"]);
+            setUtility(json["utility"]);
+            setAssignmentsOptimal(json["assignments_optimal_1"]);
+            setAssignmentsOptimal2(json["assignments_optimal_2"]);
+            setDatabaseConnected(true);
+            setAssignments([]);
+            setLoading(false);
+            document.documentElement.style.setProperty(
+              `--rows`,
+              `${json["tasks"].length}`,
+            );
+            document.documentElement.style.setProperty(
+              `--cols`,
+              `${json["agents"].length}`,
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+            alert(
+              "Oops! Unable to connect to the server. Please try again later.",
+            );
+          });
+      };
+      startTime = performance.now();
+      fetchGame();
+    }
+  }, [isTrialCompleted2]);
+
   return (
     <div className="App">
       <div className="App-header">
         {userData["completed_1"] === true ? (
           isTrialCompleted2 ? (
-            <ConfirmationPage2
-              trial={trial2}
-              utility={getUtility(tasks, assignments)}
-              optimal_utility={utility}
-              assignments={assignments}
-              assignmentsOptimal={assignmentsOptimal}
-              tasks={tasks}
-              workers={workers}
-              onContinue={handleContinue2}
-            />
+            <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
           ) : (
             <StimulusPage2
               trial={trial2}
               loading={loading}
-              assignments={assignments}
-              setAssignments={setAssignments}
+              assignments1={assignmentsOptimal}
+              assignments2={assignmentsOptimal2}
               tasks={tasks}
               workers={workers}
-              databaseConnected={databaseConnected}
               onComplete={handleTrialComplete2}
             />
           )
@@ -233,7 +264,6 @@ const Experiment: React.FC = () => {
             setAssignments={setAssignments}
             tasks={tasks}
             workers={workers}
-            databaseConnected={databaseConnected}
             onComplete={handleTrialComplete1}
           />
         )}
