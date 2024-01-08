@@ -27,13 +27,15 @@ const ConfirmationPage: React.FC<{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        maxWidth: "100%",
       }}
     >
-      <span
+      <div
         style={{
           color: "black",
           fontSize: "x-large",
           margin: "2rem",
+          maxWidth: "100%",
         }}
       >
         {trial === 0 ? (
@@ -59,7 +61,14 @@ const ConfirmationPage: React.FC<{
               )}
               <br />
             </div>
-            <div style={{ display: "flex", flexDirection: "row" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                maxWidth: "100%",
+              }}
+            >
               {" "}
               <GAP
                 loading={false}
@@ -80,7 +89,7 @@ const ConfirmationPage: React.FC<{
             </div>
           </>
         )}
-      </span>
+      </div>
       <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
         Click <b>Continue</b> when you are ready to proceed.
       </span>
