@@ -2,46 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { getRandomIntInclusive, getUtility } from "../utils/helperFunctions";
 import StimulusPage from "../components/experiment/StimulusPage";
+import StimulusPage2 from "../components/experiment/StimulusPage2";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
-import nTrialsIntro from "../constants/trials";
+import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
+import { nTrialsIntro, nTrialsMain } from "../constants/trials";
 import { useRouter } from "next/router";
+import { handleSubmit1, handleSubmit2 } from "../utils/submitFunctions";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
-
-const handleSubmit1 = async (
-  xid: string,
-  workers: Array<number>,
-  tasks: Array<number>,
-  assignments: Array<[number, number]>,
-  reactionTime: number,
-): Promise<void> => {
-  try {
-    const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        xid: xid,
-        result: {
-          tasks: tasks,
-          workers: workers,
-          assignments: assignments,
-          rt: reactionTime,
-        },
-      }),
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to submit data");
-    }
-
-    const json = await res.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 interface UserDataProps {
   [key: string]: boolean | string; // Define allowed value types
@@ -97,8 +66,39 @@ const Experiment: React.FC = () => {
     }
   };
 
+  const handleTrialComplete2 = () => {
+    if (startTime !== null) {
+      const endTime: number = performance.now();
+      const reactionTime: number = endTime - startTime;
+
+      if (!isNaN(reactionTime)) {
+        const xidFromUserData: string | boolean = userData["xid"];
+        if (typeof xidFromUserData === "string") {
+          handleSubmit2(
+            xidFromUserData,
+            tasks,
+            workers,
+            assignments,
+            reactionTime,
+          );
+          setTrialCompleted2(true);
+        } else {
+          console.error(
+            "Variable xid is not a valid string. Trial not submitted.",
+          );
+        }
+      } else {
+        console.error(
+          "Variable reactionTime is not a valid number. Trial not submitted.",
+        );
+      }
+
+      startTime = null;
+    }
+  };
+
   const handleContinue1 = () => {
-    if (trial === nTrialsIntro) {
+    if (trial >= nTrialsIntro) {
       var userDataNew = userData;
       userDataNew["completed_1"] = true;
       setUserData(userDataNew);
@@ -106,6 +106,17 @@ const Experiment: React.FC = () => {
     }
     setTrial(trial + 1);
     setTrialCompleted1(false);
+  };
+
+  const handleContinue2 = () => {
+    if (trial2 >= nTrialsMain) {
+      var userDataNew = userData;
+      userDataNew["completed_2"] = true;
+      setUserData(userDataNew);
+      console.log(userData);
+    }
+    setTrial2(trial2 + 1);
+    setTrialCompleted2(false);
   };
 
   const getUserData = async (xid: string) => {
@@ -175,16 +186,34 @@ const Experiment: React.FC = () => {
       fetchGame();
     }
   }, [isTrialCompleted1]);
-
+  console.log("completed_1?", userData["completed_1"]);
   return (
     <div className="App">
       <div className="App-header">
         {userData["completed_1"] === true ? (
-          <div>
-            Part one = done. thank you!
-            <br /> Here we will soon include a text so you know what happens
-            next (part two) <br /> ... as well as a <b>CONTINUE</b> button.
-          </div>
+          isTrialCompleted2 ? (
+            <ConfirmationPage2
+              trial={trial2}
+              utility={getUtility(tasks, assignments)}
+              optimal_utility={utility}
+              assignments={assignments}
+              assignmentsOptimal={assignmentsOptimal}
+              tasks={tasks}
+              workers={workers}
+              onContinue={handleContinue2}
+            />
+          ) : (
+            <StimulusPage2
+              trial={trial2}
+              loading={loading}
+              assignments={assignments}
+              setAssignments={setAssignments}
+              tasks={tasks}
+              workers={workers}
+              databaseConnected={databaseConnected}
+              onComplete={handleTrialComplete2}
+            />
+          )
         ) : isTrialCompleted1 ? (
           <ConfirmationPage
             trial={trial}

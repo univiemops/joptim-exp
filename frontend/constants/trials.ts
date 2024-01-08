@@ -1,3 +1,2 @@
-const nTrialsIntro = 10;
-
-export default nTrialsIntro;
+export const nTrialsIntro = 10;
+export const nTrialsMain = 25;
