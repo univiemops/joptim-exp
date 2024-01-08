@@ -1,8 +1,0 @@
-(undo-tree-save-format-version . 1)
-"22ab199c7d2ee5dda1929e12c99ac755adb83eb3"
-[nil nil nil nil (26012 9252 331721 483000) 0 nil]
-([nil nil ((121 . 122) (t 26012 9209 181326 938000)) nil (26012 9252 331718 69000) 0 nil])
-([nil nil ((2852 . 2853) (t 26012 9252 347536 652000)) nil (26012 9257 399724 356000) 0 nil])
-([nil nil ((#("1" 0 1 (face (tree-sitter-hl-face:type tree-sitter-hl-face:constructor) fontified t)) . -2852) (undo-tree-id0 . -1) (undo-tree-id1 . -1) (undo-tree-id2 . -1) (undo-tree-id3 . -1) (undo-tree-id4 . -1) (undo-tree-id5 . -1) (undo-tree-id6 . -1) (undo-tree-id7 . -1) (undo-tree-id8 . -1) (undo-tree-id9 . -1) 2853) nil (26012 9257 399722 688000) 0 nil])
-([nil current ((2852 . 2853)) nil (26012 9257 399702 597000) 0 nil])
-nil
