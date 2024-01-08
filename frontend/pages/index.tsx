@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
 import { getURLParameter } from "../utils/webFunctions";
 import React from "react";
+import Link from "next/link";
+import { Button } from "@mui/material";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
@@ -41,17 +43,26 @@ export default function Home() {
     if (!xid && prolificPid && prolificPid !== "" && !getXidCalled.current) {
       getXidCalled.current = true; // Set to true to prevent further calls
       getXid(prolificPid, setXid);
-    } else if (xid) {
-      router.push({
-        pathname: "/instructions",
-        query: { XID: xid },
-      });
     }
   }, [xid]);
 
   return (
     <div className="App">
-      <div className="App-header"></div>
+      <h1>Behavioral experiment</h1>
+      <Link href={`/instructions?XID=${xid}`}>
+        <Button
+          size="large"
+          variant="contained"
+          style={{
+            fontSize: "xx-large",
+            background: "#000000",
+            textTransform: "none",
+            padding: ".3rem 3rem .3rem 3rem",
+          }}
+        >
+          START
+        </Button>
+      </Link>
     </div>
   );
 }

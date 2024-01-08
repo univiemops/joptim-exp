@@ -230,44 +230,42 @@ const Experiment: React.FC = () => {
 
   return (
     <div className="App">
-      <div className="App-header">
-        {userData["completed_1"] === true ? (
-          isTrialCompleted2 ? (
-            <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
-          ) : (
-            <StimulusPage2
-              trial={trial2}
-              loading={loading}
-              assignments1={assignmentsOptimal}
-              assignments2={assignmentsOptimal2}
-              tasks={tasks}
-              workers={workers}
-              onComplete={handleTrialComplete2}
-            />
-          )
-        ) : isTrialCompleted1 ? (
-          <ConfirmationPage
-            trial={trial}
-            utility={getUtility(tasks, assignments)}
-            optimal_utility={utility}
-            assignments={assignments}
-            assignmentsOptimal={assignmentsOptimal}
-            tasks={tasks}
-            workers={workers}
-            onContinue={handleContinue1}
-          />
+      {userData["completed_1"] === true ? (
+        isTrialCompleted2 ? (
+          <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
         ) : (
-          <StimulusPage
-            trial={trial}
+          <StimulusPage2
+            trial={trial2}
             loading={loading}
-            assignments={assignments}
-            setAssignments={setAssignments}
+            assignments1={assignmentsOptimal}
+            assignments2={assignmentsOptimal2}
             tasks={tasks}
             workers={workers}
-            onComplete={handleTrialComplete1}
+            onComplete={handleTrialComplete2}
           />
-        )}
-      </div>
+        )
+      ) : isTrialCompleted1 ? (
+        <ConfirmationPage
+          trial={trial}
+          utility={getUtility(tasks, assignments)}
+          optimal_utility={utility}
+          assignments={assignments}
+          assignmentsOptimal={assignmentsOptimal}
+          tasks={tasks}
+          workers={workers}
+          onContinue={handleContinue1}
+        />
+      ) : (
+        <StimulusPage
+          trial={trial}
+          loading={loading}
+          assignments={assignments}
+          setAssignments={setAssignments}
+          tasks={tasks}
+          workers={workers}
+          onComplete={handleTrialComplete1}
+        />
+      )}
     </div>
   );
 };

@@ -16,7 +16,6 @@ import pickle
 
 metadata = sqlalchemy.MetaData()
 
-
 # survey results table
 
 survey = sqlalchemy.Table(
@@ -29,7 +28,7 @@ survey = sqlalchemy.Table(
 
 # single trial results table
 
-results = sqlalchemy.Table(
+results=sqlalchemy.Table(
     "results",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
