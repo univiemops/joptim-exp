@@ -79,14 +79,24 @@ const StimulusPage2: React.FC<{
         </div>
       </div>
       <Button
+        disabled={selected === 0 ? true : false}
         size="large"
         variant="contained"
-        style={{
-          fontSize: "x-large",
-          background: "#000000",
-          textTransform: "none",
-          padding: ".3rem 3rem .3rem 3rem",
-        }}
+        style={
+          selected === 0
+            ? {
+                fontSize: "x-large",
+                textTransform: "none",
+                padding: ".3rem 3rem .3rem 3rem",
+              }
+            : {
+                fontSize: "x-large",
+                color: "#ffffff",
+                background: "#000000",
+                textTransform: "none",
+                padding: ".3rem 3rem .3rem 3rem",
+              }
+        }
         onClick={() => onComplete()}
       >
         SUBMIT
