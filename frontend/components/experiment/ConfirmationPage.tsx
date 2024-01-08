@@ -66,6 +66,7 @@ const ConfirmationPage: React.FC<{
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "wrap",
+                justifyContent: "center",
                 maxWidth: "100%",
               }}
             >
