@@ -21,13 +21,13 @@ export default function Instructions() {
             how people evaluate complex problems.
           </p>
           <p>
-            In <b>part on</b>, we will introduce you to a special problem called
-            the Generalized Asignment Problem and let you solve some examples to
-            make sure you understand it. In <b>part two</b>, we will show you
-            pairs of solutions to different problems, and we want you to choose
-            the solution that you find easier to understand. But more about that
-            later. For now, let's start with an introduction to our Generalized
-            Assignment Problem:
+            In <b>part one</b>, we will introduce you to a special problem
+            called the Generalized Asignment Problem and let you solve some
+            examples to make sure you understand it. In <b>part two</b>, we will
+            show you pairs of solutions to different problems, and we want you
+            to choose the solution that you find easier to understand. But more
+            about that later. For now, let's start with an introduction to our
+            Generalized Assignment Problem:
           </p>{" "}
           <p>
             {" "}
