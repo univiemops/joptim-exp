@@ -118,6 +118,9 @@ const Experiment: React.FC = () => {
         console.error("XID is undefined or not a string");
       }
     }
+    // TODO increment should happen when trial results are uploaded
+    // AND/OR number of completed trials should be taken from db
+    // (rows in the results table for a given user)
     setTrial(trial + 1);
     setTrialCompleted1(false);
   };
@@ -133,6 +136,9 @@ const Experiment: React.FC = () => {
         console.error("XID is undefined or not a string");
       }
     }
+    // TODO increment should happen when trial results are uploaded
+    // AND/OR number of completed trials should be taken from db
+    // (rows in the results_dual table for a given user)
     setTrial2(trial2 + 1);
     setTrialCompleted2(false);
   };
@@ -248,8 +254,11 @@ const Experiment: React.FC = () => {
       {userData["completed_1"] === true ? (
         userData["completed_2"] === true ? (
           <div>
-            Thank you for participating in the experiment. Here will follow a
-            short debrief and a redirect to prolific.
+            <p>
+              You have completed the experiment. Thank you for your
+              participation.
+            </p>
+            <p>[Here will follow a short debrief and a redirect to prolific]</p>
           </div>
         ) : isTrialCompleted2 ? (
           <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
