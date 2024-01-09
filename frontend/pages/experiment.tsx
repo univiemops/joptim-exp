@@ -109,7 +109,7 @@ const Experiment: React.FC = () => {
 
   const handleContinue1 = () => {
     if (trial >= nTrialsIntro) {
-      if (XID !== undefined || typeof XID === "string") {
+      if (XID !== undefined && typeof XID === "string") {
         const userDataNew = userData;
         userDataNew["completed_1"] = true;
         setUserData(userDataNew);
@@ -124,7 +124,7 @@ const Experiment: React.FC = () => {
 
   const handleContinue2 = () => {
     if (trial2 >= nTrialsMain) {
-      if (XID !== undefined || typeof XID === "string") {
+      if (XID !== undefined && typeof XID === "string") {
         const userDataNew = userData;
         userDataNew["completed_2"] = true;
         setUserData(userDataNew);
