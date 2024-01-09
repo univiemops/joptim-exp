@@ -71,3 +71,28 @@ export const handleSubmit2 = async (
     console.error(error);
   }
 };
+
+export const handleUpdateUser = async (
+  XID: string,
+  field: string,
+  value: boolean,
+): Promise<void> => {
+  const update = { xid: XID };
+  update[field] = value;
+  try {
+    const res = await fetch(`${OPTIONAL_SUBURI}/user-update/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(update),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to update user");
+    }
+    const json = await res.json();
+  } catch (error) {
+    console.error(error);
+  }
+};

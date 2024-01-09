@@ -7,7 +7,11 @@ import ConfirmationPage from "../components/experiment/ConfirmationPage";
 import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
 import { nTrialsIntro, nTrialsMain } from "../constants/trials";
 import { useRouter } from "next/router";
-import { handleSubmit1, handleSubmit2 } from "../utils/submitFunctions";
+import {
+  handleSubmit1,
+  handleSubmit2,
+  handleUpdateUser,
+} from "../utils/submitFunctions";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
@@ -87,7 +91,6 @@ const Experiment: React.FC = () => {
             reactionTime,
             choice,
           );
-          console.log("chosen", choice);
           setTrialCompleted2(true);
         } else {
           console.error(
@@ -109,8 +112,7 @@ const Experiment: React.FC = () => {
       var userDataNew = userData;
       userDataNew["completed_1"] = true;
       setUserData(userDataNew);
-      // run update API call here
-      console.log(userData);
+      handleUpdateUser(XID, "completed_1", true);
     }
     setTrial(trial + 1);
     setTrialCompleted1(false);
@@ -121,8 +123,7 @@ const Experiment: React.FC = () => {
       var userDataNew = userData;
       userDataNew["completed_2"] = true;
       setUserData(userDataNew);
-      // run update API call here
-      console.log(userData);
+      handleUpdateUser(XID, "completed_2", true);
     }
     setTrial2(trial2 + 1);
     setTrialCompleted2(false);
@@ -145,7 +146,6 @@ const Experiment: React.FC = () => {
       }
       const json = await res.json();
       setUserData(json);
-      console.log(json);
     } catch (error) {
       console.error(error);
     }
@@ -187,7 +187,7 @@ const Experiment: React.FC = () => {
             );
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             alert(
               "Oops! Unable to connect to the server. Please try again later.",
             );
@@ -224,7 +224,7 @@ const Experiment: React.FC = () => {
             );
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
             alert(
               "Oops! Unable to connect to the server. Please try again later.",
             );
@@ -238,7 +238,12 @@ const Experiment: React.FC = () => {
   return (
     <div className="App">
       {userData["completed_1"] === true ? (
-        isTrialCompleted2 ? (
+        userData["completed_2"] === true ? (
+          <div>
+            Thank you for participating in the experiment. Here will follow a
+            short debrief and a redirect to prolific.
+          </div>
+        ) : isTrialCompleted2 ? (
           <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
         ) : (
           <StimulusPage2
