@@ -1,14 +1,20 @@
+"""
+FastAPI backend.
+
+SQLAlchemy tables are defined here, not in a separate
+file. This might change in future versions.
+"""
+
 import os
 import databases
 import sqlalchemy
 from typing import List
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import schemas
 import numpy as np
 import pickle
-
 
 #
 # MODELS
@@ -28,7 +34,7 @@ survey = sqlalchemy.Table(
 
 # single trial results table
 
-results=sqlalchemy.Table(
+results = sqlalchemy.Table(
     "results",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
@@ -202,14 +208,13 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
         }
 
         query = user.insert().values(new_user_values)
-        last_record_id = await database.execute(query)
+        # last_record_id = await database.execute(query)
         return new_user_values
 
 
 @app.get("/game/")
 def new_game():
     """Take trials from file."""
-
     print("Loading Trial from file.")
     random_trial_idx = np.random.randint(len(trials))
     tasks = trials[random_trial_idx]["task_loads"].tolist()
