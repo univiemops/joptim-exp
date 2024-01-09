@@ -10,7 +10,7 @@ const StimulusPage2: React.FC<{
   tasks: Array<number>;
   workers: Array<number>;
   onComplete: () => void;
-  setChoice: () => void;
+  setChoice: (value: number) => void;
   choice: number;
 }> = ({
   trial,
