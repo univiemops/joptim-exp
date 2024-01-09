@@ -163,19 +163,37 @@ async def create_note(note: schemas.NoteIn):
 # test post requests: curl -X POST "http://localhost:8000/xid/" -H "Content-Type: application/json" -d '{"pid": "Hello"}'
 
 
-# retrieve user info
-
-
 @app.get("/users/", response_model=List[schemas.User])
 async def read_users():
+    """Retrieve user info."""
     query = user.select()
     return await database.fetch_all(query)
 
 
+@app.get("/user-trials-completed/{xid}")
+async def get_user_trials_completed(xid: str) -> int:
+    """Get the number of completed trials for a user."""
+    query = results.select().where(results.c.xid == xid)
+    response = await database.fetch_all(query)
+    return len(response)
+
+
+@app.get("/user-trials-dual-completed/{xid}")
+async def get_user_trials_dual_completed(xid: str) -> int:
+    """Get the number of completed trials for a user."""
+    query = results_dual.select().where(results_dual.c.xid == xid)
+    response = await database.fetch_all(query)
+    return len(response)
+
+
 @app.post("/user/")
 async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
+    """Retrieve section completion status for a user."""
     query = user.select().where(user.c.xid == pseudo_id.xid)
     response = await database.fetch_one(query)
+    print("\n\n\ninput:", pseudo_id, "\n\n\n\n")
+    print("\n\n\nquery:", query, "\n\n\n\n")
+    print("\n\n\nresponse:", response, "\n\n\n\n")
     user_values = {
         "xid": response.xid,
         "consent": response.consent,
@@ -193,7 +211,6 @@ async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
 @app.post("/user-update/")
 async def update_user(user_data: Dict[str, Any]) -> dict:
     query = user.update().where(user.c.xid == user_data.get("xid")).values(user_data)
-    print(query)
     await database.execute(query)
     return {"message": "User data updated successfully"}
 
@@ -225,7 +242,7 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
         }
 
         query = user.insert().values(new_user_values)
-        # last_record_id = await database.execute(query)
+        last_record_id = await database.execute(query)
         return new_user_values
 
 
@@ -235,7 +252,6 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
 @app.get("/game/")
 def new_game():
     """Take trials from file."""
-    print("Loading Trial from file.")
     random_trial_idx = np.random.randint(len(trials))
     tasks = trials[random_trial_idx]["task_loads"].tolist()
     agents = trials[random_trial_idx]["worker_capacities"].tolist()
@@ -262,15 +278,15 @@ def new_game():
 
 @app.post("/results/", response_model=schemas.Result)
 async def create_result(result: schemas.ResultIn):
-    print(result)
+    """Store the results of a trial in the database."""
     query = results.insert().values(xid=result.xid, result=result.result)
     last_record_id = await database.execute(query)
     return {**result.dict(), "id": last_record_id}
 
 
 @app.post("/results_dual/", response_model=schemas.Result)
-async def create_result(result: schemas.ResultIn):
-    print(result)
+async def create_results_dual(result: schemas.ResultIn):
+    """Store the results of a trial in the database."""
     query = results_dual.insert().values(xid=result.xid, result=result.result)
     last_record_id = await database.execute(query)
     return {**result.dict(), "id": last_record_id}

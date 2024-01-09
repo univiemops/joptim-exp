@@ -118,10 +118,6 @@ const Experiment: React.FC = () => {
         console.error("XID is undefined or not a string");
       }
     }
-    // TODO increment should happen when trial results are uploaded
-    // AND/OR number of completed trials should be taken from db
-    // (rows in the results table for a given user)
-    setTrial(trial + 1);
     setTrialCompleted1(false);
   };
 
@@ -136,10 +132,6 @@ const Experiment: React.FC = () => {
         console.error("XID is undefined or not a string");
       }
     }
-    // TODO increment should happen when trial results are uploaded
-    // AND/OR number of completed trials should be taken from db
-    // (rows in the results_dual table for a given user)
-    setTrial2(trial2 + 1);
     setTrialCompleted2(false);
   };
 
@@ -160,6 +152,35 @@ const Experiment: React.FC = () => {
       }
       const json = await res.json();
       setUserData(json);
+    } catch (error) {
+      console.error(error);
+    }
+    try {
+      const res = await fetch(
+        `${OPTIONAL_SUBURI}/user-trials-completed/${XID}`,
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch user");
+      }
+      const nTrialsNew = await res.json();
+      setTrial(nTrialsNew);
+      console.log(nTrialsNew);
+    } catch (error) {
+      console.error(error);
+    }
+
+    try {
+      const res = await fetch(
+        `${OPTIONAL_SUBURI}/user-trials-dual-completed/${XID}`,
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch user");
+      }
+      const nTrialsNew = await res.json();
+      setTrial2(nTrialsNew);
+      console.log(nTrialsNew);
     } catch (error) {
       console.error(error);
     }
