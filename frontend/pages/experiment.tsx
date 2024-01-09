@@ -40,7 +40,7 @@ const Experiment: React.FC = () => {
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserDataProps>({});
   const router = useRouter();
-  const { XID } = router.query;
+  const { XID }: string = router.query;
   const [choice, setChoice] = React.useState<number>(0);
 
   const handleTrialComplete1 = () => {
