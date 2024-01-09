@@ -118,6 +118,7 @@ const Experiment: React.FC = () => {
         console.error("XID is undefined or not a string");
       }
     }
+    setTrial(trial + 1);
     setTrialCompleted1(false);
   };
 
@@ -132,6 +133,7 @@ const Experiment: React.FC = () => {
         console.error("XID is undefined or not a string");
       }
     }
+    setTrial2(trial2 + 1);
     setTrialCompleted2(false);
   };
 
