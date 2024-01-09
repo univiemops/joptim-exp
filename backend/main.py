@@ -16,9 +16,9 @@ import schemas
 import numpy as np
 import pickle
 
-#
+########
 # MODELS
-#
+########
 
 metadata = sqlalchemy.MetaData()
 
@@ -83,9 +83,9 @@ user = sqlalchemy.Table(
 )
 
 
-#
+############################
 # SET UP DATABASE CONNECTION
-#
+############################
 
 
 load_dotenv()
