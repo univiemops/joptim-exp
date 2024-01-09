@@ -105,4 +105,5 @@ div {
 
 .stimulus-pair-container {
     min-width: min(100%, 1500px);
+    cursor: pointer;
 }
