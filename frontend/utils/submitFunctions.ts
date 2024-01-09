@@ -1,6 +1,6 @@
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
-type DynamicDictionary = Record<string, string | number>;
+type DynamicDictionary = Record<string, string | boolean>;
 
 export const handleSubmit1 = async (
   xid: string,
