@@ -109,10 +109,14 @@ const Experiment: React.FC = () => {
 
   const handleContinue1 = () => {
     if (trial >= nTrialsIntro) {
-      var userDataNew = userData;
-      userDataNew["completed_1"] = true;
-      setUserData(userDataNew);
-      handleUpdateUser(XID, "completed_1", true);
+      if (XID !== undefined) {
+        const userDataNew = userData;
+        userDataNew["completed_1"] = true;
+        setUserData(userDataNew);
+        handleUpdateUser(XID, "completed_1", true);
+      } else {
+        console.error("XID is undefined");
+      }
     }
     setTrial(trial + 1);
     setTrialCompleted1(false);
@@ -120,10 +124,14 @@ const Experiment: React.FC = () => {
 
   const handleContinue2 = () => {
     if (trial2 >= nTrialsMain) {
-      var userDataNew = userData;
-      userDataNew["completed_2"] = true;
-      setUserData(userDataNew);
-      handleUpdateUser(XID, "completed_2", true);
+      if (XID !== undefined) {
+        const userDataNew = userData;
+        userDataNew["completed_2"] = true;
+        setUserData(userDataNew);
+        handleUpdateUser(XID, "completed_2", true);
+      } else {
+        console.error("XID is undefined");
+      }
     }
     setTrial2(trial2 + 1);
     setTrialCompleted2(false);
