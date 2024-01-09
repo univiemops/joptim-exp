@@ -10,6 +10,8 @@ const StimulusPage2: React.FC<{
   tasks: Array<number>;
   workers: Array<number>;
   onComplete: () => void;
+  setChoice: () => void;
+  choice: number;
 }> = ({
   trial,
   loading,
@@ -18,12 +20,12 @@ const StimulusPage2: React.FC<{
   tasks,
   workers,
   onComplete,
+  setChoice,
+  choice,
 }) => {
-  const [selected, setSelected] = React.useState<number>(0);
-
   const handleClick = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
     if (loading === false) {
-      setSelected(index);
+      setChoice(index);
     }
   };
 
@@ -45,16 +47,12 @@ const StimulusPage2: React.FC<{
         <div
           onClick={(e) => handleClick(e, 1)}
           style={
-            selected === 1
+            choice === 1
               ? {
                   border: "5px solid lightgreen",
-                  cursor: "pointer",
-                  margin: "0 auto",
                 }
               : {
                   border: "5px solid #efefef",
-                  cursor: "pointer",
-                  margin: "0 auto",
                 }
           }
         >
@@ -70,16 +68,12 @@ const StimulusPage2: React.FC<{
         <div
           onClick={(e) => handleClick(e, 2)}
           style={
-            selected === 2
+            choice === 2
               ? {
                   border: "5px solid lightgreen",
-                  cursor: "pointer",
-                  margin: "0 auto",
                 }
               : {
                   border: "5px solid #efefef",
-                  cursor: "pointer",
-                  margin: "0 auto",
                 }
           }
         >
@@ -94,11 +88,11 @@ const StimulusPage2: React.FC<{
         </div>
       </div>
       <Button
-        disabled={selected === 0 ? true : false}
+        disabled={choice === 0 ? true : false}
         size="large"
         variant="contained"
         style={
-          selected === 0
+          choice === 0
             ? {
                 fontSize: "x-large",
                 textTransform: "none",

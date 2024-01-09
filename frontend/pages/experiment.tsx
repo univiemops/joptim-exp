@@ -37,6 +37,7 @@ const Experiment: React.FC = () => {
   const [userData, setUserData] = useState<UserDataProps>({});
   const router = useRouter();
   const { XID } = router.query;
+  const [choice, setChoice] = React.useState<number>(0);
 
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
@@ -71,6 +72,7 @@ const Experiment: React.FC = () => {
 
   const handleTrialComplete2 = () => {
     if (startTime !== null) {
+      setChoice(0);
       const endTime: number = performance.now();
       const reactionTime: number = endTime - startTime;
       if (!isNaN(reactionTime)) {
@@ -80,9 +82,12 @@ const Experiment: React.FC = () => {
             xidFromUserData,
             tasks,
             workers,
-            assignments,
+            assignmentsOptimal,
+            assignmentsOptimal2,
             reactionTime,
+            choice,
           );
+          console.log("chosen", choice);
           setTrialCompleted2(true);
         } else {
           console.error(
@@ -104,6 +109,7 @@ const Experiment: React.FC = () => {
       var userDataNew = userData;
       userDataNew["completed_1"] = true;
       setUserData(userDataNew);
+      // run update API call here
       console.log(userData);
     }
     setTrial(trial + 1);
@@ -115,6 +121,7 @@ const Experiment: React.FC = () => {
       var userDataNew = userData;
       userDataNew["completed_2"] = true;
       setUserData(userDataNew);
+      // run update API call here
       console.log(userData);
     }
     setTrial2(trial2 + 1);
@@ -242,6 +249,8 @@ const Experiment: React.FC = () => {
             tasks={tasks}
             workers={workers}
             onComplete={handleTrialComplete2}
+            setChoice={setChoice}
+            choice={choice}
           />
         )
       ) : isTrialCompleted1 ? (

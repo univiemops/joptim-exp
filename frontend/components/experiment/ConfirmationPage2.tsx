@@ -27,7 +27,7 @@ const ConfirmationPage2: React.FC<{
           <div>
             <p>
               Now that you have a good understanding of what the Generalized
-              Assignment Problem ist, let's start with <b>part two</b>!
+              Assignment Problem is, let's start with <b>part two</b>!
             </p>
             <p>
               In the following trials you will not solve problems like before,

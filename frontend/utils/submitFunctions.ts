@@ -38,11 +38,13 @@ export const handleSubmit2 = async (
   xid: string,
   workers: Array<number>,
   tasks: Array<number>,
-  assignments: Array<[number, number]>,
+  assignments1: Array<[number, number]>,
+  assignments2: Array<[number, number]>,
   reactionTime: number,
+  choice: number,
 ): Promise<void> => {
   try {
-    const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
+    const res = await fetch(`${OPTIONAL_SUBURI}/results_dual/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,8 +54,10 @@ export const handleSubmit2 = async (
         result: {
           tasks: tasks,
           workers: workers,
-          assignments: assignments,
+          assignments_1: assignments1,
+          assignments_2: assignments2,
           rt: reactionTime,
+          choice: choice,
         },
       }),
     });

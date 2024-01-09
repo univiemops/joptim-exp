@@ -15,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import schemas
 import numpy as np
 import pickle
+from typing import Dict, Any
 
 ########
 # MODELS
@@ -162,6 +163,9 @@ async def create_note(note: schemas.NoteIn):
 # test post requests: curl -X POST "http://localhost:8000/xid/" -H "Content-Type: application/json" -d '{"pid": "Hello"}'
 
 
+# retrieve user info
+
+
 @app.get("/users/", response_model=List[schemas.User])
 async def read_users():
     query = user.select()
@@ -183,21 +187,18 @@ async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
     return user_values
 
 
-# TODO
+# update status of user
 
-# @app.post("/user-update/")
-# async def update_user(user_data: schemas.ParticipantUpdate) -> dict:
-#     query = user.select().where(user.c.xid == user_data.xid)
-#     response = await database.fetch_one(query)
-#     user_values = {
-#         "xid": response.xid,
-#         "consent": response.consent,
-#         "survey": response.survey,
-#         "completed_1": response.completed_1,
-#         "completed_2": response.completed_2,
-#         "notes": response.notes,
-#     }
-#     return user_values
+
+@app.post("/user-update/")
+async def update_user(user_data: Dict[str, Any]) -> dict:
+    query = user.update().where(user.c.xid == user_data.get("xid")).values(user_data)
+    print(query)
+    await database.execute(query)
+    return {"message": "User data updated successfully"}
+
+
+# create new user or retrieve xid of existing user
 
 
 @app.post("/xid/")
@@ -228,6 +229,9 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
         return new_user_values
 
 
+# get a random trial from the trials file
+
+
 @app.get("/game/")
 def new_game():
     """Take trials from file."""
@@ -253,10 +257,21 @@ def new_game():
     }
 
 
+# post results of individual trials
+
+
 @app.post("/results/", response_model=schemas.Result)
 async def create_result(result: schemas.ResultIn):
     print(result)
     query = results.insert().values(xid=result.xid, result=result.result)
+    last_record_id = await database.execute(query)
+    return {**result.dict(), "id": last_record_id}
+
+
+@app.post("/results_dual/", response_model=schemas.Result)
+async def create_result(result: schemas.ResultIn):
+    print(result)
+    query = results_dual.insert().values(xid=result.xid, result=result.result)
     last_record_id = await database.execute(query)
     return {**result.dict(), "id": last_record_id}
 
