@@ -40,7 +40,7 @@ const Experiment: React.FC = () => {
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserDataProps>({});
   const router = useRouter();
-  const { XID }: string = router.query;
+  const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
 
   const handleTrialComplete1 = () => {
@@ -109,13 +109,13 @@ const Experiment: React.FC = () => {
 
   const handleContinue1 = () => {
     if (trial >= nTrialsIntro) {
-      if (XID !== undefined) {
+      if (XID !== undefined || typeof XID === "string") {
         const userDataNew = userData;
         userDataNew["completed_1"] = true;
         setUserData(userDataNew);
         handleUpdateUser(XID, "completed_1", true);
       } else {
-        console.error("XID is undefined");
+        console.error("XID is undefined or not a string");
       }
     }
     setTrial(trial + 1);
@@ -124,13 +124,13 @@ const Experiment: React.FC = () => {
 
   const handleContinue2 = () => {
     if (trial2 >= nTrialsMain) {
-      if (XID !== undefined) {
+      if (XID !== undefined || typeof XID === "string") {
         const userDataNew = userData;
         userDataNew["completed_2"] = true;
         setUserData(userDataNew);
         handleUpdateUser(XID, "completed_2", true);
       } else {
-        console.error("XID is undefined");
+        console.error("XID is undefined or not a string");
       }
     }
     setTrial2(trial2 + 1);
