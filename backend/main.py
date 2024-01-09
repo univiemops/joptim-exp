@@ -183,6 +183,23 @@ async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
     return user_values
 
 
+# TODO
+
+# @app.post("/user-update/")
+# async def update_user(user_data: schemas.ParticipantUpdate) -> dict:
+#     query = user.select().where(user.c.xid == user_data.xid)
+#     response = await database.fetch_one(query)
+#     user_values = {
+#         "xid": response.xid,
+#         "consent": response.consent,
+#         "survey": response.survey,
+#         "completed_1": response.completed_1,
+#         "completed_2": response.completed_2,
+#         "notes": response.notes,
+#     }
+#     return user_values
+
+
 @app.post("/xid/")
 async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
     """Returns XID for a given Participant ID"""
