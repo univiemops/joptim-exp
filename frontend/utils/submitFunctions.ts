@@ -1,5 +1,7 @@
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
+type DynamicDictionary = Record<string, string | number>;
+
 export const handleSubmit1 = async (
   xid: string,
   workers: Array<number>,
@@ -77,7 +79,8 @@ export const handleUpdateUser = async (
   field: string,
   value: boolean,
 ): Promise<void> => {
-  const update = { xid: XID };
+  const update: DynamicDictionary = {};
+  update["xid"] = XID;
   update[field] = value;
   try {
     const res = await fetch(`${OPTIONAL_SUBURI}/user-update/`, {
