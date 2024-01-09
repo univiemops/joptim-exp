@@ -3,102 +3,106 @@
 /* --rows and --cols variables are defined in experiment.tsx */
 
 :root {
-  --box-size: 240px;
-  --tile-size: calc(var(--box-size) / (3 + max(var(--rows), var(--cols))));
-  --tile-size-long: calc(var(--tile-size) * 2);
-  --box-size-mini: 20rem;
-  --tile-size-mini: calc(
-    var(--box-size-mini) / (3 + max(var(--rows), var(--cols)))
-  );
-  --tile-size-long-mini: calc(var(--tile-size-mini) * 2);
-  --default-font-size: medium;
-  --font-mono: "Fira Mono", monospace;
-  --pure-white: #ffffff;
-  --primary-color: #b9c6d2;
-  --secondary-color: #d0dde9;
-  --tertiary-color: #edf0f8;
-  --accent-color: #0063a6;
-  --heading-color: rgba(0, 0, 0, 0.7);
-  --text-color: #444444;
-  --selected-color: deepskyblue;
-  --background-without-opacity: rgba(255, 255, 255, 0.7);
-  --column-width: 42rem;
-  --column-margin-top: 4rem;
-  font-size: var(--default-font-size);
+    --box-size: 240px;
+    --tile-size: calc(var(--box-size) / (3 + max(var(--rows), var(--cols))));
+    --tile-size-long: calc(var(--tile-size) * 2);
+    --box-size-mini: 20rem;
+    --tile-size-mini: calc(
+        var(--box-size-mini) / (3 + max(var(--rows), var(--cols)))
+    );
+    --tile-size-long-mini: calc(var(--tile-size-mini) * 2);
+    --default-font-size: medium;
+    --font-mono: "Fira Mono", monospace;
+    --pure-white: #ffffff;
+    --primary-color: #b9c6d2;
+    --secondary-color: #d0dde9;
+    --tertiary-color: #edf0f8;
+    --accent-color: #0063a6;
+    --heading-color: rgba(0, 0, 0, 0.7);
+    --text-color: #444444;
+    --selected-color: deepskyblue;
+    --background-without-opacity: rgba(255, 255, 255, 0.7);
+    --column-width: 42rem;
+    --column-margin-top: 4rem;
+    font-size: var(--default-font-size);
 }
 
 /* for phones portrait */
 @media only screen and (min-height: 400px) {
-  :root {
-    --box-size: 350px;
-  }
+    :root {
+        --box-size: 350px;
+    }
 }
 
 /* for tablets portrait */
 @media only screen and (min-width: 600px) and (min-height: 600px) {
-  :root {
-    --box-size: 750px;
-  }
+    :root {
+        --box-size: 750px;
+    }
 }
 
 /* for tablets landscape */
 @media only screen and (min-width: 900px) {
-  :root {
-    --box-size: 550px;
-  }
+    :root {
+        --box-size: 550px;
+    }
 }
 
 /* for desktop */
 @media only screen and (min-width: 1200px) {
-  :root {
-    --box-size: 600px;
-  }
+    :root {
+        --box-size: 600px;
+    }
 }
 
 /*  for tables big desktop */
 @media only screen and (min-width: 1800px) {
-  :root {
-    --box-size: 600px;
-  }
+    :root {
+        --box-size: 600px;
+    }
 }
 
 /*  for tables big desktop */
 @media only screen and (min-width: 2000px) {
-  :root {
-    --box-size: 900px;
-  }
+    :root {
+        --box-size: 900px;
+    }
 }
 
 div {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 @keyframes spinner {
-  0% {
-    transform: rotate(0deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
 
-  100% {
-    transform: rotate(360deg);
-  }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .loading-spinner {
-  position: absolute;
-  z-index: 4000;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  margin: auto;
-  width: 50px;
-  height: 50px;
-  border: 10px solid #f3f3f3;
-  /* Light grey */
-  border-top: 10px solid gray;
-  /* Black */
-  border-radius: 50%;
-  animation: spinner 1s linear infinite;
+    position: absolute;
+    z-index: 4000;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border: 10px solid #f3f3f3;
+    /* Light grey */
+    border-top: 10px solid gray;
+    /* Black */
+    border-radius: 50%;
+    animation: spinner 1s linear infinite;
+}
+
+.stimulus-pair-container {
+    min-width: min(100%, 1500px);
 }

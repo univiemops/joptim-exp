@@ -34,21 +34,28 @@ const StimulusPage2: React.FC<{
         understand?
       </span>
       <div
+        className="stimulus-pair-container"
         style={{
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
-          justifyContent: "center",
-          maxWidth: "100%",
+          justifyContent: "space-evenly",
         }}
       >
-        {" "}
         <div
           onClick={(e) => handleClick(e, 1)}
           style={
             selected === 1
-              ? { border: "5px solid lightgreen", cursor: "pointer" }
-              : { border: "5px solid #efefef", cursor: "pointer" }
+              ? {
+                  border: "5px solid lightgreen",
+                  cursor: "pointer",
+                  margin: "0 auto",
+                }
+              : {
+                  border: "5px solid #efefef",
+                  cursor: "pointer",
+                  margin: "0 auto",
+                }
           }
         >
           <GAP
@@ -64,8 +71,16 @@ const StimulusPage2: React.FC<{
           onClick={(e) => handleClick(e, 2)}
           style={
             selected === 2
-              ? { border: "5px solid lightgreen", cursor: "pointer" }
-              : { border: "5px solid #efefef", cursor: "pointer" }
+              ? {
+                  border: "5px solid lightgreen",
+                  cursor: "pointer",
+                  margin: "0 auto",
+                }
+              : {
+                  border: "5px solid #efefef",
+                  cursor: "pointer",
+                  margin: "0 auto",
+                }
           }
         >
           <GAP
