@@ -79,10 +79,11 @@
     left: 50%;
     transform: translate(-50%, 0%);
     z-index: 999;
+    min-width: 100%;
 }
 
 .empty_tile_label_left {
-    align-items: flex-end;
+    align-items: center;
 }
 
 .empty_tile_label_right {

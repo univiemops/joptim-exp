@@ -13,9 +13,9 @@ export const EmptyTileXLeft = () => {
   return (
     <div className={styles.empty_tile_x}>
       <div className={styles.empty_tile_label_left}>
-        <span style={{ fontWeight: "bold" }}>Filled</span>
+        <span style={{ fontWeight: "bold" }}>Full</span>
         <br />
-        <span style={{ fontWeight: "bold", opacity: 0.55 }}>Available</span>
+        <span style={{ fontWeight: "bold", opacity: 0.55 }}>Total</span>
       </div>
     </div>
   );
