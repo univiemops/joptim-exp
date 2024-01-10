@@ -1,129 +1,147 @@
 .worker_tile {
-  position: relative;
-  background-color: white;
-  border-color: white;
-  border-style: solid;
-  border-width: 1px;
-  font-size: 16pt;
-  display: flex;
-  align-items: flex-end;
-  width: var(--tile-size);
-  height: var(--tile-size-long);
+    position: relative;
+    background-color: white;
+    border-color: white;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 16pt;
+    display: flex;
+    align-items: flex-end;
+    width: var(--tile-size);
+    height: var(--tile-size-long);
 }
 
 .worker_tile_inner_capacity {
-  position: absolute;
-  background-color: white;
-  border-width: 1px 1px 0px 1px;
-  border-style: dashed;
-  border-color: gray;
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  z-index: 100;
+    position: absolute;
+    background-color: white;
+    border-width: 1px 1px 0px 1px;
+    border-style: dashed;
+    border-color: gray;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    z-index: 100;
 }
 
 .worker_tile_load_container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-start;
-  z-index: 110;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    z-index: 110;
 }
 
 .worker_tile_load {
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  opacity: 0.95;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    opacity: 0.95;
 }
 
 .task_tile {
-  background-color: white;
-  border-color: white;
-  border-style: solid;
-  border-width: 1px;
-  font-size: 16pt;
-  display: flex;
-  justify-content: flex-end;
-  opacity: 0.95;
-  width: var(--tile-size-long);
-  height: var(--tile-size);
+    background-color: white;
+    border-color: white;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 16pt;
+    display: flex;
+    justify-content: flex-end;
+    opacity: 0.95;
+    width: var(--tile-size-long);
+    height: var(--tile-size);
 }
 
 .task_label_outer {
-  position: relative;
-  height: var(--tile-size);
+    position: relative;
+    height: var(--tile-size);
 }
 
 .task_label {
-  position: absolute;
-  right: 10%;
-  top: 50%;
-  transform: translate(0%, -50%);
-  z-index: 999;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translate(0%, -50%);
+    z-index: 999;
 }
 
 .worker_label_outer {
-  position: relative;
-  width: var(--tile-size);
+    position: relative;
+    width: var(--tile-size);
 }
 
 .worker_label,
-.empty_tile_label {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  z-index: 999;
+.empty_tile_label_left,
+.empty_tile_label_right {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 999;
+}
+
+.empty_tile_label_left {
+    align-items: flex-end;
+}
+
+.empty_tile_label_right {
+    align-items: flex-start;
+}
+
+.empty_tile_label_left,
+.empty_tile_label_right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .task_label {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .task_label,
 .worker_label,
-.empty_tile_label {
-  /* font-size: 1.2vmax; */
-  font-size: calc(var(--tile-size-long) / 5);
+.empty_tile_label_left,
+.empty_tile_label_right {
+    /* font-size: 1.2vmax; */
+    font-size: calc(var(--tile-size-long) / 5);
 }
 
 .task_tile_inner {
-  height: 100%;
-  position: relative;
+    height: 100%;
+    position: relative;
 }
 
+.empty_tile_x,
 .empty_tile_x {
-  position: relative;
-  width: calc(var(--tile-size-long) * 1);
+    position: relative;
+    width: calc(var(--tile-size-long) * 1);
 }
 
 .empty_tile,
 .empty_tile_y {
-  position: relative;
-  width: 100%;
-  height: calc(var(--tile-size-long) * 1);
+    position: relative;
+    width: 100%;
+    height: calc(var(--tile-size-long) * 1);
 }
 
 .tile,
 .tile_disabled {
-  display: flex;
-  background-color: white;
-  border-color: gray;
-  border-style: solid;
-  border-width: 1px;
-  justify-content: flex-end;
-  width: var(--tile-size);
-  height: var(--tile-size);
+    display: flex;
+    background-color: white;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px;
+    justify-content: flex-end;
+    width: var(--tile-size);
+    height: var(--tile-size);
 }
 
 .tile {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .tile_disabled {
-  cursor: default;
+    cursor: default;
 }

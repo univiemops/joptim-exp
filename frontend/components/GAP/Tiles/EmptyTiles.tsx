@@ -1,4 +1,5 @@
 import styles from "./Tiles.module.css";
+import { sumOfArray } from "../../../utils/helperFunctions";
 
 export const EmptyTile = () => {
   return <div className={styles.empty_tile}></div>;
@@ -8,13 +9,34 @@ export const EmptyTileY = () => {
   return <div className={styles.empty_tile_y}></div>;
 };
 
-export const EmptyTileX = () => {
+export const EmptyTileXLeft = () => {
   return (
     <div className={styles.empty_tile_x}>
-      <div className={styles.empty_tile_label}>
-        <span style={{ opacity: 0.65 }}>Filled</span>
+      <div className={styles.empty_tile_label_left}>
+        <span style={{ fontWeight: "bold" }}>Filled</span>
         <br />
-        <span style={{ fontWeight: "bold" }}>Total</span>
+        <span style={{ fontWeight: "bold", opacity: 0.55 }}>Available</span>
+      </div>
+    </div>
+  );
+};
+
+interface PropsEmptyTileXRight {
+  assignments: Array<[number, number]>;
+  tasks: Array<number>;
+  workers: Array<number>;
+}
+
+export const EmptyTileXRight: React.FC<PropsEmptyTileXRight> = (props) => {
+  const { assignments, tasks, workers } = props;
+  const filled = sumOfArray(assignments.map((subArray) => tasks[subArray[0]]));
+  const capacity = sumOfArray(workers);
+  return (
+    <div className={styles.empty_tile_x}>
+      <div className={styles.empty_tile_label_right}>
+        <span style={{ fontWeight: "bold" }}>{filled}</span>
+        <br />
+        <span style={{ fontWeight: "bold", opacity: 0.55 }}>{capacity}</span>
       </div>
     </div>
   );

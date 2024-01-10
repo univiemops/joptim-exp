@@ -34,7 +34,7 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
 
   if (remainingSize !== size) {
     animation = true;
-    opacityWorker = 0.65;
+    opacityWorker = 1;
   }
 
   return (
@@ -50,10 +50,10 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
         )}
         <br />
         <span style={{ filter: filter, opacity: opacityWorker }}>
-          {size - remainingSize}
+          <b>{size - remainingSize}</b>
         </span>
         <br />
-        <span>
+        <span style={{ opacity: 0.55 }}>
           <b>{size}</b>
         </span>
       </div>

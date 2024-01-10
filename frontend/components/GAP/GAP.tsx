@@ -1,6 +1,11 @@
 import React from "react";
 import cmap from "../../constants/colors";
-import { EmptyTile, EmptyTileX, EmptyTileY } from "./Tiles/EmptyTiles";
+import {
+  EmptyTile,
+  EmptyTileXLeft,
+  EmptyTileXRight,
+  EmptyTileY,
+} from "./Tiles/EmptyTiles";
 import { TaskTile } from "./Tiles/TaskTile";
 import { WorkerTile } from "./Tiles/WorkerTile";
 import { XLabelTile, YLabelTile } from "./Tiles/LabelTiles";
@@ -46,7 +51,7 @@ const GAP: React.FC<GAPProps> = ({
       </div>
       <div className={styles.outer_right}>
         <div className={styles.xlabels}>
-          <EmptyTileX />
+          <EmptyTileXLeft />
           <div
             className={styles.xlabels_inner}
             style={loading ? { opacity: 0.3 } : {}}
@@ -66,6 +71,11 @@ const GAP: React.FC<GAPProps> = ({
               );
             })}
           </div>
+          <EmptyTileXRight
+            assignments={assignments}
+            tasks={tasks}
+            workers={workers}
+          />
         </div>
         <div className={styles.inner}>
           <div
