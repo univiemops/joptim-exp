@@ -153,13 +153,6 @@ async def read_notes():
     return await database.fetch_all(query)
 
 
-@app.post("/notes/", response_model=schemas.Note)
-async def create_note(note: schemas.NoteIn):
-    query = notes.insert().values(text=note.text, completed=note.completed)
-    last_record_id = await database.execute(query)
-    return {**note.dict(), "id": last_record_id}
-
-
 # test post requests: curl -X POST "http://localhost:8000/xid/" -H "Content-Type: application/json" -d '{"pid": "Hello"}'
 
 
@@ -191,9 +184,6 @@ async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
     """Retrieve section completion status for a user."""
     query = user.select().where(user.c.xid == pseudo_id.xid)
     response = await database.fetch_one(query)
-    print("\n\n\ninput:", pseudo_id, "\n\n\n\n")
-    print("\n\n\nquery:", query, "\n\n\n\n")
-    print("\n\n\nresponse:", response, "\n\n\n\n")
     user_values = {
         "xid": response.xid,
         "consent": response.consent,
@@ -290,6 +280,14 @@ async def create_results_dual(result: schemas.ResultIn):
     query = results_dual.insert().values(xid=result.xid, result=result.result)
     last_record_id = await database.execute(query)
     return {**result.dict(), "id": last_record_id}
+
+
+@app.post("/notes-create/", response_model=schemas.Note)
+async def create_note(note: schemas.NoteIn):
+    """Store feedback from textfield."""
+    query = notes.insert().values(xid=note.xid, text=note.text)
+    last_record_id = await database.execute(query)
+    return {**note.dict(), "id": last_record_id}
 
 
 # DOWNLOAD CALLS

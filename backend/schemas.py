@@ -2,16 +2,14 @@ from pydantic import BaseModel
 
 
 class NoteIn(BaseModel):
-    text: str
     xid: str
-    completed: bool
+    text: str
 
 
 class Note(BaseModel):
     id: int
     xid: str
     text: str
-    completed: bool
 
 
 class Result(BaseModel):

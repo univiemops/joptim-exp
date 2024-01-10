@@ -5,12 +5,14 @@ import StimulusPage from "../components/experiment/StimulusPage";
 import StimulusPage2 from "../components/experiment/StimulusPage2";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
 import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
+import Debrief from "../components/experiment/Debrief";
 import { nTrialsIntro, nTrialsMain } from "../constants/trials";
 import { useRouter } from "next/router";
 import {
   handleSubmit1,
   handleSubmit2,
   handleUpdateUser,
+  handleSubmitDebrief,
 } from "../utils/submitFunctions";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
@@ -42,6 +44,7 @@ const Experiment: React.FC = () => {
   const router = useRouter();
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
+  const [notes, setNotes] = React.useState<string>("");
 
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
@@ -111,8 +114,7 @@ const Experiment: React.FC = () => {
     if (trial >= nTrialsIntro) {
       if (XID !== undefined && typeof XID === "string") {
         const userDataNew = userData;
-        userDataNew["completed_1"] = true;
-        setUserData(userDataNew);
+        setUserData((prevUser) => ({ ...prevUser, completed_1: true }));
         handleUpdateUser(XID, "completed_1", true);
       } else {
         console.error("XID is undefined or not a string");
@@ -125,9 +127,7 @@ const Experiment: React.FC = () => {
   const handleContinue2 = () => {
     if (trial2 >= nTrialsMain) {
       if (XID !== undefined && typeof XID === "string") {
-        const userDataNew = userData;
-        userDataNew["completed_2"] = true;
-        setUserData(userDataNew);
+        setUserData((prevUser) => ({ ...prevUser, completed_2: true }));
         handleUpdateUser(XID, "completed_2", true);
       } else {
         console.error("XID is undefined or not a string");
@@ -135,6 +135,16 @@ const Experiment: React.FC = () => {
     }
     setTrial2(trial2 + 1);
     setTrialCompleted2(false);
+  };
+
+  const handleFinishDebrief = () => {
+    if (XID !== undefined && typeof XID === "string") {
+      setUserData((prevUser) => ({ ...prevUser, notes: true }));
+      handleUpdateUser(XID, "notes", true);
+      handleSubmitDebrief(XID, notes);
+    } else {
+      console.error("XID is undefined or not a string");
+    }
   };
 
   const getUserData = async (xid: string) => {
@@ -167,7 +177,6 @@ const Experiment: React.FC = () => {
       }
       const nTrialsNew = await res.json();
       setTrial(nTrialsNew);
-      console.log(nTrialsNew);
     } catch (error) {
       console.error(error);
     }
@@ -182,7 +191,6 @@ const Experiment: React.FC = () => {
       }
       const nTrialsNew = await res.json();
       setTrial2(nTrialsNew);
-      console.log(nTrialsNew);
     } catch (error) {
       console.error(error);
     }
@@ -271,18 +279,16 @@ const Experiment: React.FC = () => {
       fetchGame();
     }
   }, [isTrialCompleted2]);
-
   return (
     <div className="App">
       {userData["completed_1"] === true ? (
         userData["completed_2"] === true ? (
-          <div>
-            <p>
-              You have completed the experiment. Thank you for your
-              participation.
-            </p>
-            <p>[Here will follow a short debrief and a redirect to prolific]</p>
-          </div>
+          <Debrief
+            inputValue={notes}
+            setInputValue={setNotes}
+            onSubmit={handleFinishDebrief}
+            finished={userData["notes"]}
+          />
         ) : isTrialCompleted2 ? (
           <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
         ) : (

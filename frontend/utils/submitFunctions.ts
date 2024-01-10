@@ -74,6 +74,32 @@ export const handleSubmit2 = async (
   }
 };
 
+export const handleSubmitDebrief = async (
+  xid: string,
+  notes: number,
+): Promise<void> => {
+  try {
+    const res = await fetch(`${OPTIONAL_SUBURI}/notes-create/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        xid: xid,
+        text: notes,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to submit data");
+    }
+
+    const json = await res.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const handleUpdateUser = async (
   XID: string,
   field: string,

@@ -17,22 +17,27 @@ depends_on = None
 
 
 def upgrade():
-    op.create_table(
-        "results",
-        sa.Column("id", sa.Integer, primary_key=True),
-        sa.Column("xid", sa.String),
-        sa.Column("result", sa.JSON),
-    )
+    ...
 
-    op.create_table(
-        "notes",
-        sa.Column("id", sa.Integer, primary_key=True),
-        sa.Column("xid", sa.String, primary_key=True),
-        sa.Column("text", sa.String),
-        sa.Column("completed", sa.Boolean),
-    )
+
+#     op.create_table(
+#         "results",
+#         sa.Column("id", sa.Integer, primary_key=True),
+#         sa.Column("xid", sa.String),
+#         sa.Column("result", sa.JSON),
+#     )
+
+#     op.create_table(
+#         "notes",
+#         sa.Column("id", sa.Integer, primary_key=True),
+#         sa.Column("xid", sa.String),
+#         sa.Column("text", sa.String),
+#     )
 
 
 def downgrade():
-    op.drop_table("results")
-    op.drop_table("notes")
+    ...
+
+
+#     op.drop_table("results")
+#     op.drop_table("notes")
