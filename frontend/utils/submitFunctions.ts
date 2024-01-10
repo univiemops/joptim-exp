@@ -76,7 +76,7 @@ export const handleSubmit2 = async (
 
 export const handleSubmitDebrief = async (
   xid: string,
-  notes: number,
+  notes: string,
 ): Promise<void> => {
   try {
     const res = await fetch(`${OPTIONAL_SUBURI}/notes-create/`, {
