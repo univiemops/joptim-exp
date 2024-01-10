@@ -22,6 +22,15 @@ interface UserDataProps {
   [key: string]: boolean | string; // Define allowed value types
 }
 
+interface UserDataProps {
+  xid: string;
+  consent: boolean;
+  survey: boolean;
+  completed_1: boolean;
+  completed_2: boolean;
+  notes: boolean;
+}
+
 const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
