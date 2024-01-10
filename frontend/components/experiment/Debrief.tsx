@@ -49,7 +49,6 @@ const Debrief: React.FC<{
             variant="filled"
             value={inputValue}
             onChange={handleInputChange}
-            size="x-large"
             InputProps={{ style: { fontSize: "x-large" } }}
             style={{ width: "100%" }}
           />
