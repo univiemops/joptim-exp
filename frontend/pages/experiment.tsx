@@ -31,6 +31,15 @@ interface UserDataProps {
   notes: boolean;
 }
 
+const initialUserData: UserDataProps = {
+  xid: "",
+  consent: false,
+  survey: false,
+  completed_1: false,
+  completed_2: false,
+  notes: false,
+};
+
 const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
@@ -49,7 +58,7 @@ const Experiment: React.FC = () => {
   const [isCompleted1, setCompleted1] = useState<boolean>(false);
   const [trial2, setTrial2] = useState<number>(0);
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
-  const [userData, setUserData] = useState<UserDataProps>({});
+  const [userData, setUserData] = useState<UserDataProps>(initialUserData);
   const router = useRouter();
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
