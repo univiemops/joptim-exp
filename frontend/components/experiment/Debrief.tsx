@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 
 const Debrief: React.FC<{
   inputValue: string;
-  setInputValue: () => void;
+  setInputValue: (value: string) => void;
   onSubmit: () => void;
   finished: boolean;
 }> = ({ inputValue, setInputValue, onSubmit, finished }) => {
