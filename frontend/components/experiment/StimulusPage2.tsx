@@ -4,6 +4,7 @@ import GAP from "../GAP/GAP";
 
 const StimulusPage2: React.FC<{
   trial: number;
+  nTrials: number;
   loading: boolean;
   assignments1: Array<[number, number]>;
   assignments2: Array<[number, number]>;
@@ -14,6 +15,7 @@ const StimulusPage2: React.FC<{
   choice: number;
 }> = ({
   trial,
+  nTrials,
   loading,
   assignments1,
   assignments2,
@@ -28,13 +30,35 @@ const StimulusPage2: React.FC<{
       setChoice(index);
     }
   };
+  const progress = (100 * (trial - 1)) / nTrials;
 
   return (
     <>
-      <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
-        Trial {trial}: Which of the two solutions do you find easier to
-        understand?
-      </span>
+      <div className="trial-instruction">
+        <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
+          Which of the two solutions do you find easier to understand?
+        </span>
+        <div
+          id="progress-bar"
+          style={{
+            display: "flex",
+            minWidth: "100%",
+            minHeight: ".5rem",
+            backgroundColor: "#efefef",
+            borderRadius: "1rem",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            id="progress-bar-inner"
+            style={{
+              minHeight: "100%",
+              backgroundColor: "steelblue",
+              width: `${progress}%`,
+            }}
+          ></div>
+        </div>
+      </div>
       <div
         className="stimulus-pair-container"
         style={{

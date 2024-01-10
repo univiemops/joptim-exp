@@ -312,6 +312,7 @@ const Experiment: React.FC = () => {
         ) : (
           <StimulusPage2
             trial={trial2}
+            nTrials={nTrialsMain}
             loading={loading}
             assignments1={assignmentsOptimal}
             assignments2={assignmentsOptimal2}
@@ -336,6 +337,7 @@ const Experiment: React.FC = () => {
       ) : (
         <StimulusPage
           trial={trial}
+          nTrials={nTrialsIntro}
           loading={loading}
           assignments={assignments}
           setAssignments={setAssignments}

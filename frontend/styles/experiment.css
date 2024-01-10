@@ -118,3 +118,8 @@ div {
     padding: 1rem;
     text-align: left;
 }
+
+.trial-instruction {
+    min-width: min(500px, 100%);
+    padding: 1rem;
+}

@@ -4,6 +4,7 @@ import GAP from "../GAP/GAP";
 
 const StimulusPage: React.FC<{
   trial: number;
+  nTrials: number;
   loading: boolean;
   assignments: Array<[number, number]>;
   setAssignments: (newAssignments: Array<[number, number]>) => void;
@@ -12,6 +13,7 @@ const StimulusPage: React.FC<{
   onComplete: () => void;
 }> = ({
   trial,
+  nTrials,
   loading,
   assignments,
   setAssignments,
@@ -57,11 +59,36 @@ const StimulusPage: React.FC<{
       setAssignments(newAssignments);
     }
   };
+
+  const progress = (100 * (trial - 1)) / nTrials;
+
   return (
     <>
-      <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
-        Trial {trial}: Assign the books to boxes
-      </span>
+      <div className="trial-instruction">
+        <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
+          Assign the books to the boxes.
+        </span>
+        <div
+          id="progress-bar"
+          style={{
+            display: "flex",
+            minWidth: "100%",
+            minHeight: ".5rem",
+            backgroundColor: "#efefef",
+            borderRadius: "1rem",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            id="progress-bar-inner"
+            style={{
+              minHeight: "100%",
+              backgroundColor: "steelblue",
+              width: `${progress}%`,
+            }}
+          ></div>
+        </div>
+      </div>
       <GAP
         loading={loading}
         tasks={tasks}
