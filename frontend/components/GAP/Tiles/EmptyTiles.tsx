@@ -34,8 +34,15 @@ export const EmptyTileXRight: React.FC<PropsEmptyTileXRight> = (props) => {
   return (
     <div className={styles.empty_tile_x}>
       <div className={styles.empty_tile_label_right}>
-        <span style={{ fontWeight: "bold" }}>{filled}</span>
-        <br />
+        <span
+          style={
+            filled === 0
+              ? { fontWeight: "bold", opacity: 0.2 }
+              : { fontWeight: "bold" }
+          }
+        >
+          {filled}
+        </span>
         <span style={{ fontWeight: "bold", opacity: 0.55 }}>{capacity}</span>
       </div>
     </div>
