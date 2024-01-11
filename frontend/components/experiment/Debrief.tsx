@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { BasicItem, RadioItem } from "../survey/Items";
-gg;
+
 const Debrief: React.FC<{
   inputValue: string;
   setInputValue: (value: string) => void;
