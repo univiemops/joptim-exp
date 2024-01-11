@@ -52,7 +52,6 @@ const InstructionGAPWrapper = () => {
 
   return (
     <GAP
-      loading={false}
       tasks={tasks}
       assignments={assignments}
       workers={workers}
