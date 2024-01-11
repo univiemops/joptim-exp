@@ -310,10 +310,9 @@ const Experiment: React.FC = () => {
         ) : isTrialCompleted2 ? (
           <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
         ) : (
-          <StimulusPage2
+            loading?<div></div>:<StimulusPage2
             trial={trial2}
             nTrials={nTrialsMain}
-            loading={loading}
             assignments1={assignmentsOptimal}
             assignments2={assignmentsOptimal2}
             tasks={tasks}
@@ -324,7 +323,7 @@ const Experiment: React.FC = () => {
           />
         )
       ) : isTrialCompleted1 ? (
-        <ConfirmationPage
+          loading?<div></div>:<ConfirmationPage
           trial={trial}
           utility={getUtility(tasks, assignments)}
           optimal_utility={utility}
@@ -335,10 +334,9 @@ const Experiment: React.FC = () => {
           onContinue={handleContinue1}
         />
       ) : (
-        <StimulusPage
+          loading?<div></div>:<StimulusPage
           trial={trial}
           nTrials={nTrialsIntro}
-          loading={loading}
           assignments={assignments}
           setAssignments={setAssignments}
           tasks={tasks}

@@ -72,7 +72,6 @@ const ConfirmationPage: React.FC<{
             >
               {" "}
               <GAP
-                loading={false}
                 tasks={tasks}
                 assignments={assignments}
                 workers={workers}
@@ -80,7 +79,6 @@ const ConfirmationPage: React.FC<{
                 icons={false}
               />
               <GAP
-                loading={false}
                 tasks={tasks}
                 assignments={assignmentsOptimal}
                 workers={workers}

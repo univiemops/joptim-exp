@@ -5,7 +5,6 @@ import GAP from "../GAP/GAP";
 const StimulusPage: React.FC<{
   trial: number;
   nTrials: number;
-  loading: boolean;
   assignments: Array<[number, number]>;
   setAssignments: (newAssignments: Array<[number, number]>) => void;
   tasks: Array<number>;
@@ -14,7 +13,6 @@ const StimulusPage: React.FC<{
 }> = ({
   trial,
   nTrials,
-  loading,
   assignments,
   setAssignments,
   tasks,
@@ -25,7 +23,6 @@ const StimulusPage: React.FC<{
     e: React.MouseEvent<HTMLDivElement>,
     coordinates: [number, number],
   ) => {
-    if (loading === false) {
       let newAssignments = [...assignments];
       let index = newAssignments.findIndex(
         (a) => a[0] === coordinates[0] && a[1] === coordinates[1],
@@ -57,12 +54,11 @@ const StimulusPage: React.FC<{
         newAssignments.splice(index, 1);
       }
       setAssignments(newAssignments);
-    }
   };
 
   const progress = (100 * (trial - 1)) / nTrials;
 
-  return (
+    return (
     <>
       <div className="trial-instruction">
         <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
@@ -90,7 +86,6 @@ const StimulusPage: React.FC<{
         </div>
       </div>
       <GAP
-        loading={loading}
         tasks={tasks}
         assignments={assignments}
         workers={workers}
@@ -110,8 +105,8 @@ const StimulusPage: React.FC<{
         onClick={() => onComplete()}
       >
         SUBMIT
-      </Button>
-    </>
+       </Button>
+            </>
   );
 };
 

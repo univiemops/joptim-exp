@@ -5,7 +5,6 @@ import GAP from "../GAP/GAP";
 const StimulusPage2: React.FC<{
   trial: number;
   nTrials: number;
-  loading: boolean;
   assignments1: Array<[number, number]>;
   assignments2: Array<[number, number]>;
   tasks: Array<number>;
@@ -16,7 +15,6 @@ const StimulusPage2: React.FC<{
 }> = ({
   trial,
   nTrials,
-  loading,
   assignments1,
   assignments2,
   tasks,
@@ -26,9 +24,7 @@ const StimulusPage2: React.FC<{
   choice,
 }) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-    if (loading === false) {
       setChoice(index);
-    }
   };
   const progress = (100 * (trial - 1)) / nTrials;
 
@@ -81,7 +77,6 @@ const StimulusPage2: React.FC<{
           }
         >
           <GAP
-            loading={false}
             tasks={tasks}
             assignments={assignments1}
             workers={workers}
@@ -102,7 +97,6 @@ const StimulusPage2: React.FC<{
           }
         >
           <GAP
-            loading={false}
             tasks={tasks}
             assignments={assignments2}
             workers={workers}

@@ -1,7 +1,6 @@
 import React from 'react';
 
 export interface GAPProps {
-  loading: boolean;
   tasks: number[];
   assignments: [number, number][];
   workers: number[];

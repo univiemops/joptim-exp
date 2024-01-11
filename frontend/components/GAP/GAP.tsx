@@ -14,7 +14,6 @@ import { GAPProps } from "./types";
 import styles from "./GAP.module.css";
 
 const GAP: React.FC<GAPProps> = ({
-  loading,
   tasks,
   assignments,
   workers,
@@ -22,7 +21,7 @@ const GAP: React.FC<GAPProps> = ({
   freeze,
   icons,
 }) => {
-  return (
+    return (
     <div className={styles.outer}>
       <div className={styles.outer_left}>
         <div className={styles.outer_left_empty}></div>
@@ -30,7 +29,6 @@ const GAP: React.FC<GAPProps> = ({
           <EmptyTileY />
           <div
             className={styles.ylabels_inner}
-            style={loading ? { opacity: 0.3 } : {}}
           >
             {tasks.map((size, idx) => {
               const assigned =
@@ -54,7 +52,6 @@ const GAP: React.FC<GAPProps> = ({
           <EmptyTileXLeft />
           <div
             className={styles.xlabels_inner}
-            style={loading ? { opacity: 0.3 } : {}}
           >
             {workers.map((size, i) => {
               const activeTasks = assignments
@@ -80,7 +77,6 @@ const GAP: React.FC<GAPProps> = ({
         <div className={styles.inner}>
           <div
             className={styles.inner_left}
-            style={loading ? { opacity: 0.3 } : {}}
           >
             <EmptyTile />
             {tasks.map((size, idx) => {
@@ -100,7 +96,6 @@ const GAP: React.FC<GAPProps> = ({
           <div className={styles.inner_middle}>
             <div
               className={styles.tile_row_workers}
-              style={loading ? { opacity: 0.3 } : {}}
             >
               {workers.map((size, i) => {
                 const activeTasks = assignments
@@ -117,12 +112,10 @@ const GAP: React.FC<GAPProps> = ({
               })}
             </div>
             <div className={styles.tile_container}>
-              {loading && <div className="loading-spinner"></div>}
               {tasks.map((_, i) => (
                 <div
                   key={i}
                   className={styles.tile_row}
-                  style={loading ? { opacity: 0.3 } : {}}
                 >
                   {workers.map((_, j) => {
                     let active = false;
