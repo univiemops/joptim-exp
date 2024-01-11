@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { BasicItem } from "../survey/Items";
+import { BasicItem, RadioItem } from "../survey/Items";
 
 const Debrief: React.FC<{
   inputValue: string;
@@ -71,9 +71,46 @@ const Debrief: React.FC<{
                 study.
               </span>
             </p>
-            <BasicItem title={"Enjoyment"}>
+            <BasicItem title={"Enjoyment"} leftEnd={"Low"} rightEnd={"High"}>
               How much did you enjoy taking part in this study?
             </BasicItem>
+
+            <BasicItem
+              title={"Interest"}
+              leftEnd={"Boring"}
+              rightEnd={"Interesting"}
+            >
+              How interesting did you find this study?
+            </BasicItem>
+
+            <BasicItem
+              title={"Understanding"}
+              leftEnd={"Not very well"}
+              rightEnd={"Very well"}
+            >
+              How well were the study instructions explained?
+            </BasicItem>
+            <BasicItem
+              title={"Study Purpose"}
+              leftEnd={"Not very well"}
+              rightEnd={"Very well"}
+            >
+              How well was the study's purpose and importance conveyed?
+            </BasicItem>
+            <BasicItem
+              title={"Length"}
+              leftEnd={"Too long"}
+              rightEnd={"Too short"}
+            >
+              What is your opinion on the length of the study?
+            </BasicItem>
+
+            <RadioItem
+              title={"Language"}
+              answers={["No", "Yes (Please specify)"]}
+            >
+              Did you notice any typos or grammatical errors?
+            </RadioItem>
           </div>
           <hr style={{ backgroundColor: "#efefef", color: "#efefef" }} />
           <TextField

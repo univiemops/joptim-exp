@@ -1,2 +1,37 @@
 .survey_item {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+}
+
+.survey_item_text {
+    display: block;
+}
+
+.survey_item_response_area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.survey_item_left_end,
+.survey_item_right_end {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-weight: bold;
+    width: 15%;
+}
+
+.survey_item_left_end {
+    justify-content: flex-start;
+}
+
+.survey_item_right_end {
+    justify-content: flex-end;
+}
+
+.survey_item_buttons {
+    width: 70%;
 }
