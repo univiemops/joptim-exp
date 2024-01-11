@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { BasicItem, RadioItem } from "../survey/Items";
-
+gg;
 const Debrief: React.FC<{
   inputValue: string;
   setInputValue: (value: string) => void;
@@ -132,6 +132,7 @@ const Debrief: React.FC<{
               background: "#000000",
               textTransform: "none",
               padding: ".3rem 3rem .3rem 3rem",
+              margin: "1rem 1rem 1rem 1rem",
             }}
             onClick={handleButtonClick}
           >

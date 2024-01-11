@@ -68,20 +68,10 @@ type RadioProps = {
 };
 
 export const RadioItem = ({ title, answers, children }: RadioProps) => {
-  const nAnswers: number = answers.length;
-
-  const [choice, setChoice] = React.useState<number | null>();
-  const [value, setValue] = React.useState<number>();
+  const [value, setValue] = React.useState<number | string>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
-  };
-
-  const handleChoice = (
-    event: React.MouseEvent<HTMLElement>,
-    newChoice: number | null,
-  ) => {
-    setChoice(newChoice);
+    setValue(event.target.value);
   };
 
   return (
@@ -98,7 +88,8 @@ export const RadioItem = ({ title, answers, children }: RadioProps) => {
           >
             {answers.map((el, i) => (
               <FormControlLabel
-                value={i}
+                key={i}
+                value={i.toString()}
                 control={<Radio />}
                 label={el}
                 style={{
