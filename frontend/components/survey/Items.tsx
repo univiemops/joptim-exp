@@ -39,7 +39,6 @@ export const BasicItem = ({ title, children, leftEnd, rightEnd }: Props) => {
           onChange={handleChoice}
           exclusive
           size="small"
-          variant="contained"
           fullWidth={true}
           className={styles.survey_item_buttons}
         >
