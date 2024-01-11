@@ -1,5 +1,7 @@
 import styles from "./Tiles.module.css";
 import { sumOfArray } from "../../../utils/helperFunctions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 
 export const EmptyTile = () => {
   return <div className={styles.empty_tile}></div>;
@@ -34,25 +36,12 @@ export const EmptyTileXRight: React.FC<PropsEmptyTileXRight> = (props) => {
   return (
     <div className={styles.empty_tile_x}>
       <div className={styles.empty_tile_label_right}>
-        <div
-          style={{
-            minWidth: "100%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <span
-            style={
-              filled === 0
-                ? { fontWeight: "bold", opacity: 0.2 }
-                : {
-                    fontWeight: "bold",
-                  }
-            }
-          >
-            =
-          </span>
+        <div className={styles.empty_tile_label_right_inner}>
+          <FontAwesomeIcon
+            icon={faArrowRightLong}
+            opacity={filled === 0 ? 0.2 : 1}
+            size="lg"
+          />
           <span
             style={
               filled === 0
@@ -65,16 +54,9 @@ export const EmptyTileXRight: React.FC<PropsEmptyTileXRight> = (props) => {
             {filled}
           </span>
         </div>
-        <div
-          style={{
-            minWidth: "100%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <span style={{ fontWeight: "bold", opacity: 0.55 }}>=</span>
-          <span style={{ fontWeight: "bold", opacity: 0.55 }}>{capacity}</span>
+        <div className={styles.empty_tile_label_right_inner}>
+          <FontAwesomeIcon icon={faArrowRightLong} size="lg" opacity={0} />
+          <span style={{ fontWeight: "bold", opacity: 0 }}>{capacity}</span>
         </div>
       </div>
     </div>
