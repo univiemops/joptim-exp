@@ -3,11 +3,17 @@ import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { BasicItem, RadioItem } from "../survey/Items";
 
-const Debrief: React.FC<{
-  onSubmit: () => void;
+interface DebriefProps {
+  onSubmit: (
+    selections: Record<number, number>,
+    radioValue: number,
+    notes: string,
+  ) => void;
   finished: boolean;
-}> = ({ onSubmit, finished }) => {
-  const [radioValue, setRadioValue] = React.useState<number | string>();
+}
+
+const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
+  const [radioValue, setRadioValue] = React.useState<number>();
   const [selections, setSelections] = React.useState<
     Record<number, number> | {}
   >({});
@@ -23,7 +29,7 @@ const Debrief: React.FC<{
   };
 
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRadioValue(event.target.value);
+    setRadioValue(parseInt(event.target.value, 10));
   };
 
   const handleButtonClick = () => {
