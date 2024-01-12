@@ -133,11 +133,11 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                   title={item.title}
                   answers={item.answers}
                   choice={
-                    config.item in selections
-                      ? (selections as Record<number, number>)[config.item]
+                    item.item in selections
+                      ? (selections as Record<number, number>)[item.item]
                       : undefined
                   }
-                  onChange={handleChoice(config.item)}
+                  onChange={handleChoice(item.item)}
                 >
                   {item.question}
                 </RadioItem>
@@ -149,11 +149,11 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                   leftEnd={item.leftEnd}
                   rightEnd={item.rightEnd}
                   choice={
-                    config.item in selections
-                      ? (selections as Record<number, number>)[config.item]
+                    item.item in selections
+                      ? (selections as Record<number, number>)[item.item]
                       : undefined
                   }
-                  onChange={handleChoice(config.item)}
+                  onChange={handleChoice(item.item)}
                 >
                   {item.question}
                 </BasicItem>
