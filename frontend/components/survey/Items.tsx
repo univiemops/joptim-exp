@@ -76,7 +76,7 @@ type RadioProps = {
   title: string;
   answers: Array<string>;
   children?: React.ReactNode;
-  choice: number | undefined;
+  choice: number | null;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, item: number) => void;
 };
 

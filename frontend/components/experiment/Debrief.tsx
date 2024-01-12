@@ -137,7 +137,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                   choice={
                     item.item in selections
                       ? (selections as Record<number, number>)[item.item]
-                      : undefined
+                      : null
                   }
                   onChange={handleChoice}
                 >
@@ -153,7 +153,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                   choice={
                     item.item in selections
                       ? (selections as Record<number, number>)[item.item]
-                      : undefined
+                      : null
                   }
                   onChange={handleChoice}
                 >
