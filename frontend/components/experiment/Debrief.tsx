@@ -7,8 +7,16 @@ interface DebriefProps {
   onSubmit: (selections: Record<number, number>, notes: string) => void;
   finished: boolean;
 }
+type SurveyItem = {
+  item: number;
+  title: string;
+  leftEnd?: string;
+  rightEnd?: string;
+  question: string;
+  answers?: string[];
+};
 
-const Survey = [
+const Survey: SurveyItem[] = [
   {
     item: 0,
     title: "Enjoyment",
@@ -59,13 +67,20 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
 
+  type CombinedEvent = React.ChangeEvent<{}> | React.MouseEvent<HTMLElement>;
+  type MuiOnChange = (event: CombinedEvent, value: any) => void;
+
   const handleChoice = (
     e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
-    item: number,
+    value: number | null,
+    item?: number,
   ) => {
-    let newSelections = { ...selections };
-    newSelections[item] = parseInt(e.target.value, 10);
-    setSelections(newSelections);
+    if (value !== null && item) {
+      let newSelections = { ...selections };
+      newSelections[item] = value;
+      setSelections(newSelections);
+      console.log(newSelections);
+    }
   };
 
   const handleButtonClick = () => {
@@ -128,38 +143,41 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
               </span>
             </p>
             {Survey.map((item) =>
-              item.answers ? (
-                <RadioItem
-                  key={item.item}
-                  item={item.item}
-                  title={item.title}
-                  answers={item.answers}
-                  choice={
-                    item.item in selections
-                      ? (selections as Record<number, number>)[item.item]
-                      : null
-                  }
-                  onChange={handleChoice}
-                >
-                  {item.question}
-                </RadioItem>
-              ) : (
-                <BasicItem
-                  key={item.item}
-                  item={item.item}
-                  title={item.title}
-                  leftEnd={item.leftEnd}
-                  rightEnd={item.rightEnd}
-                  choice={
-                    item.item in selections
-                      ? (selections as Record<number, number>)[item.item]
-                      : null
-                  }
-                  onChange={handleChoice}
-                >
-                  {item.question}
-                </BasicItem>
-              ),
+              "answers" in item
+                ? item.answers && (
+                    <RadioItem
+                      key={item.item}
+                      item={item.item}
+                      title={item.title}
+                      answers={item.answers}
+                      choice={
+                        item.item in selections
+                          ? (selections as Record<number, number>)[item.item]
+                          : null
+                      }
+                      onChange={handleChoice}
+                    >
+                      {item.question}
+                    </RadioItem>
+                  )
+                : item.leftEnd &&
+                  item.rightEnd && (
+                    <BasicItem
+                      key={item.item}
+                      item={item.item}
+                      title={item.title}
+                      leftEnd={item.leftEnd}
+                      rightEnd={item.rightEnd}
+                      choice={
+                        item.item in selections
+                          ? (selections as Record<number, number>)[item.item]
+                          : null
+                      }
+                      onChange={handleChoice}
+                    >
+                      {item.question}
+                    </BasicItem>
+                  ),
             )}
           </div>
           <hr style={{ backgroundColor: "#efefef", color: "#efefef" }} />

@@ -16,8 +16,9 @@ type Props = {
   rightEnd: string;
   choice: number | null;
   onChange: (
-    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
-    item: number,
+    e: React.MouseEvent<HTMLElement>,
+    value: number | null,
+    item?: number,
   ) => void;
 };
 
@@ -40,7 +41,7 @@ export const BasicItem = ({
         <span className={styles.survey_item_left_end}>{leftEnd}</span>
         <ToggleButtonGroup
           value={choice}
-          onChange={(e) => onChange(e, item)}
+          onChange={(e, value) => onChange(e, value, item)}
           exclusive
           size="small"
           fullWidth={true}
@@ -81,7 +82,8 @@ type RadioProps = {
   children?: React.ReactNode;
   choice: number | null;
   onChange: (
-    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
+    e: React.ChangeEvent<HTMLInputElement>,
+    value: number,
     item: number,
   ) => void;
 };
@@ -103,7 +105,7 @@ export const RadioItem = ({
         <FormControl>
           <RadioGroup
             name="controlled-radio-buttons-group"
-            onChange={(e) => onChange(e, item)}
+            onChange={(e, value) => onChange(e, parseInt(value, 10), item)}
           >
             {answers.map((el, i) => (
               <FormControlLabel
