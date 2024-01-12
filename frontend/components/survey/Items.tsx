@@ -15,7 +15,10 @@ type Props = {
   leftEnd: string;
   rightEnd: string;
   choice: number | null;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>, item: number) => void;
+  onChange: (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    item: number,
+  ) => void;
 };
 
 export const BasicItem = ({
@@ -77,7 +80,10 @@ type RadioProps = {
   answers: Array<string>;
   children?: React.ReactNode;
   choice: number | null;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>, item: number) => void;
+  onChange: (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    item: number,
+  ) => void;
 };
 
 export const RadioItem = ({
