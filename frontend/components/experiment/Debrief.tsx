@@ -19,7 +19,9 @@ const Debrief: React.FC<{
     item: number,
   ) => {
     let newSelections = { ...selections };
-    newSelections[item] = event.target.value; // Now TypeScript knows 'value' exists
+    const val = event.target.value;
+    console.log("typeof val", typeof val);
+    newSelections[item] = parseInt(val, 10); // Now TypeScript knows 'value' exists
     setSelections(newSelections);
   };
 
