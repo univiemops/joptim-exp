@@ -59,12 +59,14 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
 
-  const handleChoice =
-    (item: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      let newSelections = { ...selections };
-      newSelections[item] = parseInt(event.target.value, 10);
-      setSelections(newSelections);
-    };
+  const handleChoice = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    item: number,
+  ) => {
+    let newSelections = { ...selections };
+    newSelections[item] = parseInt(e.target.value, 10);
+    setSelections(newSelections);
+  };
 
   const handleButtonClick = () => {
     onSubmit(selections, inputValue);
@@ -137,7 +139,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                       ? (selections as Record<number, number>)[item.item]
                       : undefined
                   }
-                  onChange={(e) => handleChoice(item.item)(e)}
+                  onChange={(e) => handleChoice(e, item.item)}
                 >
                   {item.question}
                 </RadioItem>
@@ -153,7 +155,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                       ? (selections as Record<number, number>)[item.item]
                       : undefined
                   }
-                  onChange={(e) => handleChoice(item.item)(e)}
+                  onChange={(e) => handleChoice(e, item.item)}
                 >
                   {item.question}
                 </BasicItem>
