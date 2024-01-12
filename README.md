@@ -66,6 +66,12 @@ Experiment is now running on `https://<servername>/joptim`
 ```bash
 docker-compose -f docker-compose.dev.yml up
 ```
+
+Go to `frontend` directory and run the TypeScript compiler:
+```bash
+tsc --watch
+```
+
 Go to your browser, open [http://localhost:3000/joptim](http://localhost:3000/joptim) for the API and start developing.
 
 ## Debugging
