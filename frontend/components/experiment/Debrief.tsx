@@ -134,7 +134,12 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                   item={config.item}
                   title={config.title}
                   answers={config.answers}
-                  choice={selections[config.item]}
+                  choice={
+                    "item" in selections &&
+                    typeof selections[config.item] !== "undefined"
+                      ? selections[config.item]
+                      : undefined
+                  }
                   onChange={handleChoice}
                 >
                   {config.question}
@@ -146,7 +151,12 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                   title={config.title}
                   leftEnd={config.leftEnd}
                   rightEnd={config.rightEnd}
-                  choice={selections[config.item]}
+                  choice={
+                    "item" in selections &&
+                    typeof selections[config.item] !== "undefined"
+                      ? selections[config.item]
+                      : undefined
+                  }
                   onChange={handleChoice}
                 >
                   {config.question}
