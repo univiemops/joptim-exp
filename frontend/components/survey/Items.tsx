@@ -16,7 +16,7 @@ type Props = {
   rightEnd: string;
   choice: number | null;
   onChange: (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
     item: number,
   ) => void;
 };
@@ -81,7 +81,7 @@ type RadioProps = {
   children?: React.ReactNode;
   choice: number | null;
   onChange: (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
     item: number,
   ) => void;
 };

@@ -60,7 +60,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
 
   const handleChoice = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
     item: number,
   ) => {
     let newSelections = { ...selections };
