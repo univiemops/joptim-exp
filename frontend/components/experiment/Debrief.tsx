@@ -14,12 +14,13 @@ const Debrief: React.FC<{
     Record<number, number> | {}
   >({});
 
-  const handleChoice = (event: React.MouseEvent<HTMLElement>, item: number) => {
-    let newSelections = { ...selections }; // copy the dictionary
-    newSelections[item] = event.target.value; // modify the copy
-    setSelections(newSelections); // update state
-    console.log("newSelections", newSelections);
-    // make sure that event is sufficiently specified for typescript
+  const handleChoice = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    item: number,
+  ) => {
+    let newSelections = { ...selections };
+    newSelections[item] = event.target.value; // Now TypeScript knows 'value' exists
+    setSelections(newSelections);
   };
 
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,7 @@ const Debrief: React.FC<{
 
   const handleButtonClick = () => {
     // submit text and the other 2 results
-    onSubmit(selections);
+    onSubmit(selections, radioValue);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
