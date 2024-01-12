@@ -157,14 +157,13 @@ const Experiment: React.FC = () => {
 
   const handleFinishDebrief = (
     selections: Record<number, number>,
-    radioValue: number,
     notesText: string,
   ) => {
     if (XID !== undefined && typeof XID === "string") {
       setUserData((prevUser) => ({ ...prevUser, notes: true }));
       handleUpdateUser(XID, "notes", true);
       handleSubmitDebrief(XID, notesText);
-      handleSubmitSurvey(2, XID, { survey: selections, language: radioValue }); // first entry defines the type of survey
+      handleSubmitSurvey(2, XID, selections); // first entry defines the type of survey
     } else {
       console.error("XID is undefined or not a string");
     }

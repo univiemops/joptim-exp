@@ -12,12 +12,56 @@ interface DebriefProps {
   finished: boolean;
 }
 
+const Survey = [
+  {
+    item: 0,
+    title: "Enjoyment",
+    leftEnd: "Low",
+    rightEnd: "High",
+    question: "How much did you enjoy taking part in this study?",
+  },
+  {
+    item: 1,
+    title: "Interest",
+    leftEnd: "Boring",
+    rightEnd: "Interesting",
+    question: "How interesting did you find this study?",
+  },
+  {
+    item: 2,
+    title: "Understanding",
+    leftEnd: "Not very well",
+    rightEnd: "Very well",
+    question: "How well were the study instructions explained?",
+  },
+  {
+    item: 3,
+    title: "Study Purpose",
+    leftEnd: "Not very well",
+    rightEnd: "Very well",
+    question: "How well was the study's purpose and importance conveyed?",
+  },
+  {
+    item: 4,
+    title: "Length",
+    leftEnd: "Too long",
+    rightEnd: "Too short",
+    question: "What is your opinion on the length of the study?",
+  },
+  {
+    item: 5,
+    title: "Language",
+    answers: ["No", "Yes (Please specify)"],
+    question: "Did you notice any typos or grammatical errors?",
+  },
+];
+
 const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
-  const [radioValue, setRadioValue] = React.useState<number>();
   const [selections, setSelections] = React.useState<
     Record<number, number> | {}
   >({});
   const [inputValue, setInputValue] = React.useState<string>("");
+  const [filledOut, setFilledOut] = React.useState<boolean>(false);
 
   const handleChoice = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -28,17 +72,29 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
     setSelections(newSelections);
   };
 
-  const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRadioValue(parseInt(event.target.value, 10));
+  const handleButtonClick = () => {
+    onSubmit(selections, inputValue);
   };
 
-  const handleButtonClick = () => {
-    onSubmit(selections, radioValue, inputValue);
+  const checkComplete = () => {
+    if (
+      inputValue.length > 0 &&
+      Survey.length === Object.keys(selections).length
+    ) {
+      setFilledOut(true);
+    } else {
+      setFilledOut(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+
+  React.useEffect(() => {
+    checkComplete();
+  }, [inputValue, selections]);
+
   return (
     <div className="debrief">
       <p>
@@ -75,67 +131,32 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                 study.
               </span>
             </p>
-            <BasicItem
-              item={0}
-              title={"Enjoyment"}
-              leftEnd={"Low"}
-              rightEnd={"High"}
-              choice={selections[0]}
-              onChange={handleChoice}
-            >
-              How much did you enjoy taking part in this study?
-            </BasicItem>
-
-            <BasicItem
-              item={1}
-              title={"Interest"}
-              leftEnd={"Boring"}
-              rightEnd={"Interesting"}
-              choice={selections[1]}
-              onChange={handleChoice}
-            >
-              How interesting did you find this study?
-            </BasicItem>
-
-            <BasicItem
-              item={2}
-              title={"Understanding"}
-              leftEnd={"Not very well"}
-              rightEnd={"Very well"}
-              choice={selections[2]}
-              onChange={handleChoice}
-            >
-              How well were the study instructions explained?
-            </BasicItem>
-            <BasicItem
-              item={3}
-              title={"Study Purpose"}
-              leftEnd={"Not very well"}
-              rightEnd={"Very well"}
-              choice={selections[3]}
-              onChange={handleChoice}
-            >
-              How well was the study's purpose and importance conveyed?
-            </BasicItem>
-            <BasicItem
-              item={4}
-              title={"Length"}
-              leftEnd={"Too long"}
-              rightEnd={"Too short"}
-              choice={selections[4]}
-              onChange={handleChoice}
-            >
-              What is your opinion on the length of the study?
-            </BasicItem>
-
-            <RadioItem
-              title={"Language"}
-              answers={["No", "Yes (Please specify)"]}
-              value={radioValue}
-              onChange={handleChangeRadio}
-            >
-              Did you notice any typos or grammatical errors?
-            </RadioItem>
+            {Survey.map((config) =>
+              config.answers ? (
+                <RadioItem
+                  key={config.item}
+                  item={config.item}
+                  title={config.title}
+                  answers={config.answers}
+                  choice={selections[config.item]}
+                  onChange={handleChoice}
+                >
+                  {config.question}
+                </RadioItem>
+              ) : (
+                <BasicItem
+                  key={config.item}
+                  item={config.item}
+                  title={config.title}
+                  leftEnd={config.leftEnd}
+                  rightEnd={config.rightEnd}
+                  choice={selections[config.item]}
+                  onChange={handleChoice}
+                >
+                  {config.question}
+                </BasicItem>
+              ),
+            )}
           </div>
           <hr style={{ backgroundColor: "#efefef", color: "#efefef" }} />
           <TextField
@@ -150,15 +171,26 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
             style={{ width: "100%" }}
           />
           <Button
+            disabled={filledOut ? false : true}
             size="large"
             variant="contained"
-            style={{
-              fontSize: "x-large",
-              background: "#000000",
-              textTransform: "none",
-              padding: ".3rem 3rem .3rem 3rem",
-              margin: "1rem 1rem 1rem 1rem",
-            }}
+            style={
+              filledOut
+                ? {
+                    fontSize: "x-large",
+                    color: "#ffffff",
+                    background: "#000000",
+                    textTransform: "none",
+                    padding: ".3rem 3rem .3rem 3rem",
+                    margin: "1rem 1rem 1rem 1rem",
+                  }
+                : {
+                    fontSize: "x-large",
+                    textTransform: "none",
+                    padding: ".3rem 3rem .3rem 3rem",
+                    margin: "1rem 1rem 1rem 1rem",
+                  }
+            }
             onClick={handleButtonClick}
           >
             SUBMIT

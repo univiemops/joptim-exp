@@ -72,18 +72,20 @@ export const BasicItem = ({
 };
 
 type RadioProps = {
+  item: number;
   title: string;
   answers: Array<string>;
   children?: React.ReactNode;
-  value: number | undefined;
-  onChange: () => void;
+  choice: number | undefined;
+  onChange: (item: number) => void;
 };
 
 export const RadioItem = ({
+  item,
   title,
   answers,
   children,
-  value,
+  choice,
   onChange,
 }: RadioProps) => {
   return (
@@ -93,7 +95,10 @@ export const RadioItem = ({
       </p>
       <div className={styles.survey_item_response_area}>
         <FormControl>
-          <RadioGroup name="controlled-radio-buttons-group" onChange={onChange}>
+          <RadioGroup
+            name="controlled-radio-buttons-group"
+            onChange={(e) => onChange(e, item)}
+          >
             {answers.map((el, i) => (
               <FormControlLabel
                 key={i}
