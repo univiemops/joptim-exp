@@ -4,11 +4,7 @@ import TextField from "@mui/material/TextField";
 import { BasicItem, RadioItem } from "../survey/Items";
 
 interface DebriefProps {
-  onSubmit: (
-    selections: Record<number, number>,
-    radioValue: number,
-    notes: string,
-  ) => void;
+  onSubmit: (selections: Record<number, number>, notes: string) => void;
   finished: boolean;
 }
 
