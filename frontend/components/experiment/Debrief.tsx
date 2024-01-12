@@ -139,7 +139,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                       ? (selections as Record<number, number>)[item.item]
                       : undefined
                   }
-                  onChange={(e) => handleChoice(e, item.item)}
+                  onChange={handleChoice}
                 >
                   {item.question}
                 </RadioItem>
@@ -155,7 +155,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                       ? (selections as Record<number, number>)[item.item]
                       : undefined
                   }
-                  onChange={(e) => handleChoice(e, item.item)}
+                  onChange={handleChoice}
                 >
                   {item.question}
                 </BasicItem>

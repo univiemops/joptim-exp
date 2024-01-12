@@ -15,7 +15,7 @@ type Props = {
   leftEnd: string;
   rightEnd: string;
   choice: number | null;
-  onChange: (item: number) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>, item: number) => void;
 };
 
 export const BasicItem = ({
@@ -77,7 +77,7 @@ type RadioProps = {
   answers: Array<string>;
   children?: React.ReactNode;
   choice: number | undefined;
-  onChange: (item: number) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>, item: number) => void;
 };
 
 export const RadioItem = ({
