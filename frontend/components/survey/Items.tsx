@@ -86,7 +86,6 @@ export const RadioItem = ({
   value,
   onChange,
 }: RadioProps) => {
-  console.log(value);
   return (
     <div className={styles.survey_item}>
       <p className={styles.survey_item_text}>

@@ -4,24 +4,21 @@ import TextField from "@mui/material/TextField";
 import { BasicItem, RadioItem } from "../survey/Items";
 
 const Debrief: React.FC<{
-  inputValue: string;
-  setInputValue: (value: string) => void;
   onSubmit: () => void;
   finished: boolean;
-}> = ({ inputValue, setInputValue, onSubmit, finished }) => {
+}> = ({ onSubmit, finished }) => {
   const [radioValue, setRadioValue] = React.useState<number | string>();
   const [selections, setSelections] = React.useState<
     Record<number, number> | {}
   >({});
+  const [inputValue, setInputValue] = React.useState<string>("");
 
   const handleChoice = (
     event: React.ChangeEvent<HTMLInputElement>,
     item: number,
   ) => {
     let newSelections = { ...selections };
-    const val = event.target.value;
-    console.log("typeof val", typeof val);
-    newSelections[item] = parseInt(val, 10); // Now TypeScript knows 'value' exists
+    newSelections[item] = parseInt(event.target.value, 10);
     setSelections(newSelections);
   };
 
@@ -30,8 +27,7 @@ const Debrief: React.FC<{
   };
 
   const handleButtonClick = () => {
-    // submit text and the other 2 results
-    onSubmit(selections, radioValue);
+    onSubmit(selections, radioValue, inputValue);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

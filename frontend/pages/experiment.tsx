@@ -63,7 +63,6 @@ const Experiment: React.FC = () => {
   const router = useRouter();
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
-  const [notes, setNotes] = React.useState<string>("");
 
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
@@ -159,11 +158,12 @@ const Experiment: React.FC = () => {
   const handleFinishDebrief = (
     selections: Record<number, number>,
     radioValue: number,
+    notesText: string,
   ) => {
     if (XID !== undefined && typeof XID === "string") {
       setUserData((prevUser) => ({ ...prevUser, notes: true }));
       handleUpdateUser(XID, "notes", true);
-      handleSubmitDebrief(XID, notes);
+      handleSubmitDebrief(XID, notesText);
       handleSubmitSurvey(2, XID, { survey: selections, language: radioValue }); // first entry defines the type of survey
     } else {
       console.error("XID is undefined or not a string");
@@ -307,8 +307,6 @@ const Experiment: React.FC = () => {
       {userData["completed_1"] === true ? (
         userData["completed_2"] === true ? (
           <Debrief
-            inputValue={notes}
-            setInputValue={setNotes}
             onSubmit={handleFinishDebrief}
             finished={userData["notes"]}
           />
