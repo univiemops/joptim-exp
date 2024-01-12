@@ -75,11 +75,10 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
     value: number | null,
     item?: number,
   ) => {
-    if (value !== null && item) {
+    if (value !== null && item !== undefined) {
       let newSelections = { ...selections };
       newSelections[item] = value;
       setSelections(newSelections);
-      console.log(newSelections);
     }
   };
 
