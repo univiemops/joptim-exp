@@ -127,37 +127,37 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                 study.
               </span>
             </p>
-            {Survey.map((config) =>
-              config.answers ? (
+            {Survey.map((item) =>
+              item.answers ? (
                 <RadioItem
-                  key={config.item}
-                  item={config.item}
-                  title={config.title}
-                  answers={config.answers}
+                  key={item.item}
+                  item={item.item}
+                  title={item.title}
+                  answers={item.answers}
                   choice={
-                    typeof selections === "object" && config.item in selections
-                      ? (selections as Record<number, number>)[config.item]
+                    item.item in selections
+                      ? (selections as Record<number, number>)[item.item]
                       : undefined
                   }
-                  onChange={handleChoice}
+                  onChange={(e) => handleChoice(e, item.item)}
                 >
-                  {config.question}
+                  {item.question}
                 </RadioItem>
               ) : (
                 <BasicItem
-                  key={config.item}
-                  item={config.item}
-                  title={config.title}
-                  leftEnd={config.leftEnd}
-                  rightEnd={config.rightEnd}
+                  key={item.item}
+                  item={item.item}
+                  title={item.title}
+                  leftEnd={item.leftEnd}
+                  rightEnd={item.rightEnd}
                   choice={
-                    typeof selections === "object" && config.item in selections
-                      ? (selections as Record<number, number>)[config.item]
+                    item.item in selections
+                      ? (selections as Record<number, number>)[item.item]
                       : undefined
                   }
-                  onChange={handleChoice}
+                  onChange={(e) => handleChoice(e, item.item)}
                 >
-                  {config.question}
+                  {item.question}
                 </BasicItem>
               ),
             )}
