@@ -10,7 +10,9 @@ const Debrief: React.FC<{
   finished: boolean;
 }> = ({ inputValue, setInputValue, onSubmit, finished }) => {
   const [radioValue, setRadioValue] = React.useState<number | string>();
-  const [selections, setSelections] = React.useState<number | null>({}); // TODO make this a dict
+  const [selections, setSelections] = React.useState<
+    Record<number, number> | {}
+  >({});
 
   const handleChoice = (event: React.MouseEvent<HTMLElement>, item: number) => {
     let newSelections = { ...selections }; // copy the dictionary

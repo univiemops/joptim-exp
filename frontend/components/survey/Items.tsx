@@ -28,7 +28,6 @@ export const BasicItem = ({
   onChange,
 }: Props) => {
   const nAnswers: number = 5;
-  console.log("item", item, "choice", choice);
   return (
     <div className={styles.survey_item}>
       <p className={styles.survey_item_text}>
