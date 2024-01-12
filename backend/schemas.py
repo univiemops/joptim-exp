@@ -23,6 +23,12 @@ class ResultIn(BaseModel):
     result: dict
 
 
+class SurveyResultIn(BaseModel):
+    xid: str
+    survey_id: int
+    result: dict
+
+
 class ParticipantIdIn(BaseModel):
     pid: str
 

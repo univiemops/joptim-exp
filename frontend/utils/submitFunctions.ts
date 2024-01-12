@@ -46,7 +46,7 @@ export const handleSubmit2 = async (
   choice: number,
 ): Promise<void> => {
   try {
-    const res = await fetch(`${OPTIONAL_SUBURI}/results_dual/`, {
+    const res = await fetch(`${OPTIONAL_SUBURI}/results-dual/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,6 +87,34 @@ export const handleSubmitDebrief = async (
       body: JSON.stringify({
         xid: xid,
         text: notes,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to submit data");
+    }
+
+    const json = await res.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const handleSubmitSurvey = async (
+  surveyId: number,
+  xid: string,
+  result: { [key: number]: number },
+): Promise<void> => {
+  try {
+    const res = await fetch(`${OPTIONAL_SUBURI}/results-survey/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        survey_id: surveyId,
+        xid: xid,
+        result: result,
       }),
     });
 

@@ -53,6 +53,26 @@ results_dual = sqlalchemy.Table(
     sqlalchemy.Column("result", sqlalchemy.JSON),
 )
 
+# survey PSI results table
+
+results_survey_psi = sqlalchemy.Table(
+    "survey_psi",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("xid", sqlalchemy.String),
+    sqlalchemy.Column("result", sqlalchemy.JSON),
+)
+
+# dual debrief results table
+
+results_survey_debrief = sqlalchemy.Table(
+    "survey_debrief",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("xid", sqlalchemy.String),
+    sqlalchemy.Column("result", sqlalchemy.JSON),
+)
+
 # notes table
 
 notes = sqlalchemy.Table(
@@ -274,10 +294,23 @@ async def create_result(result: schemas.ResultIn):
     return {**result.dict(), "id": last_record_id}
 
 
-@app.post("/results_dual/", response_model=schemas.Result)
+@app.post("/results-dual/", response_model=schemas.Result)
 async def create_results_dual(result: schemas.ResultIn):
     """Store the results of a trial in the database."""
     query = results_dual.insert().values(xid=result.xid, result=result.result)
+    last_record_id = await database.execute(query)
+    return {**result.dict(), "id": last_record_id}
+
+
+@app.post("/results-survey/", response_model=schemas.Result)
+async def create_result_survey(result: schemas.SurveyResultIn):
+    """Store the results of a survey in the database."""
+    if result.survey_id == 1:
+        query = results_survey_psi.insert().values(xid=result.xid, result=result.result)
+    if result.survey_id == 2:
+        query = results_survey_debrief.insert().values(
+            xid=result.xid, result=result.result
+        )
     last_record_id = await database.execute(query)
     return {**result.dict(), "id": last_record_id}
 

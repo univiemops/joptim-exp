@@ -9,8 +9,24 @@ const Debrief: React.FC<{
   onSubmit: () => void;
   finished: boolean;
 }> = ({ inputValue, setInputValue, onSubmit, finished }) => {
+  const [radioValue, setRadioValue] = React.useState<number | string>();
+  const [selections, setSelections] = React.useState<number | null>({}); // TODO make this a dict
+
+  const handleChoice = (event: React.MouseEvent<HTMLElement>, item: number) => {
+    let newSelections = { ...selections }; // copy the dictionary
+    newSelections[item] = event.target.value; // modify the copy
+    setSelections(newSelections); // update state
+    console.log("newSelections", newSelections);
+    // make sure that event is sufficiently specified for typescript
+  };
+
+  const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioValue(event.target.value);
+  };
+
   const handleButtonClick = () => {
-    onSubmit();
+    // submit text and the other 2 results
+    onSubmit(selections);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,25 +39,6 @@ const Debrief: React.FC<{
       </p>
       {finished !== true && (
         <>
-          {/*<div style={{ fontSize: "large" }}>
-            <p >
-              Thank you for taking part in our study.
-            </p>
-            <p >
-              Your participation is immensely valuable to our research. We
-              kindly invite you to share your feedback on the study, including
-              your problem-solving strategies, comments, or any additional
-              thoughts in the textbox provided below.
-            </p>
-            <p >
-              Your insights will greatly contribute to enhancing the quality of
-              our research and improving future studies.
-            </p>
-            <p >
-              Once again, we appreciate your participation and the time you've
-              dedicated to our research endeavor. Your input is highly valued.
-            </p>
-            </div>*/}
           <div style={{ fontSize: "large" }}>
             <p>
               Thank you for taking part in this study. As one of the initial
@@ -71,36 +68,55 @@ const Debrief: React.FC<{
                 study.
               </span>
             </p>
-            <BasicItem title={"Enjoyment"} leftEnd={"Low"} rightEnd={"High"}>
+            <BasicItem
+              item={0}
+              title={"Enjoyment"}
+              leftEnd={"Low"}
+              rightEnd={"High"}
+              choice={selections[0]}
+              onChange={handleChoice}
+            >
               How much did you enjoy taking part in this study?
             </BasicItem>
 
             <BasicItem
+              item={1}
               title={"Interest"}
               leftEnd={"Boring"}
               rightEnd={"Interesting"}
+              choice={selections[1]}
+              onChange={handleChoice}
             >
               How interesting did you find this study?
             </BasicItem>
 
             <BasicItem
+              item={2}
               title={"Understanding"}
               leftEnd={"Not very well"}
               rightEnd={"Very well"}
+              choice={selections[2]}
+              onChange={handleChoice}
             >
               How well were the study instructions explained?
             </BasicItem>
             <BasicItem
+              item={3}
               title={"Study Purpose"}
               leftEnd={"Not very well"}
               rightEnd={"Very well"}
+              choice={selections[3]}
+              onChange={handleChoice}
             >
               How well was the study's purpose and importance conveyed?
             </BasicItem>
             <BasicItem
+              item={4}
               title={"Length"}
               leftEnd={"Too long"}
               rightEnd={"Too short"}
+              choice={selections[4]}
+              onChange={handleChoice}
             >
               What is your opinion on the length of the study?
             </BasicItem>
@@ -108,6 +124,8 @@ const Debrief: React.FC<{
             <RadioItem
               title={"Language"}
               answers={["No", "Yes (Please specify)"]}
+              value={radioValue}
+              onChange={handleChangeRadio}
             >
               Did you notice any typos or grammatical errors?
             </RadioItem>

@@ -9,24 +9,26 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
 type Props = {
+  item: number;
   title: string;
   children?: React.ReactNode;
   leftEnd: string;
   rightEnd: string;
+  choice: number | null;
+  onChange: (item: number) => void;
 };
 
-export const BasicItem = ({ title, children, leftEnd, rightEnd }: Props) => {
+export const BasicItem = ({
+  item,
+  title,
+  children,
+  leftEnd,
+  rightEnd,
+  choice,
+  onChange,
+}: Props) => {
   const nAnswers: number = 5;
-
-  const [choice, setChoice] = React.useState<number | null>();
-
-  const handleChoice = (
-    event: React.MouseEvent<HTMLElement>,
-    newChoice: number | null,
-  ) => {
-    setChoice(newChoice);
-  };
-
+  console.log("item", item, "choice", choice);
   return (
     <div className={styles.survey_item}>
       <p className={styles.survey_item_text}>
@@ -36,7 +38,7 @@ export const BasicItem = ({ title, children, leftEnd, rightEnd }: Props) => {
         <span className={styles.survey_item_left_end}>{leftEnd}</span>
         <ToggleButtonGroup
           value={choice}
-          onChange={handleChoice}
+          onChange={(e) => onChange(e, item)}
           exclusive
           size="small"
           fullWidth={true}
@@ -44,11 +46,20 @@ export const BasicItem = ({ title, children, leftEnd, rightEnd }: Props) => {
         >
           {Array.from({ length: nAnswers }).map((el, i) => (
             <ToggleButton
+              key={i}
               value={i + 1}
-              style={{
-                fontSize: "large",
-                textTransform: "none",
-              }}
+              style={
+                choice == i + 1
+                  ? {
+                      backgroundColor: "lightgray",
+                      fontSize: "large",
+                      textTransform: "none",
+                    }
+                  : {
+                      fontSize: "large",
+                      textTransform: "none",
+                    }
+              }
             >
               {i + 1}
             </ToggleButton>
@@ -65,15 +76,18 @@ type RadioProps = {
   title: string;
   answers: Array<string>;
   children?: React.ReactNode;
+  value: number | undefined;
+  onChange: () => void;
 };
 
-export const RadioItem = ({ title, answers, children }: RadioProps) => {
-  const [value, setValue] = React.useState<number | string>();
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
-
+export const RadioItem = ({
+  title,
+  answers,
+  children,
+  value,
+  onChange,
+}: RadioProps) => {
+  console.log(value);
   return (
     <div className={styles.survey_item}>
       <p className={styles.survey_item_text}>
@@ -81,11 +95,7 @@ export const RadioItem = ({ title, answers, children }: RadioProps) => {
       </p>
       <div className={styles.survey_item_response_area}>
         <FormControl>
-          <RadioGroup
-            name="controlled-radio-buttons-group"
-            value={value}
-            onChange={handleChange}
-          >
+          <RadioGroup name="controlled-radio-buttons-group" onChange={onChange}>
             {answers.map((el, i) => (
               <FormControlLabel
                 key={i}

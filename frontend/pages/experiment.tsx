@@ -13,6 +13,7 @@ import {
   handleSubmit2,
   handleUpdateUser,
   handleSubmitDebrief,
+  handleSubmitSurvey,
 } from "../utils/submitFunctions";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
@@ -155,11 +156,12 @@ const Experiment: React.FC = () => {
     setTrialCompleted2(false);
   };
 
-  const handleFinishDebrief = () => {
+  const handleFinishDebrief = (selections: Record<number, number>) => {
     if (XID !== undefined && typeof XID === "string") {
       setUserData((prevUser) => ({ ...prevUser, notes: true }));
       handleUpdateUser(XID, "notes", true);
       handleSubmitDebrief(XID, notes);
+      handleSubmitSurvey(2, XID, selections); // first entry defines the type of survey
     } else {
       console.error("XID is undefined or not a string");
     }
@@ -309,8 +311,10 @@ const Experiment: React.FC = () => {
           />
         ) : isTrialCompleted2 ? (
           <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
+        ) : loading ? (
+          <div></div>
         ) : (
-            loading?<div></div>:<StimulusPage2
+          <StimulusPage2
             trial={trial2}
             nTrials={nTrialsMain}
             assignments1={assignmentsOptimal}
@@ -323,18 +327,24 @@ const Experiment: React.FC = () => {
           />
         )
       ) : isTrialCompleted1 ? (
-          loading?<div></div>:<ConfirmationPage
-          trial={trial}
-          utility={getUtility(tasks, assignments)}
-          optimal_utility={utility}
-          assignments={assignments}
-          assignmentsOptimal={assignmentsOptimal}
-          tasks={tasks}
-          workers={workers}
-          onContinue={handleContinue1}
-        />
+        loading ? (
+          <div></div>
+        ) : (
+          <ConfirmationPage
+            trial={trial}
+            utility={getUtility(tasks, assignments)}
+            optimal_utility={utility}
+            assignments={assignments}
+            assignmentsOptimal={assignmentsOptimal}
+            tasks={tasks}
+            workers={workers}
+            onContinue={handleContinue1}
+          />
+        )
+      ) : loading ? (
+        <div></div>
       ) : (
-          loading?<div></div>:<StimulusPage
+        <StimulusPage
           trial={trial}
           nTrials={nTrialsIntro}
           assignments={assignments}
