@@ -63,6 +63,14 @@ const Experiment: React.FC = () => {
   const router = useRouter();
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
+  const [scale, setScale] = React.useState(1);
+
+  React.useEffect(() => {
+    if (window !== undefined) {
+      setScale(1 / window.devicePixelRatio);
+      console.log(scale);
+    }
+  }, []);
 
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
@@ -302,7 +310,7 @@ const Experiment: React.FC = () => {
     }
   }, [isTrialCompleted2]);
   return (
-    <div className="App">
+    <div className="App" style={{ transform: `scale(${scale})` }}>
       {userData["completed_1"] === true ? (
         userData["completed_2"] === true ? (
           <Debrief

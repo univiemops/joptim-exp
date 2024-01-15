@@ -37,7 +37,14 @@ export default function Home() {
   const [leavePage, setLeavePage] = useState<boolean>(false);
   const router = useRouter();
   const getXidCalled = useRef(false); // Ref to track if getXid was called
+  const [scale, setScale] = React.useState(1);
 
+  React.useEffect(() => {
+    if (window !== undefined) {
+      setScale(1 / window.devicePixelRatio);
+      console.log(scale);
+    }
+  }, []);
   useEffect(() => {
     const prolificPid = getURLParameter("PROLIFIC_PID");
     if (!xid && prolificPid && prolificPid !== "" && !getXidCalled.current) {
@@ -70,7 +77,7 @@ export default function Home() {
   });
 
   return (
-    <div className="App">
+    <div className="App" style={{ transform: `scale(${scale})` }}>
       <h1>Behavioral experiment</h1>
       <Button
         size="large"
