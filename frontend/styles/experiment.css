@@ -3,7 +3,7 @@
 /* --rows and --cols variables are defined in experiment.tsx */
 
 :root {
-    --box-size: 15rem; /* Equivalent to 240px */
+    --box-size: 240px;
     --tile-size: calc(var(--box-size) / (3 + max(var(--rows), var(--cols))));
     --tile-size-long: calc(var(--tile-size) * 2);
     --box-size-mini: 20rem;
@@ -27,45 +27,62 @@
     font-size: var(--default-font-size);
 }
 
+@media (-webkit-device-pixel-ratio: 1.25) {
+    * {
+        zoom: 0.8;
+    }
+}
+@media (-webkit-device-pixel-ratio: 1.5) {
+    * {
+        zoom: 0.67;
+    }
+}
+
+@media (-webkit-device-pixel-ratio: 2) {
+    * {
+        zoom: 0.5;
+    }
+}
+
 /* for phones portrait */
-@media only screen and (min-height: 25rem) {
+@media only screen and (min-height: 400px) {
     :root {
-        --box-size: 21.875rem; /* Equivalent to 350px */
+        --box-size: 350px;
     }
 }
 
 /* for tablets portrait */
-@media only screen and (min-width: 37.5rem) and (min-height: 37.5rem) {
+@media only screen and (min-width: 600px) and (min-height: 600px) {
     :root {
-        --box-size: 46.875rem; /* Equivalent to 750px */
+        --box-size: 750px;
     }
 }
 
 /* for tablets landscape */
-@media only screen and (min-width: 56.25rem) {
+@media only screen and (min-width: 900px) {
     :root {
-        --box-size: 34.375rem; /* Equivalent to 550px */
+        --box-size: 550px;
     }
 }
 
 /* for desktop */
-@media only screen and (min-width: 75rem) {
+@media only screen and (min-width: 1200px) {
     :root {
-        --box-size: 37.5rem; /* Equivalent to 600px */
+        --box-size: 600px;
     }
 }
 
-/* for tables big desktop */
-@media only screen and (min-width: 112.5rem) {
+/*  for tables big desktop */
+@media only screen and (min-width: 1800px) {
     :root {
-        --box-size: 37.5rem; /* Equivalent to 600px */
+        --box-size: 600px;
     }
 }
 
-/* for tables big desktop */
-@media only screen and (min-width: 125rem) {
+/*  for tables big desktop */
+@media only screen and (min-width: 2000px) {
     :root {
-        --box-size: 56.25rem; /* Equivalent to 900px */
+        --box-size: 900px;
     }
 }
 
