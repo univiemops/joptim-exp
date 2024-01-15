@@ -61,6 +61,8 @@ export default function Home() {
       // i.e. user has left the welcome page by clicking "continue"
       try {
         document.documentElement.requestFullscreen();
+
+        console.log("window.devicePixelRatio", window.devicePixelRatio);
       } catch (error) {
         console.error("Error requesting fullscreen:", error);
       }
