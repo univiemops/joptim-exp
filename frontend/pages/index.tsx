@@ -45,6 +45,7 @@ export default function Home() {
       console.log(scale);
     }
   }, []);
+
   useEffect(() => {
     const prolificPid = getURLParameter("PROLIFIC_PID");
     if (!xid && prolificPid && prolificPid !== "" && !getXidCalled.current) {

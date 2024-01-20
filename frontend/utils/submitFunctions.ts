@@ -103,7 +103,7 @@ export const handleSubmitDebrief = async (
 export const handleSubmitSurvey = async (
   surveyId: number,
   xid: string,
-  result: { [key: number]: number },
+  result: { [key: string]: string },
 ): Promise<void> => {
   try {
     const res = await fetch(`${OPTIONAL_SUBURI}/results-survey/`, {

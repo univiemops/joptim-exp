@@ -1,3 +1,6 @@
+# no emacs autosave files
+*~
+
 # no pkl files
 *.pkl
 

@@ -1,110 +1,67 @@
 import React from "react";
 import { Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import { BasicItem, RadioItem } from "../survey/Items";
+import { DebriefQuestionnaire } from "../../constants/DebriefQuestionnaire";
+import { QuestionnaireRenderer } from "../questionnaire/Questionnaire";
 
 interface DebriefProps {
-  onSubmit: (selections: Record<number, number>, notes: string) => void;
+  onSubmit: (responses: Record<string, string>) => void;
   finished: boolean;
 }
-type SurveyItem = {
-  item: number;
-  title: string;
-  leftEnd?: string;
-  rightEnd?: string;
-  question: string;
-  answers?: string[];
-};
-
-const Survey: SurveyItem[] = [
-  {
-    item: 0,
-    title: "Enjoyment",
-    leftEnd: "Low",
-    rightEnd: "High",
-    question: "How much did you enjoy taking part in this study?",
-  },
-  {
-    item: 1,
-    title: "Interest",
-    leftEnd: "Boring",
-    rightEnd: "Interesting",
-    question: "How interesting did you find this study?",
-  },
-  {
-    item: 2,
-    title: "Understanding",
-    leftEnd: "Not very well",
-    rightEnd: "Very well",
-    question: "How well were the study instructions explained?",
-  },
-  {
-    item: 3,
-    title: "Study Purpose",
-    leftEnd: "Not very well",
-    rightEnd: "Very well",
-    question: "How well was the study's purpose and importance conveyed?",
-  },
-  {
-    item: 4,
-    title: "Length",
-    leftEnd: "Too long",
-    rightEnd: "Too short",
-    question: "What is your opinion on the length of the study?",
-  },
-  {
-    item: 5,
-    title: "Language",
-    answers: ["No", "Yes (Please specify)"],
-    question: "Did you notice any typos or grammatical errors?",
-  },
-];
-
 const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
-  const [selections, setSelections] = React.useState<
-    Record<number, number> | {}
-  >({});
-  const [inputValue, setInputValue] = React.useState<string>("");
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
+  const [responses, setResponses] = React.useState<{
+    [itemId: string]: string;
+  }>({});
 
-  type CombinedEvent = React.ChangeEvent<{}> | React.MouseEvent<HTMLElement>;
-  type MuiOnChange = (event: CombinedEvent, value: any) => void;
-
-  const handleChoice = (
-    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement>,
-    value: number | null,
-    item?: number,
-  ) => {
-    if (value !== null && item !== undefined) {
-      let newSelections = { ...selections };
-      newSelections[item] = value;
-      setSelections(newSelections);
-    }
+  const handleTextResponse = (itemId: string, value: string) => {
+    setResponses((prevResponses) => ({
+      ...prevResponses,
+      [itemId]: value,
+    }));
   };
 
-  const handleButtonClick = () => {
-    onSubmit(selections, inputValue);
+  const handleRadioButtonResponse = (itemId: string, optionId: string) => {
+    setResponses((prevResponses) => ({
+      ...prevResponses,
+      [itemId]: optionId,
+    }));
+  };
+
+  const handleSubmitButtonClick = () => {
+    onSubmit(responses);
   };
 
   const checkComplete = () => {
-    if (
-      inputValue.length > 0 &&
-      Survey.length === Object.keys(selections).length
-    ) {
-      setFilledOut(true);
-    } else {
-      setFilledOut(false);
+    // Iterate over each item in the questionnaire
+    for (const item of DebriefQuestionnaire.items) {
+      // Exclude 'info' items
+      if (item.type !== "info" && item.type !== "line") {
+        const response = responses[item.id];
+
+        // Check if the item requires a response
+        if (item.type === "freeText" && (!response || response.trim() === "")) {
+          // FreeTextItem requires a non-empty response
+          setFilledOut(false);
+          return;
+        } else if (!response) {
+          // Other non-info items require a response
+          setFilledOut(false);
+          return;
+        }
+      }
     }
+
+    // All non-info items have valid responses
+    setFilledOut(true);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    //setInputValue(e.target.value);
   };
 
   React.useEffect(() => {
     checkComplete();
-  }, [inputValue, selections]);
-
+  }, [responses]);
   return (
     <div className="debrief">
       <p>
@@ -112,84 +69,11 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
       </p>
       {finished !== true && (
         <>
-          <div style={{ fontSize: "large" }}>
-            <p>
-              Thank you for taking part in this study. As one of the initial
-              participants to have taken part in this study, we would like to
-              ask you a few additional questions about your experience of the
-              study and any feedback you have about your experience in taking
-              part.
-            </p>
-
-            <p>
-              The following questions are all optional. All feedback, both
-              positive and negative, is appreciated.
-            </p>
-
-            <p>
-              Providing feedback here will have no effect on your receiving
-              payment for taking part in this study.
-            </p>
-            <hr style={{ backgroundColor: "#efefef", color: "#efefef" }} />
-            <p>
-              <span>
-                <b>Study Experience</b>
-              </span>
-              <br />
-              <span>
-                The following questions are about your overall experience of the
-                study.
-              </span>
-            </p>
-            {Survey.map((item) =>
-              "answers" in item
-                ? item.answers && (
-                    <RadioItem
-                      key={item.item}
-                      item={item.item}
-                      title={item.title}
-                      answers={item.answers}
-                      choice={
-                        item.item in selections
-                          ? (selections as Record<number, number>)[item.item]
-                          : null
-                      }
-                      onChange={handleChoice}
-                    >
-                      {item.question}
-                    </RadioItem>
-                  )
-                : item.leftEnd &&
-                  item.rightEnd && (
-                    <BasicItem
-                      key={item.item}
-                      item={item.item}
-                      title={item.title}
-                      leftEnd={item.leftEnd}
-                      rightEnd={item.rightEnd}
-                      choice={
-                        item.item in selections
-                          ? (selections as Record<number, number>)[item.item]
-                          : null
-                      }
-                      onChange={handleChoice}
-                    >
-                      {item.question}
-                    </BasicItem>
-                  ),
-            )}
-          </div>
-          <hr style={{ backgroundColor: "#efefef", color: "#efefef" }} />
-          <TextField
-            id="debrief-input-field"
-            label="Feedback"
-            multiline
-            rows={5}
-            variant="filled"
-            value={inputValue}
-            onChange={handleInputChange}
-            InputProps={{ style: { fontSize: "x-large" } }}
-            style={{ width: "100%" }}
+          <QuestionnaireRenderer
+            questionnaire={DebriefQuestionnaire}
+            responses={responses}
+            handleTextResponse={handleTextResponse}
+            handleRadioButtonResponse={handleRadioButtonResponse}
           />
           <Button
             disabled={filledOut ? false : true}
@@ -212,7 +96,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
                     margin: "1rem 1rem 1rem 1rem",
                   }
             }
-            onClick={handleButtonClick}
+            onClick={handleSubmitButtonClick}
           >
             SUBMIT
           </Button>
