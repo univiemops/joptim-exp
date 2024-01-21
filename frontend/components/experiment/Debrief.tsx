@@ -60,7 +60,6 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
   };
 
   React.useEffect(() => {
-    console.log("responses", responses);
     checkComplete();
   }, [responses]);
   return (
