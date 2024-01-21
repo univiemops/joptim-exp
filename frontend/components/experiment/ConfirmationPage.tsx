@@ -34,7 +34,7 @@ const ConfirmationPage: React.FC<{
         style={{
           color: "black",
           fontSize: "x-large",
-          margin: "2rem",
+          //margin: "2rem",
           maxWidth: "100%",
         }}
       >

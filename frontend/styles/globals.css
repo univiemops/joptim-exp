@@ -51,20 +51,27 @@ body {
 /* for tablets landscape */
 @media only screen and (min-width: 900px) {
     :root {
-        --box-size: 550px;
+        --box-size: 350px;
     }
 }
 /* for desktop */
 @media only screen and (min-width: 1200px) {
     :root {
-        --box-size: 600px;
+        --box-size: 500px;
+    }
+}
+
+/* for desktop */
+@media only screen and (min-width: 1500px) {
+    :root {
+        --box-size: 550px;
     }
 }
 
 /*  for tables big desktop */
 @media only screen and (min-width: 1800px) {
     :root {
-        --box-size: 600px;
+        --box-size: 680px;
     }
 }
 
