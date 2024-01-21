@@ -29,8 +29,6 @@ export const handleSubmit1 = async (
     if (!res.ok) {
       throw new Error("Failed to submit data");
     }
-
-    const json = await res.json();
   } catch (error) {
     console.error(error);
   }
@@ -67,34 +65,6 @@ export const handleSubmit2 = async (
     if (!res.ok) {
       throw new Error("Failed to submit data");
     }
-
-    const json = await res.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const handleSubmitDebrief = async (
-  xid: string,
-  notes: string,
-): Promise<void> => {
-  try {
-    const res = await fetch(`${OPTIONAL_SUBURI}/notes-create/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        xid: xid,
-        text: notes,
-      }),
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to submit data");
-    }
-
-    const json = await res.json();
   } catch (error) {
     console.error(error);
   }
@@ -121,8 +91,6 @@ export const handleSubmitSurvey = async (
     if (!res.ok) {
       throw new Error("Failed to submit data");
     }
-
-    const json = await res.json();
   } catch (error) {
     console.error(error);
   }
@@ -148,7 +116,6 @@ export const handleUpdateUser = async (
     if (!res.ok) {
       throw new Error("Failed to update user");
     }
-    const json = await res.json();
   } catch (error) {
     console.error(error);
   }

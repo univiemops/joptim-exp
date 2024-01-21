@@ -55,10 +55,6 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
     setFilledOut(true);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //setInputValue(e.target.value);
-  };
-
   React.useEffect(() => {
     checkComplete();
   }, [responses]);

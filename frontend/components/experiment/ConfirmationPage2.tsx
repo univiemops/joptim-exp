@@ -1,5 +1,4 @@
 import React from "react";
-import GAP from "../GAP/GAP";
 import { Button } from "@mui/material";
 
 const ConfirmationPage2: React.FC<{

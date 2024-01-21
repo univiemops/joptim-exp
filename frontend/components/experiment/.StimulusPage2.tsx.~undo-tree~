@@ -1,4 +1,7 @@
 (undo-tree-save-format-version . 1)
-"8329100ac7f3ef7fe6259d34f65d8e2dec5b3ff7"
-[nil current nil nil (26015 56755 292589 16000) 0 nil]
+"9d46024a89f00961cfcdf80057f7e12ed84bf9cb"
+[nil nil nil nil (26015 56755 292589 16000) 0 nil]
+([nil nil ((529 . 530) (t 26015 56714 136394 485000)) nil (26029 117 229257 335000) 0 nil])
+([nil current ((587 . 609) (#("      setChoice(index);
+" 0 6 (fontified t) 6 15 (face tree-sitter-hl-face:function.call fontified t) 15 16 (face (rainbow-delimiters-depth-3-face tree-sitter-hl-face:punctuation.bracket) fontified t) 16 21 (fontified t) 21 22 (face (rainbow-delimiters-depth-3-face tree-sitter-hl-face:punctuation.bracket) fontified t) 22 23 (face tree-sitter-hl-face:punctuation.delimiter fontified t) 23 24 (fontified t)) . -587) (undo-tree-id0 . -24) 504 (t 26029 117 243299 658000)) nil (26029 117 759653 911000) 0 nil])
 nil

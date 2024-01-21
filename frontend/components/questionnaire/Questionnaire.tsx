@@ -6,7 +6,6 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import {
   Questionnaire,
@@ -51,7 +50,6 @@ const QuestionnaireItemRenderer: React.FC<{
       return (
         <DichotomousItem
           item={item}
-          response={response}
           handleRadioButtonResponse={handleRadioButtonResponse}
         />
       );
@@ -91,9 +89,8 @@ const QuestionnaireItemRenderer: React.FC<{
 
 const DichotomousItem: React.FC<{
   item: QuestionnaireItem;
-  response: string;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, handleRadioButtonResponse }) => (
+}> = ({ item, handleRadioButtonResponse }) => (
   <div className={styles.survey_item}>
     <p className={styles.survey_item_text}>
       <b>{item.title}:</b> {item.text}
@@ -203,7 +200,7 @@ const LikertItem: React.FC<{
         </span>
         <ToggleButtonGroup
           value={response}
-          onChange={(e, value) =>
+          onChange={(_, value) =>
             value && handleRadioButtonResponse(item.id, value.toString())
           }
           exclusive
@@ -212,7 +209,7 @@ const LikertItem: React.FC<{
           className={styles.survey_item_buttons}
         >
           {item.options && item.options.length > 0 ? (
-            Array.from({ length: item.options.length }).map((el, i) => (
+            Array.from({ length: item.options.length }).map((_, i) => (
               <ToggleButton
                 key={i}
                 value={i + 1}

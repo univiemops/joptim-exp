@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { getRandomIntInclusive, getUtility } from "../utils/helperFunctions";
+import { getUtility } from "../utils/helperFunctions";
 import StimulusPage from "../components/experiment/StimulusPage";
 import StimulusPage2 from "../components/experiment/StimulusPage2";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
@@ -12,7 +12,6 @@ import {
   handleSubmit1,
   handleSubmit2,
   handleUpdateUser,
-  handleSubmitDebrief,
   handleSubmitSurvey,
 } from "../utils/submitFunctions";
 
@@ -56,7 +55,6 @@ const Experiment: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [trial, setTrial] = useState<number>(0);
   const [isTrialCompleted1, setTrialCompleted1] = useState<boolean>(true);
-  const [isCompleted1, setCompleted1] = useState<boolean>(false);
   const [trial2, setTrial2] = useState<number>(0);
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserDataProps>(initialUserData);
@@ -70,6 +68,7 @@ const Experiment: React.FC = () => {
       setScale(1 / window.devicePixelRatio);
       console.log(scale);
     }
+    console.log("backend connected", databaseConnected);
   }, []);
 
   const handleTrialComplete1 = () => {
@@ -139,7 +138,6 @@ const Experiment: React.FC = () => {
   const handleContinue1 = () => {
     if (trial >= nTrialsIntro) {
       if (XID !== undefined && typeof XID === "string") {
-        const userDataNew = userData;
         setUserData((prevUser) => ({ ...prevUser, completed_1: true }));
         handleUpdateUser(XID, "completed_1", true);
       } else {
@@ -173,7 +171,7 @@ const Experiment: React.FC = () => {
     }
   };
 
-  const getUserData = async (xid: string) => {
+  const getUserData = async (XID: string) => {
     try {
       const res = await fetch(`${OPTIONAL_SUBURI}/user/`, {
         method: "POST",

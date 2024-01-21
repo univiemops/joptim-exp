@@ -23,8 +23,8 @@ const StimulusPage2: React.FC<{
   setChoice,
   choice,
 }) => {
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-      setChoice(index);
+  const handleClick = (_e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    setChoice(index);
   };
   const progress = (100 * (trial - 1)) / nTrials;
 
