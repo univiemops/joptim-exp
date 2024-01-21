@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { DebriefQuestionnaire } from "../../constants/DebriefQuestionnaire";
+import { DebriefQuestionnaire } from "../../questionnaires/DebriefQuestionnaire";
 import { QuestionnaireRenderer } from "../questionnaire/Questionnaire";
 
 interface DebriefProps {
