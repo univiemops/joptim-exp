@@ -33,12 +33,12 @@
 
 .survey_item_left_end {
     justify-content: flex-start;
-    text-align: center;
+    text-align: start;
 }
 
 .survey_item_right_end {
     justify-content: flex-end;
-    text-align: center;
+    text-align: end;
 }
 
 .survey_item_buttons {
