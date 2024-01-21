@@ -6,6 +6,7 @@ import StimulusPage2 from "../components/experiment/StimulusPage2";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
 import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
 import Debrief from "../components/experiment/Debrief";
+import PSI from "../components/experiment/PSI";
 import { nTrialsIntro, nTrialsMain } from "../constants/trials";
 import { useRouter } from "next/router";
 import {
@@ -61,13 +62,9 @@ const Experiment: React.FC = () => {
   const router = useRouter();
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
-  const [scale, setScale] = React.useState(1);
 
   React.useEffect(() => {
-    if (window !== undefined) {
-      setScale(1 / window.devicePixelRatio);
-      console.log(scale);
-    }
+    console.log(userData);
     console.log("backend connected", databaseConnected);
   }, []);
 
@@ -159,6 +156,17 @@ const Experiment: React.FC = () => {
     }
     setTrial2(trial2 + 1);
     setTrialCompleted2(false);
+  };
+
+  // TODO: integrate into bbelow function
+  const handleFinishPSI = (responses: Record<string, string>) => {
+    if (XID !== undefined && typeof XID === "string") {
+      setUserData((prevUser) => ({ ...prevUser, survey: true }));
+      handleUpdateUser(XID, "survey", true);
+      handleSubmitSurvey(1, XID, responses); // first entry defines the type of survey
+    } else {
+      console.error("XID is undefined or not a string");
+    }
   };
 
   const handleFinishDebrief = (responses: Record<string, string>) => {
@@ -304,57 +312,61 @@ const Experiment: React.FC = () => {
     }
   }, [isTrialCompleted2]);
   return (
-    <div className="App" style={{ transform: `scale(${scale})` }}>
-      {userData["completed_1"] === true ? (
-        userData["completed_2"] === true ? (
-          <Debrief
-            onSubmit={handleFinishDebrief}
-            finished={userData["notes"]}
-          />
-        ) : isTrialCompleted2 ? (
-          <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
+    <div className="App">
+      {userData["survey"] === true ? (
+        userData["completed_1"] === true ? (
+          userData["completed_2"] === true ? (
+            <Debrief
+              onSubmit={handleFinishDebrief}
+              finished={userData["notes"]}
+            />
+          ) : isTrialCompleted2 ? (
+            <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
+          ) : loading ? (
+            <div></div>
+          ) : (
+            <StimulusPage2
+              trial={trial2}
+              nTrials={nTrialsMain}
+              assignments1={assignmentsOptimal}
+              assignments2={assignmentsOptimal2}
+              tasks={tasks}
+              workers={workers}
+              onComplete={handleTrialComplete2}
+              setChoice={setChoice}
+              choice={choice}
+            />
+          )
+        ) : isTrialCompleted1 ? (
+          loading ? (
+            <div></div>
+          ) : (
+            <ConfirmationPage
+              trial={trial}
+              utility={getUtility(tasks, assignments)}
+              optimal_utility={utility}
+              assignments={assignments}
+              assignmentsOptimal={assignmentsOptimal}
+              tasks={tasks}
+              workers={workers}
+              onContinue={handleContinue1}
+            />
+          )
         ) : loading ? (
           <div></div>
         ) : (
-          <StimulusPage2
-            trial={trial2}
-            nTrials={nTrialsMain}
-            assignments1={assignmentsOptimal}
-            assignments2={assignmentsOptimal2}
-            tasks={tasks}
-            workers={workers}
-            onComplete={handleTrialComplete2}
-            setChoice={setChoice}
-            choice={choice}
-          />
-        )
-      ) : isTrialCompleted1 ? (
-        loading ? (
-          <div></div>
-        ) : (
-          <ConfirmationPage
+          <StimulusPage
             trial={trial}
-            utility={getUtility(tasks, assignments)}
-            optimal_utility={utility}
+            nTrials={nTrialsIntro}
             assignments={assignments}
-            assignmentsOptimal={assignmentsOptimal}
+            setAssignments={setAssignments}
             tasks={tasks}
             workers={workers}
-            onContinue={handleContinue1}
+            onComplete={handleTrialComplete1}
           />
         )
-      ) : loading ? (
-        <div></div>
       ) : (
-        <StimulusPage
-          trial={trial}
-          nTrials={nTrialsIntro}
-          assignments={assignments}
-          setAssignments={setAssignments}
-          tasks={tasks}
-          workers={workers}
-          onComplete={handleTrialComplete1}
-        />
+        <PSI onSubmit={handleFinishPSI} finished={userData["survey"]} />
       )}
     </div>
   );

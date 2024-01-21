@@ -57,9 +57,6 @@ const PSI: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   }, [responses]);
   return (
     <div className="debrief">
-      <p>
-        <b>Experiment completed</b>
-      </p>
       {finished !== true && (
         <>
           <QuestionnaireRenderer

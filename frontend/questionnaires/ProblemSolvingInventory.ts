@@ -7,7 +7,8 @@ import { Questionnaire } from "../components/questionnaire/questionnaireTypes";
 
 export const ProblemSolvingInventory: Questionnaire = {
   title: "Problem-Solving Inventory",
-  description: "",
+  description:
+    "This questionnaire measures the participant's perceived competency in addressing and resolving various life challenges and difficulties.",
   items: [
     {
       id: "1",

@@ -93,7 +93,9 @@ const DichotomousItem: React.FC<{
 }> = ({ item, handleRadioButtonResponse }) => (
   <div className={styles.survey_item}>
     <p className={styles.survey_item_text}>
-      <b>{item.title}:</b> {item.text}
+      <b>{item.title !== "" && item.title.concat(": ")}</b>
+
+      {item.text}
     </p>
     <div className={styles.survey_item_response_area}>
       <FormControl>
@@ -135,7 +137,9 @@ const NoYesTextItem: React.FC<{
   return (
     <div className={styles.survey_item}>
       <p className={styles.survey_item_text}>
-        <b>{item.title}:</b> {item.text}
+        <b>{item.title !== "" && item.title.concat(": ")}</b>
+
+        {item.text}
       </p>
       <div className={styles.survey_item_response_area_noyes}>
         <FormControl>
@@ -190,7 +194,8 @@ const LikertItem: React.FC<{
 }> = ({ item, response, handleRadioButtonResponse }) => (
   <div className={styles.survey_item}>
     <p className={styles.survey_item_text}>
-      <b>{item.title}:</b> {item.text}
+      <b>{item.title !== "" && item.title.concat(": ")}</b>
+      {item.text}
     </p>
 
     {isLikertScaleOptions(item.options) && (
@@ -260,7 +265,8 @@ const FreeTextItem: React.FC<{
 }> = ({ item, response, handleTextResponse }) => (
   <div className={styles.survey_item}>
     <p className={styles.survey_item_text}>
-      <b>{item.title}:</b> {item.text}
+      <b>{item.title !== "" && item.title.concat(": ")}</b>
+      {item.text}
     </p>
     <TextField
       id={`debrief-input-field-${item.id}`}
