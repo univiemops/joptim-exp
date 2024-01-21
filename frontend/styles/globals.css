@@ -37,14 +37,14 @@ body {
 }
 
 /* for phones portrait */
-@media only screen and (min-height: 400px) {
+@media only screen and (min-height: 400px) and (orientation: portrait) {
     :root {
         --box-size: 350px;
     }
 }
 
 /* for tablets portrait */
-@media only screen and (min-width: 600px) and (min-height: 600px) {
+@media only screen and (min-width: 600px) and (min-height: 800px) and (orientation: portrait) {
     :root {
         --box-size: 750px;
     }
