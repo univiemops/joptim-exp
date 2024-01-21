@@ -170,7 +170,7 @@ const NoYesTextItem: React.FC<{
               ))}
           </RadioGroup>
         </FormControl>
-        {response !== "0" && (
+        {response !== "0" && response !== undefined && (
           <TextField
             id={`text-field-${item.id}`}
             label=""
