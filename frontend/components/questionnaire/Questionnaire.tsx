@@ -6,7 +6,10 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import Checkbox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+
 import {
   Questionnaire,
   QuestionnaireItem,
@@ -53,7 +56,13 @@ const QuestionnaireItemRenderer: React.FC<{
           handleRadioButtonResponse={handleRadioButtonResponse}
         />
       );
-
+    case "check":
+      return (
+        <SingleCheckboxItem
+          item={item}
+          handleRadioButtonResponse={handleRadioButtonResponse}
+        />
+      );
     case "noyestext":
       return (
         <NoYesTextItem
@@ -186,6 +195,42 @@ const NoYesTextItem: React.FC<{
     </div>
   );
 };
+
+const SingleCheckboxItem: React.FC<{
+  item: QuestionnaireItem;
+  handleRadioButtonResponse: (itemId: string, optionId: string) => void;
+}> = ({ item, handleRadioButtonResponse }) => (
+  <div className={styles.survey_item}>
+    <p className={styles.survey_item_text}>
+      <b>{item.title}</b>
+    </p>
+    <div
+      className={styles.survey_item_response_area}
+      style={{ fontSize: "large" }}
+    >
+      <FormControlLabel
+        label=<div
+          style={{
+            textTransform: "none",
+            fontSize: "large",
+          }}
+        >
+          {item.text}
+        </div>
+        labelPlacement="end"
+        control={
+          <Checkbox
+            name={`single-checkbox-${item.id}`}
+            onChange={(e) =>
+              handleRadioButtonResponse(item.id, e.target.checked.toString())
+            }
+            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+          />
+        }
+      />
+    </div>
+  </div>
+);
 
 const LikertItem: React.FC<{
   item: QuestionnaireItem;

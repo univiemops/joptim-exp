@@ -29,26 +29,21 @@ const PSI: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   };
 
   const checkComplete = () => {
-    // Iterate over each item in the questionnaire
     for (const item of Questionnaire.items) {
-      // Exclude 'info' items
       if (item.type !== "info" && item.type !== "line") {
         const response = responses[item.id];
-
-        // Check if the item requires a response
         if (item.type === "freeText" && (!response || response.trim() === "")) {
-          // FreeTextItem requires a non-empty response
           setFilledOut(false);
           return;
         } else if (!response) {
-          // Other non-info items require a response
+          setFilledOut(false);
+          return;
+        } else if (item.type == "check" && response === "false") {
           setFilledOut(false);
           return;
         }
       }
     }
-
-    // All non-info items have valid responses
     setFilledOut(true);
   };
 
@@ -56,7 +51,7 @@ const PSI: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
     checkComplete();
   }, [responses]);
   return (
-    <div className="debrief">
+    <div className="questionnaire">
       {finished !== true && (
         <>
           <QuestionnaireRenderer
