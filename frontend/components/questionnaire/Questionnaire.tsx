@@ -140,7 +140,7 @@ const NoYesTextItem: React.FC<{
       <p className={styles.survey_item_text}>
         <b>{item.title}:</b> {item.text}
       </p>
-      <div className={styles.survey_item_response_area}>
+      <div className={styles.survey_item_response_area_noyes}>
         <FormControl>
           <RadioGroup
             name={`radio-group-${item.id}`}
@@ -178,7 +178,7 @@ const NoYesTextItem: React.FC<{
             onChange={handleTextChange}
             variant="outlined"
             margin="dense"
-            size="small"
+            style={{ width: "100%" }}
           />
         )}
       </div>

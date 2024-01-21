@@ -15,6 +15,13 @@
     align-items: center;
 }
 
+.survey_item_response_area_noyes {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
 .survey_item_left_end,
 .survey_item_right_end {
     display: flex;
