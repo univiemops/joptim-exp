@@ -82,7 +82,7 @@ export const DebriefQuestionnaire: Questionnaire = {
     },
     {
       id: "6",
-      type: "dichotomous",
+      type: "noyestext",
       title: "Language",
       text: "Did you notice any typos or grammatical errors?",
       options: ["No", "Yes (Please specify)"],
@@ -107,7 +107,7 @@ export const DebriefQuestionnaire: Questionnaire = {
     },
     {
       id: "7",
-      type: "dichotomous",
+      type: "noyestext",
       title: "Tasks",
       text: "Did all the assignment tasks display correctly?",
       options: ["No", "Yes (Please specify)"],

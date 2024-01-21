@@ -55,6 +55,15 @@ const QuestionnaireItemRenderer: React.FC<{
           handleRadioButtonResponse={handleRadioButtonResponse}
         />
       );
+
+    case "noyestext":
+      return (
+        <NoYesTextItem
+          item={item}
+          response={response}
+          handleRadioButtonResponse={handleRadioButtonResponse}
+        />
+      );
     case "likert":
       return (
         <LikertItem
@@ -114,6 +123,68 @@ const DichotomousItem: React.FC<{
     </div>
   </div>
 );
+
+const NoYesTextItem: React.FC<{
+  item: QuestionnaireItem;
+  response: string;
+  handleRadioButtonResponse: (itemId: string, optionId: string) => void;
+}> = ({ item, response, handleRadioButtonResponse }) => {
+  const [textResponse, setTextResponse] = React.useState("");
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTextResponse(e.target.value);
+    handleRadioButtonResponse(item.id, e.target.value);
+  };
+  return (
+    <div className={styles.survey_item}>
+      <p className={styles.survey_item_text}>
+        <b>{item.title}:</b> {item.text}
+      </p>
+      <div className={styles.survey_item_response_area}>
+        <FormControl>
+          <RadioGroup
+            name={`radio-group-${item.id}`}
+            value={
+              response === "0" ? "0" : response === undefined ? undefined : "1"
+            }
+            onChange={(e) =>
+              handleRadioButtonResponse(
+                item.id,
+                e.target.value === "0" ? "0" : textResponse,
+              )
+            }
+          >
+            {item.options &&
+              Array.isArray(item.options) &&
+              item.options.map((el: string, i: number) => (
+                <FormControlLabel
+                  key={i}
+                  value={i}
+                  control={<Radio />}
+                  label={el}
+                  style={{
+                    fontSize: "large",
+                    textTransform: "none",
+                  }}
+                />
+              ))}
+          </RadioGroup>
+        </FormControl>
+        {response !== "0" && (
+          <TextField
+            id={`text-field-${item.id}`}
+            label=""
+            value={textResponse}
+            onChange={handleTextChange}
+            variant="outlined"
+            margin="dense"
+            size="small"
+          />
+        )}
+      </div>
+    </div>
+  );
+};
 
 const LikertItem: React.FC<{
   item: QuestionnaireItem;

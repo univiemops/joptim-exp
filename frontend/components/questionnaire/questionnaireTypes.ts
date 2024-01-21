@@ -6,7 +6,7 @@ export interface Questionnaire {
 
 export interface QuestionnaireItem {
   id: string;
-  type: "dichotomous" | "likert" | "freeText" | "info" | "line";
+  type: "dichotomous" | "noyestext" | "likert" | "freeText" | "info" | "line";
   title: string;
   text: string;
   options?: LikertScaleOptions | string[]; // For dichotomous or Likert-scaled items
