@@ -1,13 +1,10 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { DebriefQuestionnaire } from "../../questionnaires/DebriefQuestionnaire";
+import { DebriefQuestionnaire as Questionnaire } from "../../questionnaires/DebriefQuestionnaire";
 import { QuestionnaireRenderer } from "../questionnaire/Questionnaire";
+import { QuestionnaireProps } from "./QuestionnaireProps";
 
-interface DebriefProps {
-  onSubmit: (responses: Record<string, string>) => void;
-  finished: boolean;
-}
-const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
+const Debrief: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
   const [responses, setResponses] = React.useState<{
     [itemId: string]: string;
@@ -33,7 +30,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
 
   const checkComplete = () => {
     // Iterate over each item in the questionnaire
-    for (const item of DebriefQuestionnaire.items) {
+    for (const item of Questionnaire.items) {
       // Exclude 'info' items
       if (item.type !== "info" && item.type !== "line") {
         const response = responses[item.id];
@@ -66,7 +63,7 @@ const Debrief: React.FC<DebriefProps> = ({ onSubmit, finished }) => {
       {finished !== true && (
         <>
           <QuestionnaireRenderer
-            questionnaire={DebriefQuestionnaire}
+            questionnaire={Questionnaire}
             responses={responses}
             handleTextResponse={handleTextResponse}
             handleRadioButtonResponse={handleRadioButtonResponse}
