@@ -76,7 +76,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
           size="large"
           variant="contained"
           style={{
-            fontSize: "xx-large",
+            fontSize: "x-large",
             background: "#000000",
             textTransform: "none",
             padding: ".3rem 3rem .3rem 3rem",
