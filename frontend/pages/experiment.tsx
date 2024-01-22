@@ -8,6 +8,7 @@ import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
 import Debrief from "../components/experiment/Debrief";
 import PSI from "../components/experiment/PSI";
 import Consent from "../components/experiment/Consent";
+import Instructions from "../components/experiment/Instructions";
 import { nTrialsIntro, nTrialsMain } from "../constants/trials";
 import { useRouter } from "next/router";
 import {
@@ -62,6 +63,7 @@ const Experiment: React.FC = () => {
   const router = useRouter();
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
+  const [instructed, setInstructed] = React.useState<boolean>(false);
 
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
@@ -158,7 +160,6 @@ const Experiment: React.FC = () => {
     if (XID !== undefined && typeof XID === "string") {
       setUserData((prevUser) => ({ ...prevUser, consent: true }));
       handleUpdateUser(XID, "consent", true);
-      console.log("clicked");
     } else {
       console.error("XID is undefined or not a string");
     }
@@ -183,6 +184,16 @@ const Experiment: React.FC = () => {
       console.error("XID is undefined or not a string");
     }
   };
+
+
+  const handleFinishInstructions = () => {
+    if (XID !== undefined && typeof XID === "string") {
+      setInstructed(true)
+    } else {
+      console.error("XID is undefined or not a string");
+    }
+  };
+
 
   const getUserData = async (XID: string) => {
     try {
@@ -320,56 +331,61 @@ const Experiment: React.FC = () => {
         <div></div>
       ) : userData["consent"] === true ? (
         userData["survey"] === true ? (
-          userData["completed_1"] === true ? (
-            userData["completed_2"] === true ? (
-              <Debrief
-                onSubmit={handleFinishDebrief}
-                finished={userData["notes"]}
-              />
-            ) : isTrialCompleted2 ? (
-              <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
+          instructed === true ? (
+            userData["completed_1"] === true ? (
+              userData["completed_2"] === true ? (
+                <Debrief
+                  onSubmit={handleFinishDebrief}
+                  finished={userData["notes"]}
+                />
+              ) : isTrialCompleted2 ? (
+                <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
+              ) : loading ? (
+                <div></div>
+              ) : (
+                <StimulusPage2
+                  trial={trial2}
+                  nTrials={nTrialsMain}
+                  assignments1={assignmentsOptimal}
+                  assignments2={assignmentsOptimal2}
+                  tasks={tasks}
+                  workers={workers}
+                  onComplete={handleTrialComplete2}
+                  setChoice={setChoice}
+                  choice={choice}
+                />
+              )
+            ) : isTrialCompleted1 ? (
+              loading ? (
+                <div></div>
+              ) : (
+                <ConfirmationPage
+                  trial={trial}
+                  utility={getUtility(tasks, assignments)}
+                  optimal_utility={utility}
+                  assignments={assignments}
+                  assignmentsOptimal={assignmentsOptimal}
+                  tasks={tasks}
+                  workers={workers}
+                  onContinue={handleContinue1}
+                />
+              )
             ) : loading ? (
               <div></div>
             ) : (
-              <StimulusPage2
-                trial={trial2}
-                nTrials={nTrialsMain}
-                assignments1={assignmentsOptimal}
-                assignments2={assignmentsOptimal2}
-                tasks={tasks}
-                workers={workers}
-                onComplete={handleTrialComplete2}
-                setChoice={setChoice}
-                choice={choice}
-              />
-            )
-          ) : isTrialCompleted1 ? (
-            loading ? (
-              <div></div>
-            ) : (
-              <ConfirmationPage
+              <StimulusPage
                 trial={trial}
-                utility={getUtility(tasks, assignments)}
-                optimal_utility={utility}
+                nTrials={nTrialsIntro}
                 assignments={assignments}
-                assignmentsOptimal={assignmentsOptimal}
+                setAssignments={setAssignments}
                 tasks={tasks}
                 workers={workers}
-                onContinue={handleContinue1}
+                onComplete={handleTrialComplete1}
               />
             )
-          ) : loading ? (
-            <div></div>
+
           ) : (
-            <StimulusPage
-              trial={trial}
-              nTrials={nTrialsIntro}
-              assignments={assignments}
-              setAssignments={setAssignments}
-              tasks={tasks}
-              workers={workers}
-              onComplete={handleTrialComplete1}
-            />
+            <Instructions onSubmit={handleFinishInstructions} />
           )
         ) : (
           <PSI onSubmit={handleFinishPSI} finished={userData["survey"]} />
