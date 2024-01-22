@@ -1,11 +1,8 @@
 import React from "react";
 import { Button } from "@mui/material";
 import InstructionGAPWrapper from "../GAP/InstructionGAPWrapper";
+import { InstructionsProps } from "./types"
 
-
-export interface InstructionsProps {
-  onSubmit: () => void;
-}
 
 const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
   return (

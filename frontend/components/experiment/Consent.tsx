@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { ConsentForm as Questionnaire } from "../../questionnaires/ConsentForm";
 import { QuestionnaireRenderer } from "../questionnaire/Questionnaire";
-import { QuestionnaireProps } from "./QuestionnaireProps";
+import { QuestionnaireProps } from "./types";
 
 const Consent: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
@@ -69,19 +69,19 @@ const Consent: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
             style={
               filledOut
                 ? {
-                    fontSize: "x-large",
-                    color: "#ffffff",
-                    background: "#000000",
-                    textTransform: "none",
-                    padding: ".3rem 3rem .3rem 3rem",
-                    margin: "1rem 1rem 1rem 1rem",
-                  }
+                  fontSize: "x-large",
+                  color: "#ffffff",
+                  background: "#000000",
+                  textTransform: "none",
+                  padding: ".3rem 3rem .3rem 3rem",
+                  margin: "1rem 1rem 1rem 1rem",
+                }
                 : {
-                    fontSize: "x-large",
-                    textTransform: "none",
-                    padding: ".3rem 3rem .3rem 3rem",
-                    margin: "1rem 1rem 1rem 1rem",
-                  }
+                  fontSize: "x-large",
+                  textTransform: "none",
+                  padding: ".3rem 3rem .3rem 3rem",
+                  margin: "1rem 1rem 1rem 1rem",
+                }
             }
             onClick={handleSubmitButtonClick}
           >

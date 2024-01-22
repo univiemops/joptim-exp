@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Instructions() {
+export default function Dev() {
   const [boxSize, setBoxSize] = React.useState("");
   const [devicePixelRatio, setDevicePixelRatio] = React.useState(1);
   const [viewportWidth, setViewportWidth] = React.useState(0);
@@ -25,7 +25,6 @@ export default function Instructions() {
     <div
       id="default-app-container"
       className="App"
-      //style={{ transform: `scale(${scale})` }}
     >
       <div
         id="dev-container"
