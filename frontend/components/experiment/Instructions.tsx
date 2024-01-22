@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@mui/material";
-import InstructionGAPWrapper from "@/components/GAP/InstructionGAPWrapper";
+import InstructionGAPWrapper from "../GAP/InstructionGAPWrapper";
 import { useRouter } from "next/router";
 
 export default function Instructions() {

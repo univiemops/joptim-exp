@@ -57,7 +57,7 @@ export default function Home() {
   useEffect(() => {
     if (leavePage) {
       router.push({
-        pathname: "/instructions",
+        pathname: "/experiment",
         query: { XID: xid },
       });
     }
