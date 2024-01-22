@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { ConsentForm as Questionnaire } from "../../questionnaires/ConsentForm";
 import { QuestionnaireRenderer } from "../questionnaire/Questionnaire";
-import { QuestionnaireProps } from "./types";
+import { QuestionnaireProps } from "./types.ts~";
 
 const Consent: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
