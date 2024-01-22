@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { DebriefQuestionnaire as Questionnaire } from "../../questionnaires/DebriefQuestionnaire";
 import { QuestionnaireRenderer } from "../questionnaire/Questionnaire";
-import { QuestionnaireProps } from "./types.ts~";
+import { QuestionnaireProps } from "./types";
 
 const Debrief: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
