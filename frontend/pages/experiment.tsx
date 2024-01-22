@@ -153,8 +153,8 @@ const Experiment: React.FC = () => {
     setTrialCompleted2(false);
   };
 
-  // TODO: integrate all into one function
-  const handleFinishConsent = () => {
+  // TODO: integrate all three into one function
+  function handleFinishConsent(): void {
     if (XID !== undefined && typeof XID === "string") {
       setUserData((prevUser) => ({ ...prevUser, consent: true }));
       handleUpdateUser(XID, "consent", true);
@@ -162,7 +162,7 @@ const Experiment: React.FC = () => {
     } else {
       console.error("XID is undefined or not a string");
     }
-  };
+  }
 
   const handleFinishPSI = (responses: Record<string, string>) => {
     if (XID !== undefined && typeof XID === "string") {

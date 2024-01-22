@@ -231,7 +231,6 @@ async def update_user(user_data: Dict[str, Any]) -> dict:
 @app.post("/xid/")
 async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
     """Returns XID for a given Participant ID"""
-
     import random
     import string
 
@@ -252,9 +251,8 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
         }
 
         query = user.insert().values(new_user_values)
-        last_record_id = await database.execute(query)
+        _ = await database.execute(query)
         return new_user_values
-
 
 # get a random trial from the trials file
 

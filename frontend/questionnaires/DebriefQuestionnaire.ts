@@ -109,7 +109,7 @@ export const DebriefQuestionnaire: Questionnaire = {
       id: "7",
       type: "noyestext",
       title: "Tasks",
-      text: "Did all the assignment tasks display correctly?",
+      text: "Did you notice any errors in the display of the assignment tasks?",
       options: ["No", "Yes (Please specify)"],
     },
     {

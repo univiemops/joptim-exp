@@ -7,17 +7,9 @@ import { useRouter } from "next/router";
 export default function Instructions() {
   const router = useRouter();
   const { XID } = router.query;
-  const [scale, setScale] = React.useState(1);
-
-  React.useEffect(() => {
-    if (window !== undefined) {
-      setScale(1 / window.devicePixelRatio);
-      console.log(scale);
-    }
-  }, []);
 
   return (
-    <div className="App" style={{ transform: `scale(${scale})` }}>
+    <div className="App">
       <div className="instructions">
         <h1>Instructions</h1>
         <p>
