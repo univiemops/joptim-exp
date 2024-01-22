@@ -65,6 +65,12 @@ const Experiment: React.FC = () => {
   const [choice, setChoice] = React.useState<number>(0);
   const [instructed, setInstructed] = React.useState<boolean>(false);
 
+  const handleScrollToTop = () => {
+    if (window) {
+      window.scrollTo(0, 0)
+    }
+  };
+
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
       const endTime: number = performance.now();
@@ -160,6 +166,7 @@ const Experiment: React.FC = () => {
     if (XID !== undefined && typeof XID === "string") {
       setUserData((prevUser) => ({ ...prevUser, consent: true }));
       handleUpdateUser(XID, "consent", true);
+      handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
     }
@@ -170,6 +177,7 @@ const Experiment: React.FC = () => {
       setUserData((prevUser) => ({ ...prevUser, survey: true }));
       handleUpdateUser(XID, "survey", true);
       handleSubmitSurvey(1, XID, responses); // first entry defines the type of survey
+      handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
     }
@@ -180,6 +188,7 @@ const Experiment: React.FC = () => {
       setUserData((prevUser) => ({ ...prevUser, notes: true }));
       handleUpdateUser(XID, "notes", true);
       handleSubmitSurvey(2, XID, responses); // first entry defines the type of survey
+      handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
     }
@@ -189,6 +198,7 @@ const Experiment: React.FC = () => {
   const handleFinishInstructions = () => {
     if (XID !== undefined && typeof XID === "string") {
       setInstructed(true)
+      handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
     }
@@ -399,5 +409,4 @@ const Experiment: React.FC = () => {
     </div>
   );
 };
-
 export default Experiment;
