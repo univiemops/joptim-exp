@@ -12,15 +12,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
         Welcome to the <b>Fill the Box Experiment</b>!
       </p>
       <p>
-        The purpose of this psychological experiment is to gain insight into
-        how people evaluate complex problems.
-      </p>
-      <p>
-        In <b>part one</b>, we will introduce you to a problem-solving task and let you solve some examples to
-        make sure you understand it. In <b>part two</b>, we will show you
-        pairs of solutions to various example problems, and we want you to choose
-        the solution that you prefer. But more about that
-        later. For now, let's start with an introduction to the problem-solving task:
+        We will start now with <b>part one</b> of the experiment.
       </p>{" "}
       <p>
         {" "}
@@ -66,7 +58,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
         books, but <b>try to assign the books as best you can.</b>
       </p>
       <p>
-        If you are ready for the first part, click <b>START</b>. Thank you for
+        If you are ready, click <b>START</b>. Thank you for
         participating in this experiment!
       </p>
       <div className="instructions-footer">
