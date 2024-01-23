@@ -25,13 +25,10 @@ const ConfirmationPage2: React.FC<{
         {trial === 0 ? (
           <div>
             <p>
-              Now that you have a good understanding of what the Generalized
-              Assignment Problem is, let's start with <b>part two</b>!
+              Now that you have a good understanding of our problem-solving task, let's start with <b>part two</b>!
             </p>
             <p>
-              In the following trials you will not solve problems like before,
-              but you will always be shown two solutions. We want to know from
-              you which of these two solutions you prefer.
+              In the following trials, instead of solving problems as before, you will see two equally good solutions. We want you to tell us which of these two solutions you prefer.
             </p>
           </div>
         ) : (

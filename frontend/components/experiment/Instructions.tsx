@@ -9,20 +9,18 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
     <div className="instructions">
       <h1>Instructions</h1>
       <p>
-        Welcome to the <b>Optimal Assignment Experiment</b>!
+        Welcome to the <b>Fill the Box Experiment</b>!
       </p>
       <p>
         The purpose of this psychological experiment is to gain insight into
         how people evaluate complex problems.
       </p>
       <p>
-        In <b>part one</b>, we will introduce you to a special problem called
-        the Generalized Asignment Problem and let you solve some examples to
+        In <b>part one</b>, we will introduce you to a problem-solving task and let you solve some examples to
         make sure you understand it. In <b>part two</b>, we will show you
-        pairs of solutions to different problems, and we want you to choose
-        the solution that you find easier to understand. But more about that
-        later. For now, let's start with an introduction to our Generalized
-        Assignment Problem:
+        pairs of solutions to various example problems, and we want you to choose
+        the solution that you prefer. But more about that
+        later. For now, let's start with an introduction to the problem-solving task:
       </p>{" "}
       <p>
         {" "}
@@ -32,7 +30,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
         and each book a fixed size, indicated by the numbers. Please try to
         assign each book to one of the boxes. Note: Each box can take more
         than one book if their capacity allows it. Each book can only be
-        assigned once.{" "}
+        assigned once. The more you fill up the boxes, the higher your score (displayed to the right of the arrow icon).{" "}
       </p>{" "}
       <div
         style={{
