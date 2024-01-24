@@ -72,12 +72,12 @@ export default function Home() {
 
   return (
     <div className="App" >
-      <h1>Behavioral experiment</h1>
+      <h2>Behavioral experiment</h2>
       <Button
         size="large"
         variant="contained"
         style={{
-          fontSize: "xx-large",
+          fontSize: "x-large",
           background: "#000000",
           textTransform: "none",
           padding: ".3rem 3rem .3rem 3rem",

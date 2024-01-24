@@ -21,7 +21,7 @@ const GAP: React.FC<GAPProps> = ({
   freeze,
   icons,
 }) => {
-    return (
+  return (
     <div className={styles.outer}>
       <div className={styles.outer_left}>
         <div className={styles.outer_left_empty}></div>
