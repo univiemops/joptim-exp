@@ -8,13 +8,12 @@ const EyeTracking: React.FC = () => {
       webgazer
         .setRegression('ridge')
         .begin()
-
       webgazer.showPredictionPoints(true).setGazeListener((data: any, elapsedTime: any) => {
         if (data && data.x !== null && data.y !== null) {
           console.log(`Gaze data: t=${elapsedTime / 1000}, x=${data.x.toFixed(4)}, y=${data.y.toFixed(4)}`);
         }
       });
-
+      webgazer.setVideoViewerSize(240, 180);
       return () => {
         webgazer.end();
       };
