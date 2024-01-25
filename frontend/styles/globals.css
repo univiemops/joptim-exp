@@ -1,5 +1,7 @@
 body {
     margin: 0;
+    padding: 0;
+    overflow: hidden;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -142,4 +144,10 @@ code {
 h1 {
     text-align: center;
     width: 100%;
+}
+
+
+canvas {
+  position: absolute;
+  z-index: 2000;
 }

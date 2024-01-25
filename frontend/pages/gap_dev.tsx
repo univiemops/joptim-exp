@@ -1,5 +1,6 @@
 import React from "react";
 import DevGAPWrapper from "../components/GAP/DevGAPWrapper"
+import EyeTracking from '../components/webgazer/EyeTracking';
 
 export default function Dev() {
   const [boxSize, setBoxSize] = React.useState("");
@@ -28,11 +29,10 @@ export default function Dev() {
   const workers: Array<number> = [80, 70, 60, 20]
   const assignments: Array<[number, number]> = []
 
-
   console.log(devicePixelRatio, viewportHeight, viewportWidth, screenWidth, screenHeight)
   return (
     <div className="App">
-
+      <EyeTracking />
       <div className="instructions-game-container-wrapper-outer">
         <div className="instructions-game-container-wrapper">
           <DevGAPWrapper />
