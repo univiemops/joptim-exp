@@ -14,6 +14,9 @@ const EyeTracking: React.FC = () => {
         }
       });
       //webgazer.setVideoViewerSize(240, 180);
+
+      webgazer.params.videoViewerWidth = 240;
+      webgazer.params.videoViewerHeight = 180;
       return () => {
         webgazer.end();
       };
