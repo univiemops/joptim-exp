@@ -2,9 +2,9 @@ import { useState } from "react";
 import GAP from "./GAP";
 
 const DevGAPWrapper = () => {
-  const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
-  const [tasks, _setTasks] = useState<Array<number>>([80, 75, 70, 70, 60, 50, 45, 40, 40, 40, 40, 40, 30, 25, 20, 10]);
-  const [workers, _setWorkers] = useState<Array<number>>([100, 100, 90, 90, 80, 70, 55, 45, 40, 30, 30, 20, 10, 10]);
+  const [assignments, setAssignments] = useState<Array<[number, number]>>([[0, 0], [2, 1], [3, 2], [5, 0], [4, 3], [7, 0]]);
+  const [tasks, _setTasks] = useState<Array<number>>([80, 75, 70, 40, 30, 15, 20, 5]);
+  const [workers, _setWorkers] = useState<Array<number>>([100, 70, 40, 30, 10]);
 
   if (typeof document !== "undefined") {
     document.documentElement.style.setProperty(`--box-size-mini`, `20rem`);
@@ -55,8 +55,8 @@ const DevGAPWrapper = () => {
       tasks={tasks}
       assignments={assignments}
       workers={workers}
-      freeze={false}
-      icons={true}
+      freeze={true}
+      icons={false}
       handleTileClick={handleTileClick}
     />
   );
