@@ -13,7 +13,6 @@ const EyeTracking: React.FC = () => {
           console.log(`Gaze data: t=${elapsedTime / 1000}, x=${data.x.toFixed(4)}, y=${data.y.toFixed(4)}`);
         }
       });
-      //webgazer.setVideoViewerSize(240, 180);
 
       webgazer.params.videoViewerWidth = 240;
       webgazer.params.videoViewerHeight = 180;
