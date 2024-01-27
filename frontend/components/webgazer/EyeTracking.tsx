@@ -16,11 +16,8 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ status, calibrated }) => {
 
   useEffect(() => {
     if (window) {
-
       if (!webgazer) {
-
         setWebgazer(window.webgazer)
-
       }
       if (webgazer && !calibrated) {
         webgazer.saveDataAcrossSessions = true
@@ -30,7 +27,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ status, calibrated }) => {
         webgazer
           .begin()
       }
-
       if (webgazer && calibrated) {
 
         webgazer.showPredictionPoints(true)
