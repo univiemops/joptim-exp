@@ -13,6 +13,24 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ status, calibrated }) => {
   console.log("status", status)
   console.log("calibrated", calibrated)
 
+  const modifyElementStyle = () => {
+    var wB = document.getElementById("webgazerGazeDot");
+    if (wB) {
+      wB.style.background = "transparent";
+      wB.style.width = "90px";
+      wB.style.height = "90px";
+      wB.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.15)";
+      wB.style.zIndex = "0";
+    } else {
+      console.warn("Element with ID 'webgazerGazeDot' not found. Retrying...");
+      setTimeout(modifyElementStyle, 100);
+    }
+  };
+
+  useEffect(() => {
+    modifyElementStyle();
+  }, []); // Empty dependency array ensures that this effect runs once after the component mounts
+
 
   useEffect(() => {
     if (window) {
