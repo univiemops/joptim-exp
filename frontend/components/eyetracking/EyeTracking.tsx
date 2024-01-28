@@ -11,7 +11,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ status, calibrated }) => {
   const [webgazer, setWebgazer] = React.useState<any>()
   console.log("status", status)
   console.log("calibrated", calibrated)
-  //console.log(webgazer)
+
   const modifyElementStyle = () => {
     var wB = document.getElementById("webgazerGazeDot");
     if (wB) {

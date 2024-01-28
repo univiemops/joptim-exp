@@ -1,8 +1,10 @@
 import React from "react";
 import DevGAPWrapper from "../components/GAP/DevGAPWrapper"
-import EyeTracking from '../components/webgazer/EyeTracking';
+import EyeTracking from '../components/eyetracking/EyeTracking';
 import { useScript } from '../utils/useScript'
-import Calibration from "../components/experiment/Calibration"
+import Calibration from "../components/eyetracking/Calibration"
+
+
 export default function Dev() {
   const [choice, setChoice] = React.useState<number>(0);
   const progress = 30
@@ -24,7 +26,7 @@ export default function Dev() {
 
   return (
     <div className="App">
-      <EyeTracking status={status} calibrated={calibrated} />
+      {/*<EyeTracking status={status} calibrated={calibrated} />*/}
       {calibrated ?
         <><div className="trial-instruction">
           <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
