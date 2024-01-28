@@ -1,0 +1,3 @@
+[submodule "frontend/webgazer"]
+	path = frontend/webgazer
+	url = ssh://git@github.com/univiemops/webgazer.git
