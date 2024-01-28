@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import styles from "./webgazer.module.css";
 import { UseScriptStatus } from '@/utils/useScript';
 
 interface EyeTrackingProps {

@@ -20,7 +20,7 @@
 }
 
 /* this is from webgazer */
-
+/* REMOVE AFTER IMPLEMENTATION OF WEBGAZER SOURCE */
 button {
     border-radius: 4px;
 }
@@ -30,8 +30,6 @@ button {
  * Include the !important keyword to override default styles applied by JS.
  * webgazer.js sets defaults for: display, position, top, left, width, height
  */
-
-background:gray
 }
 #webgazerVideoContainer {
     display: block !important; 
