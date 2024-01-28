@@ -7,17 +7,12 @@
 
 ## Cloning the repo
 
-This experiment contains the WebGazer repository as a submodule. To clone the repo incl. the submodule run:
 
-`git clone --recursive ssh://git@github.com/univiemops/joptim-exp`
+`git clone ssh://git@github.com/univiemops/joptim-exp`
 
-To include the submodule afterwards run:
+## WebGazer
 
-`git submodule update --init --recursive`
-
-To update the submodule run:
-
-`git submodule update`
+This repo uses our own fork of webgazer. If you want to make changes to webgazer, create a branch in our webgazer repo (https://github.com/univiemops/WebGazer), apply the changes inside the `src` folder, go back to the root directory and build webgazer with `npm run build`. This will create a new file `dist/webgazer.js`. Copy it into the experiments folder `frontend/lib/`. Within the experiment, always link to the webgazer.js file in `frontend/lib/`, do not link to an external source as we have no control over it and changes there might break our code.
 
 ## Prerequisite
 
