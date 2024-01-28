@@ -5,6 +5,20 @@
 * Web experiment for collecting human solutions in general assignment problems 
 * Next.js + FastAPI + PostgreSQL
 
+## Cloning the repo
+
+This experiment contains the WebGazer repository as a submodule. To clone the repo incl. the submodule run:
+
+`git clone --recursive ssh://git@github.com/univiemops/joptim-exp`
+
+To include the submodule afterwards run:
+
+`git submodule update --init --recursive`
+
+To update the submodule run:
+
+`git submodule update`
+
 ## Prerequisite
 
 Place `trials.pkl` file into the backend folder. If file is missing or the backend is not set up correctly, the frontend will fall back to an own random trial generation.
