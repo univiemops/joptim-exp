@@ -146,8 +146,3 @@ h1 {
     width: 100%;
 }
 
-
-canvas {
-  position: absolute;
-  z-index: 2000;
-}

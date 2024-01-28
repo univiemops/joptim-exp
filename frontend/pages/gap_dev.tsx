@@ -26,7 +26,7 @@ export default function Dev() {
 
   return (
     <div className="App">
-      {/*<EyeTracking status={status} calibrated={calibrated} />*/}
+      <EyeTracking status={status} calibrated={calibrated} />
       {calibrated ?
         <><div className="trial-instruction">
           <span style={{ fontSize: "x-large", fontWeight: "bold" }}>

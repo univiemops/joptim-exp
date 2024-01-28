@@ -38,7 +38,8 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ status, calibrated }) => {
       }
       if (webgazer && !calibrated) {
         webgazer.saveDataAcrossSessions = true
-        webgazer.setRegression("ridge");
+        webgazer.setRegression("weightedRidge"); // ridge, weightedRidge, threadedRidge
+        webgazer.setTracker("clmtrackr") // js_objectdetect, trackingjs, clmtrackr
         webgazer.params.videoViewerWidth = 240;
         webgazer.params.videoViewerHeight = 180;
         webgazer
@@ -47,6 +48,8 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ status, calibrated }) => {
       if (webgazer && calibrated) {
 
         webgazer.showPredictionPoints(true)
+        webgazer.showVideo(false)
+        //webgazer.showFaceFeedbackBox(false)
         webgazer.setGazeListener((data: any, elapsedTime: any) => {
           if (data && data.x !== null && data.y !== null) {
             console.log(`Gaze data: t=${elapsedTime / 1000}, x=${data.x.toFixed(4)}, y=${data.y.toFixed(4)}`);
@@ -60,8 +63,8 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ status, calibrated }) => {
     }
   }, [status, calibrated]);
 
-  return <div></div>
-  //return <div className={styles.webgazerVideoFeed} style={{ display: 'none' }}></div>;
+  //return <div></div>
+  return <div style={{ display: 'none' }}></div>;
 };
 
 export default EyeTracking;
