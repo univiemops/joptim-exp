@@ -25,9 +25,7 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
   }
 
   React.useEffect(() => {
-
     console.log("calibration effect")
-
   }, []);
 
   return (

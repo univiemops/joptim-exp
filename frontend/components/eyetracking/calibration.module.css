@@ -12,7 +12,7 @@
     position:fixed;
     cursor:pointer;
     color:transparent;
-    z-index: 1000;
+    z-index: 10000;
 }
 
 .calibrationDiv {
