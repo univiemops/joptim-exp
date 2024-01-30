@@ -7,6 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import styles from "./calibration.module.css";
 import { sumOfArray } from "@/utils/helperFunctions";
+import { calculatePrecision } from "./precision_calculation"
 
 interface CalibrationProps {
   onCalibrated: () => void;
@@ -18,7 +19,7 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
   const [showCenterPointOnly, setShowCenterPointOnly] = React.useState<boolean>(false)
   const [showDialogAccuracyBefore, setShowDialogAccuracyBefore] = React.useState<boolean>(false)
   const [showDialogAccuracyAfter, setShowDialogAccuracyAfter] = React.useState<boolean>(false)
-
+  const [precision, setPrecision] = React.useState<number | null>(null)
 
 
   const calPointClick = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -36,20 +37,42 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
     }
   }
 
+  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+  const onAccuracy = async () => {
+    setShowDialogAccuracyBefore(false);
+    const webgazer = window.webgazer;
+    webgazer.params.storingPoints = true;
+
+    await sleep(5000);
+
+    webgazer.params.storingPoints = false;
+    const past50 = webgazer.getStoredPoints();
+    const precision_measurement = calculatePrecision(past50);
+    setPrecision(precision_measurement);
+    setShowDialogAccuracyAfter(true)
+  };
+
+
+  const onRecalibrate = () => {
+    const webgazer = window.webgazer
+    webgazer.clearData();
+    setShowCenterPoint(false)
+    setShowCenterPointOnly(false)
+    setShowDialogAccuracyAfter(false)
+    setCalPointsClicked([0, 0, 0, 0, 0, 0, 0, 0, 0])
+  }
+
   React.useEffect(() => {
     console.log("calibration effect")
   }, []);
 
-  const accuracy: number = 100
-
   return (
     <>
+      <canvas id="plotting_canvas" style={{ position: "fixed", width: "100vw", height: "100vh" }}></canvas>
       <div className={styles.calibrationDiv} style={{ cursor: 'crosshair' }}>
-
         <Dialog
           open={showDialogAccuracyBefore}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
           sx={{ zIndex: 10001 }}
         >
           <DialogTitle id="alert-dialog-title">
@@ -61,13 +84,11 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setShowDialogAccuracyBefore(false)}>OK</Button>
+            <Button onClick={onAccuracy}>OK</Button>
           </DialogActions>
         </Dialog >
         <Dialog
           open={showDialogAccuracyAfter}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
           sx={{ zIndex: 10001 }}
         >
           <DialogTitle id="alert-dialog-title">
@@ -75,16 +96,16 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <h2>Your accuracy measure is {accuracy}%</h2>
+              <span style={{ fontWeight: "bold", fontSize: "x-large" }}>Your accuracy measure is {precision}%</span>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setShowDialogAccuracyAfter(false)}>Recalibrate</Button>
-            <Button onClick={() => setShowDialogAccuracyAfter(false)}>OK</Button>
+            <Button onClick={() => onRecalibrate()}>Recalibrate</Button>
+            <Button onClick={() => onCalibrated()}>OK</Button>
           </DialogActions>
         </Dialog >
         {
-          !showCenterPointOnly && <span style={{ position: "absolute", top: "33%", left: "50%", transform: "translate(-50%, -50%)" }}>
+          !showCenterPointOnly && <span style={{ position: "absolute", top: "36%", left: "50%", transform: "translate(-50%, -50%)" }}>
             For calibrating the eyetracking please click each red point 5 times until it turns yellow.
           </span>
         }
@@ -114,5 +135,3 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
 };
 
 export default Calibration;
-
-
