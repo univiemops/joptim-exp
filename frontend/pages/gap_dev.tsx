@@ -1,53 +1,52 @@
 import React from "react";
-import DevGAPWrapper from "../components/GAP/DevGAPWrapper"
-import EyeTracking from '../components/eyetracking/EyeTracking';
-import Calibration from "../components/eyetracking/Calibration"
-
+import DevGAPWrapper from "../components/GAP/DevGAPWrapper";
+import EyeTracking from "../components/eyetracking/EyeTracking";
+import Calibration from "../components/eyetracking/Calibration";
 
 export default function Dev() {
   const [choice, setChoice] = React.useState<number>(0);
-  const progress = 30
+  const progress = 30;
 
   const handleClick = (_e: React.MouseEvent<HTMLDivElement>, index: number) => {
     setChoice(index);
   };
 
   // move this into a context incl all the eyetracking states (calibrated, data)
-  const [calibrated, setCalibrated] = React.useState<boolean>(false)
+  const [calibrated, setCalibrated] = React.useState<boolean>(false);
   const handleCalibrated = () => {
-    setCalibrated(true)
-  }
+    setCalibrated(true);
+  };
 
   return (
     <div className="App">
-
       <EyeTracking calibrated={calibrated} />
-      {calibrated ?
-        <><div className="trial-instruction">
-          <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
-            Which of the two solutions do you prefer?
-          </span>
-          <div
-            id="progress-bar"
-            style={{
-              display: "flex",
-              minWidth: "100%",
-              minHeight: ".5rem",
-              backgroundColor: "#efefef",
-              borderRadius: "1rem",
-              overflow: "hidden",
-            }}
-          >
+      {calibrated ? (
+        <>
+          <div className="trial-instruction">
+            <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
+              Which of the two solutions do you prefer?
+            </span>
             <div
-              id="progress-bar-inner"
+              id="progress-bar"
               style={{
-                minHeight: "100%",
-                backgroundColor: "steelblue",
-                width: `${progress}%`,
+                display: "flex",
+                minWidth: "100%",
+                minHeight: ".5rem",
+                backgroundColor: "#efefef",
+                borderRadius: "1rem",
+                overflow: "hidden",
               }}
-            ></div>
+            >
+              <div
+                id="progress-bar-inner"
+                style={{
+                  minHeight: "100%",
+                  backgroundColor: "steelblue",
+                  width: `${progress}%`,
+                }}
+              ></div>
+            </div>
           </div>
-        </div>
 
           <div
             className="stimulus-pair-container"
@@ -70,11 +69,9 @@ export default function Dev() {
                   }
               }
             >
-
               <DevGAPWrapper />
             </div>
             <div
-
               onClick={(e) => handleClick(e, 2)}
               style={
                 choice === 2
@@ -86,11 +83,13 @@ export default function Dev() {
                   }
               }
             >
-
               <DevGAPWrapper />
             </div>
           </div>
-        </> : <Calibration onCalibrated={handleCalibrated} />}
+        </>
+      ) : (
+        <Calibration onCalibrated={handleCalibrated} />
+      )}
     </div>
   );
 }
