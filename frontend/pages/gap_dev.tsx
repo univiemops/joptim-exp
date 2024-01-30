@@ -9,6 +9,7 @@ export default function Dev() {
 
   const handleClick = (_e: React.MouseEvent<HTMLDivElement>, index: number) => {
     setChoice(index);
+    alert(`We're glad you like Solution ${index}, but this is not the real world, just a test screen to test eye tracking.`)
   };
 
   // move this into a context incl all the eyetracking states (calibrated, data)
