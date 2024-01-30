@@ -12,7 +12,7 @@ export default function Dev() {
     alert(`We're glad you like Solution ${index}, but this is not the real world, just a test screen to test eye tracking.`)
   };
 
-  // move this into a context incl all the eyetracking states (calibrated, data)
+  // TODO: move this into a context incl. all the eyetracking states (calibrated, data)
   const [calibrated, setCalibrated] = React.useState<boolean>(false);
   const handleCalibrated = () => {
     setCalibrated(true);
@@ -48,7 +48,6 @@ export default function Dev() {
               ></div>
             </div>
           </div>
-
           <div
             className="stimulus-pair-container"
             style={{
