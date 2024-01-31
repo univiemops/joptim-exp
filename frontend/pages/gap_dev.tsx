@@ -1,7 +1,7 @@
 import React from "react";
 import DevGAPWrapper from "../components/GAP/DevGAPWrapper";
-import EyeTracking from "../components/eyetracking/EyeTracking";
-import Calibration from "../components/eyetracking/Calibration";
+import EyeTracking from "../eyetracking/EyeTracking";
+import Calibration from "../eyetracking/Calibration";
 
 export default function Dev() {
   const [choice, setChoice] = React.useState<number>(0);
