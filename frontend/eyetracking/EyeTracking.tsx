@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useScript } from '@/utils/useScript'
+import { useScript } from './useScript'
 
 
 const OPTIONAL_SUBURI = "/joptim"
