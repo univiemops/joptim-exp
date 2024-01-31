@@ -89,7 +89,7 @@ export default function Dev() {
           </div>
         </>
       ) : (
-        <Calibration onCalibrated={handleCalibrated} /> /*remove this if you do not need eyetracking */
+        <Calibration onCalibrated={handleCalibrated} /> /* remove this if you do not need eyetracking */
       )}
     </div>
   );
