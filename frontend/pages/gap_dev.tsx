@@ -22,7 +22,7 @@ export default function Dev() {
   return (
     <div className="App">
       <EyeTracking calibrated={calibrated} /> {/* remove this if you do not need eyetracking */}
-      {calibrated ? (
+      {calibrated ? ( // remove this conditional if you do not need eyetracking
         <>
           <div className="trial-instruction">
             <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
