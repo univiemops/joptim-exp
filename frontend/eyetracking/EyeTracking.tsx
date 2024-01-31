@@ -30,7 +30,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
           .begin();
       }
       if (webgazer && calibrated) {
-        webgazer.end()
+        webgazer.end() // TODO: check if we need this 
         console.log("finished webgazer calibration")
         console.log("starting webgazer data collection")
         webgazer
