@@ -11,16 +11,17 @@ import { calculatePrecision } from "./precision_calculation"
 
 interface CalibrationProps {
   onCalibrated: () => void;
+  setAccuracy: (accuracy: number | null) => void;
+  accuracy: number | null
 }
 
-const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
+const Calibration: React.FC<CalibrationProps> = ({ onCalibrated, setAccuracy, accuracy }) => {
   const [calPointsClicked, setCalPointsClicked] = React.useState<Array<number>>([0, 0, 0, 0, 0, 0, 0, 0, 0])
   const [showCenterPoint, setShowCenterPoint] = React.useState<boolean>(false)
   const [showCenterPointOnly, setShowCenterPointOnly] = React.useState<boolean>(false)
   const [showDialogStart, setShowDialogStart] = React.useState<boolean>(true)
   const [showDialogAccuracyBefore, setShowDialogAccuracyBefore] = React.useState<boolean>(false)
   const [showDialogAccuracyAfter, setShowDialogAccuracyAfter] = React.useState<boolean>(false)
-  const [precision, setPrecision] = React.useState<number | null>(null)
 
 
   const calPointClick = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -50,7 +51,7 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
     webgazer.params.storingPoints = false;
     const past50 = webgazer.getStoredPoints();
     const precision_measurement = calculatePrecision(past50);
-    setPrecision(precision_measurement);
+    setAccuracy(precision_measurement);
     setShowDialogAccuracyAfter(true)
   };
 
@@ -126,7 +127,7 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated }) => {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description-pred">
-              <span style={{ fontWeight: "bold", fontSize: "x-large" }}>Your accuracy measure is {precision}%</span>
+              <span style={{ fontWeight: "bold", fontSize: "x-large" }}>Your accuracy measure is {accuracy}%</span>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

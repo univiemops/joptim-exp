@@ -14,6 +14,7 @@ export default function Dev() {
 
   // remove this block if you do not need eyetracking
   const [calibrated, setCalibrated] = React.useState<boolean>(false);
+  const [accuracy, setAccuracy] = React.useState<number | null>(null)
   const handleCalibrated = () => {
     setCalibrated(true);
   };
@@ -89,7 +90,7 @@ export default function Dev() {
           </div>
         </>
       ) : (
-        <Calibration onCalibrated={handleCalibrated} /> /* remove this if you do not need eyetracking */
+        <Calibration onCalibrated={handleCalibrated} setAccuracy={setAccuracy} accuracy={accuracy} /> /* remove this if you do not need eyetracking */
       )}
     </div>
   );
