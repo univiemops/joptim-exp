@@ -17,6 +17,9 @@ import {
   handleUpdateUser,
   handleSubmitSurvey,
 } from "../utils/submitFunctions";
+import EyeTracking from "../eyetracking/EyeTracking"; // remove this if you do not need eyetracking
+import Calibration from "../eyetracking/Calibration"; // remove this if you do not need eyetracking
+
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
@@ -64,6 +67,13 @@ const Experiment: React.FC = () => {
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
   const [instructed, setInstructed] = React.useState<boolean>(false);
+  // remove this block if you do not need eyetracking
+  const [calibrated, setCalibrated] = React.useState<boolean>(false);
+  const [accuracy, setAccuracy] = React.useState<number | null>(null)
+  const handleCalibrated = () => {
+    setCalibrated(true);
+  };
+
 
   const handleScrollToTop = () => {
     if (window) {
@@ -337,63 +347,67 @@ const Experiment: React.FC = () => {
   }, [isTrialCompleted2]);
   return (
     <div className="App">
+      {instructed && <EyeTracking calibrated={calibrated} />} {/* remove this if you do not need eyetracking */}
       {userData["xid"] === "" ? (
         <div></div>
-      ) : userData["consent"] === true ? (
-        userData["survey"] === true ? (
-          instructed === true ? (
-            userData["completed_1"] === true ? (
-              userData["completed_2"] === true ? (
-                <Debrief
-                  onSubmit={handleFinishDebrief}
-                  finished={userData["notes"]}
-                />
-              ) : isTrialCompleted2 ? (
-                <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
+      ) : userData["consent"] ? (
+        userData["survey"] ? (
+          instructed ? (
+            calibrated ? ( // remove this conditional if you do not need eyetracking
+              userData["completed_1"] ? (
+                userData["completed_2"] ? (
+                  <Debrief
+                    onSubmit={handleFinishDebrief}
+                    finished={userData["notes"]}
+                  />
+                ) : isTrialCompleted2 ? (
+                  <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
+                ) : loading ? (
+                  <div></div>
+                ) : (
+                  <StimulusPage2
+                    trial={trial2}
+                    nTrials={nTrialsMain}
+                    assignments1={assignmentsOptimal}
+                    assignments2={assignmentsOptimal2}
+                    tasks={tasks}
+                    workers={workers}
+                    onComplete={handleTrialComplete2}
+                    setChoice={setChoice}
+                    choice={choice}
+                  />
+                )
+              ) : isTrialCompleted1 ? (
+                loading ? (
+                  <div></div>
+                ) : (
+                  <ConfirmationPage
+                    trial={trial}
+                    utility={getUtility(tasks, assignments)}
+                    optimal_utility={utility}
+                    assignments={assignments}
+                    assignmentsOptimal={assignmentsOptimal}
+                    tasks={tasks}
+                    workers={workers}
+                    onContinue={handleContinue1}
+                  />
+                )
               ) : loading ? (
                 <div></div>
               ) : (
-                <StimulusPage2
-                  trial={trial2}
-                  nTrials={nTrialsMain}
-                  assignments1={assignmentsOptimal}
-                  assignments2={assignmentsOptimal2}
-                  tasks={tasks}
-                  workers={workers}
-                  onComplete={handleTrialComplete2}
-                  setChoice={setChoice}
-                  choice={choice}
-                />
-              )
-            ) : isTrialCompleted1 ? (
-              loading ? (
-                <div></div>
-              ) : (
-                <ConfirmationPage
+                <StimulusPage
                   trial={trial}
-                  utility={getUtility(tasks, assignments)}
-                  optimal_utility={utility}
+                  nTrials={nTrialsIntro}
                   assignments={assignments}
-                  assignmentsOptimal={assignmentsOptimal}
+                  setAssignments={setAssignments}
                   tasks={tasks}
                   workers={workers}
-                  onContinue={handleContinue1}
+                  onComplete={handleTrialComplete1}
                 />
               )
-            ) : loading ? (
-              <div></div>
             ) : (
-              <StimulusPage
-                trial={trial}
-                nTrials={nTrialsIntro}
-                assignments={assignments}
-                setAssignments={setAssignments}
-                tasks={tasks}
-                workers={workers}
-                onComplete={handleTrialComplete1}
-              />
+              <Calibration onCalibrated={handleCalibrated} setAccuracy={setAccuracy} accuracy={accuracy} /> /* remove this if you do not need eyetracking */
             )
-
           ) : (
             <Instructions onSubmit={handleFinishInstructions} />
           )

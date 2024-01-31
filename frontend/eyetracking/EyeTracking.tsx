@@ -24,8 +24,9 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
       }
       if (webgazer && !calibrated) {
         console.log("starting webgazer calibration")
-        webgazer.setRegression('ridge')
-          .saveDataAcrossSessions(true)
+        webgazer.setRegression('weightedRidge')
+          .showFaceOverlay(false)
+          .saveDataAcrossSessions(false) // TODO: check what "session" means.
           .begin();
       }
       if (webgazer && calibrated) {

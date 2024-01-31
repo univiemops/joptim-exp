@@ -12,6 +12,7 @@ interface Webgazer {
   setRegression(regression: string): Webgazer;
   setTracker(regression: string): Webgazer;
   showVideoPreview(value: boolean): Webgazer;
+  showFaceOverlay(value: boolean): Webgazer;
   showVideo(value: boolean): Webgazer;
   showPredictionPoints(value: boolean): Webgazer;
   setGazeListener(listener: (data: { x: number; y: number }, clock: number) => void): typeof webgazer;
