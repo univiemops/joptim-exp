@@ -1,7 +1,7 @@
 import React from "react";
 import DevGAPWrapper from "../components/GAP/DevGAPWrapper";
-import EyeTracking from "../eyetracking/EyeTracking";
-import Calibration from "../eyetracking/Calibration";
+import EyeTracking from "../eyetracking/EyeTracking"; // remove this if you do not need eyetracking
+import Calibration from "../eyetracking/Calibration"; // remove this if you do not need eyetracking
 
 export default function Dev() {
   const [choice, setChoice] = React.useState<number>(0);
@@ -12,15 +12,16 @@ export default function Dev() {
     alert(`We're glad you like Solution ${index}, but this is not the real world, just a test screen to test eye tracking.`)
   };
 
-  // TODO: move this into a context incl. all the eyetracking states (calibrated, data)
+  // remove this block if you do not need eyetracking
   const [calibrated, setCalibrated] = React.useState<boolean>(false);
   const handleCalibrated = () => {
     setCalibrated(true);
   };
 
+
   return (
     <div className="App">
-      <EyeTracking calibrated={calibrated} />
+      <EyeTracking calibrated={calibrated} /> {/* remove this if you do not need eyetracking */}
       {calibrated ? (
         <>
           <div className="trial-instruction">
@@ -88,7 +89,7 @@ export default function Dev() {
           </div>
         </>
       ) : (
-        <Calibration onCalibrated={handleCalibrated} />
+        <Calibration onCalibrated={handleCalibrated} /> /*remove this if you do not need eyetracking */
       )}
     </div>
   );
