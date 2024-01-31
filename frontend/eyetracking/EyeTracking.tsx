@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useScript } from '@/utils/useScript'
 
-const OPTIONAL_SUBURI = "/joptim"
 
+const OPTIONAL_SUBURI = "/joptim"
 const webgazerScript = `${OPTIONAL_SUBURI}/webgazer.js`
 
 
@@ -19,41 +19,19 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
 
   useEffect(() => {
     if (window) {
-
       if (!webgazer) {
         setWebgazer(window.webgazer)
-        console.log("set webgazer")
-        console.log(webgazer)
       }
       if (webgazer && !calibrated) {
-
-        console.log("start webgazer calibration")
-        // webgazer.setRegression("weightedRidge")  // ridge, weightedRidge, threadedRidge
-        //   .setTracker("TFFacemesh")
-        //   .saveDataAcrossSessions(true)
-        //   .applyKalmanFilter(true)
-        //   .begin()
-
-
-        // from calibration main.js
-        webgazer.setRegression('ridge') /* currently must set regression and tracker */
-          //.setGazeListener(function (data, clock) {
-          //})
+        console.log("starting webgazer calibration")
+        webgazer.setRegression('ridge')
           .saveDataAcrossSessions(true)
           .begin();
-
-        //webgazer.showVideoPreview(true) /* shows all video previews */
-        //.showPredictionPoints(true) /* shows a square every 100 milliseconds where current prediction is */
-        //.applyKalmanFilter(true); /* Kalman Filter defaults to on. Can be toggled by user. */
-
-
-        //webgazer.params.videoViewerWidth = 240;
-        //webgazer.params.videoViewerHeight = 180;
-
       }
       if (webgazer && calibrated) {
         webgazer.end()
-        console.log("finished webgazer calibration, starting data collection")
+        console.log("finished webgazer calibration")
+        console.log("starting webgazer data collection")
         webgazer
           .showVideo(false)
           .setGazeListener((data: any, elapsedTime: any) => {
@@ -71,7 +49,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
     }
   }, [calibrated, status, webgazer]);
 
-  //return <div></div>
   return <div style={{ display: 'none' }}>
   </div>;
 };
