@@ -53,10 +53,20 @@ interface DialogAccuracyBeforeProps {
 }
 
 export const DialogAccuracyBefore: React.FC<DialogAccuracyBeforeProps> = ({ showDialog, onAccuracy }) => {
+  const [buttonEnabled, setButtonEnabled] = React.useState(false);
 
   const handleClick = () => {
     onAccuracy();
   }
+
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setButtonEnabled(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return <Dialog
     open={showDialog}
@@ -72,7 +82,7 @@ export const DialogAccuracyBefore: React.FC<DialogAccuracyBeforeProps> = ({ show
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={() => handleClick()}>OK</Button>
+      <Button onClick={() => handleClick()} disabled={!buttonEnabled}>OK</Button>
     </DialogActions>
   </Dialog >
 }
@@ -86,6 +96,16 @@ interface DialogAccuracyAfterProps {
 }
 
 export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({ showDialog, accuracy, onRecalibrate, onCalibrated }) => {
+  const [buttonEnabled, setButtonEnabled] = React.useState(false);
+
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setButtonEnabled(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return <Dialog
     open={showDialog}
@@ -100,8 +120,8 @@ export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({ showDi
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={() => onRecalibrate()}>Recalibrate</Button>
-      <Button onClick={() => onCalibrated()}>OK</Button>
+      <Button onClick={() => onRecalibrate()} disabled={!buttonEnabled}>Recalibrate</Button>
+      <Button onClick={() => onCalibrated()} disabled={!buttonEnabled}>OK</Button>
     </DialogActions>
   </Dialog >
 }
