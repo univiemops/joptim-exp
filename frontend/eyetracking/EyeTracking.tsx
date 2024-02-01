@@ -33,14 +33,30 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
         webgazer.end() // TODO: check if we need this 
         console.log("finished webgazer calibration")
         console.log("starting webgazer data collection")
+
+        // webgazer
+        //   .showVideo(false)
+        //   .setGazeListener((data: any, elapsedTime: any) => {
+        //     if (data && data.x !== null && data.y !== null) {
+        //       console.log(`Gaze data: t=${elapsedTime / 1000}, x=${data.x.toFixed(4)}, y=${data.y.toFixed(4)}`);
+        //     }
+        //   })
+        //   .begin();
+
         webgazer
           .showVideo(false)
-          .setGazeListener((data: any, elapsedTime: any) => {
+          .setGazeListener((data: any) => {
             if (data && data.x !== null && data.y !== null) {
-              console.log(`Gaze data: t=${elapsedTime / 1000}, x=${data.x.toFixed(4)}, y=${data.y.toFixed(4)}`);
+              const currentUnixTime = Math.floor(new Date().getTime() / 1000);
+              const viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+              const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+              console.log(`Gaze data: timestamp=${currentUnixTime}, x=${data.x.toFixed(4)}, y=${data.y.toFixed(4)}, viewport=${viewportWidth}x${viewportHeight}`);
             }
           })
           .begin();
+
+
+
         return () => {
           if (webgazer) {
             webgazer.end();
