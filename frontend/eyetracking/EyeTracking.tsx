@@ -34,15 +34,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
         console.log("finished webgazer calibration")
         console.log("starting webgazer data collection")
 
-        // webgazer
-        //   .showVideo(false)
-        //   .setGazeListener((data: any, elapsedTime: any) => {
-        //     if (data && data.x !== null && data.y !== null) {
-        //       console.log(`Gaze data: t=${elapsedTime / 1000}, x=${data.x.toFixed(4)}, y=${data.y.toFixed(4)}`);
-        //     }
-        //   })
-        //   .begin();
-
         webgazer
           .showVideo(false)
           .setGazeListener((data: any) => {
@@ -54,8 +45,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
             }
           })
           .begin();
-
-
 
         return () => {
           if (webgazer) {
