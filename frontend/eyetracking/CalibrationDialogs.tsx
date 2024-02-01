@@ -13,10 +13,19 @@ interface DialogStartProps {
 }
 
 export const DialogStart: React.FC<DialogStartProps> = ({ showDialog, setShowDialog }) => {
+  const [buttonEnabled, setButtonEnabled] = React.useState(false);
 
   const handleClick = () => {
     setShowDialog(false)
   }
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setButtonEnabled(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return <Dialog
     open={showDialog}
@@ -32,7 +41,7 @@ export const DialogStart: React.FC<DialogStartProps> = ({ showDialog, setShowDia
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={() => handleClick()}>OK</Button>
+      <Button onClick={() => handleClick()} disabled={!buttonEnabled}>OK</Button>
     </DialogActions>
   </Dialog>;
 }
