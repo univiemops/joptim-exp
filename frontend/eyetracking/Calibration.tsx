@@ -1,13 +1,8 @@
 import React from "react";
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import styles from "./calibration.module.css";
 import { sumOfArray } from "@/utils/helperFunctions";
 import { calculatePrecision } from "./precision_calculation"
+import { DialogStart, DialogAccuracyBefore, DialogAccuracyAfter } from "./CalibrationDialogs";
 
 interface CalibrationProps {
   onCalibrated: () => void;
@@ -23,6 +18,21 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated, setAccuracy, ac
   const [showDialogAccuracyBefore, setShowDialogAccuracyBefore] = React.useState<boolean>(false)
   const [showDialogAccuracyAfter, setShowDialogAccuracyAfter] = React.useState<boolean>(false)
 
+
+  React.useLayoutEffect(() => {
+    if (!showDialogStart && !document.fullscreenElement) {
+      // the request for webcam access leaves 
+      // fullscreen (FS) mode. this hook gets back
+      // to FS mode after you click OK
+      // in the first dialog. Delete this block if you
+      // do not need FS mode.
+      try {
+        document.documentElement.requestFullscreen();
+      } catch (error) {
+        console.error("Error requesting fullscreen:", error);
+      }
+    }
+  });
 
   const calPointClick = (e: React.MouseEvent<HTMLInputElement>) => {
     const point: number = Number((e.target as HTMLInputElement).value)
@@ -87,54 +97,9 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated, setAccuracy, ac
     <>
       <canvas id="plotting_canvas" style={{ position: "fixed", width: "100vw", height: "100vh" }}></canvas>
       <div className={styles.calibrationDiv} style={{ cursor: 'crosshair' }}>
-        <Dialog
-          open={showDialogStart}
-          sx={{ zIndex: 10001 }}
-        >
-          <DialogTitle id="alert-dialog-title-start">
-            Calibrating the Eye Tracker
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description-start">
-              To calibrate the eye tracking, turn on your webcam, place your head inside the square box and wait until it turns green. Then click on each red dot 5 times until it turns yellow.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setShowDialogStart(false)}>OK</Button>
-          </DialogActions>
-        </Dialog >
-        <Dialog
-          open={showDialogAccuracyBefore}
-          sx={{ zIndex: 10001 }}
-        >
-          <DialogTitle id="alert-dialog-title-train">
-            Calculating measurement
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description-train">
-              Please don't move your mouse & stare at the middle dot for the next 5 seconds. This will allow us to calculate the accuracy of our predictions.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={onAccuracy}>OK</Button>
-          </DialogActions>
-        </Dialog >
-        <Dialog
-          open={showDialogAccuracyAfter}
-          sx={{ zIndex: 10001 }}
-        >
-          <DialogTitle id="alert-dialog-title-pred">
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description-pred">
-              <span style={{ fontWeight: "bold", fontSize: "x-large" }}>Your accuracy measure is {accuracy}%</span>
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => onRecalibrate()}>Recalibrate</Button>
-            <Button onClick={() => onCalibrated()}>OK</Button>
-          </DialogActions>
-        </Dialog >
+        <DialogStart showDialog={showDialogStart} setShowDialog={setShowDialogStart} />
+        <DialogAccuracyBefore showDialog={showDialogAccuracyBefore} onAccuracy={onAccuracy} />
+        <DialogAccuracyAfter showDialog={showDialogAccuracyAfter} accuracy={accuracy} onRecalibrate={onRecalibrate} onCalibrated={onCalibrated} />
         {
           Array.from({ length: 9 }).map((_, index: number) => (
             ((showCenterPoint || index !== 4) && (!showCenterPointOnly || index === 4)) ? (
@@ -161,3 +126,4 @@ const Calibration: React.FC<CalibrationProps> = ({ onCalibrated, setAccuracy, ac
 };
 
 export default Calibration;
+
