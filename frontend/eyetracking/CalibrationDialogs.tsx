@@ -13,19 +13,25 @@ interface DialogStartProps {
 }
 
 export const DialogStart: React.FC<DialogStartProps> = ({ showDialog, setShowDialog }) => {
-  const [buttonEnabled, setButtonEnabled] = React.useState(false);
+  const [countdown, setCountdown] = React.useState(5);
 
   const handleClick = () => {
     setShowDialog(false)
   }
 
   React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setButtonEnabled(true);
-    }, 5000);
+    let timer: NodeJS.Timeout;
 
-    return () => clearTimeout(timer);
-  }, []);
+    if (showDialog) {
+      timer = setInterval(() => {
+        setCountdown((prevCountdown) => (prevCountdown > 0 ? prevCountdown - 1 : 0));
+      }, 1000);
+    } else { setCountdown(5) }
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [showDialog]);
 
   return <Dialog
     open={showDialog}
@@ -37,11 +43,11 @@ export const DialogStart: React.FC<DialogStartProps> = ({ showDialog, setShowDia
     <DialogContent>
       <DialogContentText id="alert-dialog-description-start"
         sx={{ userSelect: 'none' }}>
-        To calibrate the eye tracking, turn on your webcam, place your head inside the square box and wait until it turns green. Then click on each red dot 5 times until it turns yellow.
+        To calibrate the eye tracking, turn on your webcam, place your head inside the square box and wait until it turns green. Then click on each red dot 5 times until it turns yellow. {countdown > 0 ? `Wait ${countdown}s.` : null}
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={() => handleClick()} disabled={!buttonEnabled}>OK</Button>
+      <Button onClick={() => handleClick()} disabled={countdown > 0}>OK</Button>
     </DialogActions>
   </Dialog>;
 }
@@ -53,20 +59,25 @@ interface DialogAccuracyBeforeProps {
 }
 
 export const DialogAccuracyBefore: React.FC<DialogAccuracyBeforeProps> = ({ showDialog, onAccuracy }) => {
-  const [buttonEnabled, setButtonEnabled] = React.useState(false);
+  const [countdown, setCountdown] = React.useState(5);
 
   const handleClick = () => {
     onAccuracy();
   }
 
-
   React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setButtonEnabled(true);
-    }, 5000);
+    let timer: NodeJS.Timeout;
 
-    return () => clearTimeout(timer);
-  }, []);
+    if (showDialog) {
+      timer = setInterval(() => {
+        setCountdown((prevCountdown) => (prevCountdown > 0 ? prevCountdown - 1 : 0));
+      }, 1000);
+    } else { setCountdown(5) }
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [showDialog]);
 
   return <Dialog
     open={showDialog}
@@ -78,11 +89,11 @@ export const DialogAccuracyBefore: React.FC<DialogAccuracyBeforeProps> = ({ show
     <DialogContent>
       <DialogContentText id="alert-dialog-description-train"
         sx={{ userSelect: 'none' }}>
-        Please don't move your mouse & stare at the middle dot for the next 5 seconds. This will allow us to calculate the accuracy of our predictions.
+        Please don't move your mouse & stare at the middle dot for the next 5 seconds. This will allow us to calculate the accuracy of our predictions. {countdown > 0 ? `Wait ${countdown}s.` : null}
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={() => handleClick()} disabled={!buttonEnabled}>OK</Button>
+      <Button onClick={() => handleClick()} disabled={countdown > 0}>OK</Button>
     </DialogActions>
   </Dialog >
 }
@@ -96,16 +107,23 @@ interface DialogAccuracyAfterProps {
 }
 
 export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({ showDialog, accuracy, onRecalibrate, onCalibrated }) => {
-  const [buttonEnabled, setButtonEnabled] = React.useState(false);
+  const [countdown, setCountdown] = React.useState(5);
+
 
 
   React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setButtonEnabled(true);
-    }, 5000);
+    let timer: NodeJS.Timeout;
 
-    return () => clearTimeout(timer);
-  }, []);
+    if (showDialog) {
+      timer = setInterval(() => {
+        setCountdown((prevCountdown) => (prevCountdown > 0 ? prevCountdown - 1 : 0));
+      }, 1000);
+    } else { setCountdown(5) }
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [showDialog]);
 
   return <Dialog
     open={showDialog}
@@ -116,12 +134,15 @@ export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({ showDi
     <DialogContent>
       <DialogContentText id="alert-dialog-description-pred"
         sx={{ userSelect: 'none' }}>
-        <span style={{ fontWeight: "bold", fontSize: "x-large" }}>Your accuracy measure is {accuracy}%</span>
+        <p style={{ fontWeight: "bold", fontSize: "x-large" }}>
+          Your accuracy measure is {accuracy}%.
+        </p>
+        <p>Click "OK" if you want to proceed to the experiment, click "Recalibrate" if you want to try again. {countdown > 0 ? `Wait ${countdown}s` : null}</p>
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={() => onRecalibrate()} disabled={!buttonEnabled}>Recalibrate</Button>
-      <Button onClick={() => onCalibrated()} disabled={!buttonEnabled}>OK</Button>
+      <Button onClick={() => onRecalibrate()} disabled={countdown > 0}>Recalibrate</Button>
+      <Button onClick={() => onCalibrated()} disabled={countdown > 0}>OK</Button>
     </DialogActions>
   </Dialog >
 }
