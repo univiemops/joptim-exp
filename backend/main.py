@@ -16,6 +16,10 @@ import schemas
 import numpy as np
 import pickle
 from typing import Dict, Any
+from starlette.websockets import WebSocketDisconnect
+import csv
+import json
+
 
 ########
 # MODELS
@@ -159,21 +163,25 @@ except Exception as e:
 
 @app.on_event("startup")
 async def startup():
+    """Open database connection."""
     await database.connect()
 
 
 @app.on_event("shutdown")
 async def shutdown():
+    """Close database connection."""
     await database.disconnect()
 
 
 @app.get("/notes/", response_model=List[schemas.Note])
 async def read_notes():
+    """Read notes."""
     query = notes.select()
     return await database.fetch_all(query)
 
 
-# test post requests: curl -X POST "http://localhost:8000/xid/" -H "Content-Type: application/json" -d '{"pid": "Hello"}'
+# test post requests: curl -X POST "http://localhost:8000/xid/" \\
+# -H "Content-Type: application/json" -d '{"pid": "Hello"}'
 
 
 @app.get("/users/", response_model=List[schemas.User])
@@ -220,6 +228,7 @@ async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
 
 @app.post("/user-update/")
 async def update_user(user_data: Dict[str, Any]) -> dict:
+    """Update user data."""
     query = user.update().where(user.c.xid == user_data.get("xid")).values(user_data)
     await database.execute(query)
     return {"message": "User data updated successfully"}
@@ -230,7 +239,7 @@ async def update_user(user_data: Dict[str, Any]) -> dict:
 
 @app.post("/xid/")
 async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
-    """Returns XID for a given Participant ID"""
+    """Return XID for a given Participant ID."""
     import random
     import string
 
@@ -322,21 +331,16 @@ async def create_note(note: schemas.NoteIn):
 
 
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
-from starlette.websockets import WebSocketDisconnect
-import csv
-import json
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
+    """Store real-time eyetracking data in CSV files."""
     try:
         await websocket.accept()
         while True:
             try:
                 data = await websocket.receive_text()
                 d = json.loads(data)
-                # with open(f"eyetracking_data_{d['xid']}.csv", mode='a', newline='') as csv_file:
-                #     writer = csv.writer(csv_file)
-                #     writer.writerow([data])
 
                 # Extracting the keys and values from the dictionary
                 keys = list(d.keys())
@@ -358,7 +362,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 with open(csv_filename, mode='a', newline='') as csv_file:
                     writer = csv.writer(csv_file)
                     writer.writerow(values)
-                    
+
             except Exception as e:
                 print(f"WebSocket error: {str(e)}")
                 break
@@ -373,6 +377,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
 @app.get("/results/", response_model=List[schemas.Result])
 async def read_results():
+    """Read results."""
     query = results.select()
     response = await database.fetch_all(query)
     return response
@@ -383,6 +388,7 @@ async def read_results():
 
 @app.get("/tables")
 async def get_tables():
+    """Read list of all tables in database."""
     async with database.transaction():
         tables = engine.table_names()
         return {"tables": tables}
@@ -390,6 +396,7 @@ async def get_tables():
 
 @app.get("/tables/{table_name}", response_model=List[dict])
 async def get_table_content(table_name: str):
+    """Read list of content in table."""
     async with database.transaction():
         if not engine.has_table(table_name):
             raise HTTPException(status_code=404, detail="Table not found")
@@ -403,13 +410,16 @@ async def get_table_content(table_name: str):
 
 @app.get("/table_fields/{table_name}", response_model=List[str])
 async def get_table_fields(table_name: str):
+    """Read list of all fields in table."""
     async with database.transaction():
         if not await database.fetch_val(
-            f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{table_name}')"
+            "SELECT EXISTS (SELECT 1 FROM information_schema.tables "
+            f"WHERE table_name = '{table_name}')"
         ):
             raise HTTPException(status_code=404, detail="Table not found")
 
-        columns_query = f"SELECT column_name FROM information_schema.columns WHERE table_name = '{table_name}'"
+        columns_query = "SELECT column_name FROM information_schema.columns "
+        f"WHERE table_name = '{table_name}'"
         result = await database.fetch_all(columns_query)
         fields = [row["column_name"] for row in result]
         return fields
