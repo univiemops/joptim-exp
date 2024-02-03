@@ -247,18 +247,12 @@ async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
     return user_values
 
 
-# update status of user
-
-
 @app.post("/user-update/")
 async def update_user(user_data: Dict[str, Any]) -> dict:
     """Update user data."""
     query = user.update().where(user.c.xid == user_data.get("xid")).values(user_data)
     await database.execute(query)
     return {"message": "User data updated successfully"}
-
-
-# create new user or retrieve xid of existing user
 
 
 @app.post("/xid/")
@@ -288,9 +282,6 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
         return new_user_values
 
 
-# get a random trial from the trials file
-
-
 @app.get("/game/")
 def new_game():
     """Take trials from file."""
@@ -313,9 +304,6 @@ def new_game():
         "assignments_optimal_1": assignments_1,
         "assignments_optimal_2": assignments_2,
     }
-
-
-# post results of individual trials
 
 
 @app.post("/results/", response_model=schemas.Result)
