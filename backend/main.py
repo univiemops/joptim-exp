@@ -136,13 +136,9 @@ rrweb = sqlalchemy.Table(
 
 
 load_dotenv()
-
 DATABASE_URL = os.getenv("DATABASE_URL")
-
 database = databases.Database(DATABASE_URL)
-
 engine = sqlalchemy.create_engine(DATABASE_URL)
-
 metadata.create_all(engine)
 
 
