@@ -14,6 +14,10 @@
 
 This repo uses our own fork of webgazer. If you want to make changes to webgazer, create a branch in our webgazer repo (https://github.com/univiemops/WebGazer), apply the changes inside the `src` folder, go back to the root directory and build webgazer with `npm run build`. This will create the new files `dist/webgazer.js` and `dist/webgazer.js.map`. Copy them into the folder `frontend/public/` inside the experiment repo. Within the experiment, always link to the webgazer.js file in `frontend/public/`, do not link to an external source as we have no control over it and changes there might break our code.
 
+## rrweb
+
+[rrweb](https://github.com/rrweb-io/rrweb) is used for recording and replaying participant interactions in the experiment, allowing us to understand and reproduce participant behavior for further analysis and experimental design improvement. If you don't need it, simply comment out the relevant lines in `frontend/pages/_app.tsx`.
+
 ## Prerequisite
 
 Place `trials.pkl` file into the backend folder. If file is missing or the backend is not set up correctly, the frontend will fall back to an own random trial generation.
