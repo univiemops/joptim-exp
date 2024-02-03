@@ -43,7 +43,7 @@ export const DialogStart: React.FC<DialogStartProps> = ({ showDialog, setShowDia
     <DialogContent>
       <DialogContentText id="alert-dialog-description-start"
         sx={{ userSelect: 'none' }}>
-        To calibrate the eye tracking, turn on your webcam, place your head inside the square box and wait until it turns green. Then click on each red dot 5 times until it turns yellow. {countdown > 0 ? `Wait ${countdown}s.` : null}
+        To calibrate eye tracking, wait until your browser asks for webcam permissions, confirm, then position your head to fill the square frame and wait until the frame turns green. Then click on each red dot 5 times until it turns yellow. {countdown > 0 ? `Wait ${countdown}s.` : null}
       </DialogContentText>
     </DialogContent>
     <DialogActions>

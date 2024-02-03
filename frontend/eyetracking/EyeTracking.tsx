@@ -1,23 +1,54 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useScript } from './useScript'
+import { GazeData } from './types'
 
 
-const OPTIONAL_SUBURI = "/joptim"
-const webgazerScript = `${OPTIONAL_SUBURI}/webgazer.js`
+const OPTIONAL_SUBURI: string = process.env.NEXT_PUBLIC_API_URL?.toString() ?? 'no-valid-url';
+const WS_URL = `${OPTIONAL_SUBURI.replace(/^https?:\/\//, match => match === 'http://' ? 'ws://' : 'wss://')}/ws`; // websocket stuff: remove if not needed
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+const webgazerScript = `${basePath}/webgazer.js`
 
 
 interface EyeTrackingProps {
+  xid: string;
   calibrated: boolean;
 }
 
-
-const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
+const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
   const [webgazer, setWebgazer] = React.useState<Webgazer | undefined>()
   const status = useScript(webgazerScript, {
     removeOnUnmount: false,
   })
 
-  useEffect(() => {
+  // websocket stuff begin (remove if not needed)
+  const [ws, setWs] = React.useState<any>(null);
+
+  let openConnections: number = 0 // to make sure only 1 connection is opened
+
+  React.useEffect(() => {
+    console.log(basePath)
+    openConnections++
+    if (!ws && openConnections === 1) {
+      const newWs = new WebSocket(WS_URL);
+      setWs(newWs);
+      return () => {
+        if (newWs.readyState === WebSocket.OPEN) {
+          openConnections = 0
+          newWs.close();
+        }
+      };
+    }
+  }, []);
+
+
+  const sendDataToBackend = (data: GazeData) => {
+    if (ws) {
+      ws.send(JSON.stringify(data));
+    }
+  };
+  // websocket stuff end
+
+  React.useEffect(() => {
     if (window) {
       if (!webgazer) {
         setWebgazer(window.webgazer)
@@ -41,7 +72,14 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ calibrated }) => {
               const currentUnixTime = Math.floor(new Date().getTime() / 1000);
               const viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
               const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-              console.log(`Gaze data: timestamp=${currentUnixTime}, x=${data.x.toFixed(4)}, y=${data.y.toFixed(4)}, viewport=${viewportWidth}x${viewportHeight}`);
+              const gazeData: GazeData = {
+                xid: xid,
+                timestamp: currentUnixTime,
+                x: data.x.toFixed(4),
+                y: data.y.toFixed(4),
+                viewport: `${viewportWidth}x${viewportHeight}`,
+              };
+              sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
             }
           })
           .begin();

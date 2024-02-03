@@ -9,7 +9,7 @@ import os
 import databases
 import sqlalchemy
 from typing import List
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, WebSocket
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 import schemas
@@ -320,6 +320,31 @@ async def create_note(note: schemas.NoteIn):
     last_record_id = await database.execute(query)
     return {**note.dict(), "id": last_record_id}
 
+
+# WEBSOCKET FOR EYE-TRACKING
+from starlette.websockets import WebSocketDisconnect
+import csv
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    try:
+        await websocket.accept()
+        while True:
+            try:
+                data = await websocket.receive_text()
+                # await websocket.send_text(f"Message text was: {data}")
+                # Write the data to a CSV file
+                with open('eyetracking_data.csv', mode='a', newline='') as csv_file:
+                    writer = csv.writer(csv_file)
+                    writer.writerow([data])
+            except Exception as e:
+                print(f"WebSocket error: {str(e)}")
+                break
+    except WebSocketDisconnect as e:
+        print(f"WebSocket connection closed: {e.code}")
+    finally:
+        # Any cleanup code (optional)
+        pass
 
 # DOWNLOAD CALLS
 

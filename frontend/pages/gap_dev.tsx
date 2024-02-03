@@ -18,11 +18,12 @@ export default function Dev() {
   const handleCalibrated = () => {
     setCalibrated(true);
   };
+  const xid = "dev"
 
 
   return (
     <div className="App">
-      <EyeTracking calibrated={calibrated} /> {/* remove this if you do not need eyetracking */}
+      <EyeTracking xid={xid} calibrated={calibrated} /> {/* remove this if you do not need eyetracking */}
       {calibrated ? ( // remove this conditional if you do not need eyetracking
         <>
           <div className="trial-instruction">

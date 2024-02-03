@@ -347,7 +347,7 @@ const Experiment: React.FC = () => {
   }, [isTrialCompleted2]);
   return (
     <div className="App">
-      {instructed && <EyeTracking calibrated={calibrated} />} {/* remove this if you do not need eyetracking */}
+      {(instructed && typeof (XID) === "string") ? <EyeTracking xid={XID} calibrated={calibrated} /> : null} {/* remove this if you do not need eyetracking */}
       {userData["xid"] === "" ? (
         <div></div>
       ) : userData["consent"] ? (
