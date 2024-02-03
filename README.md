@@ -16,7 +16,7 @@ This repo uses our own fork of webgazer. If you want to make changes to webgazer
 
 ## rrweb
 
-[rrweb](https://github.com/rrweb-io/rrweb) is used for recording and replaying participant interactions in the experiment, allowing us to understand and reproduce participant behavior for further analysis and experimental design improvement. If you don't need it, simply comment out the relevant lines in `frontend/pages/_app.tsx`.
+[rrweb](https://github.com/rrweb-io/rrweb) is used for recording and replaying participant interactions in the experiment, allowing us to understand and reproduce participant behavior for further analysis and experimental design improvement. If you don't need it, simply comment out the relevant lines in `frontend/pages/_app.tsx` `frontend/pages/_document.tsx`.
 
 ## Prerequisite
 
