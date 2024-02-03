@@ -26,7 +26,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
   let openConnections: number = 0 // to make sure only 1 connection is opened
 
   React.useEffect(() => {
-    console.log(basePath)
     openConnections++
     if (!ws && openConnections === 1) {
       const newWs = new WebSocket(WS_URL);
