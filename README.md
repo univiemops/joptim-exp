@@ -85,7 +85,7 @@ Go to `frontend` directory and run the TypeScript compiler:
 tsc --watch
 ```
 
-Go to your browser, open [http://localhost:3000/joptim](http://localhost:3000/joptim) for the API and start developing.
+Go to your browser, open [http://localhost:3000/joptim](http://localhost:3000/joptim) for the API and start developing. Make sure you have the dependencies installed locally as well (run `npm install` inside `/frontend`).
 
 ## Debugging
 
