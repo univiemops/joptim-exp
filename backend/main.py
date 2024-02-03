@@ -321,9 +321,10 @@ async def create_note(note: schemas.NoteIn):
     return {**note.dict(), "id": last_record_id}
 
 
-# WEBSOCKET FOR EYE-TRACKING
+# WEBSOCKET FOR EYE-TRACKING: remove if not needed
 from starlette.websockets import WebSocketDisconnect
 import csv
+import json
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
@@ -332,11 +333,32 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             try:
                 data = await websocket.receive_text()
-                # await websocket.send_text(f"Message text was: {data}")
-                # Write the data to a CSV file
-                with open('eyetracking_data.csv', mode='a', newline='') as csv_file:
+                d = json.loads(data)
+                # with open(f"eyetracking_data_{d['xid']}.csv", mode='a', newline='') as csv_file:
+                #     writer = csv.writer(csv_file)
+                #     writer.writerow([data])
+
+                # Extracting the keys and values from the dictionary
+                keys = list(d.keys())
+                values = list(d.values())
+
+                # Checking if the CSV file already exists
+                csv_filename = f"eyetracking_data_{d['xid']}.csv"
+
+                try:
+                    with open(csv_filename, 'x', newline='') as csv_file:
+                        # Writing header with keys as column names
+                        writer = csv.writer(csv_file)
+                        writer.writerow(keys)
+                except FileExistsError:
+                    # File already exists, header is not needed
+                    pass
+
+                # Appending the values to the CSV file
+                with open(csv_filename, mode='a', newline='') as csv_file:
                     writer = csv.writer(csv_file)
-                    writer.writerow([data])
+                    writer.writerow(values)
+                    
             except Exception as e:
                 print(f"WebSocket error: {str(e)}")
                 break
