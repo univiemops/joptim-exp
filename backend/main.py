@@ -25,6 +25,7 @@ import json
 # MODELS
 ########
 
+
 metadata = sqlalchemy.MetaData()
 
 # survey results table
@@ -128,6 +129,7 @@ rrweb = sqlalchemy.Table(
     sqlalchemy.Column("event", sqlalchemy.JSON),
 )
 
+
 ############################
 # SET UP DATABASE CONNECTION
 ############################
@@ -168,6 +170,7 @@ app.add_middleware(
 #########################
 # LOAD TRIALS FROM FILE #
 #########################
+
 
 try:
     with open("trials.pkl", "rb") as pickle_file:
@@ -284,6 +287,7 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
         _ = await database.execute(query)
         return new_user_values
 
+
 # get a random trial from the trials file
 
 
@@ -361,6 +365,7 @@ async def create_events(event_data: Dict):
         query = rrweb.insert().values(values)
         await database.execute(query)
 
+
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
 
 
@@ -413,6 +418,7 @@ async def websocket_endpoint(websocket: WebSocket):
     finally:
         # Any cleanup code (optional)
         pass
+
 
 # DOWNLOAD CALLS
 
