@@ -12,7 +12,7 @@
 
 ## WebGazer
 
-This repo uses our own fork of webgazer. If you want to make changes to webgazer, create a branch in our webgazer repo (https://github.com/univiemops/WebGazer), apply the changes inside the `src` folder, go back to the root directory and build webgazer with `npm run build`. This will create the new files `dist/webgazer.js` and `dist/webgazer.js.map`. Copy them into the folder `frontend/public/`inside the experiment repo. Within the experiment, always link to the webgazer.js file in `frontend/public/`, do not link to an external source as we have no control over it and changes there might break our code.
+This repo uses our own fork of webgazer. If you want to make changes to webgazer, create a branch in our webgazer repo (https://github.com/univiemops/WebGazer), apply the changes inside the `src` folder, go back to the root directory and build webgazer with `npm run build`. This will create the new files `dist/webgazer.js` and `dist/webgazer.js.map`. Copy them into the folder `frontend/public/` inside the experiment repo. Within the experiment, always link to the webgazer.js file in `frontend/public/`, do not link to an external source as we have no control over it and changes there might break our code.
 
 ## Prerequisite
 
