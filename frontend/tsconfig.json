@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "ES6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -29,7 +29,14 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/Dev.tsx~"
+    "pages/Dev.tsx~",
+    "pages/dev_ws.tsx~",
+    "pages/dev_props.tsx~",
+    "pages/dev_props.tsx~",
+    "eyetracking/WebSocketComponent.tsx~",
+    "eyetracking/types.ts~",
+    "eyetracking/WebSocket.tsx~",
+    "eyetracking/CalibrationDialogsSeconds.tsx~"
   ],
   "exclude": [
     "node_modules"

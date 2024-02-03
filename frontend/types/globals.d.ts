@@ -1,5 +1,6 @@
 interface Window {
   webgazer: any;
+  rrwebRecord: any;
 }
 
 interface Webgazer {

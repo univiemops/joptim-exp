@@ -13,6 +13,7 @@ export default function Document() {
         <Main />
         <NextScript />
       </body>
+      <script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/record/rrweb-record.min.js"></script>
       <script>
         var scriptVar = 0
       </script>

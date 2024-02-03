@@ -108,7 +108,6 @@ user = sqlalchemy.Table(
 
 # eyetracking table
 
-
 eyetracking = sqlalchemy.Table(
     "eyetracking",
     metadata,
@@ -117,6 +116,16 @@ eyetracking = sqlalchemy.Table(
     sqlalchemy.Column("x", sqlalchemy.String),
     sqlalchemy.Column("y", sqlalchemy.String),
     sqlalchemy.Column("viewport", sqlalchemy.String),
+)
+
+# single trial results table
+
+rrweb = sqlalchemy.Table(
+    "rrweb",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("xid", sqlalchemy.String),
+    sqlalchemy.Column("event", sqlalchemy.JSON),
 )
 
 ############################
@@ -342,7 +351,18 @@ async def create_note(note: schemas.NoteIn):
     return {**note.dict(), "id": last_record_id}
 
 
+@app.post("/rrweb/")
+async def create_events(event_data: Dict):
+    """Store rrweb events."""
+    XID = event_data["XID"]
+    events = event_data["events"]
+    if len(event_data["events"]) > 0:
+        values = [{"xid": XID, "event": event} for event in events]
+        query = rrweb.insert().values(values)
+        await database.execute(query)
+
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
+
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

@@ -30,12 +30,19 @@ class Result(BaseModel):
     xid: str
     result: dict
 
-
 class ResultIn(BaseModel):
     xid: str
     result: dict
 
+class Event(BaseModel):
+    id: int
+    xid: str
+    event: dict
 
+class EventIn(BaseModel):
+    xid: str
+    event: dict
+    
 class SurveyResultIn(BaseModel):
     xid: str
     survey_id: int
