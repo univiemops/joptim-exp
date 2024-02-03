@@ -44,21 +44,23 @@ export default function App({ Component, pageProps }: AppProps) {
   const save = async () => {
     const XID = XIDRef.current
     const body = JSON.stringify({ XID, events });
-    events = [];
-    try {
-      const res = await fetch(`${OPTIONAL_SUBURI}/rrweb/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: body
-      });
+    if (events.length > 0) {
+      try {
+        const res = await fetch(`${OPTIONAL_SUBURI}/rrweb/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: body
+        });
 
-      if (!res.ok) {
-        throw new Error("Failed to post events");
+        if (!res.ok) {
+          throw new Error("Failed to post events");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+      events = [];
     }
   }
 
