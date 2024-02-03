@@ -106,6 +106,18 @@ user = sqlalchemy.Table(
     sqlalchemy.Column("notes", sqlalchemy.Boolean),
 )
 
+# eyetracking table
+
+
+eyetracking = sqlalchemy.Table(
+    "eyetracking",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("xid", sqlalchemy.String),
+    sqlalchemy.Column("x", sqlalchemy.String),
+    sqlalchemy.Column("y", sqlalchemy.String),
+    sqlalchemy.Column("viewport", sqlalchemy.String),
+)
 
 ############################
 # SET UP DATABASE CONNECTION
@@ -342,26 +354,36 @@ async def websocket_endpoint(websocket: WebSocket):
                 data = await websocket.receive_text()
                 d = json.loads(data)
 
-                # Extracting the keys and values from the dictionary
-                keys = list(d.keys())
-                values = list(d.values())
+                # for CSV:
+                # # Extracting the keys and values from the dictionary
+                # keys = list(d.keys())
+                # values = list(d.values())
 
-                # Checking if the CSV file already exists
-                csv_filename = f"eyetracking_data_{d['xid']}.csv"
+                # # Checking if the CSV file already exists
+                # csv_filename = f"eyetracking_data_{d['xid']}.csv"
 
-                try:
-                    with open(csv_filename, 'x', newline='') as csv_file:
-                        # Writing header with keys as column names
-                        writer = csv.writer(csv_file)
-                        writer.writerow(keys)
-                except FileExistsError:
-                    # File already exists, header is not needed
-                    pass
+                # try:
+                #     with open(csv_filename, 'x', newline='') as csv_file:
+                #         # Writing header with keys as column names
+                #         writer = csv.writer(csv_file)
+                #         writer.writerow(keys)
+                # except FileExistsError:
+                #     # File already exists, header is not needed
+                #     pass
 
-                # Appending the values to the CSV file
-                with open(csv_filename, mode='a', newline='') as csv_file:
-                    writer = csv.writer(csv_file)
-                    writer.writerow(values)
+                # # Appending the values to the CSV file
+                # with open(csv_filename, mode='a', newline='') as csv_file:
+                #     writer = csv.writer(csv_file)
+                #     writer.writerow(values)
+
+                # for DB: comment out if not needed
+                query = eyetracking.insert().values(
+                    xid=d['xid'],
+                    x=d['x'],
+                    y=d['y'],
+                    viewport=d['viewport']
+                )
+                await database.execute(query)
 
             except Exception as e:
                 print(f"WebSocket error: {str(e)}")

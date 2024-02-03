@@ -12,6 +12,19 @@ class Note(BaseModel):
     text: str
 
 
+class EyeTrackingIn(BaseModel):
+    xid: str
+    x: str
+    y: str
+    viewport: str
+    
+class EyeTracking(BaseModel):
+    id: int
+    xid: str
+    x: str
+    y: str
+    viewport: str
+
 class Result(BaseModel):
     id: int
     xid: str
