@@ -2,11 +2,11 @@ import React from "react";
 import { useScript } from "./useScript";
 import { GazeData } from "./types";
 
-const OPTIONAL_SUBURI: string =
-  process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
-const WS_URL = `${OPTIONAL_SUBURI.replace(/^https?:\/\//, (match) =>
-  match === "http://" ? "ws://" : "wss://",
-)}/ws`; // websocket stuff: remove if not needed
+// const OPTIONAL_SUBURI: string =
+//   process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
+// const WS_URL = `${OPTIONAL_SUBURI.replace(/^https?:\/\//, (match) =>
+//   match === "http://" ? "ws://" : "wss://",
+// )}/ws`; // websocket stuff: remove if not needed
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const webgazerScript = `${basePath}/webgazer/webgazer.js`;
 
@@ -21,31 +21,31 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
     removeOnUnmount: false,
   });
 
-  // websocket stuff begin (remove if not needed)
-  const [ws, setWs] = React.useState<any>(null);
+  // // websocket stuff begin (remove if not needed)
+  // const [ws, setWs] = React.useState<any>(null);
 
-  let openConnections: number = 0; // to make sure only 1 connection is opened
+  // let openConnections: number = 0; // to make sure only 1 connection is opened
 
-  React.useEffect(() => {
-    openConnections++;
-    if (!ws && openConnections === 1) {
-      const newWs = new WebSocket(WS_URL);
-      setWs(newWs);
-      return () => {
-        if (newWs.readyState === WebSocket.OPEN) {
-          openConnections = 0;
-          newWs.close();
-        }
-      };
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   openConnections++;
+  //   if (!ws && openConnections === 1) {
+  //     const newWs = new WebSocket(WS_URL);
+  //     setWs(newWs);
+  //     return () => {
+  //       if (newWs.readyState === WebSocket.OPEN) {
+  //         openConnections = 0;
+  //         newWs.close();
+  //       }
+  //     };
+  //   }
+  // }, []);
 
-  const sendDataToBackend = (data: GazeData) => {
-    if (ws) {
-      ws.send(JSON.stringify(data));
-    }
-  };
-  // websocket stuff end
+  // const sendDataToBackend = (data: GazeData) => {
+  //   if (ws) {
+  //     ws.send(JSON.stringify(data));
+  //   }
+  // };
+  // // websocket stuff end
 
   React.useEffect(() => {
     if (window) {
@@ -85,7 +85,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
                 y: data.y.toFixed(4),
                 viewport: `${viewportWidth}x${viewportHeight}`,
               };
-              sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
+              // sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
             }
           })
           .begin();
