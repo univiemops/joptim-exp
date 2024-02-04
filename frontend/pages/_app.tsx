@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   React.useEffect(() => {
     if (window) {
-      const stopFn = window.rrwebRecord({
+      const stopFn = window.rrweb.record({
         emit(event: any) {
           events.push(event);
         },

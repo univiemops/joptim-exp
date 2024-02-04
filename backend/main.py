@@ -350,6 +350,15 @@ async def create_events(event_data: Dict):
         await database.execute(query)
 
 
+@app.get("/rrweb/{xid}")
+async def get_events(xid: str) -> list:
+    """Get the events of a user."""
+    query = rrweb.select().where(rrweb.c.xid == xid)
+    response = await database.fetch_all(query)
+    events = [e["event"] for e in response]
+    return events
+
+
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
 
 
