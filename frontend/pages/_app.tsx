@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function App({ Component, pageProps }: AppProps) {
   // BEGIN rrweb: remove if not needed
@@ -70,10 +71,10 @@ export default function App({ Component, pageProps }: AppProps) {
   // END rrweb: remove if not needed
 
   return <>
-    <Script src="/rrweb/rrweb.min.js" strategy="beforeInteractive" />
-    <Script src="/rrweb/player/index.js" strategy="beforeInteractive" />
-    <link rel="stylesheet" href="/rrweb/rrweb.min.css" />
-    <link rel="stylesheet" href="/rrweb/player/style.css" />
+    <Script src={`${basePath}/rrweb/rrweb.min.js`} strategy="beforeInteractive" />
+    <Script src={`${basePath}/rrweb/player/index.js`} strategy="beforeInteractive" />
+    <link rel="stylesheet" href={`${basePath}/rrweb/rrweb.min.css`} />
+    <link rel="stylesheet" href={`${basePath}/rrweb/player/style.css`} />
     <Component {...pageProps} />
   </>;
 }
