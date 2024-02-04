@@ -26,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
     if (window) {
       const stopFn = window.rrweb.record({
+        inlineStylesheet: true,
         emit(event: any) {
           events.push(event);
         },
