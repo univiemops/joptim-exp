@@ -1,5 +1,5 @@
 /*
- * This function calculates a measurement for how precise 
+ * This function calculates a measurement for how precise
  * the eye tracker currently is which is displayed to the user
  */
 export function calculatePrecision(past50Array) {
@@ -15,30 +15,44 @@ export function calculatePrecision(past50Array) {
   var staringPointY = windowHeight / 2;
 
   var precisionPercentages = new Array(50);
-  calculatePrecisionPercentages(precisionPercentages, windowHeight, x50, y50, staringPointX, staringPointY);
+  calculatePrecisionPercentages(
+    precisionPercentages,
+    windowHeight,
+    x50,
+    y50,
+    staringPointX,
+    staringPointY,
+  );
   var precision = calculateAverage(precisionPercentages);
 
   // Return the precision measurement as a rounded percentage
   return Math.round(precision);
-};
+}
 
 /*
  * Calculate percentage accuracy for each prediction based on distance of
  * the prediction point from the centre point (uses the window height as
  * lower threshold 0%)
  */
-function calculatePrecisionPercentages(precisionPercentages, windowHeight, x50, y50, staringPointX, staringPointY) {
+function calculatePrecisionPercentages(
+  precisionPercentages,
+  windowHeight,
+  x50,
+  y50,
+  staringPointX,
+  staringPointY,
+) {
   for (let x = 0; x < 50; x++) {
     // Calculate distance between each prediction and staring point
     var xDiff = staringPointX - x50[x];
     var yDiff = staringPointY - y50[x];
-    var distance = Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
+    var distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 
     // Calculate precision percentage
     var halfWindowHeight = windowHeight / 2;
     var precision = 0;
     if (distance <= halfWindowHeight && distance > -1) {
-      precision = 100 - (distance / halfWindowHeight * 100);
+      precision = 100 - (distance / halfWindowHeight) * 100;
     } else if (distance > halfWindowHeight) {
       precision = 0;
     } else if (distance > -1) {

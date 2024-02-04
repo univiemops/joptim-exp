@@ -16,7 +16,7 @@ const ReplayPage = () => {
     }
   };
 
-  let replayer: any
+  let replayer: any;
 
   React.useEffect(() => {
     if (window && XID !== "" && replayer === undefined && loadedPlayer === 0) {
@@ -42,22 +42,21 @@ const ReplayPage = () => {
           });
           await replayer.getMetaData(); // wait til it's loaded
           replayer.play();
-
         } catch (error) {
           console.error(error);
           setLoading(false);
         }
       };
-      loadEvents()
+      loadEvents();
     }
     return () => {
       if (replayer) {
-        replayer.pause()
-        replayer = null
+        replayer.pause();
+        replayer = null;
         const element = document.getElementById("fixed-player-container");
         if (element) {
           // Clear the content of the element
-          element.innerHTML = '';
+          element.innerHTML = "";
         }
       }
     };

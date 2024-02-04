@@ -14,13 +14,13 @@ export const ConsentForm: Questionnaire = {
       id: "txt2",
       type: "info",
       title: "Purpose of the Study",
-      text: "The purpose of this psychological experiment is to gain insight into how people evaluate complex problems."
+      text: "The purpose of this psychological experiment is to gain insight into how people evaluate complex problems.",
     },
     {
       id: "txt3",
       type: "info",
       title: "Procedures",
-      text: "In part one, we will introduce you to a problem-solving task and let you solve some examples to make sure you understand it.In part two, we will show you pairs of solutions to various example problems, and we want you to choose the solution that you prefer."
+      text: "In part one, we will introduce you to a problem-solving task and let you solve some examples to make sure you understand it.In part two, we will show you pairs of solutions to various example problems, and we want you to choose the solution that you prefer.",
     },
     {
       id: "txt4",

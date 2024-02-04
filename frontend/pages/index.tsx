@@ -38,7 +38,6 @@ export default function Home() {
   const router = useRouter();
   const getXidCalled = useRef(false); // Ref to track if getXid was called
 
-
   useEffect(() => {
     const prolificPid = getURLParameter("PROLIFIC_PID");
     if (!xid && prolificPid && prolificPid !== "" && !getXidCalled.current) {
@@ -69,7 +68,7 @@ export default function Home() {
   });
 
   return (
-    <div className="App" >
+    <div className="App">
       <h2>Behavioral experiment</h2>
       <Button
         size="large"

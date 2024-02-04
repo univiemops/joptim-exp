@@ -41,7 +41,13 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
           />
         )}
         <br />
-        <span style={remainingSize === 0 ? { filter: "grayscale(50%)", opacity: opacityWorker } : { opacity: opacityWorker }}>
+        <span
+          style={
+            remainingSize === 0
+              ? { filter: "grayscale(50%)", opacity: opacityWorker }
+              : { opacity: opacityWorker }
+          }
+        >
           <b>{size - remainingSize}</b>
         </span>
         <br />
@@ -63,7 +69,15 @@ export const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
     <>
       <div className={styles.task_label_outer}>
         <div className={styles.task_label}>
-          <span style={assigned ? { filter: "grayscale(50%)", opacity: opacity } : { opacity: opacity }}>{size} </span>
+          <span
+            style={
+              assigned
+                ? { filter: "grayscale(50%)", opacity: opacity }
+                : { opacity: opacity }
+            }
+          >
+            {size}{" "}
+          </span>
           {icons && (
             <FontAwesomeIcon
               icon={faBook}

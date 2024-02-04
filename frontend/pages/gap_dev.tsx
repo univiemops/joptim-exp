@@ -9,21 +9,23 @@ export default function Dev() {
 
   const handleClick = (_e: React.MouseEvent<HTMLDivElement>, index: number) => {
     setChoice(index);
-    alert(`We're glad you like Solution ${index}, but this is not the real world, just a test screen to test eye tracking.`)
+    alert(
+      `We're glad you like Solution ${index}, but this is not the real world, just a test screen to test eye tracking.`,
+    );
   };
 
   // remove this block if you do not need eyetracking
   const [calibrated, setCalibrated] = React.useState<boolean>(false);
-  const [accuracy, setAccuracy] = React.useState<number | null>(null)
+  const [accuracy, setAccuracy] = React.useState<number | null>(null);
   const handleCalibrated = () => {
     setCalibrated(true);
   };
-  const xid = "dev"
-
+  const xid = "dev";
 
   return (
     <div className="App">
-      <EyeTracking xid={xid} calibrated={calibrated} /> {/* remove this if you do not need eyetracking */}
+      <EyeTracking xid={xid} calibrated={calibrated} />{" "}
+      {/* remove this if you do not need eyetracking */}
       {calibrated ? ( // remove this conditional if you do not need eyetracking
         <>
           <div className="trial-instruction">
@@ -91,7 +93,11 @@ export default function Dev() {
           </div>
         </>
       ) : (
-        <Calibration onCalibrated={handleCalibrated} setAccuracy={setAccuracy} accuracy={accuracy} /> /* remove this if you do not need eyetracking */
+        <Calibration
+          onCalibrated={handleCalibrated}
+          setAccuracy={setAccuracy}
+          accuracy={accuracy}
+        /> /* remove this if you do not need eyetracking */
       )}
     </div>
   );

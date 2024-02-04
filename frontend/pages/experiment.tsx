@@ -20,7 +20,6 @@ import {
 import EyeTracking from "../eyetracking/EyeTracking"; // remove this if you do not need eyetracking
 import Calibration from "../eyetracking/Calibration"; // remove this if you do not need eyetracking
 
-
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
 
@@ -69,15 +68,14 @@ const Experiment: React.FC = () => {
   const [instructed, setInstructed] = React.useState<boolean>(false);
   // remove this block if you do not need eyetracking
   const [calibrated, setCalibrated] = React.useState<boolean>(false);
-  const [accuracy, setAccuracy] = React.useState<number | null>(null)
+  const [accuracy, setAccuracy] = React.useState<number | null>(null);
   const handleCalibrated = () => {
     setCalibrated(true);
   };
 
-
   const handleScrollToTop = () => {
     if (window) {
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     }
   };
 
@@ -204,16 +202,14 @@ const Experiment: React.FC = () => {
     }
   };
 
-
   const handleFinishInstructions = () => {
     if (XID !== undefined && typeof XID === "string") {
-      setInstructed(true)
+      setInstructed(true);
       handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
     }
   };
-
 
   const getUserData = async (XID: string) => {
     try {
@@ -347,7 +343,10 @@ const Experiment: React.FC = () => {
   }, [isTrialCompleted2]);
   return (
     <div className="App">
-      {(instructed && typeof (XID) === "string") ? <EyeTracking xid={XID} calibrated={calibrated} /> : null} {/* remove this if you do not need eyetracking */}
+      {instructed && typeof XID === "string" ? (
+        <EyeTracking xid={XID} calibrated={calibrated} />
+      ) : null}{" "}
+      {/* remove this if you do not need eyetracking */}
       {userData["xid"] === "" ? (
         <div></div>
       ) : userData["consent"] ? (
@@ -361,7 +360,10 @@ const Experiment: React.FC = () => {
                     finished={userData["notes"]}
                   />
                 ) : isTrialCompleted2 ? (
-                  <ConfirmationPage2 trial={trial2} onContinue={handleContinue2} />
+                  <ConfirmationPage2
+                    trial={trial2}
+                    onContinue={handleContinue2}
+                  />
                 ) : loading ? (
                   <div></div>
                 ) : (
@@ -406,7 +408,11 @@ const Experiment: React.FC = () => {
                 />
               )
             ) : (
-              <Calibration onCalibrated={handleCalibrated} setAccuracy={setAccuracy} accuracy={accuracy} /> /* remove this if you do not need eyetracking */
+              <Calibration
+                onCalibrated={handleCalibrated}
+                setAccuracy={setAccuracy}
+                accuracy={accuracy}
+              /> /* remove this if you do not need eyetracking */
             )
           ) : (
             <Instructions onSubmit={handleFinishInstructions} />

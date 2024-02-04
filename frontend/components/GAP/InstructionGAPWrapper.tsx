@@ -17,11 +17,11 @@ const InstructionGAPWrapper = () => {
   }
   const handleTileClick = (
     e: React.MouseEvent<HTMLDivElement>,
-    coordinates: [number, number]
+    coordinates: [number, number],
   ) => {
     let newAssignments = [...assignments];
     let index = newAssignments.findIndex(
-      (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
+      (a) => a[0] === coordinates[0] && a[1] === coordinates[1],
     );
     if (index === -1) {
       let indexOther = newAssignments.findIndex((a) => a[0] === coordinates[0]);

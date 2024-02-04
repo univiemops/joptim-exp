@@ -1,13 +1,14 @@
-import React from 'react';
-import { useScript } from './useScript'
-import { GazeData } from './types'
+import React from "react";
+import { useScript } from "./useScript";
+import { GazeData } from "./types";
 
-
-const OPTIONAL_SUBURI: string = process.env.NEXT_PUBLIC_API_URL?.toString() ?? 'no-valid-url';
-const WS_URL = `${OPTIONAL_SUBURI.replace(/^https?:\/\//, match => match === 'http://' ? 'ws://' : 'wss://')}/ws`; // websocket stuff: remove if not needed
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-const webgazerScript = `${basePath}/webgazer.js`
-
+const OPTIONAL_SUBURI: string =
+  process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
+const WS_URL = `${OPTIONAL_SUBURI.replace(/^https?:\/\//, (match) =>
+  match === "http://" ? "ws://" : "wss://",
+)}/ws`; // websocket stuff: remove if not needed
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const webgazerScript = `${basePath}/webgazer.js`;
 
 interface EyeTrackingProps {
   xid: string;
@@ -15,30 +16,29 @@ interface EyeTrackingProps {
 }
 
 const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
-  const [webgazer, setWebgazer] = React.useState<Webgazer | undefined>()
+  const [webgazer, setWebgazer] = React.useState<Webgazer | undefined>();
   const status = useScript(webgazerScript, {
     removeOnUnmount: false,
-  })
+  });
 
   // websocket stuff begin (remove if not needed)
   const [ws, setWs] = React.useState<any>(null);
 
-  let openConnections: number = 0 // to make sure only 1 connection is opened
+  let openConnections: number = 0; // to make sure only 1 connection is opened
 
   React.useEffect(() => {
-    openConnections++
+    openConnections++;
     if (!ws && openConnections === 1) {
       const newWs = new WebSocket(WS_URL);
       setWs(newWs);
       return () => {
         if (newWs.readyState === WebSocket.OPEN) {
-          openConnections = 0
+          openConnections = 0;
           newWs.close();
         }
       };
     }
   }, []);
-
 
   const sendDataToBackend = (data: GazeData) => {
     if (ws) {
@@ -50,27 +50,34 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
   React.useEffect(() => {
     if (window) {
       if (!webgazer) {
-        setWebgazer(window.webgazer)
+        setWebgazer(window.webgazer);
       }
       if (webgazer && !calibrated) {
-        console.log("starting webgazer calibration")
-        webgazer.setRegression('weightedRidge')
+        console.log("starting webgazer calibration");
+        webgazer
+          .setRegression("weightedRidge")
           .showFaceOverlay(false)
           .saveDataAcrossSessions(false) // TODO: check what "session" means.
           .begin();
       }
       if (webgazer && calibrated) {
-        webgazer.end() // TODO: check if we need this 
-        console.log("finished webgazer calibration")
-        console.log("starting webgazer data collection")
+        webgazer.end(); // TODO: check if we need this
+        console.log("finished webgazer calibration");
+        console.log("starting webgazer data collection");
 
         webgazer
           .showVideo(false)
           .setGazeListener((data: any) => {
             if (data && data.x !== null && data.y !== null) {
               const currentUnixTime = Math.floor(new Date().getTime() / 1000);
-              const viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-              const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+              const viewportWidth =
+                window.innerWidth ||
+                document.documentElement.clientWidth ||
+                document.body.clientWidth;
+              const viewportHeight =
+                window.innerHeight ||
+                document.documentElement.clientHeight ||
+                document.body.clientHeight;
               const gazeData: GazeData = {
                 xid: xid,
                 timestamp: currentUnixTime,
@@ -92,8 +99,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
     }
   }, [calibrated, status, webgazer]);
 
-  return <div style={{ display: 'none' }}>
-  </div>;
+  return <div style={{ display: "none" }}></div>;
 };
 
 export default EyeTracking;

@@ -27,9 +27,7 @@ const GAP: React.FC<GAPProps> = ({
         <div className={styles.outer_left_empty}></div>
         <div className={styles.ylabels}>
           <EmptyTileY />
-          <div
-            className={styles.ylabels_inner}
-          >
+          <div className={styles.ylabels_inner}>
             {tasks.map((size, idx) => {
               const assigned =
                 assignments.filter((innerArray) => innerArray[0] === idx)
@@ -50,9 +48,7 @@ const GAP: React.FC<GAPProps> = ({
       <div className={styles.outer_right}>
         <div className={styles.xlabels}>
           <EmptyTileXLeft />
-          <div
-            className={styles.xlabels_inner}
-          >
+          <div className={styles.xlabels_inner}>
             {workers.map((size, i) => {
               const activeTasks = assignments
                 .filter((innerArray) => innerArray[1] === i)
@@ -75,9 +71,7 @@ const GAP: React.FC<GAPProps> = ({
           />
         </div>
         <div className={styles.inner}>
-          <div
-            className={styles.inner_left}
-          >
+          <div className={styles.inner_left}>
             <EmptyTile />
             {tasks.map((size, idx) => {
               const assigned =
@@ -94,9 +88,7 @@ const GAP: React.FC<GAPProps> = ({
             })}
           </div>
           <div className={styles.inner_middle}>
-            <div
-              className={styles.tile_row_workers}
-            >
+            <div className={styles.tile_row_workers}>
               {workers.map((size, i) => {
                 const activeTasks = assignments
                   .filter((innerArray) => innerArray[1] === i)
@@ -113,10 +105,7 @@ const GAP: React.FC<GAPProps> = ({
             </div>
             <div className={styles.tile_container}>
               {tasks.map((_, i) => (
-                <div
-                  key={i}
-                  className={styles.tile_row}
-                >
+                <div key={i} className={styles.tile_row}>
                   {workers.map((_, j) => {
                     let active = false;
                     if (

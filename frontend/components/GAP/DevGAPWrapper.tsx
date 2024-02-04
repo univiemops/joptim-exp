@@ -2,8 +2,17 @@ import { useState } from "react";
 import GAP from "./GAP";
 
 const DevGAPWrapper = () => {
-  const [assignments, setAssignments] = useState<Array<[number, number]>>([[0, 0], [2, 1], [3, 2], [5, 0], [4, 3], [7, 0]]);
-  const [tasks, _setTasks] = useState<Array<number>>([80, 75, 70, 40, 30, 15, 20, 5]);
+  const [assignments, setAssignments] = useState<Array<[number, number]>>([
+    [0, 0],
+    [2, 1],
+    [3, 2],
+    [5, 0],
+    [4, 3],
+    [7, 0],
+  ]);
+  const [tasks, _setTasks] = useState<Array<number>>([
+    80, 75, 70, 40, 30, 15, 20, 5,
+  ]);
   const [workers, _setWorkers] = useState<Array<number>>([100, 70, 40, 30, 10]);
 
   if (typeof document !== "undefined") {
@@ -17,11 +26,11 @@ const DevGAPWrapper = () => {
   }
   const handleTileClick = (
     e: React.MouseEvent<HTMLDivElement>,
-    coordinates: [number, number]
+    coordinates: [number, number],
   ) => {
     let newAssignments = [...assignments];
     let index = newAssignments.findIndex(
-      (a) => a[0] === coordinates[0] && a[1] === coordinates[1]
+      (a) => a[0] === coordinates[0] && a[1] === coordinates[1],
     );
     if (index === -1) {
       let indexOther = newAssignments.findIndex((a) => a[0] === coordinates[0]);
@@ -62,4 +71,4 @@ const DevGAPWrapper = () => {
   );
 };
 
-export default DevGAPWrapper; 
+export default DevGAPWrapper;
