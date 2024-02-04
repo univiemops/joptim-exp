@@ -1,5 +1,6 @@
 import React from "react";
 import { TextField } from "@mui/material";
+import Head from 'next/head'
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
@@ -63,6 +64,9 @@ const ReplayPage = () => {
 
   return (
     <div style={{ display: "block", textAlign: "left" }}>
+      <Head>
+        <title>Replay</title>
+      </Head>
       <TextField
         size="small"
         placeholder="Enter XID or PID"
