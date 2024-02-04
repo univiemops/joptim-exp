@@ -3,6 +3,7 @@ import { useEffect, useState, useLayoutEffect, useRef } from "react";
 import { getURLParameter } from "../utils/webFunctions";
 import React from "react";
 import { Button } from "@mui/material";
+import Head from 'next/head'
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
@@ -69,6 +70,9 @@ export default function Home() {
 
   return (
     <div className="App">
+      <Head>
+        <title>Online experiment</title>
+      </Head>
       <h2>Behavioral experiment</h2>
       <Button
         size="large"

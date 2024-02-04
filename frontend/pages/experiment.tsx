@@ -19,6 +19,7 @@ import {
 } from "../utils/submitFunctions";
 import EyeTracking from "../eyetracking/EyeTracking"; // remove this if you do not need eyetracking
 import Calibration from "../eyetracking/Calibration"; // remove this if you do not need eyetracking
+import Head from 'next/head'
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
@@ -343,6 +344,9 @@ const Experiment: React.FC = () => {
   }, [isTrialCompleted2]);
   return (
     <div className="App">
+      <Head>
+        <title>Online experiment</title>
+      </Head>
       {instructed && typeof XID === "string" ? (
         <EyeTracking xid={XID} calibrated={calibrated} />
       ) : null}{" "}
