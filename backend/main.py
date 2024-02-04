@@ -350,11 +350,24 @@ async def create_events(event_data: Dict):
         await database.execute(query)
 
 
-@app.get("/rrweb/{xid}")
-async def get_events(xid: str) -> list:
+@app.get("/rrweb/{id}")
+async def get_events(id: str) -> list:
     """Get the events of a user."""
-    query = rrweb.select().where(rrweb.c.xid == xid)
+    query = rrweb.select().where(rrweb.c.xid == id)
     response = await database.fetch_all(query)
+    if len(response) == 0:
+        query_pid = user.select().where(user.c.pid == id)
+        response_pid = await database.fetch_one(query_pid)
+        if response_pid is None:
+            return []
+        try:
+            id = response_pid.xid
+            query = rrweb.select().where(rrweb.c.xid == id)
+            response = await database.fetch_all(query)
+        except Exception as e:
+            print(e)
+            print("events set to []")
+            return []
     events = [e["event"] for e in response]
     return events
 

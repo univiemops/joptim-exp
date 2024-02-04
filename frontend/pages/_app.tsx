@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const save = async () => {
     const XID = XIDRef.current;
     const body = JSON.stringify({ XID, events });
-    if (events.length > 0) {
+    if (events.length > 0 && XID !== "") {
       try {
         const res = await fetch(`${OPTIONAL_SUBURI}/rrweb/`, {
           method: "POST",

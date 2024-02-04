@@ -4,7 +4,6 @@ import { TextField } from "@mui/material";
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
 const ReplayPage = () => {
-  const [loading, setLoading] = React.useState(false);
   const [XID, setXID] = React.useState("");
 
   let loadedPlayer = 0;
@@ -19,9 +18,10 @@ const ReplayPage = () => {
   let replayer: any;
 
   React.useEffect(() => {
+    console.log("removing element div.rr-player element")
+    document.querySelectorAll("div.rr-player").forEach(el => el.remove());
     if (window && XID !== "" && replayer === undefined && loadedPlayer === 0) {
       loadedPlayer++;
-      setLoading(true);
       const loadEvents = async () => {
         try {
           const res = await fetch(`${OPTIONAL_SUBURI}/rrweb/${XID}`);
@@ -29,7 +29,6 @@ const ReplayPage = () => {
             throw new Error("Failed to fetch user");
           }
           const events = await res.json();
-          setLoading(false);
           console.log("rrweb: loaded", events.length, "events");
           replayer = new window.rrwebPlayer({
             target: document.getElementById("fixed-player-container"),
@@ -44,7 +43,6 @@ const ReplayPage = () => {
           replayer.play();
         } catch (error) {
           console.error(error);
-          setLoading(false);
         }
       };
       loadEvents();
@@ -54,6 +52,7 @@ const ReplayPage = () => {
         replayer.pause();
         replayer = null;
         const element = document.getElementById("fixed-player-container");
+
         if (element) {
           // Clear the content of the element
           element.innerHTML = "";
@@ -66,7 +65,7 @@ const ReplayPage = () => {
     <div style={{ display: "block", textAlign: "left" }}>
       <TextField
         size="small"
-        placeholder="XID to replay"
+        placeholder="Enter XID or PID"
         variant="outlined"
         defaultValue={""}
         onKeyUp={(e) => handleKeyPress(e)}

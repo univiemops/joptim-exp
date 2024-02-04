@@ -50,7 +50,7 @@ const ReplayPage = () => {
     >
       <TextField
         size="small"
-        placeholder="XID to replay"
+        placeholder="XID or PID to replay"
         variant="outlined"
         defaultValue={""}
         onKeyUp={(e) => handleKeyPress(e)}
