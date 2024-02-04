@@ -344,7 +344,7 @@ async def create_events(event_data: Dict):
     """Store rrweb events."""
     XID = event_data["XID"]
     events = event_data["events"]
-    if len(event_data["events"]) > 0:
+    if (len(event_data["events"]) > 0) & (XID != ""):
         values = [{"xid": XID, "event": event} for event in events]
         query = rrweb.insert().values(values)
         await database.execute(query)
