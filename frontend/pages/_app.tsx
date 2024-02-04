@@ -43,8 +43,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const save = async () => {
     const XID = XIDRef.current
-    console.log("saving rrweb events")
-    console.log("XID in rrweb is", XID)
     const body = JSON.stringify({ XID, events });
     if (events.length > 0) {
       try {
