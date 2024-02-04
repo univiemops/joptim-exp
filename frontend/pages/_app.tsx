@@ -70,10 +70,10 @@ export default function App({ Component, pageProps }: AppProps) {
   // END rrweb: remove if not needed
 
   return <>
-    <Script src="/joptim/rrweb/rrweb.min.js" strategy="beforeInteractive" />
-    <Script src="/joptim/rrweb/player/index.js" strategy="beforeInteractive" />
-    <link rel="stylesheet" href="/joptim/rrweb/rrweb.min.css" />
-    <link rel="stylesheet" href="/joptim/rrweb/player/style.css" />
+    <Script src="/rrweb/rrweb.min.js" strategy="beforeInteractive" />
+    <Script src="/rrweb/player/index.js" strategy="beforeInteractive" />
+    <link rel="stylesheet" href="/rrweb/rrweb.min.css" />
+    <link rel="stylesheet" href="/rrweb/player/style.css" />
     <Component {...pageProps} />
   </>;
 }
