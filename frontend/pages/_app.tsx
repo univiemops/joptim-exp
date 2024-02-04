@@ -36,31 +36,31 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  const save = async () => {
-    const XID = XIDRef.current;
-    const body = JSON.stringify({ XID, events });
-    if (events.length > 0 && XID !== "") {
-      try {
-        const res = await fetch(`${OPTIONAL_SUBURI}/rrweb/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: body,
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to post events");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-      events = [];
-    }
-  };
-
   // save events every 10 seconds and
   React.useEffect(() => {
+    const save = async () => {
+      const XID = XIDRef.current;
+      const body = JSON.stringify({ XID, events });
+      if (events.length > 0 && XID !== "") {
+        try {
+          const res = await fetch(`${OPTIONAL_SUBURI}/rrweb/`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: body,
+          });
+
+          if (!res.ok) {
+            throw new Error("Failed to post events");
+          }
+        } catch (error) {
+          console.error(error);
+        }
+        events = [];
+      }
+    };
+
     const intervalId = setInterval(save, 10 * 1000);
     return () => {
       clearInterval(intervalId);
