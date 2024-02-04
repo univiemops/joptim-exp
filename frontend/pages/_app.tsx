@@ -5,6 +5,7 @@ import type { AppProps } from "next/app";
 import React from "react";
 // import { record } from 'rrweb'; // rrweb stuff, remove if not needed
 import { useRouter } from "next/router";
+import Script from "next/script";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
@@ -68,5 +69,11 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
   // END rrweb: remove if not needed
 
-  return <Component {...pageProps} />;
+  return <>
+    <Script src="/joptim/rrweb/rrweb.min.js" strategy="beforeInteractive" />
+    <Script src="/joptim/rrweb/player/index.js" strategy="beforeInteractive" />
+    <link rel="stylesheet" href="/joptim/rrweb/rrweb.min.css" />
+    <link rel="stylesheet" href="/joptim/rrweb/player/style.css" />
+    <Component {...pageProps} />
+  </>;
 }
