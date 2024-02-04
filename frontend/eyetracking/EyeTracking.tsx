@@ -67,6 +67,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
 
         webgazer
           .showVideo(false)
+          .showPredictionPoints(false)
           .setGazeListener((data: any) => {
             if (data && data.x !== null && data.y !== null) {
               const currentUnixTime = Math.floor(new Date().getTime() / 1000);
