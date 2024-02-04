@@ -3,6 +3,7 @@ interface Window {
   rrwebRecord: any;
   rrwebReplayer: any;
   rrweb: any;
+  rrwebPlayer: any;
 }
 
 interface Webgazer {

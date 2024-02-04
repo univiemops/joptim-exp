@@ -15,6 +15,11 @@ export default function Document() {
       </body>
       <script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.js"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.css" />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/rrweb-player@latest/dist/style.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/rrweb-player@latest/dist/index.js"></script>
       <script>
         var scriptVar = 0
       </script>

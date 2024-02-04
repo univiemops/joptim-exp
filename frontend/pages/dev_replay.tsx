@@ -1,4 +1,3 @@
-// pages/replay.js
 import React from 'react';
 import { TextField } from "@mui/material"
 
@@ -31,7 +30,7 @@ const ReplayPage = () => {
           }
           const events = await res.json();
           setLoading(false);
-          console.log(events)
+          console.log("rrweb: loaded", events.length, "events")
           const replayer = new window.rrweb.Replayer(events
           );
           replayer.play();
