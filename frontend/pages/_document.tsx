@@ -13,16 +13,10 @@ export default function Document() {
         <Main />
         <NextScript />
       </body>
-      <script src="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.js"></script>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/rrweb@latest/dist/rrweb.min.css"
-      />
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/rrweb-player@latest/dist/style.css"
-      />
-      <script src="https://cdn.jsdelivr.net/npm/rrweb-player@latest/dist/index.js"></script>
+      <script src="/joptim/rrweb/rrweb.min.js"></script>
+      <link rel="stylesheet" href="/joptim/rrweb/rrweb.min.css" />
+      <link rel="stylesheet" href="/joptim/rrweb/player/style.css" />
+      <script src="/joptim/rrweb/player/index.js"></script>
       <script>var scriptVar = 0</script>
     </Html>
   );

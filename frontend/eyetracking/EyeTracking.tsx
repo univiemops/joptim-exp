@@ -8,7 +8,7 @@ const WS_URL = `${OPTIONAL_SUBURI.replace(/^https?:\/\//, (match) =>
   match === "http://" ? "ws://" : "wss://",
 )}/ws`; // websocket stuff: remove if not needed
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const webgazerScript = `${basePath}/webgazer.js`;
+const webgazerScript = `${basePath}/webgazer/webgazer.js`;
 
 interface EyeTrackingProps {
   xid: string;
