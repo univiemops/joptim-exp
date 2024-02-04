@@ -108,3 +108,7 @@ Then go to:
 * Finalize experimental design
 * Admin page for downloading the collected data via browser (Authentication required)
 * Alembic reintegration
+
+## ISSUES
+* Firefox: Ad/script blocker seems to interfer with loading rrweb scripts (see https://stackoverflow.com/questions/45879671/only-on-firefox-loading-failed-for-the-script-with-source)
+* Websocket: Not reachable on production server w/ SSL (traefik issue?)
