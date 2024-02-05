@@ -112,4 +112,4 @@ Then go to:
 ## ISSUES
 * Firefox: Ad/script blocker seems to interfer with loading rrweb scripts (see https://stackoverflow.com/questions/45879671/only-on-firefox-loading-failed-for-the-script-with-source)
 * Websocket: Not reachable on production server w/ SSL (traefik issue?)
-* rrweb: CSS not rendering correctly in player (https://github.com/rrweb-io/rrweb/issues/1219)
+* rrweb: Some CSS not rendering correctly in player (https://github.com/rrweb-io/rrweb/issues/1219)
