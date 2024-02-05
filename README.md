@@ -110,6 +110,6 @@ Then go to:
 * Alembic reintegration
 
 ## ISSUES
-* Firefox: Ad/script blocker seems to interfer with loading rrweb scripts (see https://stackoverflow.com/questions/45879671/only-on-firefox-loading-failed-for-the-script-with-source)
+* Firefox: Ad/script blocker seems to block loading rrweb scripts (see https://stackoverflow.com/questions/45879671/only-on-firefox-loading-failed-for-the-script-with-source)
 * Websocket: Not reachable on production server w/ SSL (traefik issue?)
 * rrweb: Some CSS not rendering correctly in player (https://github.com/rrweb-io/rrweb/issues/1219)
