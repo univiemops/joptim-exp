@@ -64,7 +64,7 @@ export default function App({ Component, pageProps }: AppProps) {
       }
     };
 
-    const intervalId = setInterval(save, 10 * 1000);
+    const intervalId = setInterval(save, 5 * 1000);
     return () => {
       clearInterval(intervalId);
     };

@@ -369,7 +369,11 @@ async def get_events(id: str) -> list:
             print("events set to []")
             return []
     events = [e["event"] for e in response]
-    return events
+    # sort events by timestamp (as they are not always stored in order)
+    timestamps = [e['timestamp'] for e in events]
+    idx = np.argsort(timestamps)
+    events_sorted = list(np.array(events)[idx])
+    return events_sorted
 
 
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
