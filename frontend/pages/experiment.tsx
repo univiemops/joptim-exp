@@ -93,7 +93,7 @@ const Experiment: React.FC = () => {
             tasks,
             workers,
             assignments,
-            reactionTime,
+            reactionTime, // TODO: use start and end time and compute RT in data analysis
           );
           setLoading(true);
           setTrialCompleted1(true);
@@ -126,7 +126,7 @@ const Experiment: React.FC = () => {
             workers,
             assignmentsOptimal,
             assignmentsOptimal2,
-            reactionTime,
+            reactionTime, // TODO: use start and end time and compute RT in data analysis
             choice,
           );
           setLoading(true);
@@ -275,7 +275,7 @@ const Experiment: React.FC = () => {
 
   // runs when Trial in part 1 is completed
   useEffect(() => {
-    if (isTrialCompleted1 === false) {
+    if (isTrialCompleted1 === false && trial <= nTrialsIntro) {
       const fetchGame = () => {
         fetch(`${OPTIONAL_SUBURI}/game/`)
           .then((response) => response.json())
@@ -295,6 +295,7 @@ const Experiment: React.FC = () => {
               `--cols`,
               `${json["agents"].length}`,
             );
+            console.log("new tasks:", json["tasks"])
           })
           .catch((error) => {
             console.error(error);
@@ -310,7 +311,7 @@ const Experiment: React.FC = () => {
 
   // runs when Trial in part 2 is completed
   useEffect(() => {
-    if (isTrialCompleted2 === false) {
+    if (isTrialCompleted2 === false && trial2 <= nTrialsMain) {
       const fetchGame = () => {
         fetch(`${OPTIONAL_SUBURI}/game/`)
           .then((response) => response.json())
@@ -330,6 +331,7 @@ const Experiment: React.FC = () => {
               `--cols`,
               `${json["agents"].length}`,
             );
+            console.log("new tasks:", json["tasks"])
           })
           .catch((error) => {
             console.error(error);
@@ -347,7 +349,7 @@ const Experiment: React.FC = () => {
       <Head>
         <title>Online experiment</title>
       </Head>
-      {instructed && typeof XID === "string" ? (
+      {instructed && typeof XID === "string" ? ( // remove this parenthesis if you do not need eyetracking
         <EyeTracking xid={XID} calibrated={calibrated} />
       ) : null}{" "}
       {/* remove this if you do not need eyetracking */}

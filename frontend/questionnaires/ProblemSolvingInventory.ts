@@ -223,7 +223,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "23",
       type: "likert",
       title: "",
-      text: "Given enough time and effort, I believe I can solVe most problems that confront me.",
+      text: "Given enough time and effort, I believe I can solve most problems that confront me.",
       options: {
         length: 6,
         leftLabel: "strongly agree",
