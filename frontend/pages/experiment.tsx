@@ -95,6 +95,7 @@ const Experiment: React.FC = () => {
             assignments,
             reactionTime,
           );
+          setLoading(true);
           setTrialCompleted1(true);
         } else {
           console.error(
@@ -128,6 +129,7 @@ const Experiment: React.FC = () => {
             reactionTime,
             choice,
           );
+          setLoading(true);
           setTrialCompleted2(true);
         } else {
           console.error(
@@ -275,7 +277,6 @@ const Experiment: React.FC = () => {
   useEffect(() => {
     if (isTrialCompleted1 === false) {
       const fetchGame = () => {
-        setLoading(true);
         fetch(`${OPTIONAL_SUBURI}/game/`)
           .then((response) => response.json())
           .then((json) => {
@@ -311,7 +312,6 @@ const Experiment: React.FC = () => {
   useEffect(() => {
     if (isTrialCompleted2 === false) {
       const fetchGame = () => {
-        setLoading(true);
         fetch(`${OPTIONAL_SUBURI}/game/`)
           .then((response) => response.json())
           .then((json) => {
@@ -369,7 +369,7 @@ const Experiment: React.FC = () => {
                     onContinue={handleContinue2}
                   />
                 ) : loading ? (
-                  <div></div>
+                  null
                 ) : (
                   <StimulusPage2
                     trial={trial2}
@@ -384,22 +384,18 @@ const Experiment: React.FC = () => {
                   />
                 )
               ) : isTrialCompleted1 ? (
-                loading ? (
-                  <div></div>
-                ) : (
-                  <ConfirmationPage
-                    trial={trial}
-                    utility={getUtility(tasks, assignments)}
-                    optimal_utility={utility}
-                    assignments={assignments}
-                    assignmentsOptimal={assignmentsOptimal}
-                    tasks={tasks}
-                    workers={workers}
-                    onContinue={handleContinue1}
-                  />
-                )
+                <ConfirmationPage
+                  trial={trial}
+                  utility={getUtility(tasks, assignments)}
+                  optimal_utility={utility}
+                  assignments={assignments}
+                  assignmentsOptimal={assignmentsOptimal}
+                  tasks={tasks}
+                  workers={workers}
+                  onContinue={handleContinue1}
+                />
               ) : loading ? (
-                <div></div>
+                null
               ) : (
                 <StimulusPage
                   trial={trial}
