@@ -107,14 +107,14 @@ div {
     bottom: 0;
     right: 0;
     margin: auto;
-    width: 50px;
-    height: 50px;
-    border: 10px solid #f3f3f3;
+    width: 100px;
+    height: 100px;
+    border: 15px solid #f3f3f3;
     /* Light grey */
-    border-top: 10px solid gray;
+    border-top: 15px solid gray;
     /* Black */
     border-radius: 50%;
-    animation: spinner 1s linear infinite;
+    animation: spinner 1.0s linear infinite;
 }
 
 code {

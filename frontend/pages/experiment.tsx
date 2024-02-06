@@ -371,7 +371,7 @@ const Experiment: React.FC = () => {
                     onContinue={handleContinue2}
                   />
                 ) : loading ? (
-                  null
+                  <div className="loading-spinner"></div>
                 ) : (
                   <StimulusPage2
                     trial={trial2}
@@ -397,7 +397,7 @@ const Experiment: React.FC = () => {
                   onContinue={handleContinue1}
                 />
               ) : loading ? (
-                null
+                <div className="loading-spinner"></div>
               ) : (
                 <StimulusPage
                   trial={trial}
