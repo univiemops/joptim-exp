@@ -304,8 +304,8 @@ const Experiment: React.FC = () => {
             );
           });
       };
-      startTime = performance.now();
       fetchGame();
+      startTime = performance.now();
     }
   }, [isTrialCompleted1]);
 
@@ -340,8 +340,8 @@ const Experiment: React.FC = () => {
             );
           });
       };
-      startTime = performance.now();
       fetchGame();
+      startTime = performance.now();
     }
   }, [isTrialCompleted2]);
   return (
