@@ -57,6 +57,18 @@ const Experiment: React.FC = () => {
     Array<[number, number]>
   >([]);
   const [utility, setUtility] = useState<number>(0);
+  const [prevTasks, setPrevTasks] = useState<Array<number>>([]);
+  const [prevWorkers, setPrevWorkers] = useState<Array<number>>([]);
+  const [prevAssignments, setPrevAssignments] = useState<
+    Array<[number, number]>
+  >([]);
+  const [prevAssignmentsOptimal, setPrevAssignmentsOptimal] = useState<
+    Array<[number, number]>
+  >([]);
+  const [prevAssignmentsOptimal2, setPrevAssignmentsOptimal2] = useState<
+    Array<[number, number]>
+  >([]);
+  const [prevUtility, setPrevUtility] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [trial, setTrial] = useState<number>(0);
   const [isTrialCompleted1, setTrialCompleted1] = useState<boolean>(true);
@@ -80,6 +92,37 @@ const Experiment: React.FC = () => {
     }
   };
 
+  const fetchGame = () => {
+    fetch(`${OPTIONAL_SUBURI}/game/`)
+      .then((response) => response.json())
+      .then((json) => {
+        setTasks(json["tasks"]);
+        setWorkers(json["agents"]);
+        setUtility(json["utility"]);
+        setAssignmentsOptimal(json["assignments_optimal_1"]);
+        setAssignmentsOptimal2(json["assignments_optimal_2"]);
+        setAssignments([]);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert(
+          "Oops! Unable to connect to the server. Please try again later.",
+        );
+      });
+  };
+
+  const setCSSvar = () => {
+    document.documentElement.style.setProperty(
+      `--rows`,
+      `${tasks.length}`,
+    );
+    document.documentElement.style.setProperty(
+      `--cols`,
+      `${workers.length}`,
+    );
+  }
+
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
       const endTime: number = performance.now();
@@ -96,6 +139,13 @@ const Experiment: React.FC = () => {
             reactionTime, // TODO: use start and end time and compute RT in data analysis
           );
           setLoading(true);
+          setPrevAssignments(assignments);
+          setTrialCompleted1(true);
+          if (trial < nTrialsIntro) {
+            fetchGame();
+            startTime = performance.now();
+            console.log("fetched game for part 1");
+          }
           setTrialCompleted1(true);
         } else {
           console.error(
@@ -107,8 +157,6 @@ const Experiment: React.FC = () => {
           "Variable reactionTime is not a valid number. Trial not submitted.",
         );
       }
-
-      startTime = null;
     }
   };
 
@@ -131,6 +179,11 @@ const Experiment: React.FC = () => {
           );
           setLoading(true);
           setTrialCompleted2(true);
+          if (trial2 < nTrialsMain) {
+            fetchGame();
+            startTime = performance.now();
+            console.log("fetched game for part 2");
+          }
         } else {
           console.error(
             "Variable xid is not a valid string. Trial not submitted.",
@@ -141,8 +194,6 @@ const Experiment: React.FC = () => {
           "Variable reactionTime is not a valid number. Trial not submitted.",
         );
       }
-
-      startTime = null;
     }
   };
 
@@ -273,77 +324,47 @@ const Experiment: React.FC = () => {
     }
   }, [XID]);
 
+  // runs on every trial change
+  useEffect(() => {
+    setCSSvar();
+  }, [isTrialCompleted1, isTrialCompleted2])
+
   // runs when Trial in part 1 is completed
   useEffect(() => {
     if (isTrialCompleted1 === false && trial <= nTrialsIntro) {
-      const fetchGame = () => {
-        fetch(`${OPTIONAL_SUBURI}/game/`)
-          .then((response) => response.json())
-          .then((json) => {
-            setTasks(json["tasks"]);
-            setWorkers(json["agents"]);
-            setUtility(json["utility"]);
-            setAssignmentsOptimal(json["assignments_optimal_1"]);
-            setAssignmentsOptimal2(json["assignments_optimal_2"]);
-            setAssignments([]);
-            setLoading(false);
-            document.documentElement.style.setProperty(
-              `--rows`,
-              `${json["tasks"].length}`,
-            );
-            document.documentElement.style.setProperty(
-              `--cols`,
-              `${json["agents"].length}`,
-            );
-            console.log("new tasks:", json["tasks"])
-          })
-          .catch((error) => {
-            console.error(error);
-            alert(
-              "Oops! Unable to connect to the server. Please try again later.",
-            );
-          });
-      };
-      fetchGame();
-      startTime = performance.now();
+      setPrevTasks(tasks);
+      setPrevWorkers(workers);
+      setPrevUtility(utility);
+      setPrevAssignmentsOptimal(assignmentsOptimal);
+      setPrevAssignmentsOptimal2(assignmentsOptimal2);
     }
   }, [isTrialCompleted1]);
 
-  // runs when Trial in part 2 is completed
+  // runs once to set the inital values
+  // part 1
+  let ranEffect = 0
   useEffect(() => {
-    if (isTrialCompleted2 === false && trial2 <= nTrialsMain) {
-      const fetchGame = () => {
-        fetch(`${OPTIONAL_SUBURI}/game/`)
-          .then((response) => response.json())
-          .then((json) => {
-            setTasks(json["tasks"]);
-            setWorkers(json["agents"]);
-            setUtility(json["utility"]);
-            setAssignmentsOptimal(json["assignments_optimal_1"]);
-            setAssignmentsOptimal2(json["assignments_optimal_2"]);
-            setAssignments([]);
-            setLoading(false);
-            document.documentElement.style.setProperty(
-              `--rows`,
-              `${json["tasks"].length}`,
-            );
-            document.documentElement.style.setProperty(
-              `--cols`,
-              `${json["agents"].length}`,
-            );
-            console.log("new tasks:", json["tasks"])
-          })
-          .catch((error) => {
-            console.error(error);
-            alert(
-              "Oops! Unable to connect to the server. Please try again later.",
-            );
-          });
-      };
+    if (ranEffect === 0) {
       fetchGame();
       startTime = performance.now();
+      console.log("fetched inital game (part 1).")
+      ranEffect = 1
     }
-  }, [isTrialCompleted2]);
+  }, [])
+
+
+  // runs once to set the inital values
+  // part 2
+  let ranEffect2 = 0
+  useEffect(() => {
+    if (ranEffect2 === 0 && userData["completed_1"]) {
+      fetchGame();
+      startTime = performance.now();
+      console.log("fetched inital game (part2).")
+      ranEffect2 = 1
+    }
+  }, [isTrialCompleted1])
+
   return (
     <div className="App">
       <Head>
@@ -388,12 +409,12 @@ const Experiment: React.FC = () => {
               ) : isTrialCompleted1 ? (
                 <ConfirmationPage
                   trial={trial}
-                  utility={getUtility(tasks, assignments)}
-                  optimal_utility={utility}
-                  assignments={assignments}
-                  assignmentsOptimal={assignmentsOptimal}
-                  tasks={tasks}
-                  workers={workers}
+                  utility={getUtility(prevTasks, prevAssignments)}
+                  optimal_utility={prevUtility}
+                  assignments={prevAssignments}
+                  assignmentsOptimal={prevAssignmentsOptimal}
+                  tasks={prevTasks}
+                  workers={prevWorkers}
                   onContinue={handleContinue1}
                 />
               ) : loading ? (

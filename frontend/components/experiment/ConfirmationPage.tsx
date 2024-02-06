@@ -21,92 +21,92 @@ const ConfirmationPage: React.FC<{
   workers,
   onContinue,
 }) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        maxWidth: "100%",
-      }}
-    >
+    return (
       <div
         style={{
-          color: "black",
-          fontSize: "x-large",
-          //margin: "2rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
           maxWidth: "100%",
         }}
       >
-        {trial === 0 ? (
-          <div>
-            <b>Start!</b>
-          </div>
-        ) : (
-          <>
+        <div
+          style={{
+            color: "black",
+            fontSize: "x-large",
+            //margin: "2rem",
+            maxWidth: "100%",
+          }}
+        >
+          {trial === 0 || tasks.length === 0 ? (
             <div>
-              {optimal_utility > utility ? (
-                <div>
-                  <b>Trial {trial} completed!</b> Your score is <b>{utility}</b>
-                  , the optimal solution is <b>{optimal_utility}</b>.
-                </div>
-              ) : (
-                <div>
-                  <b>Trial completed!</b> You found an{" "}
-                  <span style={{ color: "darkgreen", fontWeight: "bold" }}>
-                    optimal solution
-                  </span>{" "}
-                  (score: {utility}).
-                </div>
-              )}
-              <br />
+              <b>Start!</b>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                maxWidth: "100%",
-              }}
-            >
-              {" "}
-              <GAP
-                tasks={tasks}
-                assignments={assignments}
-                workers={workers}
-                freeze={true}
-                icons={false}
-              />
-              <GAP
-                tasks={tasks}
-                assignments={assignmentsOptimal}
-                workers={workers}
-                freeze={true}
-                icons={false}
-              />
-            </div>
-          </>
-        )}
+          ) : (
+            <>
+              <div>
+                {optimal_utility > utility ? (
+                  <div>
+                    <b>Trial {trial} completed!</b> Your score is <b>{utility}</b>
+                    , the optimal solution is <b>{optimal_utility}</b>.
+                  </div>
+                ) : (
+                  <div>
+                    <b>Trial completed!</b> You found an{" "}
+                    <span style={{ color: "darkgreen", fontWeight: "bold" }}>
+                      optimal solution
+                    </span>{" "}
+                    (score: {utility}).
+                  </div>
+                )}
+                <br />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                  maxWidth: "100%",
+                }}
+              >
+                {" "}
+                <GAP
+                  tasks={tasks}
+                  assignments={assignments}
+                  workers={workers}
+                  freeze={true}
+                  icons={false}
+                />
+                <GAP
+                  tasks={tasks}
+                  assignments={assignmentsOptimal}
+                  workers={workers}
+                  freeze={true}
+                  icons={false}
+                />
+              </div>
+            </>
+          )}
+        </div>
+        <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
+          Click <b>Continue</b> when you are ready to proceed.
+        </span>
+        <Button
+          size="large"
+          variant="contained"
+          style={{
+            fontSize: "x-large",
+            background: "#000000",
+            textTransform: "none",
+            padding: ".3rem 3rem .3rem 3rem",
+          }}
+          onClick={onContinue}
+        >
+          CONTINUE
+        </Button>
       </div>
-      <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
-        Click <b>Continue</b> when you are ready to proceed.
-      </span>
-      <Button
-        size="large"
-        variant="contained"
-        style={{
-          fontSize: "x-large",
-          background: "#000000",
-          textTransform: "none",
-          padding: ".3rem 3rem .3rem 3rem",
-        }}
-        onClick={onContinue}
-      >
-        CONTINUE
-      </Button>
-    </div>
-  );
-};
+    );
+  };
 
 export default ConfirmationPage;
