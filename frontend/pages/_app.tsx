@@ -27,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (window) {
       const stopFn = window.rrweb.record({
         inlineStylesheet: true,
+        checkoutEveryNth: 200,
         emit(event: any) {
           events.push(event);
         },

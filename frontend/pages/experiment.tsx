@@ -370,7 +370,7 @@ const Experiment: React.FC = () => {
       <Head>
         <title>Online experiment</title>
       </Head>
-      {/*{instructed && typeof XID === "string" ? ( // eyetracking
+      {instructed && typeof XID === "string" ? ( // eyetracking
         <EyeTracking xid={XID} calibrated={calibrated} /> // eyetracking
       ) : null}{" "}
       {/* remove this if you do not need eyetracking */}
@@ -379,7 +379,7 @@ const Experiment: React.FC = () => {
       ) : userData["consent"] ? (
         userData["survey"] ? (
           instructed ? (
-            !calibrated ? ( // remove this conditional if you do not need eyetracking
+            calibrated ? ( // remove this conditional if you do not need eyetracking
               userData["completed_1"] ? (
                 userData["completed_2"] ? (
                   <Debrief
