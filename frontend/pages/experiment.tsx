@@ -57,7 +57,7 @@ const Experiment: React.FC = () => {
     Array<[number, number]>
   >([]);
   const [utility, setUtility] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [trial, setTrial] = useState<number>(0);
   const [isTrialCompleted1, setTrialCompleted1] = useState<boolean>(true);
   const [trial2, setTrial2] = useState<number>(0);
