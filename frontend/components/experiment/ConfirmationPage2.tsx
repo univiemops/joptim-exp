@@ -7,6 +7,7 @@ const ConfirmationPage2: React.FC<{
 }> = ({ trial, onContinue }) => {
   return (
     <div
+      id="confirmation-page-2"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -15,6 +16,7 @@ const ConfirmationPage2: React.FC<{
       }}
     >
       <div
+        id="confirmation-page-2-inner"
         style={{
           color: "black",
           fontSize: "x-large",
@@ -23,7 +25,8 @@ const ConfirmationPage2: React.FC<{
         }}
       >
         {trial === 0 ? (
-          <div>
+          <div
+            id="confirmation-page-2-initial">
             <p>
               Now that you have a good understanding of our problem-solving task, let's start with <b>part two</b>!
             </p>
@@ -32,7 +35,7 @@ const ConfirmationPage2: React.FC<{
             </p>
           </div>
         ) : (
-          <div>
+          <div id="confirmation-page-2-ongoing">
             <b>Finished trial {trial}</b>
           </div>
         )}

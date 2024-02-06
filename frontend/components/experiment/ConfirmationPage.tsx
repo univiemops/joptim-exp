@@ -23,6 +23,7 @@ const ConfirmationPage: React.FC<{
 }) => {
     return (
       <div
+        id="confirmation-page-1"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -31,6 +32,7 @@ const ConfirmationPage: React.FC<{
         }}
       >
         <div
+          id="confirmation-page-1-inner"
           style={{
             color: "black",
             fontSize: "x-large",
@@ -39,12 +41,17 @@ const ConfirmationPage: React.FC<{
           }}
         >
           {trial === 0 || tasks.length === 0 ? (
-            <div>
+            <div
+              id="confirmation-page-1-initial"
+            >
               <b>Start!</b>
             </div>
           ) : (
             <>
-              <div>
+              <div
+
+                id="confirmation-page-1-ongoing"
+              >
                 {optimal_utility > utility ? (
                   <div>
                     <b>Trial {trial} completed!</b> Your score is <b>{utility}</b>
