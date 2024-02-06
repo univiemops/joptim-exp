@@ -17,6 +17,7 @@ import numpy as np
 import pickle
 from typing import Dict, Any
 from starlette.websockets import WebSocketDisconnect
+
 # import csv
 import json
 
@@ -370,10 +371,27 @@ async def get_events(id: str) -> list:
             return []
     events = [e["event"] for e in response]
     # sort events by timestamp (as they are not always stored in order)
-    timestamps = [e['timestamp'] for e in events]
+    timestamps = [e["timestamp"] for e in events]
     idx = np.argsort(timestamps)
     events_sorted = list(np.array(events)[idx])
-    return events_sorted
+    events_string = json.dumps(events_sorted)
+    events_string = events_string.replace(
+        'webgazerGazeDot", "style": "display: none',
+        'webgazerGazeDot", "style": "display: block',
+    )
+    events_sorted_eyetracker = json.loads(events_string)
+    return events_sorted_eyetracker
+
+
+# @app.get("/rrweb_delete_all")
+# async def rrewb_delete_all_rows():
+#     """Delete all rows in the rrweb table."""
+#     try:
+#         query = rrweb.delete()
+#         await database.execute(query)
+#         return {"message": "All rows deleted successfully"}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
@@ -413,10 +431,7 @@ async def websocket_endpoint(websocket: WebSocket):
 
                 # for DB: comment out if not needed
                 query = eyetracking.insert().values(
-                    xid=d['xid'],
-                    x=d['x'],
-                    y=d['y'],
-                    viewport=d['viewport']
+                    xid=d["xid"], x=d["x"], y=d["y"], viewport=d["viewport"]
                 )
                 await database.execute(query)
 
