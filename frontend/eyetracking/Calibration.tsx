@@ -105,6 +105,7 @@ const Calibration: React.FC<CalibrationProps> = ({
     canvas.style.position = "fixed";
   };
 
+
   React.useEffect(() => {
     setupCanvas();
   }, []);

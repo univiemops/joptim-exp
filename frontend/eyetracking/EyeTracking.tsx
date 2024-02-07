@@ -13,9 +13,10 @@ const webgazerScript = `${basePath}/webgazer/webgazer.js`;
 interface EyeTrackingProps {
   xid: string;
   calibrated: boolean;
+  onFail?: () => void
 }
 
-const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
+const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) => {
   const [webgazer, setWebgazer] = React.useState<Webgazer | undefined>();
   const status = useScript(webgazerScript, {
     removeOnUnmount: false,
@@ -60,10 +61,10 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
           .setRegression("weightedRidge")
           .showFaceOverlay(false)
           .saveDataAcrossSessions(false) // TODO: check what "session" means.
-          .begin();
+          .begin(onFail);
       }
       if (webgazer && calibrated) {
-        webgazer.end(); // TODO: check if we need this
+        webgazer.end(); // TODO: check if we need this, frees memory, so calibration is lost? use pause()/resume() instead?
         console.log("finished webgazer calibration");
         console.log("starting webgazer data collection");
 
@@ -91,7 +92,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated }) => {
               // sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
             }
           })
-          .begin();
+          .begin(onFail);
 
         return () => {
           if (webgazer) {

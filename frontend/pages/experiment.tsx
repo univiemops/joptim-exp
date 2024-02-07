@@ -80,6 +80,7 @@ const Experiment: React.FC = () => {
   const [choice, setChoice] = React.useState<number>(0);
   const [instructed, setInstructed] = React.useState<boolean>(false);
   // remove this block if you do not need eyetracking
+  const [webcamAvailable, setWebcamAvailable] = React.useState<boolean>(true);
   const [calibrated, setCalibrated] = React.useState<boolean>(false);
   const [accuracy, setAccuracy] = React.useState<number | null>(null);
   const handleCalibrated = () => {
@@ -365,18 +366,24 @@ const Experiment: React.FC = () => {
     }
   }, [isTrialCompleted1])
 
+  // remove this if you do not need eyetracking 
+  const handleFail = () => {
+    console.log("No webcam!")
+    setWebcamAvailable(false)
+  } // TODO: needs a better solution that permanently check webcam access.
+
   return (
     <div className="App">
       <Head>
         <title>Online experiment</title>
       </Head>
       {instructed && typeof XID === "string" ? ( // eyetracking
-        <EyeTracking xid={XID} calibrated={calibrated} /> // eyetracking
+        <EyeTracking xid={XID} calibrated={calibrated} onFail={handleFail} /> // eyetracking
       ) : null}{" "}
       {/* remove this if you do not need eyetracking */}
       {userData["xid"] === "" ? (
         <div></div>
-      ) : userData["consent"] ? (
+      ) : !webcamAvailable ? <div>No webcam.</div> : ["consent"] ? (
         userData["survey"] ? (
           instructed ? (
             calibrated ? ( // remove this conditional if you do not need eyetracking
