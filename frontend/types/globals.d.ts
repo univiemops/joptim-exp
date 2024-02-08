@@ -12,7 +12,7 @@ interface Webgazer {
   };
   clearData(): void;
   end(): void;
-  begin(): void;
+  begin(onFail?: () => void): void;
   setRegression(regression: string): Webgazer;
   setTracker(regression: string): Webgazer;
   showVideoPreview(value: boolean): Webgazer;
