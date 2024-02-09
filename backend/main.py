@@ -17,6 +17,7 @@ import numpy as np
 import pickle
 from typing import Dict, Any
 from starlette.websockets import WebSocketDisconnect
+import re
 
 # import csv
 import json
@@ -341,21 +342,27 @@ async def create_note(note: schemas.NoteIn):
 
 
 @app.post("/rrweb/")
-async def create_events(event_data: Dict):
+async def create_events_txt(event_data: Dict):
     """Store rrweb events."""
     XID = event_data["XID"]
     events = event_data["events"]
     if (len(event_data["events"]) > 0) & (XID != ""):
         values = [{"xid": XID, "event": event} for event in events]
-        query = rrweb.insert().values(values)
-        await database.execute(query)
+        os.makedirs("./rrweb_data", exist_ok=True)
+        with open(f"./rrweb_data/{XID}.txt", "a", newline="") as fd:
+            for value in values:
+                fd.write(json.dumps(value) + "\n")
 
 
 @app.get("/rrweb/{id}")
-async def get_events(id: str) -> list:
+async def get_events_text(id: str) -> list:
     """Get the events of a user."""
-    query = rrweb.select().where(rrweb.c.xid == id)
-    response = await database.fetch_all(query)
+    try:
+        with open(f"./rrweb_data/{id}.txt", "r") as fd:
+            response = fd.readlines()
+    except Exception as e:
+        print(e)
+        response = []
     if len(response) == 0:
         query_pid = user.select().where(user.c.pid == id)
         response_pid = await database.fetch_one(query_pid)
@@ -363,12 +370,15 @@ async def get_events(id: str) -> list:
             return []
         try:
             id = response_pid.xid
-            query = rrweb.select().where(rrweb.c.xid == id)
-            response = await database.fetch_all(query)
+            with open(f"./rrweb_data/{id}.txt", "r") as fd:
+                response = fd.readlines()
         except Exception as e:
             print(e)
             print("events set to []")
             return []
+    response = [json.loads(re.sub("\\n$", "", r)) for r in response]
+    response = json.dumps(response)
+    response = json.loads(response)
     events = [e["event"] for e in response]
     # sort events by timestamp (as they are not always stored in order)
     timestamps = [e["timestamp"] for e in events]
@@ -382,6 +392,50 @@ async def get_events(id: str) -> list:
     events_sorted_eyetracker = json.loads(events_string)
     return events_sorted_eyetracker
 
+
+# FOR USE WITH DATABASE
+
+# @app.post("/rrweb/")
+# async def create_events(event_data: Dict):
+#     """Store rrweb events."""
+#     XID = event_data["XID"]
+#     events = event_data["events"]
+#     if (len(event_data["events"]) > 0) & (XID != ""):
+#         values = [{"xid": XID, "event": event} for event in events]
+#         query = rrweb.insert().values(values)
+#         await database.execute(query)
+
+
+# @app.get("/rrweb/{id}")
+# async def get_events(id: str) -> list:
+#     """Get the events of a user."""
+#     query = rrweb.select().where(rrweb.c.xid == id)
+#     response = await database.fetch_all(query)
+#     if len(response) == 0:
+#         query_pid = user.select().where(user.c.pid == id)
+#         response_pid = await database.fetch_one(query_pid)
+#         if response_pid is None:
+#             return []
+#         try:
+#             id = response_pid.xid
+#             query = rrweb.select().where(rrweb.c.xid == id)
+#             response = await database.fetch_all(query)
+#         except Exception as e:
+#             print(e)
+#             print("events set to []")
+#             return []
+#     events = [e["event"] for e in response]
+#     # sort events by timestamp (as they are not always stored in order)
+#     timestamps = [e["timestamp"] for e in events]
+#     idx = np.argsort(timestamps)
+#     events_sorted = list(np.array(events)[idx])
+#     events_string = json.dumps(events_sorted)
+#     events_string = events_string.replace(
+#         'webgazerGazeDot", "style": "display: none',
+#         'webgazerGazeDot", "style": "display: block',
+#     )
+#     events_sorted_eyetracker = json.loads(events_string)
+#     return events_sorted_eyetracker
 
 # @app.get("/rrweb_delete_all")
 # async def rrewb_delete_all_rows():
@@ -397,7 +451,7 @@ async def get_events(id: str) -> list:
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
 
 
-@app.websocket("/ws")
+@app.websocket("/eyetracking")
 async def websocket_endpoint(websocket: WebSocket):
     """Store real-time eyetracking data in CSV files."""
     try:
