@@ -68,6 +68,7 @@ async def rrweb_endpoint(websocket: WebSocket):
         while True:
             try:
                 data = await websocket.receive_text()
+                logger.info(data)
                 with open('document.txt', 'a', newline='') as fd:
                     fd.write(data + "\n")
                     # fd.write(json.dumps(data) + "\n")
