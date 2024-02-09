@@ -3,7 +3,7 @@ import { useScript } from "./useScript";
 import { GazeData } from "./types";
 
 const OPTIONAL_SUBURI: string =
-  process.env.NEXT_PUBLIC_API_WS_URL?.toString() ?? "no-valid-url";
+  process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const webgazerScript = `${basePath}/webgazer/webgazer.js`;
 
