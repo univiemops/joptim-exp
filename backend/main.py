@@ -18,9 +18,36 @@ import pickle
 from typing import Dict, Any
 from starlette.websockets import WebSocketDisconnect
 import re
-
-# import csv
+import csv
 import json
+import logging
+
+
+##############
+# LOGGING    #
+##############
+
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# Create a file handler and set its level to DEBUG
+file_handler = logging.FileHandler(filename='server.log')
+file_handler.setLevel(logging.DEBUG)
+
+# Create a stream handler and set its level to INFO
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.INFO)
+
+# Create a formatter and add it to the handlers
+formatter = logging.Formatter('%(levelname)s:    %(message)s')
+formatter_file = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter_file)
+stream_handler.setFormatter(formatter)
+
+# Add the handlers to the logger
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
 
 
 ########
@@ -450,9 +477,8 @@ async def get_events_text(id: str) -> list:
 
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
 
-
 @app.websocket("/eyetracking")
-async def websocket_endpoint(websocket: WebSocket):
+async def eyetracking_endpoint(websocket: WebSocket):
     """Store real-time eyetracking data in CSV files."""
     try:
         await websocket.accept()
@@ -460,44 +486,63 @@ async def websocket_endpoint(websocket: WebSocket):
             try:
                 data = await websocket.receive_text()
                 d = json.loads(data)
+                # Extracting the keys and values from the dictionary
+                keys = list(d.keys())
+                values = list(d.values())
+                os.makedirs("eyetracking_data", exists=True)
+                # Checking if the CSV file already exists
+                csv_filename = f"eyetracking_data/{d['xid']}.csv"
+                try:
+                    with open(csv_filename, 'x', newline='') as csv_file:
+                        # Writing header with keys as column names
+                        writer = csv.writer(csv_file)
+                        writer.writerow(keys)
+                except FileExistsError:
+                    # File already exists, header is not needed
+                    pass
 
-                # for CSV:
-                # # Extracting the keys and values from the dictionary
-                # keys = list(d.keys())
-                # values = list(d.values())
-
-                # # Checking if the CSV file already exists
-                # csv_filename = f"eyetracking_data_{d['xid']}.csv"
-
-                # try:
-                #     with open(csv_filename, 'x', newline='') as csv_file:
-                #         # Writing header with keys as column names
-                #         writer = csv.writer(csv_file)
-                #         writer.writerow(keys)
-                # except FileExistsError:
-                #     # File already exists, header is not needed
-                #     pass
-
-                # # Appending the values to the CSV file
-                # with open(csv_filename, mode='a', newline='') as csv_file:
-                #     writer = csv.writer(csv_file)
-                #     writer.writerow(values)
+                # Appending the values to the CSV file
+                with open(csv_filename, mode='a', newline='') as csv_file:
+                    writer = csv.writer(csv_file)
+                    writer.writerow(values)
 
                 # for DB: comment out if not needed
-                query = eyetracking.insert().values(
-                    xid=d["xid"], x=d["x"], y=d["y"], viewport=d["viewport"]
-                )
-                await database.execute(query)
-
+                # query = eyetracking.insert().values(
+                #    xid=d["xid"], x=d["x"], y=d["y"], viewport=d["viewport"]
+                # )
+                # await database.execute(query)
+                    
             except Exception as e:
-                print(f"WebSocket error: {str(e)}")
+                logger.error(f"WebSocket error: {str(e)}")
                 break
     except WebSocketDisconnect as e:
-        print(f"WebSocket connection closed: {e.code}")
+        logger.info(f"WebSocket connection closed: {e.code}")
     finally:
         # Any cleanup code (optional)
         pass
 
+
+@app.websocket("/ws-test")
+async def rrweb_endpoint(websocket: WebSocket):
+    """Test storage of real-time data in CSV files."""
+    try:
+        await websocket.accept()
+        while True:
+            try:
+                data = await websocket.receive_text()
+                logger.info(data)
+                with open('websocket_test.txt', 'a', newline='') as fd:
+                    fd.write(data + "\n")
+                    # fd.write(json.dumps(data) + "\n")
+            except Exception as e:
+                logger.error(f"WebSocket error: {str(e)}")
+                break
+    except WebSocketDisconnect as e:
+        logger.info(f"WebSocket connection closed: {e.code}")
+    finally:
+        # Any cleanup code (optional)
+        pass
+    
 
 # DOWNLOAD CALLS
 

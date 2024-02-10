@@ -37,27 +37,6 @@ services:
     networks:
       - joptim-dev
 
-  backend-ws:
-    build:
-      context: backend-ws
-      dockerfile: backend-ws.dev.Dockerfile
-    image: joptim-backend-ws-dev
-    entrypoint:
-      [
-        "bash",
-        "-c",
-        "uvicorn main:app --proxy-headers --host 0.0.0.0 --env-file env_dev --port 8001 --reload",
-      ]
-    volumes:
-      - ./backend-ws:/app
-    ports:
-      - "8001:8001"
-    restart: always
-    depends_on:
-      - db
-    networks:
-      - joptim-dev
-
   frontend:
     build:
       context: frontend

@@ -29,33 +29,6 @@ services:
       - traefik-network
       - database
 
-  backend-ws:
-    build:
-      context: backend-ws
-      dockerfile: backend-ws.Dockerfile
-    image: joptim-backend-ws
-    restart: always
-    depends_on:
-      - db
-    entrypoint:
-      [
-        "bash",
-        "-c",
-        "uvicorn main:app --proxy-headers --host 0.0.0.0 --env-file .env --port 8001 --root-path /joptim-ws --workers 4",
-      ]
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.joptim-backend-ws.rule=PathPrefix(`/joptim-ws`)"
-      - "traefik.http.services.joptim-backend-ws.loadbalancer.server.port=8001"
-      - "traefik.http.routers.joptim-backend-ws.entrypoints=web,websecure"
-      - "traefik.http.routers.joptim-backend-ws.tls=true"
-      - "traefik.http.middlewares.strip_joptim-ws.stripprefix.prefixes=/joptim-ws"
-      - "traefik.http.routers.joptim-backend-ws.middlewares=strip_joptim-ws@docker"
-      - "traefik.docker.network=traefik-network"
-    networks:
-      - traefik-network
-      - database
-
   frontend:
     build:
       context: frontend
