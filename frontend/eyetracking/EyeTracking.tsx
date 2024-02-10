@@ -89,7 +89,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
           console.log("starting webgazer calibration");
           webgazer
             .setRegression("weightedRidge")
-            .showFaceOverlay(false)
+            .showFaceOverlay(true)
             .saveDataAcrossSessions(false) // TODO: check what "session" means.
             .begin(onFail);
         }
