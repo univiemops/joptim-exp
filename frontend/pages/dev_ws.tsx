@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const OPTIONAL_SUBURI: string =
-  process.env.NEXT_PUBLIC_API_WS_URL?.toString() ?? "no-valid-url";
+  process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
 
 const WebSocketComponent = () => {
   const [socket, setSocket] = useState<any>(null);
