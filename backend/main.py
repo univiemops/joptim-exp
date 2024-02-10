@@ -390,26 +390,10 @@ async def rrweb_endpoint(websocket: WebSocket):
             try:
                 data = await websocket.receive_text()
                 d = json.loads(data)
-                # Extracting the keys and values from the dictionary
-                keys = list(d.keys())
-                values = list(d.values())
                 os.makedirs("rrweb_data_ws", exist_ok=True)
-                # Checking if the CSV file already exists
-                csv_filename = f"rrweb_data_ws/{d['xid']}.csv"
-                try:
-                    with open(csv_filename, 'x', newline='') as csv_file:
-                        # Writing header with keys as column names
-                        writer = csv.writer(csv_file)
-                        writer.writerow(keys)
-                except FileExistsError:
-                    # File already exists, header is not needed
-                    pass
-
-                # Appending the values to the CSV file
-                with open(csv_filename, mode='a', newline='') as csv_file:
-                    writer = csv.writer(csv_file)
-                    writer.writerow(values)
-
+                filename = f"rrweb_data_ws/{d['xid']}.txt"
+                with open(filename, mode='a', newline='') as fo:
+                    fo.write(json.dumps(d) + "\n")
                 # for DB: comment out if not needed
                 # query = rrweb.insert().values(
                 #    xid=d["xid"], event=d["event"]
@@ -429,7 +413,7 @@ async def rrweb_endpoint(websocket: WebSocket):
 async def get_events_text(id: str) -> list:
     """Get the events of a user."""
     try:
-        with open(f"./rrweb_data/{id}.txt", "r") as fd:
+        with open(f"./rrweb_data_ws/{id}.txt", "r") as fd:
             response = fd.readlines()
     except Exception as e:
         print(e)
@@ -441,7 +425,7 @@ async def get_events_text(id: str) -> list:
             return []
         try:
             id = response_pid.xid
-            with open(f"./rrweb_data/{id}.txt", "r") as fd:
+            with open(f"./rrweb_data_ws/{id}.txt", "r") as fd:
                 response = fd.readlines()
         except Exception as e:
             print(e)
