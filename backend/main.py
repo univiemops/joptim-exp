@@ -511,7 +511,6 @@ async def eyetracking_endpoint(websocket: WebSocket):
                 #    xid=d["xid"], x=d["x"], y=d["y"], viewport=d["viewport"]
                 # )
                 # await database.execute(query)
-                    
             except Exception as e:
                 logger.error(f"WebSocket error: {str(e)}")
                 break
@@ -542,7 +541,7 @@ async def rrweb_endpoint(websocket: WebSocket):
     finally:
         # Any cleanup code (optional)
         pass
-    
+
 
 # DOWNLOAD CALLS
 

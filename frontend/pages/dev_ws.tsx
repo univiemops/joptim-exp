@@ -28,7 +28,7 @@ const WebSocketComponent = () => {
         match === "http://" ? "ws://" : "wss://",
       )}`;
       console.log("base_url", base_url)
-      const newSocket = new WebSocket(`${base_url}/rrweb`);
+      const newSocket = new WebSocket(`${base_url}/ws-test`);
       setSocket(newSocket);
 
       return () => {
