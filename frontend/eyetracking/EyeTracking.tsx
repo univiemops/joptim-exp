@@ -84,44 +84,41 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
       if (!webgazer) {
         setWebgazer(window.webgazer);
       }
-      if (webgazer && !calibrated) {
-        console.log("starting webgazer calibration");
-        webgazer
-          .setRegression("weightedRidge")
-          .showFaceOverlay(false)
-          .saveDataAcrossSessions(false) // TODO: check what "session" means.
-          .begin(onFail);
-      }
-      if (webgazer && calibrated) {
-        console.log("finished webgazer calibration");
-        console.log("starting webgazer data collection");
-
-        webgazer
-          .showVideo(false)
-          .showPredictionPoints(false)
-          .setGazeListener((data: any) => {
-            if (data && data.x !== null && data.y !== null) {
-              const currentUnixTime = Math.floor(new Date().getTime() / 1000);
-              const viewportWidth =
-                window.innerWidth ||
-                document.documentElement.clientWidth ||
-                document.body.clientWidth;
-              const viewportHeight =
-                window.innerHeight ||
-                document.documentElement.clientHeight ||
-                document.body.clientHeight;
-              const gazeData: GazeData = {
-                xid: xid,
-                timestamp: currentUnixTime,
-                x: data.x.toFixed(4),
-                y: data.y.toFixed(4),
-                viewport: `${viewportWidth}x${viewportHeight}`,
-              };
-              sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
-            }
-          })
-          .begin(onFail);
-
+      if (webgazer) {
+        if (!calibrated) {
+          console.log("starting webgazer calibration");
+          webgazer
+            .setRegression("weightedRidge")
+            .showFaceOverlay(false)
+            .saveDataAcrossSessions(false) // TODO: check what "session" means.
+            .begin(onFail);
+        }
+        else if (calibrated) {
+          console.log("starting webgazer data collection");
+          webgazer.showVideo(false)
+            .showPredictionPoints(false)
+            .setGazeListener((data: any) => {
+              if (data && data.x !== null && data.y !== null) {
+                const currentUnixTime = Math.floor(new Date().getTime() / 1000);
+                const viewportWidth =
+                  window.innerWidth ||
+                  document.documentElement.clientWidth ||
+                  document.body.clientWidth;
+                const viewportHeight =
+                  window.innerHeight ||
+                  document.documentElement.clientHeight ||
+                  document.body.clientHeight;
+                const gazeData: GazeData = {
+                  xid: xid,
+                  timestamp: currentUnixTime,
+                  x: data.x.toFixed(4),
+                  y: data.y.toFixed(4),
+                  viewport: `${viewportWidth}x${viewportHeight}`,
+                };
+                sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
+              }
+            })
+        }
         return () => {
           if (webgazer) {
             webgazer.end();

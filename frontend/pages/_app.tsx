@@ -73,7 +73,6 @@ export default function App({ Component, pageProps }: AppProps) {
         // checkoutEveryNth: 200,
         emit(event: any) {
           if (socket) {
-            console.log("rrweb sending an event...");
             sendToBackend(event);
           }
         },
