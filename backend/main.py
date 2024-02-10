@@ -489,7 +489,7 @@ async def eyetracking_endpoint(websocket: WebSocket):
                 # Extracting the keys and values from the dictionary
                 keys = list(d.keys())
                 values = list(d.values())
-                os.makedirs("eyetracking_data", exists=True)
+                os.makedirs("eyetracking_data", exist_ok=True)
                 # Checking if the CSV file already exists
                 csv_filename = f"eyetracking_data/{d['xid']}.csv"
                 try:
