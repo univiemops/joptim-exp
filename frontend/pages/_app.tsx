@@ -7,13 +7,13 @@ import React from "react";
 import { useRouter } from "next/router";
 import Script from "next/script";
 
-const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
+const OPTIONAL_SUBURI: string =
+  process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export default function App({ Component, pageProps }: AppProps) {
   // BEGIN rrweb: remove if not needed
   const router = useRouter();
-  let events: any = [];
   const XIDRef = React.useRef("");
 
   React.useEffect(() => {
@@ -23,13 +23,63 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router.query]);
 
+
+  // // websocket stuff begin (remove if not needed)
+  const [socket, setSocket] = React.useState<any>(null);
+  const [hostname, setHostname] = React.useState<string>("");
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setHostname(window.location.origin);
+    }
+  }, []);
+
+
+  let socketConnections = 0
+
+  React.useEffect(() => {
+    if (hostname !== "" && socketConnections === 0) {
+      let base_url = "";
+      socketConnections++
+      if (/https?:\/\//.test(OPTIONAL_SUBURI)) {
+        base_url = OPTIONAL_SUBURI;
+      } else {
+        base_url = `${hostname}${OPTIONAL_SUBURI}`;
+      }
+
+      base_url = `${base_url.replace(/^https?:\/\//, (match) =>
+        match === "http://" ? "ws://" : "wss://",
+      )}`;
+      console.log("base_url", base_url)
+      const newSocket = new WebSocket(`${base_url}/rrweb-ws`);
+      setSocket(newSocket);
+
+      return () => {
+        if (newSocket) {
+          newSocket.close();
+        }
+      };
+    }
+  }, [hostname]);
+
+
+  const sendToBackend = (event: any) => {
+    if (socket && socket.readyState === 1) {
+      const xid = XIDRef.current
+      socket.send(JSON.stringify({ xid, event }));
+    }
+  };
+
   React.useEffect(() => {
     if (window) {
       const stopFn = window.rrweb.record({
         inlineStylesheet: true,
         // checkoutEveryNth: 200,
         emit(event: any) {
-          events.push(event);
+          if (socket) {
+            console.log("rrweb sending an event...")
+            sendToBackend(event)
+          }
         },
       });
       return () => {
@@ -38,39 +88,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       };
     }
-  }, []);
-
-  // save events every 10 seconds and
-  React.useEffect(() => {
-    const save = async () => {
-      const XID = XIDRef.current;
-      const body = JSON.stringify({ XID, events });
-      if (events.length > 0 && XID !== "") {
-        try {
-          const res = await fetch(`${OPTIONAL_SUBURI}/rrweb/`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: body,
-          });
-
-          if (!res.ok) {
-            throw new Error("Failed to post events");
-          }
-        } catch (error) {
-          console.error(error);
-        }
-        events = [];
-      }
-    };
-
-    const intervalId = setInterval(save, 5 * 1000);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-  // END rrweb: remove if not needed
+  }, [socket]);
 
   return <>
     <Script src={`${basePath}/rrweb/rrweb.min.js`} strategy="beforeInteractive" />
