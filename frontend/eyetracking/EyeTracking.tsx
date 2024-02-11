@@ -88,6 +88,8 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
         if (!calibrated) {
           console.log("starting webgazer calibration");
           webgazer
+            .clearData()
+          webgazer
             .setRegression("ridge")
             .showFaceOverlay(true)
             .saveDataAcrossSessions(true)
@@ -121,7 +123,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
                 const feedbackBox = document.getElementById("webgazerFaceFeedbackBox")
                 const videoFeed = document.getElementById("webgazerVideoFeed")
                 const overlay = document.getElementById("webgazerFaceOverlay")
-                console.log("videoFeed", videoFeed)
                 if (feedbackBox !== null && videoFeed != null && overlay != null) {
                   if (feedbackBox.style.border === "solid green" && Date.now() - timestamp > 2000) {
                     videoFeed.style.width = "1px"
@@ -153,6 +154,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
         }
         return () => {
           if (webgazer) {
+            console.log("ended webgazer")
             webgazer.end();
           }
         };

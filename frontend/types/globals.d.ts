@@ -10,7 +10,7 @@ interface Webgazer {
   params: {
     storingPoints: boolean;
   };
-  clearData(): void;
+  clearData(): Webgazer;
   end(): void;
   begin(onFail?: () => void): void;
   setRegression(regression: string): Webgazer;
