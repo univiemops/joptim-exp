@@ -126,10 +126,9 @@ const Experiment: React.FC = () => {
 
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
-      const endTime: number = performance.now();
-      const reactionTime: number = endTime - startTime;
+      const endTime: number = Date.now();
 
-      if (!isNaN(reactionTime)) {
+      if (!isNaN(endTime)) {
         const xidFromUserData: string | boolean = userData["xid"];
         if (typeof xidFromUserData === "string") {
           handleSubmit1(
@@ -137,14 +136,15 @@ const Experiment: React.FC = () => {
             tasks,
             workers,
             assignments,
-            reactionTime, // TODO: use start and end time and compute RT in data analysis
+            startTime,
+            endTime
           );
           setLoading(true);
           setPrevAssignments(assignments);
           setTrialCompleted1(true);
           if (trial < nTrialsIntro) {
             fetchGame();
-            startTime = performance.now();
+            startTime = Date.now();
             console.log("fetched game for part 1");
           }
           setTrialCompleted1(true);
@@ -155,7 +155,7 @@ const Experiment: React.FC = () => {
         }
       } else {
         console.error(
-          "Variable reactionTime is not a valid number. Trial not submitted.",
+          "Variable endTime is not a valid number. Trial not submitted.",
         );
       }
     }
@@ -164,9 +164,8 @@ const Experiment: React.FC = () => {
   const handleTrialComplete2 = () => {
     if (startTime !== null) {
       setChoice(0);
-      const endTime: number = performance.now();
-      const reactionTime: number = endTime - startTime;
-      if (!isNaN(reactionTime)) {
+      const endTime: number = Date.now();
+      if (!isNaN(endTime)) {
         const xidFromUserData: string | boolean = userData["xid"];
         if (typeof xidFromUserData === "string") {
           handleSubmit2(
@@ -175,14 +174,15 @@ const Experiment: React.FC = () => {
             workers,
             assignmentsOptimal,
             assignmentsOptimal2,
-            reactionTime, // TODO: use start and end time and compute RT in data analysis
+            startTime,
+            endTime,
             choice,
           );
           setLoading(true);
           setTrialCompleted2(true);
           if (trial2 < nTrialsMain) {
             fetchGame();
-            startTime = performance.now();
+            startTime = Date.now();
             console.log("fetched game for part 2");
           }
         } else {
@@ -192,7 +192,7 @@ const Experiment: React.FC = () => {
         }
       } else {
         console.error(
-          "Variable reactionTime is not a valid number. Trial not submitted.",
+          "Variable endTime is not a valid number. Trial not submitted.",
         );
       }
     }
@@ -347,7 +347,7 @@ const Experiment: React.FC = () => {
   useEffect(() => {
     if (ranEffect === 0) {
       fetchGame();
-      startTime = performance.now();
+      startTime = Date.now();
       console.log("fetched inital game (part 1).")
       ranEffect = 1
     }
@@ -360,7 +360,7 @@ const Experiment: React.FC = () => {
   useEffect(() => {
     if (ranEffect2 === 0 && userData["completed_1"]) {
       fetchGame();
-      startTime = performance.now();
+      startTime = Date.now();
       console.log("fetched inital game (part2).")
       ranEffect2 = 1
     }

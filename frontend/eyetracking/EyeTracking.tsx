@@ -113,7 +113,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
             .showPredictionPoints(false)
             .setGazeListener((data: any) => {
               if (data && data.x !== null && data.y !== null) {
-                const currentUnixTime = Math.floor(new Date().getTime() / 1000);
                 const viewportWidth =
                   window.innerWidth ||
                   document.documentElement.clientWidth ||
@@ -124,7 +123,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
                   document.body.clientHeight;
                 const gazeData: GazeData = {
                   xid: xid,
-                  timestamp: currentUnixTime,
+                  timestamp: Date.now(),
                   x: data.x.toFixed(4),
                   y: data.y.toFixed(4),
                   viewport: `${viewportWidth}x${viewportHeight}`,
