@@ -80,31 +80,60 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
   // // websocket stuff end
 
   // to observe the frame
+  // React.useEffect(() => {
+  //   const targetElement = document.getElementById("webgazerFaceFeedbackBox");
+  //   const observer = new MutationObserver((mutationsList) => {
+  //     // Check if the observed mutations include a change to the desired CSS property
+  //     const changedCssProperty = mutationsList.some((mutation) => {
+  //       // Check if the mutation affected the specific CSS property you want to track
+
+  //       console.log("faceFeedbackBox")
+  //       if (targetElement !== null) {
+  //         const cssProperty = window
+  //           .getComputedStyle(targetElement)
+  //           .getPropertyValue("border");
+  //         return (
+  //           mutation.attributeName === "style" &&
+  //           mutation.target === targetElement &&
+  //           cssProperty === "solid red"
+  //         );
+  //       }
+  //     });
+  //     if (changedCssProperty) {
+  //       console.log("CSS property has changed!");
+  //     }
+  //   });
+  //   if (targetElement !== null) {
+  //     observer.observe(targetElement, { attributes: true });
+  //   }
+  // }, []);
+
   React.useEffect(() => {
-    const targetElement = document.querySelector(".my-element");
-    const observer = new MutationObserver((mutationsList) => {
-      // Check if the observed mutations include a change to the desired CSS property
-      const changedCssProperty = mutationsList.some((mutation) => {
-        // Check if the mutation affected the specific CSS property you want to track
-        if (targetElement !== null) {
-          const cssProperty = window
-            .getComputedStyle(targetElement)
-            .getPropertyValue("color");
-          return (
-            mutation.attributeName === "style" &&
-            mutation.target === targetElement &&
-            cssProperty === "red"
-          );
+    const targetNode = document.getElementById("webgazerFaceFeedbackBox");
+
+    // Options for the observer (which mutations to observe)
+    const config = { attributes: true, childList: true, subtree: true };
+
+    // Callback function to execute when mutations are observed
+    const callback = (mutationList, observer) => {
+      for (const mutation of mutationList) {
+        if (mutation.type === "childList") {
+          console.log("A child node has been added or removed.");
+        } else if (mutation.type === "attributes") {
+          console.log(`The ${mutation.attributeName} attribute was modified.`);
         }
-      });
-      if (changedCssProperty) {
-        console.log("CSS property has changed!");
       }
-    });
-    if (targetElement !== null) {
-      observer.observe(targetElement, { attributes: true });
+    };
+
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver(callback);
+    // Start observing the target node for configured mutations
+    if (targetNode !== null) {
+      observer.observe(targetNode, config);
+
     }
-  }, []);
+    //return (observer.disconnect())
+  }, [])
 
   React.useEffect(() => {
     if (window) {
