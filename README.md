@@ -111,5 +111,3 @@ Then go to:
 
 ## ISSUES
 * Firefox: Ad/script blocker seems to block loading rrweb scripts (see https://stackoverflow.com/questions/45879671/only-on-firefox-loading-failed-for-the-script-with-source)
-* Websocket: Not reachable on production server w/ SSL (traefik issue w/ cert?).
-* rrweb: Not all events recorded/stored.
