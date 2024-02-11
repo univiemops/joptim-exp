@@ -24,7 +24,7 @@ interface Webgazer {
   showFaceFeedbackBox(value: boolean): Webgazer;
   saveDataAcrossSessions(value: boolean): Webgazer;
   getStoredPoints(): [number[], number[]];
-
+  checkEyesInValidationBox(): boolean;
 }
 
 declare const webgazer: Webgazer;

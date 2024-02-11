@@ -79,62 +79,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
   };
   // // websocket stuff end
 
-  // to observe the frame
-  // React.useEffect(() => {
-  //   const targetElement = document.getElementById("webgazerFaceFeedbackBox");
-  //   const observer = new MutationObserver((mutationsList) => {
-  //     // Check if the observed mutations include a change to the desired CSS property
-  //     const changedCssProperty = mutationsList.some((mutation) => {
-  //       // Check if the mutation affected the specific CSS property you want to track
-
-  //       console.log("faceFeedbackBox")
-  //       if (targetElement !== null) {
-  //         const cssProperty = window
-  //           .getComputedStyle(targetElement)
-  //           .getPropertyValue("border");
-  //         return (
-  //           mutation.attributeName === "style" &&
-  //           mutation.target === targetElement &&
-  //           cssProperty === "solid red"
-  //         );
-  //       }
-  //     });
-  //     if (changedCssProperty) {
-  //       console.log("CSS property has changed!");
-  //     }
-  //   });
-  //   if (targetElement !== null) {
-  //     observer.observe(targetElement, { attributes: true });
-  //   }
-  // }, []);
-
-  React.useEffect(() => {
-    const targetNode = document.getElementById("webgazerFaceFeedbackBox");
-
-    // Options for the observer (which mutations to observe)
-    const config = { attributes: true, childList: true, subtree: true };
-
-    // Callback function to execute when mutations are observed
-    const callback = (mutationList, observer) => {
-      for (const mutation of mutationList) {
-        if (mutation.type === "childList") {
-          console.log("A child node has been added or removed.");
-        } else if (mutation.type === "attributes") {
-          console.log(`The ${mutation.attributeName} attribute was modified.`);
-        }
-      }
-    };
-
-    // Create an observer instance linked to the callback function
-    const observer = new MutationObserver(callback);
-    // Start observing the target node for configured mutations
-    if (targetNode !== null) {
-      observer.observe(targetNode, config);
-
-    }
-    //return (observer.disconnect())
-  }, [])
-
   React.useEffect(() => {
     if (window) {
       if (!webgazer) {
@@ -146,13 +90,15 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
           webgazer
             .setRegression("ridge")
             .showFaceOverlay(true)
-            .saveDataAcrossSessions(false)
-            .begin(onFail);
+            .saveDataAcrossSessions(true)
+            .begin(onFail)
+
         } else if (calibrated) {
           console.log("starting webgazer data collection");
+          let timestamp = Date.now()
           webgazer
-            .showVideo(false)
-            .showPredictionPoints(false)
+            .showPredictionPoints(true)
+            .showVideo(true)
             .setGazeListener((data: any) => {
               if (data && data.x !== null && data.y !== null) {
                 const viewportWidth =
@@ -170,9 +116,40 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
                   y: data.y.toFixed(4),
                   viewport: `${viewportWidth}x${viewportHeight}`,
                 };
+                // Begin: for hiding video if eyes are inside the box
+                let switcher = 1
+                const feedbackBox = document.getElementById("webgazerFaceFeedbackBox")
+                const videoFeed = document.getElementById("webgazerVideoFeed")
+                const overlay = document.getElementById("webgazerFaceOverlay")
+                console.log("videoFeed", videoFeed)
+                if (feedbackBox !== null && videoFeed != null && overlay != null) {
+                  if (feedbackBox.style.border === "solid green" && Date.now() - timestamp > 2000) {
+                    videoFeed.style.width = "1px"
+                    videoFeed.style.height = "1px"
+                    overlay.style.width = "1px"
+                    overlay.style.height = "1px"
+                    feedbackBox.style.display = "none"
+                    if (switcher == 0) {
+                      timestamp = Date.now()
+                      switcher = 1
+                    }
+                  } else if (Date.now() - timestamp > 2000) {
+                    videoFeed.style.width = "320px"
+                    videoFeed.style.height = "240px"
+                    overlay.style.width = "320px"
+                    overlay.style.height = "240px"
+                    feedbackBox.style.display = "block"
+                    if (switcher == 1) {
+                      timestamp = Date.now()
+                      switcher = 0
+                    }
+                  }
+                }
+                // End: for hiding video if eyes are inside the box
                 sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
               }
-            });
+            })
+            .begin()
         }
         return () => {
           if (webgazer) {

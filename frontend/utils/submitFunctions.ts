@@ -22,8 +22,8 @@ export const handleSubmit1 = async (
           tasks: tasks,
           workers: workers,
           assignments: assignments,
-          startTime: startTime,
-          endTime: endTime,
+          start_time: startTime,
+          end_time: endTime,
         },
       }),
     });
