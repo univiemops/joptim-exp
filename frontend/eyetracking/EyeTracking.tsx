@@ -20,8 +20,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
     removeOnUnmount: false,
   });
 
-
-
   // // websocket stuff begin (remove if not needed)
   const [socket, setSocket] = React.useState<any>(null);
   const [hostname, setHostname] = React.useState<string>("");
@@ -57,7 +55,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
   }, [hostname]);
 
   // let openConnections: number = 0; // to make sure only 1 connection is opened
-
   // React.useEffect(() => {
   //   openConnections++;
   //   if (!ws && openConnections === 1) {
@@ -78,6 +75,23 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
     }
   };
   // // websocket stuff end
+
+  // to observe the frame
+  React.useEffect(() => {
+    const targetElement = document.querySelector('.my-element');
+    const observer = new MutationObserver(mutationsList => {
+      // Check if the observed mutations include a change to the desired CSS property
+      const changedCssProperty = mutationsList.some(mutation => {
+        // Check if the mutation affected the specific CSS property you want to track
+        const cssProperty = window.getComputedStyle(targetElement).getPropertyValue('color');
+        return mutation.attributeName === 'style' && mutation.target === targetElement && cssProperty === 'red';
+      });
+      if (changedCssProperty) {
+        console.log('CSS property has changed!');
+      }
+    });
+    observer.observe(targetElement, { attributes: true });
+  }, [])
 
   React.useEffect(() => {
     if (window) {

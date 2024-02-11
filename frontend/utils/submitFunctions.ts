@@ -7,7 +7,8 @@ export const handleSubmit1 = async (
   workers: Array<number>,
   tasks: Array<number>,
   assignments: Array<[number, number]>,
-  reactionTime: number,
+  startTime: number,
+  endTime: number,
 ): Promise<void> => {
   try {
     const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
@@ -21,7 +22,8 @@ export const handleSubmit1 = async (
           tasks: tasks,
           workers: workers,
           assignments: assignments,
-          rt: reactionTime,
+          startTime: startTime,
+          endTime: endTime,
         },
       }),
     });
@@ -40,7 +42,8 @@ export const handleSubmit2 = async (
   tasks: Array<number>,
   assignments1: Array<[number, number]>,
   assignments2: Array<[number, number]>,
-  reactionTime: number,
+  startTime: number,
+  endTime: number,
   choice: number,
 ): Promise<void> => {
   try {
@@ -56,7 +59,8 @@ export const handleSubmit2 = async (
           workers: workers,
           assignments_1: assignments1,
           assignments_2: assignments2,
-          rt: reactionTime,
+          start_time: startTime,
+          end_time: endTime,
           choice: choice,
         },
       }),
