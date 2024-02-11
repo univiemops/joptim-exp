@@ -7,14 +7,17 @@ const OPTIONAL_SUBURI: string =
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const webgazerScript = `${basePath}/webgazer/webgazer.js`;
 
-
 interface EyeTrackingProps {
   xid: string;
   calibrated: boolean;
-  onFail?: () => void
+  onFail?: () => void;
 }
 
-const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) => {
+const EyeTracking: React.FC<EyeTrackingProps> = ({
+  xid,
+  calibrated,
+  onFail,
+}) => {
   const [webgazer, setWebgazer] = React.useState<Webgazer | undefined>();
   const status = useScript(webgazerScript, {
     removeOnUnmount: false,
@@ -42,7 +45,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
       base_url = `${base_url.replace(/^https?:\/\//, (match) =>
         match === "http://" ? "ws://" : "wss://",
       )}`;
-      console.log("base_url", base_url)
+      console.log("base_url", base_url);
       const newSocket = new WebSocket(`${base_url}/eyetracking`);
       setSocket(newSocket);
 
@@ -78,20 +81,30 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
 
   // to observe the frame
   React.useEffect(() => {
-    const targetElement = document.querySelector('.my-element');
-    const observer = new MutationObserver(mutationsList => {
+    const targetElement = document.querySelector(".my-element");
+    const observer = new MutationObserver((mutationsList) => {
       // Check if the observed mutations include a change to the desired CSS property
-      const changedCssProperty = mutationsList.some(mutation => {
+      const changedCssProperty = mutationsList.some((mutation) => {
         // Check if the mutation affected the specific CSS property you want to track
-        const cssProperty = window.getComputedStyle(targetElement).getPropertyValue('color');
-        return mutation.attributeName === 'style' && mutation.target === targetElement && cssProperty === 'red';
+        if (targetElement !== null) {
+          const cssProperty = window
+            .getComputedStyle(targetElement)
+            .getPropertyValue("color");
+          return (
+            mutation.attributeName === "style" &&
+            mutation.target === targetElement &&
+            cssProperty === "red"
+          );
+        }
       });
       if (changedCssProperty) {
-        console.log('CSS property has changed!');
+        console.log("CSS property has changed!");
       }
     });
-    observer.observe(targetElement, { attributes: true });
-  }, [])
+    if (targetElement !== null) {
+      observer.observe(targetElement, { attributes: true });
+    }
+  }, []);
 
   React.useEffect(() => {
     if (window) {
@@ -102,14 +115,14 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
         if (!calibrated) {
           console.log("starting webgazer calibration");
           webgazer
-            .setRegression("weightedRidge")
+            .setRegression("ridge")
             .showFaceOverlay(true)
             .saveDataAcrossSessions(false)
             .begin(onFail);
-        }
-        else if (calibrated) {
+        } else if (calibrated) {
           console.log("starting webgazer data collection");
-          webgazer.showVideo(false)
+          webgazer
+            .showVideo(false)
             .showPredictionPoints(false)
             .setGazeListener((data: any) => {
               if (data && data.x !== null && data.y !== null) {
@@ -130,7 +143,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({ xid, calibrated, onFail }) =>
                 };
                 sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
               }
-            })
+            });
         }
         return () => {
           if (webgazer) {
