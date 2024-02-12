@@ -114,4 +114,4 @@ Then go to:
 * Alembic reintegration
 
 ## ISSUES
-* Firefox: Ad/script blocker seems to block loading rrweb scripts (see https://stackoverflow.com/questions/45879671/only-on-firefox-loading-failed-for-the-script-with-source)
+- 
