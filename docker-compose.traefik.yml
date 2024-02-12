@@ -41,7 +41,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.joptim.rule=PathPrefix(`/joptim`)"
       - "traefik.http.services.joptim.loadbalancer.server.port=3000"
-      - "traefik.http.routers.joptim.entrypoints=websecure"
+      - "traefik.http.routers.joptim.entrypoints=web,websecure"
       - "traefik.http.routers.joptim.tls=true"
     networks:
       - traefik-network

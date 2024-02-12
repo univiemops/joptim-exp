@@ -69,27 +69,18 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [hostname]);
 
   const sendToBackend = (event: any) => {
-    console.log("attemptimg to send events to backend ... ")
     if (socket && socket.readyState === 1) {
-      console.log("... successful!")
       const xid = XIDRef.current;
       socket.send(JSON.stringify({ xid, event }));
-    } else { console.log("... unsuccessful.") }
+    }
   };
 
   React.useEffect(() => {
-    console.log("ran effect ...")
-    console.log("socket:", socket)
-    console.log("router.query:", router.query)
     console.log("status1:", status1)
-    console.log("status2:", status2)
     const xid = XIDRef.current;
-    console.log("xid:", xid)
-    console.log("window:", window)
     console.log("window.rrweb:", window.rrweb)
     if (window && xid !== "") {
       if (window.rrweb) {
-        console.log("ALL REQUIREMENTS MET!")
         const stopFn = window.rrweb.record({
           inlineStylesheet: true,
           // checkoutEveryNth: 200,
