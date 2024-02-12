@@ -23,8 +23,8 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.query]);
 
   // // websocket stuff begin (remove if not needed)
-  // const rrwebScript = `${basePath}/rrweb/rrweb.min.js`
-  const rrwebScript = "https://cdn.jsdelivr.net/npm/rrweb@1.1.3/dist/rrweb.js"
+  const rrwebScript = `${basePath}/rrweb/rrweb.min.js`
+  // const rrwebScript = "https://cdn.jsdelivr.net/npm/rrweb@1.1.3/dist/rrweb.js"
   const rrwebPlayerScript = `${basePath}/rrweb/player/index.js`
   const status1 = useScript(rrwebScript, {
     removeOnUnmount: false,
@@ -78,9 +78,7 @@ export default function App({ Component, pageProps }: AppProps) {
   };
 
   React.useEffect(() => {
-    console.log("status1:", status1)
     const xid = XIDRef.current;
-    console.log("window.rrweb:", window.rrweb)
     if (window && xid !== "") {
       if (window.rrweb) {
         const stopFn = window.rrweb.record({
