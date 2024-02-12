@@ -69,10 +69,12 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [hostname]);
 
   const sendToBackend = (event: any) => {
+    console.log("attemptimg to send events to backend ... ")
     if (socket && socket.readyState === 1) {
+      console.log("... successful!")
       const xid = XIDRef.current;
       socket.send(JSON.stringify({ xid, event }));
-    }
+    } else { console.log("... unsuccessful.") }
   };
 
   React.useEffect(() => {
