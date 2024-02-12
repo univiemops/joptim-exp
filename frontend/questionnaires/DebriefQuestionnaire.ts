@@ -1,6 +1,5 @@
 import {
   Questionnaire,
-  QuestionnaireItem,
 } from "../components/questionnaire/questionnaireTypes";
 
 export const DebriefQuestionnaire: Questionnaire = {
