@@ -7,13 +7,14 @@ export interface Questionnaire {
 export interface QuestionnaireItem {
   id: string;
   type:
-    | "dichotomous"
-    | "noyestext"
-    | "check"
-    | "likert"
-    | "freeText"
-    | "info"
-    | "line";
+  | "dichotomous"
+  | "noyestext"
+  | "check"
+  | "likert"
+  | "freeText"
+  | "freeTextOpt"
+  | "info"
+  | "line";
   title: string;
   text: string;
   options?: LikertScaleOptions | string[]; // For dichotomous or Likert-scaled items

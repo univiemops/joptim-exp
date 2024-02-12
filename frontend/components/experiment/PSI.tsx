@@ -6,6 +6,7 @@ import { QuestionnaireProps } from "./types";
 
 const PSI: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
+  const [highlightMissing, setHighlightMissing] = React.useState<boolean>(false);
   const [responses, setResponses] = React.useState<{
     [itemId: string]: string;
   }>({});
@@ -25,7 +26,9 @@ const PSI: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   };
 
   const handleSubmitButtonClick = () => {
-    onSubmit(responses);
+    if (filledOut) {
+      onSubmit(responses);
+    } else { alert("Please answer all questions."); setHighlightMissing(true) }
   };
 
   const checkComplete = () => {
@@ -57,30 +60,21 @@ const PSI: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
           <QuestionnaireRenderer
             questionnaire={Questionnaire}
             responses={responses}
+            highlightMissing={highlightMissing}
             handleTextResponse={handleTextResponse}
             handleRadioButtonResponse={handleRadioButtonResponse}
           />
           <Button
-            disabled={filledOut ? false : true}
             size="large"
             variant="contained"
-            style={
-              filledOut
-                ? {
-                  fontSize: "x-large",
-                  color: "#ffffff",
-                  background: "#000000",
-                  textTransform: "none",
-                  padding: ".3rem 3rem .3rem 3rem",
-                  margin: "1rem 1rem 1rem 1rem",
-                }
-                : {
-                  fontSize: "x-large",
-                  textTransform: "none",
-                  padding: ".3rem 3rem .3rem 3rem",
-                  margin: "1rem 1rem 1rem 1rem",
-                }
-            }
+            style={{
+              fontSize: "x-large",
+              color: "#ffffff",
+              background: "#000000",
+              textTransform: "none",
+              padding: ".3rem 3rem .3rem 3rem",
+              margin: "1rem 1rem 1rem 1rem",
+            }}
             onClick={handleSubmitButtonClick}
           >
             SUBMIT

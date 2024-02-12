@@ -59,6 +59,7 @@ const Consent: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
           <QuestionnaireRenderer
             questionnaire={Questionnaire}
             responses={responses}
+            highlightMissing={false}
             handleTextResponse={handleTextResponse}
             handleRadioButtonResponse={handleRadioButtonResponse}
           />

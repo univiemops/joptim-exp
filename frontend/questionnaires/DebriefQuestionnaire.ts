@@ -119,7 +119,7 @@ export const DebriefQuestionnaire: Questionnaire = {
     },
     {
       id: "8",
-      type: "freeText",
+      type: "freeTextOpt",
       title: "Additional Feedback",
       text: "Do you have any other comments about the study?",
     },

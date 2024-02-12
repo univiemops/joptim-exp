@@ -18,11 +18,13 @@ import {
 export const QuestionnaireRenderer: React.FC<{
   questionnaire: Questionnaire;
   responses: { [itemId: string]: string };
+  highlightMissing: boolean;
   handleTextResponse: (itemId: string, value: string) => void;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
 }> = ({
   questionnaire,
   responses,
+  highlightMissing,
   handleTextResponse,
   handleRadioButtonResponse,
 }) => (
@@ -36,6 +38,7 @@ export const QuestionnaireRenderer: React.FC<{
           handleTextResponse={handleTextResponse}
           handleRadioButtonResponse={handleRadioButtonResponse}
           response={responses[item.id]}
+          highlightMissing={highlightMissing}
         />
       ))}
     </div>
@@ -44,14 +47,16 @@ export const QuestionnaireRenderer: React.FC<{
 const QuestionnaireItemRenderer: React.FC<{
   item: QuestionnaireItem;
   response: string;
+  highlightMissing: boolean;
   handleTextResponse: (itemId: string, value: string) => void;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, handleTextResponse, handleRadioButtonResponse }) => {
+}> = ({ item, response, highlightMissing, handleTextResponse, handleRadioButtonResponse }) => {
   switch (item.type) {
     case "dichotomous":
       return (
         <DichotomousItem
           item={item}
+          highlightMissing={highlightMissing}
           handleRadioButtonResponse={handleRadioButtonResponse}
         />
       );
@@ -59,6 +64,7 @@ const QuestionnaireItemRenderer: React.FC<{
       return (
         <SingleCheckboxItem
           item={item}
+          highlightMissing={highlightMissing}
           handleRadioButtonResponse={handleRadioButtonResponse}
         />
       );
@@ -67,6 +73,7 @@ const QuestionnaireItemRenderer: React.FC<{
         <NoYesTextItem
           item={item}
           response={response}
+          highlightMissing={highlightMissing}
           handleRadioButtonResponse={handleRadioButtonResponse}
         />
       );
@@ -75,7 +82,18 @@ const QuestionnaireItemRenderer: React.FC<{
         <LikertItem
           item={item}
           response={response}
+          highlightMissing={highlightMissing}
           handleRadioButtonResponse={handleRadioButtonResponse}
+        />
+      );
+    case "freeTextOpt":
+      return (
+        <FreeTextItem
+          item={item}
+          response={response}
+          optional={true}
+          highlightMissing={highlightMissing}
+          handleTextResponse={handleTextResponse}
         />
       );
     case "freeText":
@@ -83,6 +101,8 @@ const QuestionnaireItemRenderer: React.FC<{
         <FreeTextItem
           item={item}
           response={response}
+          optional={false}
+          highlightMissing={highlightMissing}
           handleTextResponse={handleTextResponse}
         />
       );
@@ -97,45 +117,50 @@ const QuestionnaireItemRenderer: React.FC<{
 
 const DichotomousItem: React.FC<{
   item: QuestionnaireItem;
+  highlightMissing: boolean;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, handleRadioButtonResponse }) => (
-  <div className={styles.survey_item}>
-    <p className={styles.survey_item_text}>
-      <b>{item.title !== "" && item.title.concat(": ")}</b>
+}> = ({ item, highlightMissing, handleRadioButtonResponse }) => {
+  const [response, setResponse] = React.useState<string | null>(null)
+  return (
+    <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
+      <p className={styles.survey_item_text}>
+        <b>{item.title !== "" && item.title.concat(": ")}</b>
 
-      {item.text}
-    </p>
-    <div className={styles.survey_item_response_area}>
-      <FormControl>
-        <RadioGroup
-          name={`radio-group-${item.id}`}
-          onChange={(e) => handleRadioButtonResponse(item.id, e.target.value)}
-        >
-          {item.options &&
-            Array.isArray(item.options) &&
-            item.options.map((el: string, i: number) => (
-              <FormControlLabel
-                key={i}
-                value={i.toString()}
-                control={<Radio />}
-                label={el}
-                style={{
-                  fontSize: "large",
-                  textTransform: "none",
-                }}
-              />
-            ))}
-        </RadioGroup>
-      </FormControl>
+        {item.text}
+      </p>
+      <div className={styles.survey_item_response_area}>
+        <FormControl>
+          <RadioGroup
+            name={`radio-group-${item.id}`}
+            onChange={(e) => { setResponse(e.target.value); handleRadioButtonResponse(item.id, e.target.value) }}
+          >
+            {item.options &&
+              Array.isArray(item.options) &&
+              item.options.map((el: string, i: number) => (
+                <FormControlLabel
+                  key={i}
+                  value={i.toString()}
+                  control={<Radio />}
+                  label={el}
+                  style={{
+                    fontSize: "large",
+                    textTransform: "none",
+                  }}
+                />
+              ))}
+          </RadioGroup>
+        </FormControl>
+      </div>
     </div>
-  </div>
-);
+  )
+};
 
 const NoYesTextItem: React.FC<{
   item: QuestionnaireItem;
   response: string;
+  highlightMissing: boolean;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, handleRadioButtonResponse }) => {
+}> = ({ item, response, highlightMissing, handleRadioButtonResponse }) => {
   const [textResponse, setTextResponse] = React.useState("");
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,7 +168,7 @@ const NoYesTextItem: React.FC<{
     handleRadioButtonResponse(item.id, e.target.value);
   };
   return (
-    <div className={styles.survey_item}>
+    <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
       <p className={styles.survey_item_text}>
         <b>{item.title !== "" && item.title.concat(": ")}</b>
 
@@ -197,46 +222,51 @@ const NoYesTextItem: React.FC<{
 
 const SingleCheckboxItem: React.FC<{
   item: QuestionnaireItem;
+  highlightMissing: boolean;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, handleRadioButtonResponse }) => (
-  <div className={styles.survey_item}>
-    <p className={styles.survey_item_text}>
-      <b>{item.title}</b>
-    </p>
-    <div
-      className={styles.survey_item_response_area}
-      style={{ fontSize: "large" }}
-    >
-      <FormControlLabel
-        label=<div
-          style={{
-            textTransform: "none",
-            fontSize: "large",
-          }}
-        >
-          {item.text}
-        </div>
-        labelPlacement="end"
-        control={
-          <Checkbox
-            name={`single-checkbox-${item.id}`}
-            onChange={(e) =>
-              handleRadioButtonResponse(item.id, e.target.checked.toString())
-            }
-            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-          />
-        }
-      />
+}> = ({ item, highlightMissing, handleRadioButtonResponse }) => {
+  const [response, setResponse] = React.useState<string | null>(null)
+  return (
+    <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
+      <p className={styles.survey_item_text}>
+        <b>{item.title}</b>
+      </p>
+      <div
+        className={styles.survey_item_response_area}
+        style={{ fontSize: "large" }}
+      >
+        <FormControlLabel
+          label=<div
+            style={{
+              textTransform: "none",
+              fontSize: "large",
+            }}
+          >
+            {item.text}
+          </div>
+          labelPlacement="end"
+          control={
+            <Checkbox
+              name={`single-checkbox-${item.id}`}
+              onChange={(e) => {
+                setResponse(e.target.checked.toString()); handleRadioButtonResponse(item.id, e.target.checked.toString())
+              }}
+              sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+            />
+          }
+        />
+      </div>
     </div>
-  </div>
-);
+  )
+};
 
 const LikertItem: React.FC<{
   item: QuestionnaireItem;
   response: string;
+  highlightMissing: boolean;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, handleRadioButtonResponse }) => (
-  <div className={styles.survey_item}>
+}> = ({ item, response, highlightMissing, handleRadioButtonResponse }) => (
+  <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
     <p className={styles.survey_item_text}>
       <b>{item.title !== "" && item.title.concat(": ")}</b>
       {item.text}
@@ -265,7 +295,7 @@ const LikertItem: React.FC<{
                 style={
                   response === (i + 1).toString()
                     ? {
-                      backgroundColor: "lightgray",
+                      backgroundColor: "lightsteelblue",
                       fontSize: "large",
                       textTransform: "none",
                     }
@@ -305,9 +335,11 @@ function isLikertScaleOptions(options: any): options is LikertScaleOptions {
 const FreeTextItem: React.FC<{
   item: QuestionnaireItem;
   response: string;
+  highlightMissing: boolean;
+  optional: boolean;
   handleTextResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, handleTextResponse }) => (
-  <div className={styles.survey_item}>
+}> = ({ item, response, highlightMissing, optional, handleTextResponse }) => (
+  <div className={response || !highlightMissing || optional ? styles.survey_item : styles.survey_item_missing}>
     <p className={styles.survey_item_text}>
       <b>{item.title !== "" && item.title.concat(": ")}</b>
       {item.text}
