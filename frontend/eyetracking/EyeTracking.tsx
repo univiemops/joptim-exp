@@ -99,7 +99,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
           console.log("starting webgazer data collection");
           let timestamp = Date.now()
           webgazer
-            .showPredictionPoints(true)
+            .showPredictionPoints(false)
             .showVideo(true)
             .setGazeListener((data: any) => {
               if (data && data.x !== null && data.y !== null) {
