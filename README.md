@@ -22,6 +22,10 @@ This repo uses our own fork of webgazer. If you want to make changes to webgazer
 
 Place `trials.pkl` file into the backend folder. If file is missing or the backend is not set up correctly, the frontend will fall back to an own random trial generation.
 
+## Data
+
+rrweb and webgazer data is stored in text files in the backend, with one file for eyetracking and one for rrweb for each participant, and each line representing a single event. All other data is stored in the database. All timestamps are unix timestamps in milliseconds.
+
 ## Production
 
 ### Setup database
