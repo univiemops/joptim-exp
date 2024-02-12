@@ -4,7 +4,8 @@ import "@/styles/instructions.css";
 import type { AppProps } from "next/app";
 import React from "react";
 import { useRouter } from "next/router";
-import Script from "next/script";
+import { useScript } from "../utils/useScript";
+
 
 const OPTIONAL_SUBURI: string =
   process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
@@ -22,6 +23,15 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.query]);
 
   // // websocket stuff begin (remove if not needed)
+  const rrwebScript = `${basePath}/rrweb/rrweb.min.js`
+  const rrwebPlayerScript = `${basePath}/rrweb/player/index.js`
+  const status1 = useScript(rrwebScript, {
+    removeOnUnmount: false,
+  });
+
+  const status2 = useScript(rrwebPlayerScript, {
+    removeOnUnmount: false,
+  });
   const [socket, setSocket] = React.useState<any>(null);
   const [hostname, setHostname] = React.useState<string>("");
 
@@ -68,35 +78,29 @@ export default function App({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
     const xid = XIDRef.current;
     if (window && xid !== "") {
-      const stopFn = window.rrweb.record({
-        inlineStylesheet: true,
-        // checkoutEveryNth: 200,
-        emit(event: any) {
-          if (socket) {
-            sendToBackend(event);
+      if (window.rrweb) {
+        const stopFn = window.rrweb.record({
+          inlineStylesheet: true,
+          // checkoutEveryNth: 200,
+          emit(event: any) {
+            if (socket) {
+              sendToBackend(event);
+            }
+          },
+        });
+        return () => {
+          if (stopFn !== undefined) {
+            stopFn();
           }
-        },
-      });
-      return () => {
-        if (stopFn !== undefined) {
-          stopFn();
-        }
-      };
+        };
+      }
     }
-  }, [socket, router.query]);
+  }, [socket, router.query, status1, status2]);
 
   // websocket END
 
   return (
     <>
-      <Script
-        src={`${basePath}/rrweb/rrweb.min.js`}
-        strategy="beforeInteractive"
-      />
-      <Script
-        src={`${basePath}/rrweb/player/index.js`}
-        strategy="beforeInteractive"
-      />
       <link rel="stylesheet" href={`${basePath}/rrweb/rrweb.min.css`} />
       <link rel="stylesheet" href={`${basePath}/rrweb/player/style.css`} />
       <Component {...pageProps} />
