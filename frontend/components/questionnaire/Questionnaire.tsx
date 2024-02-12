@@ -7,7 +7,6 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
 import {
@@ -27,20 +26,20 @@ export const QuestionnaireRenderer: React.FC<{
   handleTextResponse,
   handleRadioButtonResponse,
 }) => (
-  <div style={{ fontSize: "large" }}>
-    <h1>{questionnaire.title}</h1>
-    <p>{questionnaire.description}</p>
-    {questionnaire.items.map((item) => (
-      <QuestionnaireItemRenderer
-        key={item.id}
-        item={item}
-        handleTextResponse={handleTextResponse}
-        handleRadioButtonResponse={handleRadioButtonResponse}
-        response={responses[item.id]}
-      />
-    ))}
-  </div>
-);
+    <div style={{ fontSize: "large" }}>
+      <h1>{questionnaire.title}</h1>
+      <p>{questionnaire.description}</p>
+      {questionnaire.items.map((item) => (
+        <QuestionnaireItemRenderer
+          key={item.id}
+          item={item}
+          handleTextResponse={handleTextResponse}
+          handleRadioButtonResponse={handleRadioButtonResponse}
+          response={responses[item.id]}
+        />
+      ))}
+    </div>
+  );
 
 const QuestionnaireItemRenderer: React.FC<{
   item: QuestionnaireItem;
@@ -266,14 +265,14 @@ const LikertItem: React.FC<{
                 style={
                   response === (i + 1).toString()
                     ? {
-                        backgroundColor: "lightgray",
-                        fontSize: "large",
-                        textTransform: "none",
-                      }
+                      backgroundColor: "lightgray",
+                      fontSize: "large",
+                      textTransform: "none",
+                    }
                     : {
-                        fontSize: "large",
-                        textTransform: "none",
-                      }
+                      fontSize: "large",
+                      textTransform: "none",
+                    }
                 }
               >
                 {i + 1}
