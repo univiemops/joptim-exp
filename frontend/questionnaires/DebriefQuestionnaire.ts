@@ -121,7 +121,7 @@ export const DebriefQuestionnaire: Questionnaire = {
       id: "8",
       type: "freeTextOpt",
       title: "Additional Feedback",
-      text: "Do you have any other comments about the study?",
+      text: "Do you have any other comments about the study? (optional)",
     },
   ],
 };
