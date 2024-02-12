@@ -166,6 +166,8 @@ rrweb = sqlalchemy.Table(
 
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
+EYETRACKING_DATA_DIR = os.getenv("EYETRACKING_DATA_DIR")
+RRWEB_DATA_DIR = os.getenv("RRWEB_DATA_DIR")
 database = databases.Database(DATABASE_URL)
 engine = sqlalchemy.create_engine(DATABASE_URL)
 metadata.create_all(engine)
@@ -390,8 +392,8 @@ async def rrweb_endpoint(websocket: WebSocket):
             try:
                 data = await websocket.receive_text()
                 d = json.loads(data)
-                os.makedirs("rrweb_data_ws", exist_ok=True)
-                filename = f"rrweb_data_ws/{d['xid']}.txt"
+                os.makedirs(RRWEB_DATA_DIR, exist_ok=True)
+                filename = f"{RRWEB_DATA_DIR}/{d['xid']}.txt"
                 with open(filename, mode='a', newline='') as fo:
                     fo.write(json.dumps(d) + "\n")
                 # for DB: comment out if not needed
@@ -413,7 +415,7 @@ async def rrweb_endpoint(websocket: WebSocket):
 async def get_events_text(id: str) -> list:
     """Get the events of a user."""
     try:
-        with open(f"./rrweb_data_ws/{id}.txt", "r") as fd:
+        with open(f"./{RRWEB_DATA_DIR}/{id}.txt", "r") as fd:
             response = fd.readlines()
     except Exception as e:
         print(e)
@@ -425,7 +427,7 @@ async def get_events_text(id: str) -> list:
             return []
         try:
             id = response_pid.xid
-            with open(f"./rrweb_data_ws/{id}.txt", "r") as fd:
+            with open(f"./{RRWEB_DATA_DIR}/{id}.txt", "r") as fd:
                 response = fd.readlines()
         except Exception as e:
             print(e)
@@ -517,9 +519,9 @@ async def eyetracking_endpoint(websocket: WebSocket):
                 # Extracting the keys and values from the dictionary
                 keys = list(d.keys())
                 values = list(d.values())
-                os.makedirs("eyetracking_data", exist_ok=True)
+                os.makedirs(EYETRACKING_DATA_DIR, exist_ok=True)
                 # Checking if the CSV file already exists
-                csv_filename = f"eyetracking_data/{d['xid']}.csv"
+                csv_filename = f"{EYETRACKING_DATA_DIR}/{d['xid']}.csv"
                 try:
                     with open(csv_filename, 'x', newline='') as csv_file:
                         # Writing header with keys as column names

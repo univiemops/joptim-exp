@@ -78,6 +78,7 @@ const Calibration: React.FC<CalibrationProps> = ({
     setShowDialogAccuracyAfter(true);
   };
 
+
   const onRecalibrate = () => {
     clearCanvas();
     const webgazer = window.webgazer;
