@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 
   // // websocket stuff begin (remove if not needed)
-  const rrwebScript = `${basePath}/rrweb/rrweb.min.js`
+  const rrwebScript = `${basePath}/rrweb/rrweb-record.min.js`
   const rrwebPlayerScript = `${basePath}/rrweb/player/index.js`
   const status1 = useScript(rrwebScript, {
     removeOnUnmount: false,
@@ -36,10 +36,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
 
   // TODO: remove after testing
-  const testScript = `${basePath}/rrweb/rrweb.js`
-  const statusTest = useScript(testScript, {
-    removeOnUnmount: false,
-  });
+  // const testScript = `${basePath}/rrweb/rrweb.js`
+  //const statusTest = useScript(testScript, {
+  //  removeOnUnmount: false,
+  //});
   // end
 
 
@@ -90,8 +90,8 @@ export default function App({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
     const xid = XIDRef.current;
     if (window && xid !== "") {
-      if (window.rrweb) {
-        const stopFn = window.rrweb.record({
+      if (window.rrwebRecord) {
+        const stopFn = window.rrwebRecord({
           inlineStylesheet: true,
           // checkoutEveryNth: 200,
           emit(event: any) {
