@@ -19,6 +19,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
   onFail,
 }) => {
   const [webgazer, setWebgazer] = React.useState<Webgazer | undefined>();
+  const [webcamId, setWebcamId] = React.useState<string>('');
   const status = useScript(webgazerScript, {
     removeOnUnmount: false,
   });
@@ -26,6 +27,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
   // // websocket stuff begin (remove if not needed)
   const [socket, setSocket] = React.useState<any>(null);
   const [hostname, setHostname] = React.useState<string>("");
+
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -57,20 +59,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
     }
   }, [hostname]);
 
-  // let openConnections: number = 0; // to make sure only 1 connection is opened
-  // React.useEffect(() => {
-  //   openConnections++;
-  //   if (!ws && openConnections === 1) {
-  //     const newWs = new WebSocket(WS_URL);
-  //     setWs(newWs);
-  //     return () => {
-  //       if (newWs.readyState === WebSocket.OPEN) {
-  //         openConnections = 0;
-  //         newWs.close();
-  //       }
-  //     };
-  //   }
-  // }, []);
 
   const sendDataToBackend = (data: GazeData) => {
     if (socket) {
@@ -79,85 +67,97 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
   };
   // // websocket stuff end
 
+  const setupWebgazerCalibration = () => {
+    console.log("starting webgazer calibration");
+    if (webgazer) {
+      try {
+        webgazer.setRegression("ridge")
+          .showFaceOverlay(true)
+          .saveDataAcrossSessions(true)
+          .begin(onFail);
+      } catch (error) {
+        console.error('Error setting up Webgazer:', error);
+      }
+    }
+  };
+
+  const setWebgazerDataCollection = () => {
+    console.log("starting webgazer data collection");
+    let timestamp = Date.now()
+    if (webgazer) {
+      webgazer
+        .showPredictionPoints(false)
+        .showVideo(true)
+        .setGazeListener((data: any) => {
+          if (data && data.x !== null && data.y !== null) {
+            const viewportWidth =
+              window.innerWidth ||
+              document.documentElement.clientWidth ||
+              document.body.clientWidth;
+            const viewportHeight =
+              window.innerHeight ||
+              document.documentElement.clientHeight ||
+              document.body.clientHeight;
+            const gazeData: GazeData = {
+              xid: xid,
+              timestamp: Date.now(),
+              x: data.x.toFixed(4),
+              y: data.y.toFixed(4),
+              viewport: `${viewportWidth}x${viewportHeight}`,
+            };
+            // Begin: for hiding video if eyes are inside the box
+            let switcher = 1
+            const feedbackBox = document.getElementById("webgazerFaceFeedbackBox")
+            const videoFeed = document.getElementById("webgazerVideoFeed")
+            const overlay = document.getElementById("webgazerFaceOverlay")
+            if (feedbackBox !== null && videoFeed != null && overlay != null) {
+              if (feedbackBox.style.border === "solid green" && Date.now() - timestamp > 2000) {
+                videoFeed.style.width = "1px"
+                videoFeed.style.height = "1px"
+                overlay.style.width = "1px"
+                overlay.style.height = "1px"
+                feedbackBox.style.display = "none"
+                if (switcher == 0) {
+                  timestamp = Date.now()
+                  switcher = 1
+                }
+              } else if (Date.now() - timestamp > 2000) {
+                videoFeed.style.width = "320px"
+                videoFeed.style.height = "240px"
+                overlay.style.width = "320px"
+                overlay.style.height = "240px"
+                feedbackBox.style.display = "block"
+                if (switcher == 1) {
+                  timestamp = Date.now()
+                  switcher = 0
+                }
+              }
+            }
+            // End: for hiding video if eyes are inside the box
+            sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
+          }
+        })
+        .begin()
+    }
+
+  }
+
   React.useEffect(() => {
     if (window) {
       if (!webgazer) {
         setWebgazer(window.webgazer);
-      }
-      if (webgazer) {
+      } else {
         if (!calibrated) {
-          console.log("starting webgazer calibration");
-          webgazer
-            .clearData()
-          webgazer
-            .setRegression("ridge")
-            .showFaceOverlay(true)
-            .saveDataAcrossSessions(true)
-            .begin(onFail)
-
+          setupWebgazerCalibration();
         } else if (calibrated) {
-          console.log("starting webgazer data collection");
-          let timestamp = Date.now()
-          webgazer
-            .showPredictionPoints(false)
-            .showVideo(true)
-            .setGazeListener((data: any) => {
-              if (data && data.x !== null && data.y !== null) {
-                const viewportWidth =
-                  window.innerWidth ||
-                  document.documentElement.clientWidth ||
-                  document.body.clientWidth;
-                const viewportHeight =
-                  window.innerHeight ||
-                  document.documentElement.clientHeight ||
-                  document.body.clientHeight;
-                const gazeData: GazeData = {
-                  xid: xid,
-                  timestamp: Date.now(),
-                  x: data.x.toFixed(4),
-                  y: data.y.toFixed(4),
-                  viewport: `${viewportWidth}x${viewportHeight}`,
-                };
-                // Begin: for hiding video if eyes are inside the box
-                let switcher = 1
-                const feedbackBox = document.getElementById("webgazerFaceFeedbackBox")
-                const videoFeed = document.getElementById("webgazerVideoFeed")
-                const overlay = document.getElementById("webgazerFaceOverlay")
-                if (feedbackBox !== null && videoFeed != null && overlay != null) {
-                  if (feedbackBox.style.border === "solid green" && Date.now() - timestamp > 2000) {
-                    videoFeed.style.width = "1px"
-                    videoFeed.style.height = "1px"
-                    overlay.style.width = "1px"
-                    overlay.style.height = "1px"
-                    feedbackBox.style.display = "none"
-                    if (switcher == 0) {
-                      timestamp = Date.now()
-                      switcher = 1
-                    }
-                  } else if (Date.now() - timestamp > 2000) {
-                    videoFeed.style.width = "320px"
-                    videoFeed.style.height = "240px"
-                    overlay.style.width = "320px"
-                    overlay.style.height = "240px"
-                    feedbackBox.style.display = "block"
-                    if (switcher == 1) {
-                      timestamp = Date.now()
-                      switcher = 0
-                    }
-                  }
-                }
-                // End: for hiding video if eyes are inside the box
-                sendDataToBackend(gazeData); // websocket stuff: replace if not needed, e.g. w/ console.log(gazeData)
-              }
-            })
-            .begin()
+          setWebgazerDataCollection();
+          return () => {
+            if (webgazer) {
+              console.log("ended webgazer")
+              webgazer.end();
+            }
+          };
         }
-        return () => {
-          if (webgazer) {
-            console.log("ended webgazer")
-            webgazer.end();
-          }
-        };
       }
     }
   }, [calibrated, status, webgazer]);

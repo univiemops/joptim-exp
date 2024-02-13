@@ -22,17 +22,27 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router.query]);
 
+
   // // websocket stuff begin (remove if not needed)
   const rrwebScript = `${basePath}/rrweb/rrweb.min.js`
-  // const rrwebScript = "https://cdn.jsdelivr.net/npm/rrweb@1.1.3/dist/rrweb.js"
   const rrwebPlayerScript = `${basePath}/rrweb/player/index.js`
   const status1 = useScript(rrwebScript, {
     removeOnUnmount: false,
   });
-
   const status2 = useScript(rrwebPlayerScript, {
     removeOnUnmount: false,
   });
+
+
+
+  // TODO: remove after testing
+  const testScript = `${basePath}/rrweb/rrweb.js`
+  const statusTest = useScript(testScript, {
+    removeOnUnmount: false,
+  });
+  // end
+
+
   const [socket, setSocket] = React.useState<any>(null);
   const [hostname, setHostname] = React.useState<string>("");
 
