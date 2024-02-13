@@ -5,7 +5,8 @@ import { GazeData } from "./types";
 const OPTIONAL_SUBURI: string =
   process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const webgazerScript = `${basePath}/webgazer/webgazer.js`;
+//const webgazerScript = `${basePath}/webgazer/webgazer.js`;
+const webgazerScript = `${basePath}/webgazer/webgazer_custom.js`;
 
 interface EyeTrackingProps {
   xid: string;
@@ -65,6 +66,10 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
     }
   };
 
+  React.useEffect(() => {
+    console.log("webgazer", webgazer)
+
+  }, [webgazer])
 
   // // websocket stuff end
   React.useEffect(() => {
