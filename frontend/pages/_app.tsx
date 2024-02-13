@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 
   // // websocket stuff begin (remove if not needed)
-  const rrwebScript = `${basePath}/rrweb/rrweb-record.min.js`
+  const rrwebScript = `${basePath}/rrweb/rrweb-record.js`
   const rrwebPlayerScript = `${basePath}/rrweb/player/index.js`
   const status1 = useScript(rrwebScript, {
     removeOnUnmount: false,
