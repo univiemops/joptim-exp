@@ -60,6 +60,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
   }, [hostname]);
 
 
+
   const sendDataToBackend = (data: GazeData) => {
     if (socket) {
       socket.send(JSON.stringify(data));
@@ -67,7 +68,7 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
   };
   // // websocket stuff end
 
-  const setupWebgazerCalibration = () => {
+  const setupWebgazerCalibration = async () => {
     console.log("starting webgazer calibration");
     if (webgazer) {
       try {
@@ -75,6 +76,16 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
           .showFaceOverlay(true)
           .saveDataAcrossSessions(true)
           .begin(onFail);
+
+        // const video = document.getElementById('webgazerVideoFeed');
+
+        // // A video's MediaStream object is available through its srcObject attribute
+        // const mediaStream = video.srcObject;
+
+        // // Through the MediaStream, you can get the MediaStreamTracks with getTracks():
+        // const tracks = mediaStream.getTracks();
+        // console.log(tracks[0]["label"])
+        // setWebcamId(tracks[0]["label"])
       } catch (error) {
         console.error('Error setting up Webgazer:', error);
       }
