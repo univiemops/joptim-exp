@@ -383,7 +383,7 @@ const Experiment: React.FC = () => {
       {/* remove this if you do not need eyetracking */}
       {userData["xid"] === "" ? (
         <div></div>
-      ) : !webcamAvailable ? <div>No webcam.</div> : ["consent"] ? (
+      ) : !webcamAvailable ? <div>No webcam.</div> : userData["consent"] ? (
         userData["survey"] ? (
           instructed ? (
             calibrated ? ( // remove this conditional if you do not need eyetracking
