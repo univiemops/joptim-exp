@@ -28,7 +28,7 @@ function ScrollDownIndicator() {
 
   return (
     <div className={styles.scroll_down_indicator}
-      onClick={() => window.scrollBy(0, 100)}>
+      onClick={() => window.scrollBy(0, 400)}>
       < FontAwesomeIcon
         icon={faChevronDown}
       />
