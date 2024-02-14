@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { DebriefQuestionnaire as Questionnaire } from "../../questionnaires/DebriefQuestionnaire";
 import { QuestionnaireRenderer } from "../questionnaire/Questionnaire";
 import { QuestionnaireProps } from "./types";
+import ScrollDownIndicator from '../ScrollDownIndicator';
 
 const Debrief: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
@@ -87,6 +88,7 @@ const Debrief: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
           </Button>
         </>
       )}
+      <ScrollDownIndicator />
     </div>
   );
 };

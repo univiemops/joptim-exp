@@ -14,8 +14,8 @@
 }
 
 .inner_mini {
-  height: var(--box-size_mini);
-  max-width: var(--box-size_mini);
+  height: var(--box-size-mini);
+  max-width: var(--box-size-mini);
 }
 
 .outer_left,
@@ -38,8 +38,8 @@
 
 .outer_left_empty_mini {
   /* alt. 0.5 */
-  min-width: calc(var(--tile-size-long_mini) * 1);
-  min-height: calc(var(--tile-size-long_mini) * 1);
+  min-width: calc(var(--tile-size-long-mini) * 1);
+  min-height: calc(var(--tile-size-long-mini) * 1);
 }
 
 .ylabels,
@@ -72,7 +72,7 @@
   /* alt. 0.5 */
   display: flex;
   flex-direction: row;
-  min-height: calc(var(--tile-size-long_mini) * 1);
+  min-height: calc(var(--tile-size-long-mini) * 1);
 }
 
 .xlabels,
@@ -109,7 +109,8 @@
   flex-shrink: 1;
 }
 
-.tile_container {
+.tile_container,
+.tile_container_mini {
   position: relative;
   display: flex;
   background-color: white;
@@ -120,12 +121,14 @@
   max-height: 100%;
 }
 
-.tile_row {
+.tile_row,
+.tile_row_mini {
   display: flex;
   flex-direction: row;
 }
 
-.tile_row_workers {
+.tile_row_workers,
+.tile_row_workers_mini{
   display: flex;
   flex-direction: row;
 }

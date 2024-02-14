@@ -9,6 +9,7 @@ interface PropsXLabelTile {
   activeTasks: number[];
   tasks: Array<number>;
   icons: boolean;
+  mini?: boolean;
 }
 
 interface PropsYLabelTile {
@@ -16,10 +17,11 @@ interface PropsYLabelTile {
   color: string;
   assigned: boolean;
   icons: boolean;
+  mini?: boolean;
 }
 
 export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
-  const { size, activeTasks, tasks, icons } = props;
+  const { size, activeTasks, tasks, icons, mini } = props;
 
   const remainingSize =
     size - sumOfArray(activeTasks.map((task) => tasks[task]));
@@ -30,8 +32,8 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
   }
 
   return (
-    <div className={styles.worker_label_outer}>
-      <div className={styles.worker_label}>
+    <div className={mini ? styles.worker_label_outer_mini : styles.worker_label_outer}>
+      <div className={mini ? styles.worker_label_mini : styles.worker_label}>
         {icons && (
           <FontAwesomeIcon
             icon={faBoxOpen}
@@ -60,15 +62,15 @@ export const XLabelTile: React.FC<PropsXLabelTile> = (props) => {
 };
 
 export const YLabelTile: React.FC<PropsYLabelTile> = (props) => {
-  const { size, color, assigned, icons } = props;
+  const { size, color, assigned, icons, mini } = props;
   let opacity: number = 1;
   if (assigned) {
     opacity = 0.2;
   }
   return (
     <>
-      <div className={styles.task_label_outer}>
-        <div className={styles.task_label}>
+      <div className={mini ? styles.task_label_outer_mini : styles.task_label_outer}>
+        <div className={mini ? styles.task_label_mini : styles.task_label}>
           <span
             style={
               assigned

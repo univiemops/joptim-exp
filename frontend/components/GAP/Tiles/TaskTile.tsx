@@ -5,10 +5,11 @@ interface PropsTaskTile {
   size: number;
   color: string;
   assigned: boolean;
+  mini?: boolean;
 }
 
 export const TaskTile: React.FC<PropsTaskTile> = (props) => {
-  const { size, color, assigned } = props;
+  const { size, color, assigned, mini } = props;
   let opacity: number = 1;
   let filter: string = "";
   if (assigned) {
@@ -24,7 +25,7 @@ export const TaskTile: React.FC<PropsTaskTile> = (props) => {
         alignItems: "center",
       }}
     >
-      <div className={styles.task_tile}>
+      <div className={mini ? styles.task_tile_mini : styles.task_tile}>
         <div
           style={{
             width: String(size).concat("%"),
@@ -32,7 +33,7 @@ export const TaskTile: React.FC<PropsTaskTile> = (props) => {
             filter: filter,
             opacity: opacity,
           }}
-          className={styles.task_tile_inner}
+          className={mini ? styles.task_tile_inner_mini : styles.task_tile_inner}
         ></div>
       </div>
     </div>

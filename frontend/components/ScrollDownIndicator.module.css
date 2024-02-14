@@ -1,0 +1,19 @@
+   .scroll_down_indicator {
+     position: fixed;
+     bottom: 15px;
+     left: 50%;
+     transform: translateX(-50%);
+     font-size: 2.5rem;
+     animation: scrollAnimation 1s infinite alternate;
+     cursor: pointer;
+   }  
+   @keyframes scrollAnimation {
+     0% {
+       opacity: 0.5;
+       transform: translateX(-50%) translateY(0);
+     }
+     100% {
+       opacity: 1;
+       transform: translateX(-50%) translateY(10px);
+     }
+   }

@@ -5,10 +5,11 @@ interface PropsAssignTile {
   active: boolean;
   freeze: boolean;
   onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
+  mini?: boolean;
 }
 
 export const AssignTile: React.FC<PropsAssignTile> = (props) => {
-  const { onClick, active, freeze } = props;
+  const { onClick, active, freeze, mini } = props;
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!freeze) {
@@ -19,7 +20,7 @@ export const AssignTile: React.FC<PropsAssignTile> = (props) => {
 
   return (
     <div
-      className={freeze ? styles.tile_disabled : styles.tile}
+      className={mini ? freeze ? styles.tile_disabled_mini : styles.tile_mini : freeze ? styles.tile_disabled : styles.tile}
       onClick={handleClick}
     >
       {active && (

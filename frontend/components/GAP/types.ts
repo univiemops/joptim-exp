@@ -10,4 +10,5 @@ export interface GAPProps {
   ) => void;
   freeze: boolean;
   icons: boolean;
+  mini?: boolean;
 }

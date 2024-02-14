@@ -7,10 +7,11 @@ interface PropsWorkerTile {
   size: number;
   activeTasks: number[];
   tasks: Array<number>;
+  mini?: boolean
 }
 
 export const WorkerTile: React.FC<PropsWorkerTile> = (props) => {
-  const { size, activeTasks, tasks } = props;
+  const { size, activeTasks, tasks, mini } = props;
 
   const remainingSize =
     size - sumOfArray(activeTasks.map((task) => tasks[task]));
@@ -23,16 +24,16 @@ export const WorkerTile: React.FC<PropsWorkerTile> = (props) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <div className={styles.worker_tile}>
+      <div className={mini ? styles.worker_tile_mini : styles.worker_tile}>
         <div
           style={{ height: String(size).concat("%") }}
-          className={styles.worker_tile_inner_capacity}
+          className={mini ? styles.worker_tile_inner_capacity_mini : styles.worker_tile_inner_capacity}
         ></div>
-        <div className={styles.worker_tile_load_container}>
+        <div className={mini ? styles.worker_tile_load_container_mini : styles.worker_tile_load_container}>
           {activeTasks.map((task, idx) => (
             <div
               key={idx}
-              className={styles.worker_tile_load}
+              className={mini ? styles.worker_tile_load_mini : styles.worker_tile_load}
               style={{
                 minHeight: String(tasks[task]).concat("%"),
                 backgroundColor: cmap[task],

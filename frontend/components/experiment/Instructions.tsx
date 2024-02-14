@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import InstructionGAPWrapper from "../GAP/InstructionGAPWrapper";
 import { InstructionsProps } from "./types"
-
+import ScrollDownIndicator from '../ScrollDownIndicator';
 
 const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
   return (
@@ -75,6 +75,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
           START
         </Button>
       </div>
+      <ScrollDownIndicator />
     </div>
   );
 }

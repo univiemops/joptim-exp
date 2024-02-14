@@ -3,12 +3,9 @@ import GAP from "./GAP";
 
 const InstructionGAPWrapper = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
-  const [tasks, setTasks] = useState<Array<number>>([70, 55, 45, 40, 20, 10]);
-  const [workers, setWorkers] = useState<Array<number>>([80, 70, 60, 20]);
+  const [tasks, _setTasks] = useState<Array<number>>([70, 55, 45, 40, 20, 10]);
+  const [workers, _setWorkers] = useState<Array<number>>([80, 70, 60, 20]);
 
-  if (typeof document !== "undefined") {
-    document.documentElement.style.setProperty(`--box-size-mini`, `20rem`);
-  }
   if (typeof document !== "undefined") {
     document.documentElement.style.setProperty(`--rows`, `${tasks.length}`);
   }
@@ -58,6 +55,7 @@ const InstructionGAPWrapper = () => {
       freeze={false}
       icons={true}
       handleTileClick={handleTileClick}
+      mini={true}
     />
   );
 };

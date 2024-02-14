@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { ConsentForm as Questionnaire } from "../../questionnaires/ConsentForm";
 import { QuestionnaireRenderer } from "../questionnaire/Questionnaire";
 import { QuestionnaireProps } from "./types";
+import ScrollDownIndicator from '../ScrollDownIndicator';
 
 const Consent: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
   const [filledOut, setFilledOut] = React.useState<boolean>(false);
@@ -90,6 +91,7 @@ const Consent: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
           </Button>
         </>
       )}
+      <ScrollDownIndicator />
     </div>
   );
 };
