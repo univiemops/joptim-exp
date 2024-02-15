@@ -1,7 +1,7 @@
 import { Questionnaire } from "../components/questionnaire/questionnaireTypes";
 
 export const ConsentForm: Questionnaire = {
-  title: "Informed Consent Form for Online Psychological Experiment",
+  title: "Informed Consent",
   description: "",
   items: [
     {
