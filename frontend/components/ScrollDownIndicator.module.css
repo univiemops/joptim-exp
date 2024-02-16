@@ -1,6 +1,6 @@
    .scroll_down_indicator {
      position: fixed;
-     bottom: 15px;
+     bottom: 3rem;
      left: 50%;
      transform: translateX(-50%);
      font-size: 2.5rem;
