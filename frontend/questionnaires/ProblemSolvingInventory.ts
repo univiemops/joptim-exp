@@ -17,12 +17,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When a solution to a problem was unsuccessful, I do not examine why it didn't work.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -33,12 +33,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When I am confronted with a complex problem, I do not bother to develop a strategy to collect information so I can define exactly what the problem is.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -49,12 +49,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When my first efforts to solve a problem fail, I become uneasy about my ability to handle the situation.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -65,12 +65,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "After I have solved a problem, I do not analyze what went right or what went wrong.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -81,12 +81,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "I am usually able to think up creative and effective alternatives to solve a problem.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -97,12 +97,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "After I have tried to solve a problem with a certain course of action, I take time and compare the actual outcome to what I thought should have happened.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -113,12 +113,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When I have a problem, I think up as many possible ways to handle it as I can until I can't come up with any more ideas.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -129,12 +129,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When confronted with a problem, I consistently examine my feelings to find out what is going on in a problem situation.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -145,12 +145,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "I have the ability to solve most problems even though initially no solution is immediately apparent.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -161,12 +161,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "Many problems I face are too complex for me to solve.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -177,12 +177,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "I make decisions and am happy with them later.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -193,12 +193,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When confronted with a problem, I tend to do the first thing that I can think of to solve it.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -209,12 +209,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When deciding on an idea or possible solution to a problem, I do not take time to consider the chances of each alternative being successful.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -225,12 +225,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When confronted with a problem, I stop and think about it before deciding on a next step.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -241,12 +241,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "I generally go with the first good idea that comes to my mind.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -257,12 +257,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When making a decision, I weigh the consequences of each alternative and compare them against each other.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -273,12 +273,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When I make plans to solve a problem, I am almost certain that I can make them work.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -289,12 +289,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "I try to predict the overall result of carrying out a particular courseof action,",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -305,12 +305,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When I try to think up possible solutions to a problem, I do not come up with very many alternatives.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -321,12 +321,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "Given enough time and effort, I believe I can solve most problems that confront me.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -337,12 +337,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When faced with a novel situation I have confidence that I can handle problems that may arise.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -353,12 +353,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "Even though I work on a problem, sometimes I feel like I am groping or wandering, and am not getting down to the real issue.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -369,12 +369,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "I make snap judgments and later regret them.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -385,12 +385,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "I trust my ability to solve new and difficult problems.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -401,12 +401,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "I have a systematic method for comparing alternatives and making decisions.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -417,12 +417,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When confronted with a problem, I do not usually examine what sort of external things my environment may be contributing to my problem.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -433,12 +433,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When I am confused by a problem, one of the first things I do is survey the situation and consider all the relevant pieces of information.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -449,12 +449,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "Sometimes I get so charged up emotionally that I am unable to consider many ways of dealing with my problems.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -465,12 +465,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "After making a decision, the outcome I expected usually matches the actual outcome.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -481,12 +481,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When confronted with a problem, I am unsure of whether I can handle the situation.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
@@ -497,12 +497,12 @@ export const ProblemSolvingInventory: Questionnaire = {
       text: "When I become aware of a problem, one of the first things I do is to try to find out exactly what the problem is.",
       options: {
         labels: {
-          1: "strongly agree",
-          2: "moderately agree",
-          3: "slightly agree",
-          4: "slightly disagree",
-          5: "moderately disagree",
-          6: "strongly disagree",
+          1: "strongly disagree",
+          2: "moderately disagree",
+          3: "slightly disagree",
+          4: "slightly agree",
+          5: "moderately agree",
+          6: "strongly agree",
         }
       },
     },
