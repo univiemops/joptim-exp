@@ -13,16 +13,22 @@ export const DebriefQuestionnaire: Questionnaire = {
       text: "Thank you for taking part in this study. As one of the initial participants to have taken part in this study, we would like to ask you a few additional texts about your experience of the study and any feedback you have about your experience in taking part.",
     },
     {
-      id: "txt2",
-      type: "info",
-      title: "",
-      text: "The following texts are all optional. All feedback, both positive and negative, is appreciated.",
-    },
-    {
       id: "txt3",
       type: "info",
       title: "",
-      text: "Providing feedback here will have no effect on your receiving payment for taking part in this study.",
+      text: "Providing feedback here will have no effect on your receiving payment for taking part in this study. All feedback, both positive and negative, is appreciated.",
+    },
+    {
+      id: "line1",
+      type: "line",
+      title: "",
+      text: "",
+    },
+    {
+      id: "9",
+      type: "freeText",
+      title: "Your Strategies",
+      text: "What strategies or principles did you use to choose between the two solutions?",
     },
     {
       id: "line1",
