@@ -8,7 +8,7 @@ export const ConsentForm: Questionnaire = {
       id: "txt1",
       type: "info",
       title: "Introduction",
-      text: "Dear participant, I am Dominik Pegler, a researcher conducting a psychological experiment. Before you decide to participate, please read the following information carefully.",
+      text: "Dear participant, this is a psychological experiment. Before you decide to participate, please read the following information carefully.",
     },
     {
       id: "txt2",
