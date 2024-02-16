@@ -32,7 +32,7 @@ const StimulusPage2: React.FC<{
       <>
         <div className="trial-instruction">
           <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
-            Which of the two solutions do you prefer?
+            Which of the two solutions do you find easier to understand?
           </span>
           <div
             id="progress-bar"

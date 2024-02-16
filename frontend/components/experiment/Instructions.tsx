@@ -16,7 +16,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
       </p>{" "}
       <p>
         {" "}
-        In the center of the screen you will see a matrix with{" "}
+        In the center of the screen you will see a table with{" "}
         <b>books (rows)</b> and <b>boxes (columns)</b>. The <b>goal</b> is to
         fill up the boxes as much as possible. Each box has a fixed capacity
         and each book a fixed size, indicated by the numbers. Please try to
@@ -47,18 +47,19 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
       </div>
       <p>
         To assign a book to a box, simply{" "}
-        <b>click on the corresponding cell</b> in the matrix. You can try it
+        <b>click on the corresponding cell</b> in the table. You can try it
         out here. Once assigned, the cell will be marked with a circle. You
         can undo your assignment by clicking on the same cell or assigning the
-        book to a different box if it has sufficient resources. When you are
+        book to a different box if it has sufficient capacity. When you are
         satisfied with your assignments, click the <b>SUBMIT</b> button.
       </p>
       <p>
         Please note that it will not always be possible to assign all of the
         books, but <b>try to assign the books as best you can.</b>
       </p>
+
       <p>
-        If you are ready, click <b>START</b>. Thank you for
+        When you are ready, click <b>START</b>. You will then be taken to the webcam calibration page. Please make sure you perform the experiment in a well-lit environment. Thank you for
         participating in this experiment!
       </p>
       <div className="instructions-footer">

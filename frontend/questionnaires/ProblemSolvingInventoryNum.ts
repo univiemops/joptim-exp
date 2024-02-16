@@ -201,7 +201,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "20",
       type: "likert",
       title: "",
-      text: "I try to predict the overall result of carrying out a particular courseof action,",
+      text: "I try to predict the overall result of carrying out a particular course of action,",
       options: {
         length: 6,
         rightLabel: "strongly agree",
