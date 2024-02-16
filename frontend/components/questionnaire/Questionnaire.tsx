@@ -13,6 +13,7 @@ import {
   Questionnaire,
   QuestionnaireItem,
   LikertScaleOptions,
+  LikertScaleLabelOptions,
 } from "./questionnaireTypes";
 
 export const QuestionnaireRenderer: React.FC<{
@@ -80,6 +81,15 @@ const QuestionnaireItemRenderer: React.FC<{
     case "likert":
       return (
         <LikertItem
+          item={item}
+          response={response}
+          highlightMissing={highlightMissing}
+          handleRadioButtonResponse={handleRadioButtonResponse}
+        />
+      );
+    case "likertLabels":
+      return (
+        <LikertLabelsItem
           item={item}
           response={response}
           highlightMissing={highlightMissing}
@@ -272,7 +282,7 @@ const LikertItem: React.FC<{
       {item.text}
     </p>
 
-    {isLikertScaleOptions(item.options) && (
+    {isLikertScaleOptions(item.options) ? (
       <div className={styles.survey_item_response_area}>
         <span className={styles.survey_item_left_end}>
           {item.options && item.options.leftLabel}
@@ -317,7 +327,7 @@ const LikertItem: React.FC<{
           {item.options && item.options.rightLabel}
         </span>
       </div>
-    )}
+    ) : null}
   </div>
 );
 
@@ -331,6 +341,73 @@ function isLikertScaleOptions(options: any): options is LikertScaleOptions {
     "length" in options
   );
 }
+
+
+const LikertLabelsItem: React.FC<{
+  item: QuestionnaireItem;
+  response: string;
+  highlightMissing: boolean;
+  handleRadioButtonResponse: (itemId: string, optionId: string) => void;
+}> = ({ item, response, highlightMissing, handleRadioButtonResponse }) => (
+  <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
+    <p className={styles.survey_item_text}>
+      <b>{item.title !== "" && item.title.concat(": ")}</b>
+      {item.text}
+    </p>
+
+    {isLikertLabelScaleOptions(item.options) ? (
+      <div className={styles.survey_item_response_area}>
+        <ToggleButtonGroup
+          value={response}
+          onChange={(_, value) =>
+            value && handleRadioButtonResponse(item.id, value.toString())
+          }
+          exclusive
+          size="small"
+          fullWidth={true}
+          className={styles.survey_item_buttons_label}
+        >
+          {item.options ? (
+            Object.keys(item.options.labels).map((key, _) => (
+              <ToggleButton
+                key={key}
+                className={styles.survey_item_buttons_label_wrap}
+                value={key}
+                style={
+                  response === (key).toString()
+                    ? {
+                      backgroundColor: "lightsteelblue",
+                      fontSize: "large",
+                      textTransform: "none",
+                    }
+                    : {
+                      fontSize: "large",
+                      textTransform: "none",
+                    }
+                }
+              >
+                {item.options && "labels" in item.options ? item.options.labels[Number(key)] : null}
+              </ToggleButton>
+            ))
+          ) : (
+            <div>no options</div>
+          )}
+        </ToggleButtonGroup>
+      </div>
+    ) : null}
+  </div>
+);
+
+// guard function to check that type is likertLabel
+function isLikertLabelScaleOptions(options: any): options is LikertScaleLabelOptions {
+  return (
+    typeof options === "object" &&
+    options !== null &&
+    "labels" in options
+  );
+}
+
+
 
 const FreeTextItem: React.FC<{
   item: QuestionnaireItem;

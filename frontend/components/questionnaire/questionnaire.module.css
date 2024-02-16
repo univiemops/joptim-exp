@@ -51,3 +51,12 @@
 .survey_item_buttons {
     width: 70%;
 }
+
+
+.survey_item_buttons_label {
+    width: 100%;
+}
+
+.survey_item_buttons_label_wrap {
+  word-spacing:1000px; 
+}

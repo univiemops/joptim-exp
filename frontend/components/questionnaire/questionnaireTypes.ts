@@ -11,13 +11,14 @@ export interface QuestionnaireItem {
   | "noyestext"
   | "check"
   | "likert"
+  | "likertLabels"
   | "freeText"
   | "freeTextOpt"
   | "info"
   | "line";
   title: string;
   text: string;
-  options?: LikertScaleOptions | string[]; // For dichotomous or Likert-scaled items
+  options?: LikertScaleOptions | LikertScaleLabelOptions | string[]; // For dichotomous or Likert-scaled items
 }
 
 export interface LikertScaleOptions {
@@ -25,3 +26,11 @@ export interface LikertScaleOptions {
   leftLabel: string;
   rightLabel: string;
 }
+
+export interface LikertScaleLabelOptions {
+  labels: Labels;
+}
+
+interface Labels {
+  [key: number]: string
+};
