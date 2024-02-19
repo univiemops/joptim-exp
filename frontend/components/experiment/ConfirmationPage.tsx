@@ -41,23 +41,46 @@ const ConfirmationPage: React.FC<{
           }}
         >
           {trial === 0 || tasks.length === 0 ? (
-            <div
-              id="confirmation-page-1-initial"
-            >
+            <div id="confirmation-page-1-initial">
               <b>Start!</b>
             </div>
           ) : (
             <>
-              <div
-
-                id="confirmation-page-1-ongoing"
-              >
-                {optimal_utility > utility ? (
+              {optimal_utility > utility ? (
+                <div id="confirmation-page-1-ongoing">
                   <div>
                     <b>Trial {trial} completed!</b> Your score is <b>{utility}</b>
                     , the optimal solution is <b>{optimal_utility}</b>.
                   </div>
-                ) : (
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {" "}
+                    <GAP
+                      tasks={tasks}
+                      assignments={assignments}
+                      workers={workers}
+                      freeze={true}
+                      icons={false}
+                    />
+                    <GAP
+                      tasks={tasks}
+                      assignments={assignmentsOptimal}
+                      workers={workers}
+                      freeze={true}
+                      icons={false}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div id="confirmation-page-1-ongoing">
                   <div>
                     <b>Trial completed!</b> You found an{" "}
                     <span style={{ color: "darkgreen", fontWeight: "bold" }}>
@@ -65,34 +88,10 @@ const ConfirmationPage: React.FC<{
                     </span>{" "}
                     (score: {utility}).
                   </div>
-                )}
-                <br />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  maxWidth: "100%",
-                }}
-              >
-                {" "}
-                <GAP
-                  tasks={tasks}
-                  assignments={assignments}
-                  workers={workers}
-                  freeze={true}
-                  icons={false}
-                />
-                <GAP
-                  tasks={tasks}
-                  assignments={assignmentsOptimal}
-                  workers={workers}
-                  freeze={true}
-                  icons={false}
-                />
-              </div>
+
+                  <br />
+                </div>
+              )}
             </>
           )}
         </div>
