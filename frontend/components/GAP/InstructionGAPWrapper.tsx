@@ -2,7 +2,7 @@ import { useState } from "react";
 import GAP from "./GAP";
 
 const InstructionGAPWrapper = () => {
-  const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
+  const [assignments, setAssignments] = useState<Array<[number, number]>>([[1, 2], [5, 3], [0, 0]]);
   const [tasks, _setTasks] = useState<Array<number>>([70, 55, 45, 40, 20, 10]);
   const [workers, _setWorkers] = useState<Array<number>>([80, 70, 60, 20]);
 
