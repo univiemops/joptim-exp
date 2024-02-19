@@ -8,6 +8,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
+import DOMPurify from "dompurify";
 
 import {
   Questionnaire,
@@ -51,98 +52,115 @@ const QuestionnaireItemRenderer: React.FC<{
   highlightMissing: boolean;
   handleTextResponse: (itemId: string, value: string) => void;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, highlightMissing, handleTextResponse, handleRadioButtonResponse }) => {
-  switch (item.type) {
-    case "dichotomous":
-      return (
-        <DichotomousItem
-          item={item}
-          highlightMissing={highlightMissing}
-          handleRadioButtonResponse={handleRadioButtonResponse}
-        />
-      );
-    case "check":
-      return (
-        <SingleCheckboxItem
-          item={item}
-          highlightMissing={highlightMissing}
-          handleRadioButtonResponse={handleRadioButtonResponse}
-        />
-      );
-    case "noyestext":
-      return (
-        <NoYesTextItem
-          item={item}
-          response={response}
-          highlightMissing={highlightMissing}
-          handleRadioButtonResponse={handleRadioButtonResponse}
-        />
-      );
-    case "likert":
-      return (
-        <LikertItem
-          item={item}
-          response={response}
-          highlightMissing={highlightMissing}
-          handleRadioButtonResponse={handleRadioButtonResponse}
-        />
-      );
-    case "likertLabels":
-      return (
-        <LikertLabelsItem
-          item={item}
-          response={response}
-          highlightMissing={highlightMissing}
-          handleRadioButtonResponse={handleRadioButtonResponse}
-        />
-      );
-    case "freeTextOpt":
-      return (
-        <FreeTextItem
-          item={item}
-          response={response}
-          optional={true}
-          highlightMissing={highlightMissing}
-          handleTextResponse={handleTextResponse}
-        />
-      );
-    case "freeText":
-      return (
-        <FreeTextItem
-          item={item}
-          response={response}
-          optional={false}
-          highlightMissing={highlightMissing}
-          handleTextResponse={handleTextResponse}
-        />
-      );
-    case "info":
-      return <InfoItem item={item} />;
-    case "line":
-      return <LineItem />;
-    default:
-      return null;
-  }
-};
+}> = ({
+  item,
+  response,
+  highlightMissing,
+  handleTextResponse,
+  handleRadioButtonResponse,
+}) => {
+    switch (item.type) {
+      case "dichotomous":
+        return (
+          <DichotomousItem
+            item={item}
+            highlightMissing={highlightMissing}
+            handleRadioButtonResponse={handleRadioButtonResponse}
+          />
+        );
+      case "check":
+        return (
+          <SingleCheckboxItem
+            item={item}
+            highlightMissing={highlightMissing}
+            handleRadioButtonResponse={handleRadioButtonResponse}
+          />
+        );
+      case "noyestext":
+        return (
+          <NoYesTextItem
+            item={item}
+            response={response}
+            highlightMissing={highlightMissing}
+            handleRadioButtonResponse={handleRadioButtonResponse}
+          />
+        );
+      case "likert":
+        return (
+          <LikertItem
+            item={item}
+            response={response}
+            highlightMissing={highlightMissing}
+            handleRadioButtonResponse={handleRadioButtonResponse}
+          />
+        );
+      case "likertLabels":
+        return (
+          <LikertLabelsItem
+            item={item}
+            response={response}
+            highlightMissing={highlightMissing}
+            handleRadioButtonResponse={handleRadioButtonResponse}
+          />
+        );
+      case "freeTextOpt":
+        return (
+          <FreeTextItem
+            item={item}
+            response={response}
+            optional={true}
+            highlightMissing={highlightMissing}
+            handleTextResponse={handleTextResponse}
+          />
+        );
+      case "freeText":
+        return (
+          <FreeTextItem
+            item={item}
+            response={response}
+            optional={false}
+            highlightMissing={highlightMissing}
+            handleTextResponse={handleTextResponse}
+          />
+        );
+      case "info":
+        return <InfoItem item={item} />;
+      case "line":
+        return <LineItem />;
+      default:
+        return null;
+    }
+  };
 
 const DichotomousItem: React.FC<{
   item: QuestionnaireItem;
   highlightMissing: boolean;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
 }> = ({ item, highlightMissing, handleRadioButtonResponse }) => {
-  const [response, setResponse] = React.useState<string | null>(null)
+  const [response, setResponse] = React.useState<string | null>(null);
+
+  const sanitizedHTML = DOMPurify.sanitize(item.text);
   return (
-    <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
+    <div
+      className={
+        response || !highlightMissing
+          ? styles.survey_item
+          : styles.survey_item_missing
+      }
+    >
       <p className={styles.survey_item_text}>
         <b>{item.title !== "" && item.title.concat(": ")}</b>
 
-        {item.text}
+        <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
       </p>
       <div className={styles.survey_item_response_area}>
         <FormControl>
           <RadioGroup
             name={`radio-group-${item.id}`}
-            onChange={(e) => { setResponse(e.target.value); handleRadioButtonResponse(item.id, e.target.value) }}
+            onChange={(e) => {
+              setResponse(e.target.value);
+              handleRadioButtonResponse(item.id, e.target.value);
+            }}
           >
             {item.options &&
               Array.isArray(item.options) &&
@@ -162,7 +180,7 @@ const DichotomousItem: React.FC<{
         </FormControl>
       </div>
     </div>
-  )
+  );
 };
 
 const NoYesTextItem: React.FC<{
@@ -177,12 +195,20 @@ const NoYesTextItem: React.FC<{
     setTextResponse(e.target.value);
     handleRadioButtonResponse(item.id, e.target.value);
   };
+
+  const sanitizedHTML = DOMPurify.sanitize(item.text);
   return (
-    <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
+    <div
+      className={
+        response || !highlightMissing
+          ? styles.survey_item
+          : styles.survey_item_missing
+      }
+    >
       <p className={styles.survey_item_text}>
         <b>{item.title !== "" && item.title.concat(": ")}</b>
 
-        {item.text}
+        <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
       </p>
       <div className={styles.survey_item_response_area_noyes}>
         <FormControl>
@@ -235,9 +261,17 @@ const SingleCheckboxItem: React.FC<{
   highlightMissing: boolean;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
 }> = ({ item, highlightMissing, handleRadioButtonResponse }) => {
-  const [response, setResponse] = React.useState<string | null>(null)
+  const [response, setResponse] = React.useState<string | null>(null);
+
+  const sanitizedHTML = DOMPurify.sanitize(item.text);
   return (
-    <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
+    <div
+      className={
+        response || !highlightMissing
+          ? styles.survey_item
+          : styles.survey_item_missing
+      }
+    >
       <p className={styles.survey_item_text}>
         <b>{item.title}</b>
       </p>
@@ -252,14 +286,15 @@ const SingleCheckboxItem: React.FC<{
               fontSize: "large",
             }}
           >
-            {item.text}
+            <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
           </div>
           labelPlacement="end"
           control={
             <Checkbox
               name={`single-checkbox-${item.id}`}
               onChange={(e) => {
-                setResponse(e.target.checked.toString()); handleRadioButtonResponse(item.id, e.target.checked.toString())
+                setResponse(e.target.checked.toString());
+                handleRadioButtonResponse(item.id, e.target.checked.toString());
               }}
               sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
             />
@@ -267,7 +302,7 @@ const SingleCheckboxItem: React.FC<{
         />
       </div>
     </div>
-  )
+  );
 };
 
 const LikertItem: React.FC<{
@@ -275,61 +310,71 @@ const LikertItem: React.FC<{
   response: string;
   highlightMissing: boolean;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, highlightMissing, handleRadioButtonResponse }) => (
-  <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
-    <p className={styles.survey_item_text}>
-      <b>{item.title !== "" && item.title.concat(": ")}</b>
-      {item.text}
-    </p>
+}> = ({ item, response, highlightMissing, handleRadioButtonResponse }) => {
+  const sanitizedHTML = DOMPurify.sanitize(item.text);
 
-    {isLikertScaleOptions(item.options) ? (
-      <div className={styles.survey_item_response_area}>
-        <span className={styles.survey_item_left_end}>
-          {item.options && item.options.leftLabel}
-        </span>
-        <ToggleButtonGroup
-          value={response}
-          onChange={(_, value) =>
-            value && handleRadioButtonResponse(item.id, value.toString())
-          }
-          exclusive
-          size="small"
-          fullWidth={true}
-          className={styles.survey_item_buttons}
-        >
-          {item.options && item.options.length > 0 ? (
-            Array.from({ length: item.options.length }).map((_, i) => (
-              <ToggleButton
-                key={i}
-                value={i + 1}
-                style={
-                  response === (i + 1).toString()
-                    ? {
-                      backgroundColor: "lightsteelblue",
-                      fontSize: "large",
-                      textTransform: "none",
-                    }
-                    : {
-                      fontSize: "large",
-                      textTransform: "none",
-                    }
-                }
-              >
-                {i + 1}
-              </ToggleButton>
-            ))
-          ) : (
-            <div>no options</div>
-          )}
-        </ToggleButtonGroup>
+  return (
+    <div
+      className={
+        response || !highlightMissing
+          ? styles.survey_item
+          : styles.survey_item_missing
+      }
+    >
+      <p className={styles.survey_item_text}>
+        <b>{item.title !== "" && item.title.concat(": ")}</b>
+        <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+      </p>
 
-        <span className={styles.survey_item_right_end}>
-          {item.options && item.options.rightLabel}
-        </span>
-      </div>
-    ) : null}
-  </div>
-);
+      {isLikertScaleOptions(item.options) ? (
+        <div className={styles.survey_item_response_area}>
+          <span className={styles.survey_item_left_end}>
+            {item.options && item.options.leftLabel}
+          </span>
+          <ToggleButtonGroup
+            value={response}
+            onChange={(_, value) =>
+              value && handleRadioButtonResponse(item.id, value.toString())
+            }
+            exclusive
+            size="small"
+            fullWidth={true}
+            className={styles.survey_item_buttons}
+          >
+            {item.options && item.options.length > 0 ? (
+              Array.from({ length: item.options.length }).map((_, i) => (
+                <ToggleButton
+                  key={i}
+                  value={i + 1}
+                  style={
+                    response === (i + 1).toString()
+                      ? {
+                        backgroundColor: "lightsteelblue",
+                        fontSize: "large",
+                        textTransform: "none",
+                      }
+                      : {
+                        fontSize: "large",
+                        textTransform: "none",
+                      }
+                  }
+                >
+                  {i + 1}
+                </ToggleButton>
+              ))
+            ) : (
+              <div>no options</div>
+            )}
+          </ToggleButtonGroup>
+
+          <span className={styles.survey_item_right_end}>
+            {item.options && item.options.rightLabel}
+          </span>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 // guard function to check that type is likert
 function isLikertScaleOptions(options: any): options is LikertScaleOptions {
@@ -342,72 +387,78 @@ function isLikertScaleOptions(options: any): options is LikertScaleOptions {
   );
 }
 
-
 const LikertLabelsItem: React.FC<{
   item: QuestionnaireItem;
   response: string;
   highlightMissing: boolean;
   handleRadioButtonResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, highlightMissing, handleRadioButtonResponse }) => (
-  <div className={response || !highlightMissing ? styles.survey_item : styles.survey_item_missing}>
-    <p className={styles.survey_item_text}>
-      <b>{item.title !== "" && item.title.concat(": ")}</b>
-      {item.text}
-    </p>
+}> = ({ item, response, highlightMissing, handleRadioButtonResponse }) => {
+  const sanitizedHTML = DOMPurify.sanitize(item.text);
+  return (
+    <div
+      className={
+        response || !highlightMissing
+          ? styles.survey_item
+          : styles.survey_item_missing
+      }
+    >
+      <p className={styles.survey_item_text}>
+        <b>{item.title !== "" && item.title.concat(": ")}</b>
+        <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+      </p>
 
-    {isLikertLabelScaleOptions(item.options) ? (
-      <div className={styles.survey_item_response_area}>
-        <ToggleButtonGroup
-          value={response}
-          onChange={(_, value) =>
-            value && handleRadioButtonResponse(item.id, value.toString())
-          }
-          exclusive
-          size="small"
-          fullWidth={true}
-          className={styles.survey_item_buttons_label}
-        >
-          {item.options ? (
-            Object.keys(item.options.labels).map((key, _) => (
-              <ToggleButton
-                key={key}
-                className={styles.survey_item_buttons_label_wrap}
-                value={key}
-                style={
-                  response === (key).toString()
-                    ? {
-                      backgroundColor: "lightsteelblue",
-                      fontSize: "large",
-                      textTransform: "none",
-                    }
-                    : {
-                      fontSize: "large",
-                      textTransform: "none",
-                    }
-                }
-              >
-                {item.options && "labels" in item.options ? item.options.labels[Number(key)] : null}
-              </ToggleButton>
-            ))
-          ) : (
-            <div>no options</div>
-          )}
-        </ToggleButtonGroup>
-      </div>
-    ) : null}
-  </div>
-);
+      {isLikertLabelScaleOptions(item.options) ? (
+        <div className={styles.survey_item_response_area}>
+          <ToggleButtonGroup
+            value={response}
+            onChange={(_, value) =>
+              value && handleRadioButtonResponse(item.id, value.toString())
+            }
+            exclusive
+            size="small"
+            fullWidth={true}
+            className={styles.survey_item_buttons_label}
+          >
+            {item.options ? (
+              Object.keys(item.options.labels).map((key, _) => (
+                <ToggleButton
+                  key={key}
+                  className={styles.survey_item_buttons_label_wrap}
+                  value={key}
+                  style={
+                    response === key.toString()
+                      ? {
+                        backgroundColor: "lightsteelblue",
+                        fontSize: "large",
+                        textTransform: "none",
+                      }
+                      : {
+                        fontSize: "large",
+                        textTransform: "none",
+                      }
+                  }
+                >
+                  {item.options && "labels" in item.options
+                    ? item.options.labels[Number(key)]
+                    : null}
+                </ToggleButton>
+              ))
+            ) : (
+              <div>no options</div>
+            )}
+          </ToggleButtonGroup>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 // guard function to check that type is likertLabel
-function isLikertLabelScaleOptions(options: any): options is LikertScaleLabelOptions {
-  return (
-    typeof options === "object" &&
-    options !== null &&
-    "labels" in options
-  );
+function isLikertLabelScaleOptions(
+  options: any,
+): options is LikertScaleLabelOptions {
+  return typeof options === "object" && options !== null && "labels" in options;
 }
-
-
 
 const FreeTextItem: React.FC<{
   item: QuestionnaireItem;
@@ -415,36 +466,51 @@ const FreeTextItem: React.FC<{
   highlightMissing: boolean;
   optional: boolean;
   handleTextResponse: (itemId: string, optionId: string) => void;
-}> = ({ item, response, highlightMissing, optional, handleTextResponse }) => (
-  <div className={response || !highlightMissing || optional ? styles.survey_item : styles.survey_item_missing}>
-    <p className={styles.survey_item_text}>
-      <b>{item.title !== "" && item.title.concat(": ")}</b>
-      {item.text}
-    </p>
-    <TextField
-      id={`debrief-input-field-${item.id}`}
-      label="Feedback"
-      multiline
-      rows={5}
-      variant="filled"
-      value={response}
-      onChange={(e) => handleTextResponse(item.id, e.target.value)}
-      InputProps={{ style: { fontSize: "x-large" } }}
-      style={{ width: "100%" }}
-    />
-  </div>
-);
+}> = ({ item, response, highlightMissing, optional, handleTextResponse }) => {
+  const sanitizedHTML = DOMPurify.sanitize(item.text);
+  return (
+    <div
+      className={
+        response || !highlightMissing || optional
+          ? styles.survey_item
+          : styles.survey_item_missing
+      }
+    >
+      <p className={styles.survey_item_text}>
+        <b>{item.title !== "" && item.title.concat(": ")}</b>
 
-const InfoItem: React.FC<{ item: QuestionnaireItem }> = ({ item }) => (
-  <div className={styles.survey_item}>
-    <div className={styles.survey_item_text}>
-      <p>
-        <b>{item.title}</b>
+        <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
       </p>
-      <p>{item.text}</p>
+      <TextField
+        id={`debrief-input-field-${item.id}`}
+        label="Feedback"
+        multiline
+        rows={5}
+        variant="filled"
+        value={response}
+        onChange={(e) => handleTextResponse(item.id, e.target.value)}
+        InputProps={{ style: { fontSize: "x-large" } }}
+        style={{ width: "100%" }}
+      />
     </div>
-  </div>
-);
+  );
+};
+
+const InfoItem: React.FC<{ item: QuestionnaireItem }> = ({ item }) => {
+  const sanitizedHTML = DOMPurify.sanitize(item.text);
+  return (
+    <div className={styles.survey_item}>
+      <div className={styles.survey_item_text}>
+        <p>
+          <b>{item.title}</b>
+        </p>
+        <p>
+          <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const LineItem = () => (
   <div className={styles.survey_item}>

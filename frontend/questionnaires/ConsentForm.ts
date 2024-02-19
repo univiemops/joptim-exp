@@ -38,7 +38,7 @@ export const ConsentForm: Questionnaire = {
       id: "txt5",
       type: "info",
       title: "Eye-tracking and mouse movements",
-      text: "The study will also collect mouse movement and eye-tracking data to better understand how people evaluate complex tasks. For this purpose it is necessary to have a working webcam. Please note that we are not recording the video, but only the coordinates of the points on the screen that were looked at. Please make sure you perform the experiment in a well-lit environment.",
+      text: "The study will also collect mouse movement and eye-tracking data to better understand how people evaluate complex tasks. For this purpose it is necessary to have a working webcam. Please note that we are not storing any video data, but only the coordinates of the points on the screen that were looked at. Please make sure you perform the experiment in a well-lit environment.",
     },
     {
       id: "txt6",

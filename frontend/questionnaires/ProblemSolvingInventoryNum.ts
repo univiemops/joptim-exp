@@ -14,7 +14,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "1",
       type: "likert",
       title: "",
-      text: "When a solution to a problem was unsuccessful, I do not examine why it didn't work.",
+      text: "When a solution to a problem was unsuccessful, I do <b>not</b> examine why it didn't work.",
       options: {
         length: 6,
         rightLabel: "strongly agree",
@@ -25,7 +25,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "2",
       type: "likert",
       title: "",
-      text: "When I am confronted with a complex problem, I do not bother to develop a strategy to collect information so I can define exactly what the problem is.",
+      text: "When I am confronted with a complex problem, I do <b>not</b> bother to develop a strategy to collect information so I can define exactly what the problem is.",
       options: {
         length: 6,
         rightLabel: "strongly agree",
@@ -47,7 +47,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "4",
       type: "likert",
       title: "",
-      text: "After I have solved a problem, I do not analyze what went right or what went wrong.",
+      text: "After I have solved a problem, I do <b>not</b> analyze what went right or what went wrong.",
       options: {
         length: 6,
         rightLabel: "strongly agree",
@@ -146,7 +146,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "15",
       type: "likert",
       title: "",
-      text: "When deciding on an idea or possible solution to a problem, I do not take time to consider the chances of each alternative being successful.",
+      text: "When deciding on an idea or possible solution to a problem, I do <b>not</b> take time to consider the chances of each alternative being successful.",
       options: {
         length: 6,
         rightLabel: "strongly agree",
@@ -212,7 +212,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "21",
       type: "likert",
       title: "",
-      text: "When I try to think up possible solutions to a problem, I do not come up with very many alternatives.",
+      text: "When I try to think up possible solutions to a problem, I do <b>not</b> come up with very many alternatives.",
       options: {
         length: 6,
         rightLabel: "strongly agree",
@@ -245,7 +245,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "25",
       type: "likert",
       title: "",
-      text: "Even though I work on a problem, sometimes I feel like I am groping or wandering, and am not getting down to the real issue.",
+      text: "Even though I work on a problem, sometimes I feel like I am groping or wandering, and am <b>not</b> getting down to the real issue.",
       options: {
         length: 6,
         rightLabel: "strongly agree",
@@ -289,7 +289,7 @@ export const ProblemSolvingInventory: Questionnaire = {
       id: "30",
       type: "likert",
       title: "",
-      text: "When confronted with a problem, I do not usually examine what sort of external things my environment may be contributing to my problem.",
+      text: "When confronted with a problem, I do <b>not</b> usually examine what sort of external things my environment may be contributing to my problem.",
       options: {
         length: 6,
         rightLabel: "strongly agree",
