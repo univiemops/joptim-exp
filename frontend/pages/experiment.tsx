@@ -6,6 +6,7 @@ import StimulusPage2 from "../components/experiment/StimulusPage2";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
 import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
 import Debrief from "../components/experiment/Debrief";
+import Strategies from "../components/experiment/Strategies";
 import PSI from "../components/experiment/PSI";
 import Consent from "../components/experiment/Consent";
 import Instructions from "../components/experiment/Instructions";
@@ -19,7 +20,7 @@ import {
 } from "../utils/submitFunctions";
 import EyeTracking from "../eyetracking/EyeTracking"; // remove this if you do not need eyetracking
 import Calibration from "../eyetracking/Calibration"; // remove this if you do not need eyetracking
-import Head from 'next/head'
+import Head from "next/head";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
@@ -34,7 +35,8 @@ interface UserDataProps {
   survey: boolean;
   completed_1: boolean;
   completed_2: boolean;
-  notes: boolean;
+  strategies: boolean;
+  debrief: boolean;
 }
 
 const initialUserData: UserDataProps = {
@@ -43,7 +45,8 @@ const initialUserData: UserDataProps = {
   survey: false,
   completed_1: false,
   completed_2: false,
-  notes: false,
+  strategies: false,
+  debrief: false,
 };
 
 const Experiment: React.FC = () => {
@@ -75,6 +78,7 @@ const Experiment: React.FC = () => {
   const [trial2, setTrial2] = useState<number>(0);
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserDataProps>(initialUserData);
+  const [completedEverything, setCompletedEverything] = useState<boolean>(false);
   const router = useRouter();
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
@@ -107,22 +111,14 @@ const Experiment: React.FC = () => {
       })
       .catch((error) => {
         console.error(error);
-        alert(
-          "Oops! Unable to connect to the server. Please try again later.",
-        );
+        alert("Oops! Unable to connect to the server. Please try again later.");
       });
   };
 
   const setCSSvar = () => {
-    document.documentElement.style.setProperty(
-      `--rows`,
-      `${tasks.length}`,
-    );
-    document.documentElement.style.setProperty(
-      `--cols`,
-      `${workers.length}`,
-    );
-  }
+    document.documentElement.style.setProperty(`--rows`, `${tasks.length}`);
+    document.documentElement.style.setProperty(`--cols`, `${workers.length}`);
+  };
 
   const handleTrialComplete1 = () => {
     if (startTime !== null) {
@@ -137,7 +133,7 @@ const Experiment: React.FC = () => {
             workers,
             assignments,
             startTime,
-            endTime
+            endTime,
           );
           setLoading(true);
           setPrevAssignments(assignments);
@@ -239,7 +235,7 @@ const Experiment: React.FC = () => {
     if (XID !== undefined && typeof XID === "string") {
       setUserData((prevUser) => ({ ...prevUser, survey: true }));
       handleUpdateUser(XID, "survey", true);
-      handleSubmitSurvey(1, XID, responses); // first entry defines the type of survey
+      handleSubmitSurvey("psi", XID, responses); // first entry defines the type of survey
       handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
@@ -248,9 +244,20 @@ const Experiment: React.FC = () => {
 
   const handleFinishDebrief = (responses: Record<string, string>) => {
     if (XID !== undefined && typeof XID === "string") {
-      setUserData((prevUser) => ({ ...prevUser, notes: true }));
-      handleUpdateUser(XID, "notes", true);
-      handleSubmitSurvey(2, XID, responses); // first entry defines the type of survey
+      setUserData((prevUser) => ({ ...prevUser, debrief: true }));
+      handleUpdateUser(XID, "debrief", true);
+      handleSubmitSurvey("debrief", XID, responses); // first entry defines the type of survey
+      handleScrollToTop();
+    } else {
+      console.error("XID is undefined or not a string");
+    }
+  };
+
+  const handleFinishStrategies = (responses: Record<string, string>) => {
+    if (XID !== undefined && typeof XID === "string") {
+      setUserData((prevUser) => ({ ...prevUser, strategies: true }));
+      handleUpdateUser(XID, "strategies", true);
+      handleSubmitSurvey("strategies", XID, responses); // first entry defines the type of survey
       handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
@@ -315,6 +322,20 @@ const Experiment: React.FC = () => {
     }
   };
 
+  function areAllBooleanFieldsTrue(obj: UserDataProps) {
+    for (const key in obj) {
+      if (typeof obj[key] === 'boolean' && !obj[key]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+  useEffect(() => {
+    setCompletedEverything(areAllBooleanFieldsTrue(userData))
+  }, [userData]);
+
   useEffect(() => {
     if (XID != undefined) {
       if (Array.isArray(XID)) {
@@ -328,7 +349,7 @@ const Experiment: React.FC = () => {
   // runs on every trial change
   useEffect(() => {
     setCSSvar();
-  }, [isTrialCompleted1, isTrialCompleted2])
+  }, [isTrialCompleted1, isTrialCompleted2]);
 
   // runs when Trial in part 1 is completed
   useEffect(() => {
@@ -343,56 +364,64 @@ const Experiment: React.FC = () => {
 
   // runs once to set the inital values
   // part 1
-  let ranEffect = 0
+  let ranEffect = 0;
   useEffect(() => {
     if (ranEffect === 0) {
       fetchGame();
       startTime = Date.now();
-      console.log("fetched inital game (part 1).")
-      ranEffect = 1
+      console.log("fetched inital game (part 1).");
+      ranEffect = 1;
     }
-  }, [])
-
+  }, []);
 
   // runs once to set the inital values
   // part 2
-  let ranEffect2 = 0
+  let ranEffect2 = 0;
   useEffect(() => {
     if (ranEffect2 === 0 && userData["completed_1"]) {
       fetchGame();
       startTime = Date.now();
-      console.log("fetched inital game (part2).")
-      ranEffect2 = 1
+      console.log("fetched inital game (part2).");
+      ranEffect2 = 1;
     }
-  }, [isTrialCompleted1])
+  }, [isTrialCompleted1]);
 
-  // remove this if you do not need eyetracking 
+  // remove this if you do not need eyetracking
   const handleFail = () => {
-    console.log("No webcam!")
-    setWebcamAvailable(false)
-  } // TODO: needs a better solution that permanently check webcam access.
+    console.log("No webcam!");
+    setWebcamAvailable(false);
+  }; // TODO: needs a better solution that permanently check webcam access.
 
   return (
     <div className="App">
       <Head>
         <title>Online experiment</title>
       </Head>
-      {instructed && typeof XID === "string" ? ( // eyetracking
+      {instructed && typeof XID === "string" && completedEverything === false ? ( // eyetracking
         <EyeTracking xid={XID} calibrated={calibrated} onFail={handleFail} /> // eyetracking
       ) : null}{" "}
       {/* remove this if you do not need eyetracking */}
       {userData["xid"] === "" ? (
         <div></div>
-      ) : !webcamAvailable ? <div>No webcam.</div> : userData["consent"] ? (
+      ) : !webcamAvailable ? (
+        <div>No webcam.</div>
+      ) : userData["consent"] ? (
         userData["survey"] ? (
           instructed ? (
-            calibrated ? ( // remove this conditional if you do not need eyetracking
+            calibrated || completedEverything ? ( // remove this conditional if you do not need eyetracking
               userData["completed_1"] ? (
                 userData["completed_2"] ? (
-                  <Debrief
-                    onSubmit={handleFinishDebrief}
-                    finished={userData["notes"]}
-                  />
+                  userData["strategies"] ? (
+                    <Debrief
+                      onSubmit={handleFinishDebrief}
+                      finished={userData["debrief"]}
+                    />
+                  ) : (
+                    <Strategies
+                      onSubmit={handleFinishStrategies}
+                      finished={userData["strategies"]}
+                    />
+                  )
                 ) : isTrialCompleted2 ? (
                   <ConfirmationPage2
                     trial={trial2}

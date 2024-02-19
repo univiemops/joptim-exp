@@ -8,6 +8,7 @@ file. This might change in future versions.
 import os
 import databases
 import sqlalchemy
+from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from typing import List
 from fastapi import FastAPI, HTTPException, WebSocket
 from dotenv import load_dotenv
@@ -15,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import schemas
 import numpy as np
 import pickle
-from typing import Dict, Any
+from typing import Dict, Any, Union
 from starlette.websockets import WebSocketDisconnect
 import re
 import csv
@@ -63,8 +64,10 @@ survey = sqlalchemy.Table(
     "survey",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("xid", sqlalchemy.String),
-    sqlalchemy.Column("result", sqlalchemy.JSON),
+    sqlalchemy.Column("xid", sqlalchemy.String, unique=True),
+    sqlalchemy.Column("result_psi", sqlalchemy.JSON),
+    sqlalchemy.Column("result_strategies", sqlalchemy.JSON),
+    sqlalchemy.Column("result_debrief", sqlalchemy.JSON),
 )
 
 # single trial results table
@@ -87,36 +90,6 @@ results_dual = sqlalchemy.Table(
     sqlalchemy.Column("result", sqlalchemy.JSON),
 )
 
-# survey PSI results table
-
-results_survey_psi = sqlalchemy.Table(
-    "survey_psi",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("xid", sqlalchemy.String),
-    sqlalchemy.Column("result", sqlalchemy.JSON),
-)
-
-# dual debrief results table
-
-results_survey_debrief = sqlalchemy.Table(
-    "survey_debrief",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("xid", sqlalchemy.String),
-    sqlalchemy.Column("result", sqlalchemy.JSON),
-)
-
-# notes table
-
-notes = sqlalchemy.Table(
-    "notes",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("xid", sqlalchemy.String),
-    sqlalchemy.Column("text", sqlalchemy.String),
-)
-
 # user table
 
 # when someone enters the app this table is checked
@@ -133,7 +106,8 @@ user = sqlalchemy.Table(
     sqlalchemy.Column("survey", sqlalchemy.Boolean),
     sqlalchemy.Column("completed_1", sqlalchemy.Boolean),
     sqlalchemy.Column("completed_2", sqlalchemy.Boolean),
-    sqlalchemy.Column("notes", sqlalchemy.Boolean),
+    sqlalchemy.Column("strategies", sqlalchemy.Boolean),
+    sqlalchemy.Column("debrief", sqlalchemy.Boolean),
 )
 
 # eyetracking table
@@ -224,13 +198,6 @@ async def shutdown():
     await database.disconnect()
 
 
-@app.get("/notes/", response_model=List[schemas.Note])
-async def read_notes():
-    """Read notes."""
-    query = notes.select()
-    return await database.fetch_all(query)
-
-
 # test post requests: curl -X POST "http://localhost:8000/xid/" \\
 # -H "Content-Type: application/json" -d '{"pid": "Hello"}'
 
@@ -258,20 +225,12 @@ async def get_user_trials_dual_completed(xid: str) -> int:
     return len(response)
 
 
-@app.post("/user/")
-async def get_user(pseudo_id: schemas.PseudoIdIn) -> dict:
+@app.post("/user/", response_model=schemas.User)
+async def get_user(pseudo_id: schemas.PseudoIdIn):
     """Retrieve section completion status for a user."""
     query = user.select().where(user.c.xid == pseudo_id.xid)
     response = await database.fetch_one(query)
-    user_values = {
-        "xid": response.xid,
-        "consent": response.consent,
-        "survey": response.survey,
-        "completed_1": response.completed_1,
-        "completed_2": response.completed_2,
-        "notes": response.notes,
-    }
-    return user_values
+    return response
 
 
 @app.post("/user-update/")
@@ -301,7 +260,8 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
             "survey": False,
             "completed_1": False,
             "completed_2": False,
-            "notes": False,
+            "strategies": False,
+            "debrief": False,
         }
 
         query = user.insert().values(new_user_values)
@@ -349,25 +309,26 @@ async def create_results_dual(result: schemas.ResultIn):
     return {**result.dict(), "id": last_record_id}
 
 
-@app.post("/results-survey/", response_model=schemas.Result)
+@app.post("/results-survey/") #, response_model=schemas.SurveyResult)
 async def create_result_survey(result: schemas.SurveyResultIn):
     """Store the results of a survey in the database."""
-    if result.survey_id == 1:
-        query = results_survey_psi.insert().values(xid=result.xid, result=result.result)
-    if result.survey_id == 2:
-        query = results_survey_debrief.insert().values(
-            xid=result.xid, result=result.result
+
+    column_to_update = "result_" + result.survey_id
+
+    if column_to_update:
+        query = postgres_insert(survey).values(
+            xid=result.xid, 
+            **{column_to_update: result.result}
+        ).on_conflict_do_update(
+            index_elements=['xid'],
+            set_={column_to_update: result.result}
         )
-    last_record_id = await database.execute(query)
-    return {**result.dict(), "id": last_record_id}
 
+        last_record_id = await database.execute(query)
+        #return {**result.dict(), "id": last_record_id}
 
-@app.post("/notes-create/", response_model=schemas.Note)
-async def create_note(note: schemas.NoteIn):
-    """Store feedback from textfield."""
-    query = notes.insert().values(xid=note.xid, text=note.text)
-    last_record_id = await database.execute(query)
-    return {**note.dict(), "id": last_record_id}
+    else:
+        HTTPException(status_code=400, detail="Invalid survey_id")
 
 
 @app.post("/rrweb/")

@@ -20,7 +20,7 @@ export const ConsentForm: Questionnaire = {
       id: "txt3",
       type: "info",
       title: "Procedures",
-      text: "In part one, we will introduce you to a problem-solving task and let you solve some examples to make sure you understand it.In part two, we will show you pairs of solutions to various example problems, and we want you to choose the solution that you prefer.",
+      text: "In part one, we will introduce you to a problem-solving task and let you solve some examples to make sure you understand it. In part two, we will show you pairs of solutions to various example problems, and we want you to choose the solution that you prefer.",
     },
     {
       id: "txt4",

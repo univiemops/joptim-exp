@@ -75,7 +75,7 @@ export const handleSubmit2 = async (
 };
 
 export const handleSubmitSurvey = async (
-  surveyId: number,
+  surveyId: string,
   xid: string,
   result: { [key: string]: string },
 ): Promise<void> => {

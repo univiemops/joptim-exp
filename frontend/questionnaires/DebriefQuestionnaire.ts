@@ -25,18 +25,6 @@ export const DebriefQuestionnaire: Questionnaire = {
       text: "",
     },
     {
-      id: "9",
-      type: "freeText",
-      title: "Your Strategies",
-      text: "What strategies or principles did you use to choose between the two solutions?",
-    },
-    {
-      id: "line1",
-      type: "line",
-      title: "",
-      text: "",
-    },
-    {
       id: "txt4",
       type: "info",
       title: "Study Experience",
