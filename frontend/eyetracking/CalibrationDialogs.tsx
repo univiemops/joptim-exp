@@ -136,6 +136,8 @@ export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({
   onCalibrated,
 }) => {
   const [countdown, setCountdown] = React.useState(5);
+  const [message, setMessage] = React.useState("");
+  const [title, setTitle] = React.useState("");
 
   React.useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -155,6 +157,32 @@ export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({
     };
   }, [showDialog]);
 
+
+  React.useEffect(() => {
+    if (accuracy) {
+      if (accuracy >= 93) {
+        setTitle(
+          "Great job! Your calibration precision is excellent.")
+        setMessage(
+          "Your eye movements will be accurately tracked during the experiment. You're all set to proceed!")
+      } else if (accuracy >= 83) {
+        setTitle("Good job! Your calibration precision is solid.")
+        setMessage("Your eye movements will be reliably tracked during the experiment. You're ready to continue!")
+      } else if (accuracy >= 75) {
+        setTitle(
+          "Your calibration precision is average.")
+        setMessage(
+          "Consider recalibrating for optimal accuracy. You can proceed, but repeating calibration may enhance precision.")
+      } else if (accuracy >= 60) {
+        setTitle("Your calibration precision is below average.")
+        setMessage("We recommend recalibrating to ensure accurate eye tracking. Please follow the instructions carefully for a more reliable experience.")
+      } else {
+        setTitle("Uh-oh! Your calibration precision is poor.")
+        setMessage("Please recalibrate. Make sure to follow the instructions closely, and ensure proper lighting conditions for accurate eye tracking.")
+      }
+    }
+  }, [accuracy]);
+
   return (
     <Dialog open={showDialog} sx={{ zIndex: 10001 }}>
       <DialogTitle id="alert-dialog-title-pred"></DialogTitle>
@@ -163,9 +191,8 @@ export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({
           id="alert-dialog-description-pred"
           sx={{ userSelect: "none" }}
         >
-          <p style={{ fontWeight: "bold", fontSize: "x-large" }}>
-            Your accuracy measure is {accuracy}%.
-          </p>
+          <p style={{ fontWeight: "bold", fontSize: "x-large" }}>{title}</p>
+          <p>{message}</p>
           <p>
             Click "OK" if you want to proceed to the experiment, click
             "Recalibrate" if you want to try again.{" "}
