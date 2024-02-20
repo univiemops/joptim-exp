@@ -429,11 +429,14 @@ const LikertLabelsItem: React.FC<{
                     response === key.toString()
                       ? {
                         backgroundColor: "lightsteelblue",
-                        fontSize: "large",
+                        fontSize: "medium",
+                        padding: "0px",
                         textTransform: "none",
+
                       }
                       : {
-                        fontSize: "large",
+                        fontSize: "medium",
+                        padding: "0px",
                         textTransform: "none",
                       }
                   }
