@@ -194,8 +194,6 @@ export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({
           <p style={{ fontWeight: "bold", fontSize: "x-large" }}>{title}</p>
           <p>{message}</p>
           <p>
-            Click "OK" if you want to proceed to the experiment, click
-            "Recalibrate" if you want to try again.{" "}
             {countdown > 0 ? `Wait ${countdown}s` : null}
           </p>
         </DialogContentText>
@@ -205,7 +203,7 @@ export const DialogAccuracyAfter: React.FC<DialogAccuracyAfterProps> = ({
           Recalibrate
         </Button>
         <Button onClick={() => onCalibrated()} disabled={countdown > 0}>
-          OK
+          Proceed
         </Button>
       </DialogActions>
     </Dialog>
