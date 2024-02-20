@@ -50,8 +50,8 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
         <b>click on the corresponding cell</b> in the table. You can try it
         out here. Once assigned, the cell will be marked with a circle. You
         can undo your assignment by clicking on the same cell or assigning the
-        book to a different box if it has sufficient capacity. When you are
-        satisfied with your assignments, click the <b>SUBMIT</b> button.
+        book to a different box if it has sufficient capacity. At the bottom
+        you will see a <b>SUBMIT</b> button. Click it when you are satiesfied with your assignments.
       </p>
       <p>
         Please note that it will not always be possible to assign all of the
