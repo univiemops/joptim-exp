@@ -88,16 +88,29 @@ const ConfirmationPage: React.FC<{
                     </span>{" "}
                     (score: {utility}).
                   </div>
-
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      justifyContent: "center",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    <GAP
+                      tasks={tasks}
+                      assignments={assignments}
+                      workers={workers}
+                      freeze={true}
+                      icons={false}
+                    />
+                  </div>
                   <br />
                 </div>
               )}
             </>
           )}
         </div>
-        <span style={{ color: "black", fontSize: "x-large", margin: "2rem" }}>
-          Click <b>Continue</b> when you are ready to proceed.
-        </span>
         <Button
           size="large"
           variant="contained"
