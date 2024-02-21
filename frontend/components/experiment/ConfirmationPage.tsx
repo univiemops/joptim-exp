@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 
 const ConfirmationPage: React.FC<{
   trial: number;
+  nTrials: number;
   utility: number;
   optimal_utility: number;
   assignments: Array<[number, number]>;
@@ -13,6 +14,7 @@ const ConfirmationPage: React.FC<{
   onContinue: () => void;
 }> = ({
   trial,
+  nTrials,
   utility,
   optimal_utility,
   assignments,
@@ -49,7 +51,7 @@ const ConfirmationPage: React.FC<{
               {optimal_utility > utility ? (
                 <div id="confirmation-page-1-ongoing">
                   <div>
-                    <b>Trial {trial} completed!</b> Your score is <b>{utility}</b>
+                    <b>Complete trial {trial} of {nTrials}!</b> Your score is <b>{utility}</b>
                     , the optimal solution is <b>{optimal_utility}</b>.
                   </div>
                   <br />
@@ -82,7 +84,7 @@ const ConfirmationPage: React.FC<{
               ) : (
                 <div id="confirmation-page-1-ongoing">
                   <div>
-                    <b>Trial completed!</b> You found an{" "}
+                    <b>Completed trial {trial} of {nTrials}!</b> You found an{" "}
                     <span style={{ color: "darkgreen", fontWeight: "bold" }}>
                       optimal solution
                     </span>{" "}

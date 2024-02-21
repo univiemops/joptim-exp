@@ -3,8 +3,9 @@ import { Button } from "@mui/material";
 
 const ConfirmationPage2: React.FC<{
   trial: number;
+  nTrials: number;
   onContinue: () => void;
-}> = ({ trial, onContinue }) => {
+}> = ({ trial, nTrials, onContinue }) => {
   return (
     <div
       id="confirmation-page-2"
@@ -36,7 +37,7 @@ const ConfirmationPage2: React.FC<{
           </div>
         ) : (
           <div id="confirmation-page-2-ongoing">
-            <b>Finished trial {trial}</b>
+            <b>Finished trial {trial} of {nTrials}.</b>
           </div>
         )}
       </div>

@@ -446,6 +446,7 @@ const Experiment: React.FC = () => {
                 ) : isTrialCompleted2 ? (
                   <ConfirmationPage2
                     trial={trial2}
+                    nTrials={nTrialsMain}
                     onContinue={handleContinue2}
                   />
                 ) : loading ? (
@@ -464,6 +465,7 @@ const Experiment: React.FC = () => {
               ) : isTrialCompleted1 ? (
                 <ConfirmationPage
                   trial={trial}
+                  nTrials={nTrialsIntro}
                   utility={getUtility(prevTasks, prevAssignments)}
                   optimal_utility={prevUtility}
                   assignments={prevAssignments}
