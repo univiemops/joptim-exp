@@ -108,7 +108,7 @@ export const DialogAccuracyBefore: React.FC<DialogAccuracyBeforeProps> = ({
           id="alert-dialog-description-train"
           sx={{ userSelect: "none" }}
         >
-          Please don't move your mouse & stare at the middle dot for the next 5
+          After clicking "OK", please don't move your mouse & stare at the middle dot for the next 5
           seconds. This will allow us to calculate the accuracy of our
           predictions. {countdown > 0 ? `Wait ${countdown}s.` : null}
         </DialogContentText>
