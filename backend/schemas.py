@@ -41,7 +41,8 @@ class EventIn(BaseModel):
 class SurveyResult(BaseModel):
     xid: str
     result_psi: Optional[dict]
-    result_strategies: Optional[dict]
+    result_strategies_1: Optional[dict]
+    result_strategies_2: Optional[dict]
     result_demographics: Optional[dict]
     result_debrief: Optional[dict]
 
@@ -68,6 +69,7 @@ class User(BaseModel):
     survey: bool
     completed_1: bool
     completed_2: bool
-    strategies: bool
+    strategies_1: bool
+    strategies_2: bool
     demographics: bool
     debrief: bool

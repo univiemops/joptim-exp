@@ -8,6 +8,7 @@ import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
 import Debrief from "../components/experiment/Debrief";
 import AdditionalDemographics from "../components/experiment/AdditionalDemographics";
 import Strategies from "../components/experiment/Strategies";
+import StrategiesSolving from "../components/experiment/StrategiesSolving";
 import PSI from "../components/experiment/PSI";
 import Consent from "../components/experiment/Consent";
 import Instructions from "../components/experiment/Instructions";
@@ -36,7 +37,8 @@ interface UserDataProps {
   survey: boolean;
   completed_1: boolean;
   completed_2: boolean;
-  strategies: boolean;
+  strategies_1: boolean;
+  strategies_2: boolean;
   demographics: boolean;
   debrief: boolean;
 }
@@ -47,7 +49,8 @@ const initialUserData: UserDataProps = {
   survey: false,
   completed_1: false,
   completed_2: false,
-  strategies: false,
+  strategies_1: false,
+  strategies_2: false,
   demographics: false,
   debrief: false,
 };
@@ -255,11 +258,22 @@ const Experiment: React.FC = () => {
     }
   };
 
+  const handleFinishStrategiesSolving = (responses: Record<string, string>) => {
+    if (XID !== undefined && typeof XID === "string") {
+      setUserData((prevUser) => ({ ...prevUser, strategies_1: true }));
+      handleUpdateUser(XID, "strategies_1", true);
+      handleSubmitSurvey("strategies_1", XID, responses); // first entry defines the type of survey
+      handleScrollToTop();
+    } else {
+      console.error("XID is undefined or not a string");
+    }
+  };
+
   const handleFinishStrategies = (responses: Record<string, string>) => {
     if (XID !== undefined && typeof XID === "string") {
-      setUserData((prevUser) => ({ ...prevUser, strategies: true }));
-      handleUpdateUser(XID, "strategies", true);
-      handleSubmitSurvey("strategies", XID, responses); // first entry defines the type of survey
+      setUserData((prevUser) => ({ ...prevUser, strategies_2: true }));
+      handleUpdateUser(XID, "strategies_2", true);
+      handleSubmitSurvey("strategies_2", XID, responses); // first entry defines the type of survey
       handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
@@ -424,42 +438,49 @@ const Experiment: React.FC = () => {
           instructed ? (
             calibrated || completedEverything ? ( // remove this conditional if you do not need eyetracking
               userData["completed_1"] ? (
-                userData["completed_2"] ? (
-                  userData["strategies"] ? (
-                    userData["demographics"] ? (
-                      <Debrief
-                        onSubmit={handleFinishDebrief}
-                        finished={userData["debrief"]}
-                      />
+                userData["strategies_1"] ? (
+                  userData["completed_2"] ? (
+                    userData["strategies_2"] ? (
+                      userData["demographics"] ? (
+                        <Debrief
+                          onSubmit={handleFinishDebrief}
+                          finished={userData["debrief"]}
+                        />
+                      ) : (
+                        <AdditionalDemographics
+                          onSubmit={handleFinishDemographics}
+                          finished={userData["demographics"]}
+                        />
+                      )
                     ) : (
-                      <AdditionalDemographics
-                        onSubmit={handleFinishDemographics}
-                        finished={userData["demographics"]}
+                      <Strategies
+                        onSubmit={handleFinishStrategies}
+                        finished={userData["strategies_2"]}
                       />
                     )
+                  ) : isTrialCompleted2 ? (
+                    <ConfirmationPage2
+                      trial={trial2}
+                      nTrials={nTrialsMain}
+                      onContinue={handleContinue2}
+                    />
+                  ) : loading ? (
+                    <div className="loading-spinner"></div>
                   ) : (
-                    <Strategies
-                      onSubmit={handleFinishStrategies}
-                      finished={userData["strategies"]}
+                    <StimulusPage2
+                      trial={trial2}
+                      nTrials={nTrialsMain}
+                      assignments1={assignmentsOptimal}
+                      assignments2={assignmentsOptimal2}
+                      tasks={tasks}
+                      workers={workers}
+                      onComplete={handleTrialComplete2}
                     />
                   )
-                ) : isTrialCompleted2 ? (
-                  <ConfirmationPage2
-                    trial={trial2}
-                    nTrials={nTrialsMain}
-                    onContinue={handleContinue2}
-                  />
-                ) : loading ? (
-                  <div className="loading-spinner"></div>
                 ) : (
-                  <StimulusPage2
-                    trial={trial2}
-                    nTrials={nTrialsMain}
-                    assignments1={assignmentsOptimal}
-                    assignments2={assignmentsOptimal2}
-                    tasks={tasks}
-                    workers={workers}
-                    onComplete={handleTrialComplete2}
+                  <StrategiesSolving
+                    onSubmit={handleFinishStrategiesSolving}
+                    finished={userData["strategies_1"]}
                   />
                 )
               ) : isTrialCompleted1 ? (

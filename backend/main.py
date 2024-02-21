@@ -66,7 +66,8 @@ survey = sqlalchemy.Table(
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("xid", sqlalchemy.String, unique=True),
     sqlalchemy.Column("result_psi", sqlalchemy.JSON),
-    sqlalchemy.Column("result_strategies", sqlalchemy.JSON),
+    sqlalchemy.Column("result_strategies_1", sqlalchemy.JSON),
+    sqlalchemy.Column("result_strategies_2", sqlalchemy.JSON),
     sqlalchemy.Column("result_demographics", sqlalchemy.JSON),
     sqlalchemy.Column("result_debrief", sqlalchemy.JSON),
 )
@@ -107,7 +108,8 @@ user = sqlalchemy.Table(
     sqlalchemy.Column("survey", sqlalchemy.Boolean),
     sqlalchemy.Column("completed_1", sqlalchemy.Boolean),
     sqlalchemy.Column("completed_2", sqlalchemy.Boolean),
-    sqlalchemy.Column("strategies", sqlalchemy.Boolean),
+    sqlalchemy.Column("strategies_1", sqlalchemy.Boolean),
+    sqlalchemy.Column("strategies_2", sqlalchemy.Boolean),
     sqlalchemy.Column("demographics", sqlalchemy.Boolean),
     sqlalchemy.Column("debrief", sqlalchemy.Boolean),
 )
@@ -262,7 +264,8 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
             "survey": False,
             "completed_1": False,
             "completed_2": False,
-            "strategies": False,
+            "strategies_1": False,
+            "strategies_2": False,
             "demographics": False,
             "debrief": False,
         }
