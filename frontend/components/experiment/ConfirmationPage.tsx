@@ -42,7 +42,7 @@ const ConfirmationPage: React.FC<{
         >
           {trial === 0 || tasks.length === 0 ? (
             <div id="confirmation-page-1-initial">
-              <b>Start!</b>
+              <p><b>Start!</b></p>
             </div>
           ) : (
             <>
@@ -111,6 +111,9 @@ const ConfirmationPage: React.FC<{
             </>
           )}
         </div>
+        <span style={{ color: "black", fontSize: "x-large", paddingBottom: "1rem" }}>
+          Click <b>Continue</b> when you are ready to proceed.
+        </span>
         <Button
           size="large"
           variant="contained"

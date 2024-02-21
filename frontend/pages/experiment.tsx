@@ -85,7 +85,6 @@ const Experiment: React.FC = () => {
     useState<boolean>(false);
   const router = useRouter();
   const { XID } = router.query;
-  const [choice, setChoice] = React.useState<number>(0);
   const [instructed, setInstructed] = React.useState<boolean>(false);
   // remove this block if you do not need eyetracking
   const [webcamAvailable, setWebcamAvailable] = React.useState<boolean>(true);
@@ -161,9 +160,8 @@ const Experiment: React.FC = () => {
     }
   };
 
-  const handleTrialComplete2 = () => {
+  const handleTrialComplete2 = (choice: number) => {
     if (startTime !== null) {
-      setChoice(0);
       const endTime: number = Date.now();
       if (!isNaN(endTime)) {
         const xidFromUserData: string | boolean = userData["xid"];
@@ -461,8 +459,6 @@ const Experiment: React.FC = () => {
                     tasks={tasks}
                     workers={workers}
                     onComplete={handleTrialComplete2}
-                    setChoice={setChoice}
-                    choice={choice}
                   />
                 )
               ) : isTrialCompleted1 ? (

@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@mui/material";
 import GAP from "../GAP/GAP";
 
 const StimulusPage2: React.FC<{
@@ -9,9 +8,7 @@ const StimulusPage2: React.FC<{
   assignments2: Array<[number, number]>;
   tasks: Array<number>;
   workers: Array<number>;
-  onComplete: () => void;
-  setChoice: (value: number) => void;
-  choice: number;
+  onComplete: (choice: number) => void;
 }> = ({
   trial,
   nTrials,
@@ -20,14 +17,9 @@ const StimulusPage2: React.FC<{
   tasks,
   workers,
   onComplete,
-  setChoice,
-  choice,
 }) => {
-    const handleClick = (_e: React.MouseEvent<HTMLDivElement>, index: number) => {
-      setChoice(index);
-    };
     const progress = (100 * (trial - 1)) / nTrials;
-
+    const [choice, setChoice] = React.useState<number>(0);
     return (
       <>
         <div className="trial-instruction">
@@ -62,17 +54,23 @@ const StimulusPage2: React.FC<{
             flexDirection: "row",
             flexWrap: "wrap",
             justifyContent: "space-evenly",
+            cursor: "default",
           }}
         >
           <div
-            onClick={(e) => handleClick(e, 1)}
+            onClick={() => {
+              setChoice(1);
+              onComplete(1);
+            }}
             style={
               choice === 1
                 ? {
                   border: "5px solid lightgreen",
+                  cursor: "pointer",
                 }
                 : {
                   border: "5px solid #efefef",
+                  cursor: "pointer",
                 }
             }
           >
@@ -85,14 +83,19 @@ const StimulusPage2: React.FC<{
             />
           </div>
           <div
-            onClick={(e) => handleClick(e, 2)}
+            onClick={() => {
+              setChoice(2);
+              onComplete(2);
+            }}
             style={
               choice === 2
                 ? {
                   border: "5px solid lightgreen",
+                  cursor: "pointer",
                 }
                 : {
                   border: "5px solid #efefef",
+                  cursor: "pointer",
                 }
             }
           >
@@ -105,29 +108,6 @@ const StimulusPage2: React.FC<{
             />
           </div>
         </div>
-        <Button
-          disabled={choice === 0 ? true : false}
-          size="large"
-          variant="contained"
-          style={
-            choice === 0
-              ? {
-                fontSize: "x-large",
-                textTransform: "none",
-                padding: ".3rem 3rem .3rem 3rem",
-              }
-              : {
-                fontSize: "x-large",
-                color: "#ffffff",
-                background: "#000000",
-                textTransform: "none",
-                padding: ".3rem 3rem .3rem 3rem",
-              }
-          }
-          onClick={() => onComplete()}
-        >
-          SUBMIT
-        </Button>
       </>
     );
   };
