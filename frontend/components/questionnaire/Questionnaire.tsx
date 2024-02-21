@@ -68,6 +68,14 @@ const QuestionnaireItemRenderer: React.FC<{
             handleRadioButtonResponse={handleRadioButtonResponse}
           />
         );
+      case "radio":
+        return (
+          <RadioItem
+            item={item}
+            highlightMissing={highlightMissing}
+            handleRadioButtonResponse={handleRadioButtonResponse}
+          />
+        );
       case "check":
         return (
           <SingleCheckboxItem
@@ -131,6 +139,58 @@ const QuestionnaireItemRenderer: React.FC<{
         return null;
     }
   };
+
+
+const RadioItem: React.FC<{
+  item: QuestionnaireItem;
+  highlightMissing: boolean;
+  handleRadioButtonResponse: (itemId: string, optionId: string) => void;
+}> = ({ item, highlightMissing, handleRadioButtonResponse }) => {
+  const [response, setResponse] = React.useState<string | null>(null);
+
+  const sanitizedHTML = DOMPurify.sanitize(item.text);
+  return (
+    <div
+      className={
+        response || !highlightMissing
+          ? styles.survey_item
+          : styles.survey_item_missing
+      }
+    >
+      <p className={styles.survey_item_text}>
+        <b>{item.title !== "" && item.title.concat(": ")}</b>
+
+        <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
+      </p>
+      <div className={styles.survey_item_response_area}>
+        <FormControl>
+          <RadioGroup
+            name={`radio-group-${item.id}`}
+            onChange={(e) => {
+              setResponse(e.target.value);
+              handleRadioButtonResponse(item.id, e.target.value);
+            }}
+          >
+            {item.options &&
+              Array.isArray(item.options) &&
+              item.options.map((el: string, i: number) => (
+                <FormControlLabel
+                  key={i}
+                  value={i.toString()}
+                  control={<Radio />}
+                  label={el}
+                  style={{
+                    fontSize: "large",
+                    textTransform: "none",
+                  }}
+                />
+              ))}
+          </RadioGroup>
+        </FormControl>
+      </div>
+    </div>
+  );
+};
 
 const DichotomousItem: React.FC<{
   item: QuestionnaireItem;

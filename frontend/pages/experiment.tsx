@@ -6,6 +6,7 @@ import StimulusPage2 from "../components/experiment/StimulusPage2";
 import ConfirmationPage from "../components/experiment/ConfirmationPage";
 import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
 import Debrief from "../components/experiment/Debrief";
+import AdditionalDemographics from "../components/experiment/AdditionalDemographics";
 import Strategies from "../components/experiment/Strategies";
 import PSI from "../components/experiment/PSI";
 import Consent from "../components/experiment/Consent";
@@ -36,6 +37,7 @@ interface UserDataProps {
   completed_1: boolean;
   completed_2: boolean;
   strategies: boolean;
+  demographics: boolean;
   debrief: boolean;
 }
 
@@ -46,6 +48,7 @@ const initialUserData: UserDataProps = {
   completed_1: false,
   completed_2: false,
   strategies: false,
+  demographics: false,
   debrief: false,
 };
 
@@ -78,7 +81,8 @@ const Experiment: React.FC = () => {
   const [trial2, setTrial2] = useState<number>(0);
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserDataProps>(initialUserData);
-  const [completedEverything, setCompletedEverything] = useState<boolean>(false);
+  const [completedEverything, setCompletedEverything] =
+    useState<boolean>(false);
   const router = useRouter();
   const { XID } = router.query;
   const [choice, setChoice] = React.useState<number>(0);
@@ -264,6 +268,17 @@ const Experiment: React.FC = () => {
     }
   };
 
+  const handleFinishDemographics = (responses: Record<string, string>) => {
+    if (XID !== undefined && typeof XID === "string") {
+      setUserData((prevUser) => ({ ...prevUser, demographics: true }));
+      handleUpdateUser(XID, "demographics", true);
+      handleSubmitSurvey("demographics", XID, responses); // first entry defines the type of survey
+      handleScrollToTop();
+    } else {
+      console.error("XID is undefined or not a string");
+    }
+  };
+
   const handleFinishInstructions = () => {
     if (XID !== undefined && typeof XID === "string") {
       setInstructed(true);
@@ -324,16 +339,15 @@ const Experiment: React.FC = () => {
 
   function areAllBooleanFieldsTrue(obj: UserDataProps) {
     for (const key in obj) {
-      if (typeof obj[key] === 'boolean' && !obj[key]) {
+      if (typeof obj[key] === "boolean" && !obj[key]) {
         return false;
       }
     }
     return true;
   }
 
-
   useEffect(() => {
-    setCompletedEverything(areAllBooleanFieldsTrue(userData))
+    setCompletedEverything(areAllBooleanFieldsTrue(userData));
   }, [userData]);
 
   useEffect(() => {
@@ -397,7 +411,9 @@ const Experiment: React.FC = () => {
       <Head>
         <title>Online experiment</title>
       </Head>
-      {instructed && typeof XID === "string" && completedEverything === false ? ( // eyetracking
+      {instructed &&
+        typeof XID === "string" &&
+        completedEverything === false ? ( // eyetracking
         <EyeTracking xid={XID} calibrated={calibrated} onFail={handleFail} /> // eyetracking
       ) : null}{" "}
       {/* remove this if you do not need eyetracking */}
@@ -412,10 +428,17 @@ const Experiment: React.FC = () => {
               userData["completed_1"] ? (
                 userData["completed_2"] ? (
                   userData["strategies"] ? (
-                    <Debrief
-                      onSubmit={handleFinishDebrief}
-                      finished={userData["debrief"]}
-                    />
+                    userData["demographics"] ? (
+                      <Debrief
+                        onSubmit={handleFinishDebrief}
+                        finished={userData["debrief"]}
+                      />
+                    ) : (
+                      <AdditionalDemographics
+                        onSubmit={handleFinishDemographics}
+                        finished={userData["demographics"]}
+                      />
+                    )
                   ) : (
                     <Strategies
                       onSubmit={handleFinishStrategies}

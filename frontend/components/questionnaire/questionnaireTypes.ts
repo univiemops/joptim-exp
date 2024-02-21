@@ -10,6 +10,7 @@ export interface QuestionnaireItem {
   | "dichotomous"
   | "noyestext"
   | "check"
+  | "radio"
   | "likert"
   | "likertLabels"
   | "freeText"

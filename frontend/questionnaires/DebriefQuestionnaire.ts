@@ -87,18 +87,6 @@ export const DebriefQuestionnaire: Questionnaire = {
       text: "",
     },
     {
-      id: "txt5",
-      type: "info",
-      title: "Stimuli Display",
-      text: "This next section is about stimulus presentation during the task.",
-    },
-    {
-      id: "line3",
-      type: "line",
-      title: "",
-      text: "",
-    },
-    {
       id: "7",
       type: "noyestext",
       title: "Tasks",

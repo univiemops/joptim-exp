@@ -42,6 +42,7 @@ class SurveyResult(BaseModel):
     xid: str
     result_psi: Optional[dict]
     result_strategies: Optional[dict]
+    result_demographics: Optional[dict]
     result_debrief: Optional[dict]
 
 
@@ -68,4 +69,5 @@ class User(BaseModel):
     completed_1: bool
     completed_2: bool
     strategies: bool
+    demographics: bool
     debrief: bool
