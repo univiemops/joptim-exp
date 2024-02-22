@@ -57,6 +57,7 @@ const initialUserData: UserDataProps = {
 
 const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
+  const [tileEvents, setTileEvents] = useState<Array<[number, [number, number]]>>([]);
   const [tasks, setTasks] = useState<Array<number>>([]);
   const [workers, setWorkers] = useState<Array<number>>([]);
   const [assignmentsOptimal, setAssignmentsOptimal] = useState<
@@ -138,6 +139,7 @@ const Experiment: React.FC = () => {
             tasks,
             workers,
             assignments,
+            tileEvents,
             startTime,
             endTime,
           );
@@ -503,6 +505,8 @@ const Experiment: React.FC = () => {
                   nTrials={nTrialsIntro}
                   assignments={assignments}
                   setAssignments={setAssignments}
+                  tileEvents={tileEvents}
+                  setTileEvents={setTileEvents}
                   tasks={tasks}
                   workers={workers}
                   onComplete={handleTrialComplete1}

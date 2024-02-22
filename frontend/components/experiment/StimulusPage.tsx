@@ -7,6 +7,8 @@ const StimulusPage: React.FC<{
   nTrials: number;
   assignments: Array<[number, number]>;
   setAssignments: (newAssignments: Array<[number, number]>) => void;
+  tileEvents: Array<[number, [number, number]]>;
+  setTileEvents: (newTileEvents: Array<[number, [number, number]]>) => void;
   tasks: Array<number>;
   workers: Array<number>;
   onComplete: () => void;
@@ -15,6 +17,8 @@ const StimulusPage: React.FC<{
   nTrials,
   assignments,
   setAssignments,
+  tileEvents,
+  setTileEvents,
   tasks,
   workers,
   onComplete,
@@ -24,6 +28,7 @@ const StimulusPage: React.FC<{
     coordinates: [number, number],
   ) => {
       let newAssignments = [...assignments];
+      let newTileEvents = [...tileEvents];
       let index = newAssignments.findIndex(
         (a) => a[0] === coordinates[0] && a[1] === coordinates[1],
       );
@@ -53,7 +58,9 @@ const StimulusPage: React.FC<{
       } else {
         newAssignments.splice(index, 1);
       }
+      newTileEvents.push([Date.now(), coordinates])
       setAssignments(newAssignments);
+      setTileEvents(newTileEvents);
   };
 
   const progress = (100 * (trial - 1)) / nTrials;

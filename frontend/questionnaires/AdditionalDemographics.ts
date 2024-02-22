@@ -10,8 +10,8 @@ export const AdditionalDemographicsQuestionnaire: Questionnaire = {
       id: "1_handedness",
       type: "radio",
       title: "Handedness",
-      text: "What is your dominant hand for writing and other precision tasks?",
-      options: ["Left", "Right", "Use both hands equally"]
+      text: "Are you left or right-handed?",
+      options: ["Right", "Left", "Ambidextrous"]
     },
 
     {
@@ -26,7 +26,7 @@ export const AdditionalDemographicsQuestionnaire: Questionnaire = {
         "Undergraduate degree (BA/BSc/other)",
         "Graduate degree (MA/MSc/MPhil/other)",
         "Doctorate degree (PhD/other)",
-        "Don't know / not applicableLeft"]
+        "Don't know / not applicable"]
     },
     {
       id: "3_degree_subject",

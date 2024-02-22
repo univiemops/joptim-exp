@@ -7,6 +7,7 @@ export const handleSubmit1 = async (
   tasks: Array<number>,
   workers: Array<number>,
   assignments: Array<[number, number]>,
+  tileEvents: Array<[number, [number, number]]>,
   startTime: number,
   endTime: number,
 ): Promise<void> => {
@@ -22,6 +23,7 @@ export const handleSubmit1 = async (
           tasks: tasks,
           workers: workers,
           assignments: assignments,
+          tileEvents: tileEvents,
           start_time: startTime,
           end_time: endTime,
         },
