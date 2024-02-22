@@ -35,8 +35,8 @@ interface UserDataProps {
   xid: string;
   consent: boolean;
   survey: boolean;
-  completed_1: boolean;
-  completed_2: boolean;
+  trials_1: boolean;
+  trials_2: boolean;
   strategies_1: boolean;
   strategies_2: boolean;
   demographics: boolean;
@@ -47,8 +47,8 @@ const initialUserData: UserDataProps = {
   xid: "",
   consent: false,
   survey: false,
-  completed_1: false,
-  completed_2: false,
+  trials_1: false,
+  trials_2: false,
   strategies_1: false,
   strategies_2: false,
   demographics: false,
@@ -202,8 +202,8 @@ const Experiment: React.FC = () => {
   const handleContinue1 = () => {
     if (trial >= nTrialsIntro) {
       if (XID !== undefined && typeof XID === "string") {
-        setUserData((prevUser) => ({ ...prevUser, completed_1: true }));
-        handleUpdateUser(XID, "completed_1", true);
+        setUserData((prevUser) => ({ ...prevUser, trials_1: true }));
+        handleUpdateUser(XID, "trials_1", true);
       } else {
         console.error("XID is undefined or not a string");
       }
@@ -215,8 +215,8 @@ const Experiment: React.FC = () => {
   const handleContinue2 = () => {
     if (trial2 >= nTrialsMain) {
       if (XID !== undefined && typeof XID === "string") {
-        setUserData((prevUser) => ({ ...prevUser, completed_2: true }));
-        handleUpdateUser(XID, "completed_2", true);
+        setUserData((prevUser) => ({ ...prevUser, trials_2: true }));
+        handleUpdateUser(XID, "trials_2", true);
       } else {
         console.error("XID is undefined or not a string");
       }
@@ -404,7 +404,7 @@ const Experiment: React.FC = () => {
   // part 2
   let ranEffect2 = 0;
   useEffect(() => {
-    if (ranEffect2 === 0 && userData["completed_1"]) {
+    if (ranEffect2 === 0 && userData["trials_1"]) {
       fetchGame();
       startTime = Date.now();
       console.log("fetched inital game (part2).");
@@ -437,9 +437,9 @@ const Experiment: React.FC = () => {
         userData["survey"] ? (
           instructed ? (
             calibrated || completedEverything ? ( // remove this conditional if you do not need eyetracking
-              userData["completed_1"] ? (
+              userData["trials_1"] ? (
                 userData["strategies_1"] ? (
-                  userData["completed_2"] ? (
+                  userData["trials_2"] ? (
                     userData["strategies_2"] ? (
                       userData["demographics"] ? (
                         <Debrief

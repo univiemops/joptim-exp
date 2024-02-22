@@ -11,7 +11,7 @@ export const handleSubmit1 = async (
   endTime: number,
 ): Promise<void> => {
   try {
-    const res = await fetch(`${OPTIONAL_SUBURI}/results/`, {
+    const res = await fetch(`${OPTIONAL_SUBURI}/results-trials-1/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export const handleSubmit2 = async (
   choice: number,
 ): Promise<void> => {
   try {
-    const res = await fetch(`${OPTIONAL_SUBURI}/results-dual/`, {
+    const res = await fetch(`${OPTIONAL_SUBURI}/results-trials-2/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

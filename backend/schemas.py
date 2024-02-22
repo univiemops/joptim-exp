@@ -67,8 +67,8 @@ class User(BaseModel):
     xid: str
     consent: bool
     survey: bool
-    completed_1: bool
-    completed_2: bool
+    trials_1: bool
+    trials_2: bool
     strategies_1: bool
     strategies_2: bool
     demographics: bool

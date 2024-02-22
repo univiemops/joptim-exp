@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import schemas
 import numpy as np
 import pickle
-from typing import Dict, Any, Union
+from typing import Dict, Any
 from starlette.websockets import WebSocketDisconnect
 import re
 import csv
@@ -72,20 +72,20 @@ survey = sqlalchemy.Table(
     sqlalchemy.Column("result_debrief", sqlalchemy.JSON),
 )
 
-# single trial results table
+# solving trials results table
 
-results = sqlalchemy.Table(
-    "results",
+results_trials_1 = sqlalchemy.Table(
+    "results_trials_1",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("xid", sqlalchemy.String),
     sqlalchemy.Column("result", sqlalchemy.JSON),
 )
 
-# dual trial results table
+# preference trials results table
 
-results_dual = sqlalchemy.Table(
-    "results_dual",
+results_trials_2 = sqlalchemy.Table(
+    "results_trials_2",
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column("xid", sqlalchemy.String),
@@ -106,8 +106,8 @@ user = sqlalchemy.Table(
     sqlalchemy.Column("xid", sqlalchemy.String),
     sqlalchemy.Column("consent", sqlalchemy.Boolean),
     sqlalchemy.Column("survey", sqlalchemy.Boolean),
-    sqlalchemy.Column("completed_1", sqlalchemy.Boolean),
-    sqlalchemy.Column("completed_2", sqlalchemy.Boolean),
+    sqlalchemy.Column("trials_1", sqlalchemy.Boolean),
+    sqlalchemy.Column("trials_2", sqlalchemy.Boolean),
     sqlalchemy.Column("strategies_1", sqlalchemy.Boolean),
     sqlalchemy.Column("strategies_2", sqlalchemy.Boolean),
     sqlalchemy.Column("demographics", sqlalchemy.Boolean),
@@ -213,18 +213,18 @@ async def read_users():
     return await database.fetch_all(query)
 
 
-@app.get("/user-trials-completed/{xid}")
-async def get_user_trials_completed(xid: str) -> int:
+@app.get("/user-trials-1-completed/{xid}")
+async def get_user_trials_1_completed(xid: str) -> int:
     """Get the number of completed trials for a user."""
-    query = results.select().where(results.c.xid == xid)
+    query = results_trials_1.select().where(results_trials_1.c.xid == xid)
     response = await database.fetch_all(query)
     return len(response)
 
 
-@app.get("/user-trials-dual-completed/{xid}")
-async def get_user_trials_dual_completed(xid: str) -> int:
+@app.get("/user-trials-2-completed/{xid}")
+async def get_user_trials_2_completed(xid: str) -> int:
     """Get the number of completed trials for a user."""
-    query = results_dual.select().where(results_dual.c.xid == xid)
+    query = results_trials_2.select().where(results_trials_2.c.xid == xid)
     response = await database.fetch_all(query)
     return len(response)
 
@@ -262,8 +262,8 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
             "xid": random_xid,
             "consent": False,
             "survey": False,
-            "completed_1": False,
-            "completed_2": False,
+            "trials_1": False,
+            "trials_2": False,
             "strategies_1": False,
             "strategies_2": False,
             "demographics": False,
@@ -299,39 +299,37 @@ def new_game():
     }
 
 
-@app.post("/results/", response_model=schemas.Result)
-async def create_result(result: schemas.ResultIn):
+@app.post("/results-trials-1/", response_model=schemas.Result)
+async def create_results_trials_1(result: schemas.ResultIn):
     """Store the results of a trial in the database."""
-    query = results.insert().values(xid=result.xid, result=result.result)
+    query = results_trials_1.insert().values(xid=result.xid, result=result.result)
     last_record_id = await database.execute(query)
     return {**result.dict(), "id": last_record_id}
 
 
-@app.post("/results-dual/", response_model=schemas.Result)
-async def create_results_dual(result: schemas.ResultIn):
+@app.post("/results-trials-2/", response_model=schemas.Result)
+async def create_results_trials_2(result: schemas.ResultIn):
     """Store the results of a trial in the database."""
-    query = results_dual.insert().values(xid=result.xid, result=result.result)
+    query = results_trials_2.insert().values(xid=result.xid, result=result.result)
     last_record_id = await database.execute(query)
     return {**result.dict(), "id": last_record_id}
 
 
-@app.post("/results-survey/") #, response_model=schemas.SurveyResult)
+@app.post("/results-survey/")
 async def create_result_survey(result: schemas.SurveyResultIn):
     """Store the results of a survey in the database."""
-
     column_to_update = "result_" + result.survey_id
 
     if column_to_update:
         query = postgres_insert(survey).values(
-            xid=result.xid, 
+            xid=result.xid,
             **{column_to_update: result.result}
         ).on_conflict_do_update(
             index_elements=['xid'],
             set_={column_to_update: result.result}
         )
 
-        last_record_id = await database.execute(query)
-        #return {**result.dict(), "id": last_record_id}
+        await database.execute(query)
 
     else:
         HTTPException(status_code=400, detail="Invalid survey_id")
@@ -543,10 +541,10 @@ async def ws_test_endpoint(websocket: WebSocket):
 # DOWNLOAD CALLS
 
 
-@app.get("/results/", response_model=List[schemas.Result])
-async def read_results():
+@app.get("/results-trials-1/", response_model=List[schemas.Result])
+async def read_results_trials_1():
     """Read results."""
-    query = results.select()
+    query = results_trials_1.select()
     response = await database.fetch_all(query)
     return response
 

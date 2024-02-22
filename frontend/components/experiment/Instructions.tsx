@@ -59,8 +59,9 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
       </p>
 
       <p>
-        When you are ready, click <b>START</b>. You will then be taken to the webcam calibration page. Please make sure you perform the experiment in a well-lit environment. Thank you for
-        participating in this experiment!
+        When you are ready, click <b>START</b>. You will then be taken to the webcam calibration page. Please make sure you perform the experiment in a well-lit environment. As an aid, the webcam stream will appear in the upper left corner during the experiment whenever your eye position is no longer detected by the eye tracker. When this happens, simply move your head back into the square frame (it will change color from red to green).
+
+Thank you for participating in this experiment!
       </p>
       <div className="instructions-footer">
         <Button
