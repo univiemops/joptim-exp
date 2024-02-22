@@ -4,8 +4,8 @@ type DynamicDictionary = Record<string, string | boolean>;
 
 export const handleSubmit1 = async (
   xid: string,
-  workers: Array<number>,
   tasks: Array<number>,
+  workers: Array<number>,
   assignments: Array<[number, number]>,
   startTime: number,
   endTime: number,
@@ -38,8 +38,8 @@ export const handleSubmit1 = async (
 
 export const handleSubmit2 = async (
   xid: string,
-  workers: Array<number>,
   tasks: Array<number>,
+  workers: Array<number>,
   assignments1: Array<[number, number]>,
   assignments2: Array<[number, number]>,
   startTime: number,
