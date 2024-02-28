@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/univiemops/joptim-exp/compare/v0.1.2...v0.1.3) (2024-02-28)
+
+
+### Bug Fixes
+
+* update consent form ([93eb574](https://github.com/univiemops/joptim-exp/commit/93eb574c6415899060521a6108e811e83d0953ff))
+
 ## [0.1.2](https://github.com/univiemops/joptim-exp/compare/v0.1.1...v0.1.2) (2024-02-28)
 
 
