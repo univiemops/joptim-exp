@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/univiemops/joptim-exp/compare/v0.1.1...v0.1.2) (2024-02-28)
+
+
+### Bug Fixes
+
+* **text:** change verbs in consent form to american english, correct hyphenation, remove whitespace ([1e6414a](https://github.com/univiemops/joptim-exp/commit/1e6414a044e882d089954134c4ec12177b15be59))
+
 ## [0.1.1](https://github.com/univiemops/joptim-exp/compare/v0.1.0...v0.1.1) (2024-02-24)
 
 
