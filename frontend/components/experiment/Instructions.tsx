@@ -51,7 +51,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
         out here. Once assigned, the cell will be marked with a circle. You
         can undo your assignment by clicking on the same cell or assigning the
         book to a different box if it has sufficient capacity. At the bottom
-        you will see a <b>SUBMIT</b> button. Click it when you are satiesfied with your assignments.
+        you will see a <b>SUBMIT</b> button. Click it when you are satisfied with your assignments.
       </p>
       <p>
         Please note that it will not always be possible to assign all of the
@@ -61,7 +61,7 @@ const Instructions: React.FC<InstructionsProps> = ({ onSubmit }) => {
       <p>
         When you are ready, click <b>START</b>. You will then be taken to the webcam calibration page. Please make sure you perform the experiment in a well-lit environment. As an aid, the webcam stream will appear in the upper left corner during the experiment whenever your eye position is no longer detected by the eye tracker. When this happens, simply move your head back into the square frame (it will change color from red to green).
 
-Thank you for participating in this experiment!
+        Thank you for participating in this experiment!
       </p>
       <div className="instructions-footer">
         <Button
