@@ -25,7 +25,7 @@ export const EmptyTileXLeft: React.FC<PropsEmptyTileSimple> = (props) => {
   return (
     <div className={mini ? styles.empty_tile_x_mini : styles.empty_tile_x}>
       <div className={mini ? styles.empty_tile_label_left_mini : styles.empty_tile_label_left}>
-        <span style={{ fontWeight: "bold" }}>Full</span>
+        <span style={{ fontWeight: "bold" }}>Filled</span>
         <br />
         <span style={{ fontWeight: "bold", opacity: 0.55 }}>Total</span>
       </div>
