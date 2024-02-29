@@ -10,7 +10,7 @@ export const StrategiesQuestionnaire: Questionnaire = {
       id: "1",
       type: "freeText",
       title: "Your Strategies",
-      text: "What strategies or principles did you use to choose between the two solutions?",
+      text: "What strategies or principles did you use to make choices between the pairs of solutions?",
     },
   ],
 };
