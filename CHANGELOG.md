@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.4](https://github.com/univiemops/joptim-exp/compare/v0.1.3...v0.1.4) (2024-02-29)
+
+
+### Bug Fixes
+
+* **text:** changed strategy question ([be697b2](https://github.com/univiemops/joptim-exp/commit/be697b2891cfa2af4d44f1abc1be362f728f5bdd))
+* **text:** full-&gt;filled ([f3369c6](https://github.com/univiemops/joptim-exp/commit/f3369c685ea3aadd60d01b929ef2c7d0463698c3))
+* **text:** typo ([f50f06f](https://github.com/univiemops/joptim-exp/commit/f50f06f31a69dc3ac2f5c8c0fdf819b77adda7b5))
+
 ## [0.1.3](https://github.com/univiemops/joptim-exp/compare/v0.1.2...v0.1.3) (2024-02-28)
 
 
