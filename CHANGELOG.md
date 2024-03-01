@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/univiemops/joptim-exp/compare/v0.1.4...v0.1.5) (2024-03-01)
+
+
+### Features
+
+* **replay:** dropdown selection instead of textinput field ([a97b95a](https://github.com/univiemops/joptim-exp/commit/a97b95a3976986f6a1994026a9c11f5a1b8a2aeb))
+
 ## [0.1.4](https://github.com/univiemops/joptim-exp/compare/v0.1.3...v0.1.4) (2024-02-29)
 
 
