@@ -1,20 +1,34 @@
 import React from "react";
-import { TextField } from "@mui/material";
 import Head from 'next/head'
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
 const ReplayPage = () => {
   const [XID, setXID] = React.useState("");
+  const [PIDs, setPIDs] = React.useState([]);
 
   let loadedPlayer = 0;
 
-  const handleKeyPress = (e: any) => {
-    if (e.code === "Enter") {
-      loadedPlayer = 0;
-      setXID(e.target.value);
-    }
-  };
+  React.useEffect(() => {
+    const loadPIDs = async () => {
+      try {
+        const res = await fetch(`${OPTIONAL_SUBURI}/tables/user`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        const json = await res.json();
+        const fetchedPIDs = json.map((item: any) => item.pid);
+        console.log(fetchedPIDs)
+        setPIDs(fetchedPIDs)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadPIDs();
+  }, [])
 
   let replayer: any;
 
@@ -55,27 +69,28 @@ const ReplayPage = () => {
         const element = document.getElementById("fixed-player-container");
 
         if (element) {
-          // Clear the content of the element
           element.innerHTML = "";
         }
       }
     };
   }, [XID]);
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setXID(event.target.value as string);
+  };
+
   return (
     <div style={{ display: "block", textAlign: "left" }}>
       <Head>
         <title>Replay</title>
       </Head>
-      <TextField
-        size="small"
-        placeholder="Enter XID or PID"
-        variant="outlined"
-        defaultValue={""}
-        onKeyUp={(e) => handleKeyPress(e)}
-        autoFocus
-        sx={{ width: "300px" }}
-      ></TextField>
+      <FormControl style={{ minWidth: "250px" }}>
+        <Select
+          value={XID}
+          onChange={handleChange}
+        >{PIDs.map((item) => <MenuItem value={item}>{item}</MenuItem>)}
+        </Select>
+      </FormControl>
       <div id="fixed-player-container"></div>
     </div>
   );
