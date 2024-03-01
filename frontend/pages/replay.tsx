@@ -88,7 +88,7 @@ const ReplayPage = () => {
         <Select
           value={XID}
           onChange={handleChange}
-        >{PIDs.map((item) => <MenuItem value={item}>{item}</MenuItem>)}
+        >{PIDs.map((item, key) => <MenuItem key={key} value={item}>{item}</MenuItem>)}
         </Select>
       </FormControl>
       <div id="fixed-player-container"></div>
