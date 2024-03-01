@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6](https://github.com/univiemops/joptim-exp/compare/v0.1.5...v0.1.6) (2024-03-01)
+
+
+### Bug Fixes
+
+* **replay:** add missing key prop for element in iterator ([7b2c21d](https://github.com/univiemops/joptim-exp/commit/7b2c21d379702e4e0431fb229d71d02164034e58))
+
 ## [0.1.5](https://github.com/univiemops/joptim-exp/compare/v0.1.4...v0.1.5) (2024-03-01)
 
 
