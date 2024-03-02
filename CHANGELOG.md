@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.9](https://github.com/univiemops/joptim-exp/compare/v0.1.8...v0.1.9) (2024-03-02)
+
+
+### Bug Fixes
+
+* **replay:** blocked loading mixed active content ([39daf44](https://github.com/univiemops/joptim-exp/commit/39daf44ae8bc5491def59c387d27add41b34b3f2))
+
 ## [0.1.8](https://github.com/univiemops/joptim-exp/compare/v0.1.7...v0.1.8) (2024-03-02)
 
 
