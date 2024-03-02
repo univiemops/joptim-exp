@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.11](https://github.com/univiemops/joptim-exp/compare/v0.1.10...v0.1.11) (2024-03-02)
+
+
+### Bug Fixes
+
+* **replay:** rolled back to tables api call (mixed content problems) ([f41d1cf](https://github.com/univiemops/joptim-exp/commit/f41d1cfb43559006c35928059fbcca4344af598c))
+
 ## [0.1.10](https://github.com/univiemops/joptim-exp/compare/v0.1.9...v0.1.10) (2024-03-02)
 
 
