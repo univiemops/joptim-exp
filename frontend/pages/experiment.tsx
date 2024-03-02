@@ -23,25 +23,10 @@ import {
 import EyeTracking from "../eyetracking/EyeTracking"; // remove this if you do not need eyetracking
 import Calibration from "../eyetracking/Calibration"; // remove this if you do not need eyetracking
 import Head from "next/head";
+import { UserDataProps } from "@/components/experiment/types";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
-
-interface UserDataProps {
-  [key: string]: boolean | string; // Define allowed value types
-}
-
-interface UserDataProps {
-  xid: string;
-  consent: boolean;
-  survey: boolean;
-  trials_1: boolean;
-  trials_2: boolean;
-  strategies_1: boolean;
-  strategies_2: boolean;
-  demographics: boolean;
-  debrief: boolean;
-}
 
 const initialUserData: UserDataProps = {
   xid: "",
