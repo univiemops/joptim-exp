@@ -206,12 +206,13 @@ async def shutdown():
 # -H "Content-Type: application/json" -d '{"pid": "Hello"}'
 
 
-@app.get("/users/", response_model=List[schemas.User])
+@app.get("/users/", response_model=List[dict])
+# @app.get("/users/", response_model=List[schemas.User])
 async def read_users():
     """Retrieve user info."""
-    # table = sqlalchemy.Table("user", metadata, autoload_with=engine)
-    # query = sqlalchemy.select(table)
-    query = user.select()
+    table = sqlalchemy.Table("user", metadata, autoload_with=engine)
+    query = sqlalchemy.select(table)
+    # query = user.select()
     result_proxy = await database.fetch_all(query)
     result = [dict(row) for row in result_proxy]
     return result
