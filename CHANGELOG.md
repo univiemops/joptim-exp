@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.10](https://github.com/univiemops/joptim-exp/compare/v0.1.9...v0.1.10) (2024-03-02)
+
+
+### Bug Fixes
+
+* **replay:** changed response type to avoid mixed content blocking ([3ec432c](https://github.com/univiemops/joptim-exp/commit/3ec432ccb318300d7a1c2ef8122191eca6cdfbb5))
+
 ## [0.1.9](https://github.com/univiemops/joptim-exp/compare/v0.1.8...v0.1.9) (2024-03-02)
 
 
