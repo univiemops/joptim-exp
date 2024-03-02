@@ -111,11 +111,19 @@ const ReplayPage = () => {
       <Head>
         <title>Replay</title>
       </Head>
-      <FormControl style={{ minWidth: "250px" }}>
+      <FormControl>
         <Select
+          variant={"outlined"}
+          sx={{ minWidth: "450px" }}
+          autoWidth={false}
           value={XID}
           onChange={handleChange}
-        >{participants.map((item, key) => <MenuItem key={key} value={String(item.pid)}>{item.pid} ({checkBooleanFields(item)})</MenuItem>)}
+        >{participants.map((item, key) => <MenuItem key={key} value={String(item.pid)}>
+          <div id="participant-to-select" style={{ display: "flex", justifyContent: "space-between", width: "100%" }} >
+            <span >{item.pid}</span>
+            <span style={{ color: "gray" }}> {checkBooleanFields(item)}</span>
+          </div>
+        </MenuItem>)}
         </Select>
       </FormControl>
       <div id="fixed-player-container"></div>
