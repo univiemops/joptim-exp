@@ -5,24 +5,23 @@ SQLAlchemy tables are defined here, not in a separate
 file. This might change in future versions.
 """
 
-import os
-import databases
-import sqlalchemy
-from sqlalchemy.dialects.postgresql import insert as postgres_insert
-from typing import List
-from fastapi import FastAPI, HTTPException, WebSocket
-from dotenv import load_dotenv
-from fastapi.middleware.cors import CORSMiddleware
-import schemas
-import numpy as np
-import pickle
-from typing import Dict, Any
-from starlette.websockets import WebSocketDisconnect
-import re
 import csv
 import json
 import logging
+import os
+import pickle
+import re
+from typing import Any, Dict, List
 
+import databases
+import numpy as np
+import schemas
+import sqlalchemy
+from dotenv import load_dotenv
+from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.dialects.postgresql import insert as postgres_insert
+from starlette.websockets import WebSocketDisconnect
 
 ##############
 # LOGGING    #
@@ -161,7 +160,8 @@ app = FastAPI(
     redoc_url=None,  # Disable redoc
 )
 
-origins = ["http://localhost", "http://localhost:8080", "http://localhost:3000"]
+origins = ["http://localhost",
+           "http://localhost:8080", "http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -209,8 +209,12 @@ async def shutdown():
 @app.get("/users/", response_model=List[schemas.User])
 async def read_users():
     """Retrieve user info."""
+    # table = sqlalchemy.Table("user", metadata, autoload_with=engine)
+    # query = sqlalchemy.select(table)
     query = user.select()
-    return await database.fetch_all(query)
+    result_proxy = await database.fetch_all(query)
+    result = [dict(row) for row in result_proxy]
+    return result
 
 
 @app.get("/user-trials-1-completed/{xid}")
@@ -256,7 +260,8 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
     if response is not None:
         return {**response}
     else:
-        random_xid = "".join(random.choices(string.ascii_letters + string.digits, k=32))
+        random_xid = "".join(random.choices(
+            string.ascii_letters + string.digits, k=32))
         new_user_values = {
             "pid": participant_id.pid,
             "xid": random_xid,
