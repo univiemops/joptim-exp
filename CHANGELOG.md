@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.8](https://github.com/univiemops/joptim-exp/compare/v0.1.7...v0.1.8) (2024-03-02)
+
+
+### Features
+
+* **replay:** add basic info in dropdown about participants' progress ([e71f066](https://github.com/univiemops/joptim-exp/commit/e71f0668bef7e88e4b9c827967e09227fd7cbcc8))
+
+
+### Bug Fixes
+
+* **replay:** use persistent API call instead of debug call /tables/user ([a8422c8](https://github.com/univiemops/joptim-exp/commit/a8422c8755541f78ea333121cff36e7f33863385))
+* **types:** merged type definitions inside experiment.tsx and moved them to types.ts ([6d005e5](https://github.com/univiemops/joptim-exp/commit/6d005e53265eab12cbda0f144d3bd97414234cfe))
+
 ## [0.1.7](https://github.com/univiemops/joptim-exp/compare/v0.1.6...v0.1.7) (2024-03-02)
 
 
