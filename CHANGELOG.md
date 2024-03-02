@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.12](https://github.com/univiemops/joptim-exp/compare/v0.1.11...v0.1.12) (2024-03-02)
+
+
+### Bug Fixes
+
+* **replay:** dropdown text alignment and color ([dff36e5](https://github.com/univiemops/joptim-exp/commit/dff36e54e194b1353407b0426275a7b89c1d2701))
+* **replay:** improve layout ([e8f2e66](https://github.com/univiemops/joptim-exp/commit/e8f2e66fdd094a0e239e319fa273abf48b56709f))
+
 ## [0.1.11](https://github.com/univiemops/joptim-exp/compare/v0.1.10...v0.1.11) (2024-03-02)
 
 
