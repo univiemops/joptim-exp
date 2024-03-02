@@ -44,7 +44,7 @@ const ReplayPage = () => {
   React.useEffect(() => {
     const loadParticipants = async () => {
       try {
-        const res = await fetch(`${OPTIONAL_SUBURI}/users`);
+        const res = await fetch(`${OPTIONAL_SUBURI}/tables/user`);
         if (!res.ok) {
           throw new Error("Failed to fetch users");
         }
