@@ -15,7 +15,7 @@ const ReplayPage = () => {
   React.useEffect(() => {
     const loadPIDs = async () => {
       try {
-        const res = await fetch(`${OPTIONAL_SUBURI}/tables/user`);
+        const res = await fetch(`${OPTIONAL_SUBURI}/users`);
         if (!res.ok) {
           throw new Error("Failed to fetch users");
         }
