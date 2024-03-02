@@ -1,6 +1,7 @@
 import React from "react";
 import Head from 'next/head'
 import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { UserDataProps } from "@/components/experiment/types";
@@ -107,14 +108,16 @@ const ReplayPage = () => {
   };
 
   return (
-    <div style={{ display: "block", textAlign: "left" }}>
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", width: "100vw", height: "100vh", padding: "1rem" }}>
       <Head>
         <title>Replay</title>
       </Head>
       <FormControl>
+        <InputLabel id="demo-simple-select-helper-label">PID</InputLabel>
         <Select
+          label="PID"
           variant={"outlined"}
-          sx={{ minWidth: "450px" }}
+          sx={{ maxWidth: "100vw", width: "1024px" }}
           autoWidth={false}
           value={XID}
           onChange={handleChange}
@@ -126,7 +129,8 @@ const ReplayPage = () => {
         </MenuItem>)}
         </Select>
       </FormControl>
-      <div id="fixed-player-container"></div>
+      <div id="fixed-player-container" style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", width: "100vw", height: "100vh", padding: "1rem" }}>
+      </div>
     </div>
   );
 };
