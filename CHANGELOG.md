@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.7](https://github.com/univiemops/joptim-exp/compare/v0.1.6...v0.1.7) (2024-03-02)
+
+
+### Features
+
+* **database:** add script to delete all information of a participant ([793f581](https://github.com/univiemops/joptim-exp/commit/793f5814cdc82c6d248f148e9c16f594cd61a19a))
+
 ## [0.1.6](https://github.com/univiemops/joptim-exp/compare/v0.1.5...v0.1.6) (2024-03-01)
 
 
