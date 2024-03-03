@@ -77,7 +77,7 @@ const ReplayPage = () => {
 
   const calculateReplayerSize = (): ResizeConfig => {
     const maxWidth = 1024;
-    const aspectRatio = 4 / 3;
+    const aspectRatio = 3 / 2;
     const maxHeight = 1024 / aspectRatio;
 
     const remInPixels = parseFloat(getComputedStyle(document.documentElement).fontSize);
