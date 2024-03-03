@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from 'next/head'
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -60,6 +60,76 @@ const ReplayPage = () => {
 
   let replayer: any;
 
+
+
+  // const calcuateReplayerSize = () => {
+  //   const remInPixels = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  //   const marginInPixels = 2 * remInPixels;
+  //   const newWidth = window.innerWidth - marginInPixels;
+  //   const newHeight = window.innerHeight - marginInPixels;
+  //   return { newWidth, newHeight }
+  // }
+
+  interface ResizeConfig {
+    width: number;
+    height: number;
+  }
+
+  const calculateReplayerSize = (): ResizeConfig => {
+    const maxWidth = 1024;
+    const aspectRatio = 4 / 3;
+    const maxHeight = 1024 / aspectRatio;
+
+    const remInPixels = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const marginInPixels = 2 * remInPixels;
+
+    const currentWidth = window.innerWidth;
+    const currentHeight = window.innerHeight;
+
+    // based on width
+    const width1: number = currentWidth;
+    // based on height
+    const width2: number = currentHeight * aspectRatio;
+
+    let width: number = width1 - marginInPixels
+    let height: number
+
+    console.log("currentWidth is", currentWidth)
+    console.log("marginInPixels is", marginInPixels)
+
+    // choose the smaller height
+    if (width1 > width2) {
+      height = (width2 - marginInPixels) / aspectRatio
+    } else {
+      height = (width1 - marginInPixels) / aspectRatio
+    }
+
+    // Check if the width exceeds the maximum allowed width
+    if (width > maxWidth) {
+      width = maxWidth;
+      height = width / aspectRatio;
+    }
+
+    // Check if the height exceeds the maximum allowed height
+    if (height > maxHeight) {
+      height = maxHeight;
+      width = height * aspectRatio;
+    }
+    console.log("width", width, "height", height)
+    return {
+      width,
+      height,
+    };
+  };
+
+  const handleResize = () => {
+    const { width: newWidth, height: newHeight } = calculateReplayerSize()
+    replayer.$set({
+      width: newWidth,
+      height: newHeight,
+    });
+  }
+
   React.useEffect(() => {
     console.log("removing element div.rr-player element")
     document.querySelectorAll("div.rr-player").forEach(el => el.remove());
@@ -73,17 +143,21 @@ const ReplayPage = () => {
           }
           const events = await res.json();
           console.log("rrweb: loaded", events.length, "events");
+          const { width: newWidth, height: newHeight } = calculateReplayerSize()
           replayer = new window.rrwebPlayer({
             target: document.getElementById("fixed-player-container"),
             props: {
               events: events,
               showController: true,
-              maxWidth: "100%",
-              maxHeight: "100%",
+              width: newWidth,
+              height: newHeight,
             },
           });
+
           await replayer.getMetaData(); // wait til it's loaded
+          window.addEventListener("resize", handleResize);
           replayer.play();
+          console.log("replayer:", replayer)
         } catch (error) {
           console.error(error);
         }
@@ -93,6 +167,7 @@ const ReplayPage = () => {
     return () => {
       if (replayer) {
         replayer.pause();
+        window.removeEventListener("resize", handleResize);
         replayer = null;
         const element = document.getElementById("fixed-player-container");
 
@@ -107,17 +182,18 @@ const ReplayPage = () => {
     setXID(event.target.value as string);
   };
 
+
   return (
     <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", width: "100vw", height: "100vh", padding: "1rem" }}>
       <Head>
         <title>Replay</title>
       </Head>
-      <FormControl>
+      <FormControl >
         <InputLabel id="demo-simple-select-helper-label">PID</InputLabel>
         <Select
           label="PID"
           variant={"outlined"}
-          sx={{ maxWidth: "100vw", width: "1024px" }}
+          sx={{ maxWidth: "calc(100vw - 2rem)", width: "1024px" }}
           autoWidth={false}
           value={XID}
           onChange={handleChange}
@@ -129,7 +205,7 @@ const ReplayPage = () => {
         </MenuItem>)}
         </Select>
       </FormControl>
-      <div id="fixed-player-container" style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", width: "100vw", height: "100vh", padding: "1rem" }}>
+      <div id="fixed-player-container" style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", maxWidth: "calc(100vw - 2rem)", width: "100vw", height: "100vh", padding: "1rem" }}>
       </div>
     </div>
   );
