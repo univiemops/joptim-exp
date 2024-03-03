@@ -109,6 +109,9 @@ Then go to:
 [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ## TODOs
+- Relay user info call in replay screen to persistent API call (`user` table is ambiguous in postgres)
+- Store experiment's version and basic browser/OS info in database (user info, survey and results)
+- Store timestamps instead of boolean in user table and add timestamp for user creation (`created`)
 * Finalize experimental design
 * Admin page for downloading the collected data via browser (Authentication required)
 * Alembic reintegration
