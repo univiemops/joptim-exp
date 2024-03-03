@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.13](https://github.com/univiemops/joptim-exp/compare/v0.1.12...v0.1.13) (2024-03-03)
+
+
+### Features
+
+* **replay:** resize replayer frame when viewport changes ([384d671](https://github.com/univiemops/joptim-exp/commit/384d6711679e3b602190ff307985f66fa2a69fdc))
+
+
+### Bug Fixes
+
+* **replay:** change aspect ratio from 4/3 to 3/2 ([f088728](https://github.com/univiemops/joptim-exp/commit/f0887287ddc7c0d972a26884fe6afd3160c72c4d))
+
 ## [0.1.12](https://github.com/univiemops/joptim-exp/compare/v0.1.11...v0.1.12) (2024-03-02)
 
 
