@@ -78,6 +78,8 @@ const ReplayPage = () => {
   const calculateReplayerSize = (): ResizeConfig => {
     const maxWidth = 1024;
     const aspectRatio = 3 / 2;
+    const dropdownHeight = 56 // TODO: query this
+    const replayMenuHeight = 80 // TODO: query this
     const maxHeight = 1024 / aspectRatio;
 
     const remInPixels = parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -94,14 +96,11 @@ const ReplayPage = () => {
     let width: number = width1 - marginInPixels
     let height: number
 
-    console.log("currentWidth is", currentWidth)
-    console.log("marginInPixels is", marginInPixels)
-
     // choose the smaller height
     if (width1 > width2) {
-      height = (width2 - marginInPixels) / aspectRatio
+      height = (width2) / aspectRatio
     } else {
-      height = (width1 - marginInPixels) / aspectRatio
+      height = (width1) / aspectRatio
     }
 
     // Check if the width exceeds the maximum allowed width
@@ -115,6 +114,11 @@ const ReplayPage = () => {
       height = maxHeight;
       width = height * aspectRatio;
     }
+
+    if (currentHeight < height) {
+      height = currentHeight
+    }
+    height = height - 1.5 * marginInPixels - dropdownHeight - replayMenuHeight
     console.log("width", width, "height", height)
     return {
       width,
