@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.14](https://github.com/univiemops/joptim-exp/compare/v0.1.13...v0.1.14) (2024-03-03)
+
+
+### Bug Fixes
+
+* **replay:** improve resize for height ([cf0ecff](https://github.com/univiemops/joptim-exp/commit/cf0ecff218fbae627b96994465d77b00e2ec9557))
+
 ## [0.1.13](https://github.com/univiemops/joptim-exp/compare/v0.1.12...v0.1.13) (2024-03-03)
 
 
