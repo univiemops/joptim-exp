@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.15](https://github.com/univiemops/joptim-exp/compare/v0.1.14...v0.1.15) (2024-03-08)
+
+
+### Features
+
+* add reconnect mechanism to websocket when connection is lost. ([dd7e9e2](https://github.com/univiemops/joptim-exp/commit/dd7e9e2c527d37b7a4c17eb335bcdc9317b989ef))
+* **backend:** add timeout to websocket testconnection ([ba0a19d](https://github.com/univiemops/joptim-exp/commit/ba0a19d956fa9f9236be1c2c4c393df19f16bccd))
+
+
+### Bug Fixes
+
+* correct call to new api-endpoint ([2aa2bc2](https://github.com/univiemops/joptim-exp/commit/2aa2bc2db46b23dd7d633eaa7f0e56db8c13b526))
+* **text:** two children with the same key ([2ecb6d3](https://github.com/univiemops/joptim-exp/commit/2ecb6d310e0df1c188e8b5f4df84a59368f17ec9))
+
 ## [0.1.14](https://github.com/univiemops/joptim-exp/compare/v0.1.13...v0.1.14) (2024-03-03)
 
 
