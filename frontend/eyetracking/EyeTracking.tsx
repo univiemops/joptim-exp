@@ -35,33 +35,44 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
     }
   }, []);
 
+
+  const initWebSocket = () => {
+    let base_url = "";
+    if (/https?:\/\//.test(OPTIONAL_SUBURI)) {
+      base_url = OPTIONAL_SUBURI;
+    } else {
+      base_url = `${hostname}${OPTIONAL_SUBURI}`;
+    }
+
+    base_url = `${base_url.replace(/^https?:\/\//, (match) =>
+      match === "http://" ? "ws://" : "wss://",
+    )}`;
+    console.log("base_url", base_url);
+    const newSocket = new WebSocket(`${base_url}/eyetracking`);
+    setSocket(newSocket);
+
+    newSocket.addEventListener("close", () => {
+      console.log("WebSocket connection closed unexpectedly. Reconnecting...");
+      // Reconnect after a delay (e.g., 0.5 seconds)
+      setTimeout(initWebSocket, 500);
+    });
+
+    return () => {
+      if (newSocket) {
+        newSocket.close();
+      }
+    };
+  };
+
   React.useEffect(() => {
     if (hostname !== "") {
-      let base_url = "";
-      if (/https?:\/\//.test(OPTIONAL_SUBURI)) {
-        base_url = OPTIONAL_SUBURI;
-      } else {
-        base_url = `${hostname}${OPTIONAL_SUBURI}`;
-      }
-
-      base_url = `${base_url.replace(/^https?:\/\//, (match) =>
-        match === "http://" ? "ws://" : "wss://",
-      )}`;
-      console.log("base_url", base_url);
-      const newSocket = new WebSocket(`${base_url}/eyetracking`);
-      setSocket(newSocket);
-
-      return () => {
-        if (newSocket) {
-          newSocket.close();
-        }
-      };
+      return initWebSocket();
     }
   }, [hostname]);
 
 
   const sendDataToBackend = (data: GazeData) => {
-    if (socket) {
+    if (socket && socket.readyState === 1) {
       socket.send(JSON.stringify(data));
     }
   };

@@ -309,7 +309,7 @@ const Experiment: React.FC = () => {
     }
     try {
       const res = await fetch(
-        `${OPTIONAL_SUBURI}/user-trials-completed/${XID}`,
+        `${OPTIONAL_SUBURI}/user-trials-1-completed/${XID}`,
       );
 
       if (!res.ok) {
@@ -323,7 +323,7 @@ const Experiment: React.FC = () => {
 
     try {
       const res = await fetch(
-        `${OPTIONAL_SUBURI}/user-trials-dual-completed/${XID}`,
+        `${OPTIONAL_SUBURI}/user-trials-2-completed/${XID}`,
       );
 
       if (!res.ok) {

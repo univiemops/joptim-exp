@@ -52,30 +52,37 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  let socketConnections = 0;
+  const initWebSocket = () => {
+    let base_url = "";
+    if (/https?:\/\//.test(OPTIONAL_SUBURI)) {
+      base_url = OPTIONAL_SUBURI;
+    } else {
+      base_url = `${hostname}${OPTIONAL_SUBURI}`;
+    }
+
+    base_url = `${base_url.replace(/^https?:\/\//, (match) =>
+      match === "http://" ? "ws://" : "wss://",
+    )}`;
+    console.log("base_url", base_url);
+    const newSocket = new WebSocket(`${base_url}/rrweb-ws`);
+    setSocket(newSocket);
+
+    newSocket.addEventListener("close", () => {
+      console.log("WebSocket connection closed unexpectedly. Reconnecting...");
+      // Reconnect after a delay (e.g., 0.5 seconds)
+      setTimeout(initWebSocket, 500);
+    });
+
+    return () => {
+      if (newSocket) {
+        newSocket.close();
+      }
+    };
+  };
 
   React.useEffect(() => {
-    if (hostname !== "" && socketConnections === 0) {
-      let base_url = "";
-      socketConnections++;
-      if (/https?:\/\//.test(OPTIONAL_SUBURI)) {
-        base_url = OPTIONAL_SUBURI;
-      } else {
-        base_url = `${hostname}${OPTIONAL_SUBURI}`;
-      }
-
-      base_url = `${base_url.replace(/^https?:\/\//, (match) =>
-        match === "http://" ? "ws://" : "wss://",
-      )}`;
-      console.log("base_url", base_url);
-      const newSocket = new WebSocket(`${base_url}/rrweb-ws`);
-      setSocket(newSocket);
-
-      return () => {
-        if (newSocket) {
-          newSocket.close();
-        }
-      };
+    if (hostname !== "") {
+      return initWebSocket();
     }
   }, [hostname]);
 

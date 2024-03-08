@@ -5,6 +5,7 @@ SQLAlchemy tables are defined here, not in a separate
 file. This might change in future versions.
 """
 
+import asyncio
 import csv
 import json
 import logging
@@ -522,11 +523,18 @@ async def eyetracking_endpoint(websocket: WebSocket):
         pass
 
 
+async def close_connection_after_timeout(websocket: WebSocket):
+    await asyncio.sleep(5)
+    await websocket.close()
+
+
 @app.websocket("/ws-test")
 async def ws_test_endpoint(websocket: WebSocket):
     """Test storage of real-time data in CSV files."""
     try:
         await websocket.accept()
+        close_task = asyncio.create_task(
+            close_connection_after_timeout(websocket))
         while True:
             try:
                 data = await websocket.receive_text()
@@ -540,6 +548,7 @@ async def ws_test_endpoint(websocket: WebSocket):
     except WebSocketDisconnect as e:
         logger.info(f"WebSocket connection closed: {e.code}")
     finally:
+        close_task.cancel()
         # Any cleanup code (optional)
         pass
 

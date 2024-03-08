@@ -161,7 +161,6 @@ const ReplayPage = () => {
           await replayer.getMetaData(); // wait til it's loaded
           window.addEventListener("resize", handleResize);
           replayer.play();
-          console.log("replayer:", replayer)
         } catch (error) {
           console.error(error);
         }
