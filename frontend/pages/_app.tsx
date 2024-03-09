@@ -88,7 +88,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const sendToBackend = (event: any) => {
     if (socket && socket.readyState === 1) {
-      console.log("rrweb: successful")
       const xid = XIDRef.current;
       socket.send(JSON.stringify({ xid, event }));
     }
