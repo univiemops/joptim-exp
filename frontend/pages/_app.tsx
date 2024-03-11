@@ -11,6 +11,15 @@ const OPTIONAL_SUBURI: string =
   process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
+enum EventType {
+  DomContentLoaded,
+  Load,
+  FullSnapshot,
+  IncrementalSnapshot,
+  Meta,
+}
+
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const XIDRef = React.useRef("");
@@ -33,18 +42,10 @@ export default function App({ Component, pageProps }: AppProps) {
     removeOnUnmount: false,
   });
 
-
-
-  // TODO: remove after testing
-  // const testScript = `${basePath}/rrweb/rrweb.js`
-  //const statusTest = useScript(testScript, {
-  //  removeOnUnmount: false,
-  //});
-  // end
-
-
   const [socket, setSocket] = React.useState<any>(null);
   const [hostname, setHostname] = React.useState<string>("");
+  const [connectionLost, setConnectionLost] = React.useState<boolean>(false);
+
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -63,59 +64,76 @@ export default function App({ Component, pageProps }: AppProps) {
     base_url = `${base_url.replace(/^https?:\/\//, (match) =>
       match === "http://" ? "ws://" : "wss://",
     )}`;
-    console.log("base_url", base_url);
     const newSocket = new WebSocket(`${base_url}/rrweb-ws`);
-    setSocket(newSocket);
-
+    setSocket(newSocket)
+    setConnectionLost(false)
     newSocket.addEventListener("close", () => {
+      setConnectionLost(true)
+      newSocket.close()
       console.log("WebSocket connection closed unexpectedly. Reconnecting...");
-      // Reconnect after a delay (e.g., 0.5 seconds)
       setTimeout(initWebSocket, 500);
     });
-
-    return () => {
-      if (newSocket) {
-        newSocket.close();
-      }
-    };
   };
 
   React.useEffect(() => {
     if (hostname !== "") {
       return initWebSocket();
     }
+    return () => {
+      if (socket) {
+        socket.close();
+      }
+    };
   }, [hostname]);
 
   const sendToBackend = (event: any) => {
     if (socket && socket.readyState === 1) {
-      console.log("rrweb: successful")
       const xid = XIDRef.current;
+      // console.log(EventType[event.type], "event successfully sent to backend")
       socket.send(JSON.stringify({ xid, event }));
+    } else {
+      // console.log(EventType[event.type], "event NOT sent to backend")
     }
   };
 
+
   React.useEffect(() => {
     const xid = XIDRef.current;
+
     if (window && xid !== "") {
       if (window.rrwebRecord) {
-        const stopFn = window.rrwebRecord({
-          inlineStylesheet: true,
-          // checkoutEveryNth: 200,
-          emit(event: any) {
-            if (socket) {
+        let stopFn: () => void;
+
+        const startRecording = () => {
+          stopFn = window.rrwebRecord({
+            inlineStylesheet: true,
+            // checkoutEveryNth: 100,
+            emit(event: any, isCheckout: boolean) {
               sendToBackend(event);
-            }
-          },
-        });
+            },
+          });
+        };
+
+        // Check socket.readyState before starting recording
+        if (socket.readyState === 1) {
+          startRecording();
+        } else {
+          const handleSocketOpen = () => {
+            startRecording();
+            socket.removeEventListener("open", handleSocketOpen);
+          };
+          socket.addEventListener("open", handleSocketOpen);
+        }
+
         return () => {
-          if (stopFn !== undefined) {
+          // Clean up code
+          if (stopFn) {
             stopFn();
           }
         };
       }
     }
-  }, [socket, router.query, status1, status2]);
-
+  }, [socket, router.query, status1, status2, connectionLost]);
   // websocket END
 
   return (

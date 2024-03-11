@@ -524,13 +524,16 @@ async def eyetracking_endpoint(websocket: WebSocket):
 
 
 async def close_connection_after_timeout(websocket: WebSocket):
-    await asyncio.sleep(5)
+    await asyncio.sleep(15)
     await websocket.close()
 
 
 @app.websocket("/ws-test")
 async def ws_test_endpoint(websocket: WebSocket):
-    """Test storage of real-time data in CSV files."""
+    """
+    Test storage of real-time data in CSV files with a
+    disconnect after 15s.
+    """
     try:
         await websocket.accept()
         close_task = asyncio.create_task(

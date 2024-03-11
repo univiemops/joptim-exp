@@ -33,8 +33,6 @@ const Consent: React.FC<QuestionnaireProps> = ({ onSubmit, finished }) => {
     for (const item of Questionnaire.items) {
       if (item.type !== "info" && item.type !== "line") {
         const response = responses[item.id];
-
-        console.log(response);
         if (item.type === "freeText" && (!response || response.trim() === "")) {
           setFilledOut(false);
           return;
