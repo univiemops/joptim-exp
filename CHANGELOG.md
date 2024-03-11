@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.16](https://github.com/univiemops/joptim-exp/compare/v0.1.15...v0.1.16) (2024-03-11)
+
+
+### Bug Fixes
+
+* **rrweb:** wait until websocket is open to successfully send the full snapshot after a reconnect ([9e6a4d3](https://github.com/univiemops/joptim-exp/commit/9e6a4d31fd3c93f4e6aeea814ea6016c6f7d0497))
+
 ## [0.1.15](https://github.com/univiemops/joptim-exp/compare/v0.1.14...v0.1.15) (2024-03-08)
 
 
