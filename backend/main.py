@@ -56,6 +56,9 @@ logger.addHandler(stream_handler)
 ########
 
 
+# TODO: let alembic take care of his
+
+
 metadata = sqlalchemy.MetaData()
 
 # survey results table
