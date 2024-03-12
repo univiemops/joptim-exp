@@ -114,28 +114,6 @@ user = sqlalchemy.Table(
     sqlalchemy.Column("debrief", sqlalchemy.Boolean),
 )
 
-# eyetracking table
-
-eyetracking = sqlalchemy.Table(
-    "eyetracking",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("xid", sqlalchemy.String),
-    sqlalchemy.Column("x", sqlalchemy.String),
-    sqlalchemy.Column("y", sqlalchemy.String),
-    sqlalchemy.Column("viewport", sqlalchemy.String),
-)
-
-# single trial results table
-
-rrweb = sqlalchemy.Table(
-    "rrweb",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("xid", sqlalchemy.String),
-    sqlalchemy.Column("event", sqlalchemy.JSON),
-)
-
 
 ############################
 # SET UP DATABASE CONNECTION
@@ -484,6 +462,8 @@ async def eyetracking_endpoint(websocket: WebSocket):
     """Store real-time eyetracking data in CSV files."""
     try:
         await websocket.accept()
+        close_task = asyncio.create_task(
+            close_connection_after_timeout(websocket))
         while True:
             try:
                 data = await websocket.receive_text()
@@ -519,6 +499,7 @@ async def eyetracking_endpoint(websocket: WebSocket):
     except WebSocketDisconnect as e:
         logger.info(f"WebSocket connection closed: {e.code}")
     finally:
+        close_task.cancel()
         # Any cleanup code (optional)
         pass
 
