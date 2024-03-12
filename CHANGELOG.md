@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.17](https://github.com/univiemops/joptim-exp/compare/v0.1.16...v0.1.17) (2024-03-12)
+
+
+### Features
+
+* **backend:** add download endpoint for eyetracking ([393fc12](https://github.com/univiemops/joptim-exp/commit/393fc12c352a372cee8f49ada970e0873b2b95e2))
+
+
+### Bug Fixes
+
+* **database:** remove rrweb and eyetracking tables ([0d14a3d](https://github.com/univiemops/joptim-exp/commit/0d14a3da7f99009f6d4722e4605f22f4e07c473b))
+* **replay:** sort dropdown list ([bdd354b](https://github.com/univiemops/joptim-exp/commit/bdd354bd4d732287d97cf64adfdfe5ac653dbcd6))
+* **text:** improved no webcam text ([66bd65a](https://github.com/univiemops/joptim-exp/commit/66bd65aebc2dc52e3d79c1d5b3519abdf6e6d430))
+
 ## [0.1.16](https://github.com/univiemops/joptim-exp/compare/v0.1.15...v0.1.16) (2024-03-11)
 
 
