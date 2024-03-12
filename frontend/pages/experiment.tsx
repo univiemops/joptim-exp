@@ -419,7 +419,12 @@ const Experiment: React.FC = () => {
       {userData["xid"] === "" ? (
         <div></div>
       ) : !webcamAvailable ? (
-        <div>No webcam.</div>
+        <div>
+          <p>
+            <b>No webcam detected.</b>
+          </p>
+          <p>Please refresh this page and allow webcam access.</p>
+        </div>
       ) : userData["consent"] ? (
         userData["survey"] ? (
           instructed ? (

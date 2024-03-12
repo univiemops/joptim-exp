@@ -50,6 +50,7 @@ const ReplayPage = () => {
           throw new Error("Failed to fetch users");
         }
         const json = await res.json();
+        json.sort((a: any, b: any) => a.pid > b.pid);
         setParticipants(json)
       } catch (error) {
         console.error(error);

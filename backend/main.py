@@ -56,6 +56,9 @@ logger.addHandler(stream_handler)
 ########
 
 
+# TODO: let alembic take care of his
+
+
 metadata = sqlalchemy.MetaData()
 
 # survey results table
@@ -112,28 +115,6 @@ user = sqlalchemy.Table(
     sqlalchemy.Column("strategies_2", sqlalchemy.Boolean),
     sqlalchemy.Column("demographics", sqlalchemy.Boolean),
     sqlalchemy.Column("debrief", sqlalchemy.Boolean),
-)
-
-# eyetracking table
-
-eyetracking = sqlalchemy.Table(
-    "eyetracking",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("xid", sqlalchemy.String),
-    sqlalchemy.Column("x", sqlalchemy.String),
-    sqlalchemy.Column("y", sqlalchemy.String),
-    sqlalchemy.Column("viewport", sqlalchemy.String),
-)
-
-# single trial results table
-
-rrweb = sqlalchemy.Table(
-    "rrweb",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("xid", sqlalchemy.String),
-    sqlalchemy.Column("event", sqlalchemy.JSON),
 )
 
 
@@ -484,6 +465,8 @@ async def eyetracking_endpoint(websocket: WebSocket):
     """Store real-time eyetracking data in CSV files."""
     try:
         await websocket.accept()
+        # close_task = asyncio.create_task( # for testing reconnects
+        #     close_connection_after_timeout(websocket))
         while True:
             try:
                 data = await websocket.receive_text()
@@ -519,8 +502,36 @@ async def eyetracking_endpoint(websocket: WebSocket):
     except WebSocketDisconnect as e:
         logger.info(f"WebSocket connection closed: {e.code}")
     finally:
+        # close_task.cancel() # for testing reconnects
         # Any cleanup code (optional)
         pass
+
+
+@app.get("/eyetracking/{id}")
+async def get_eyetracking_text(id: str) -> list:
+    """Get the eyetracking events of a user."""
+    try:
+        with open(f"./{EYETRACKING_DATA_DIR}/{id}.csv", "r") as fd:
+            reader = csv.reader(fd, delimiter=',', quotechar='"')
+            response = [line for line in reader]
+    except Exception as e:
+        print(e)
+        response = []
+    if len(response) == 0:
+        query_pid = user.select().where(user.c.pid == id)
+        response_pid = await database.fetch_one(query_pid)
+        if response_pid is None:
+            return []
+        try:
+            id = response_pid.xid
+            with open(f"./{EYETRACKING_DATA_DIR}/{id}.csv", "r") as fd:
+                reader = csv.reader(fd, delimiter=',', quotechar='"')
+                response = [line for line in reader]
+        except Exception as e:
+            print(e)
+            print("events set to []")
+            return []
+    return response
 
 
 async def close_connection_after_timeout(websocket: WebSocket):
