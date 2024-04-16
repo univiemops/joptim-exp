@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.18](https://github.com/univiemops/joptim-exp/compare/v0.1.17...v0.1.18) (2024-04-16)
+
+
+### Features
+
+* change rating scale in preferance trials ([3661dac](https://github.com/univiemops/joptim-exp/commit/3661dac24129c422f1498397c3f4a11d9cb1fd33))
+
+
+### Bug Fixes
+
+* correct spelling. ([3d0ef76](https://github.com/univiemops/joptim-exp/commit/3d0ef7661ee5f9406722c5a12d79ce90873955fd))
+
 ## [0.1.17](https://github.com/univiemops/joptim-exp/compare/v0.1.16...v0.1.17) (2024-03-12)
 
 
