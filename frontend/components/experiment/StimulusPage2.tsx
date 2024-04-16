@@ -1,5 +1,6 @@
 import React from "react";
 import GAP from "../GAP/GAP";
+import { Button } from "@mui/material";
 
 const StimulusPage2: React.FC<{
   trial: number;
@@ -22,91 +23,116 @@ const StimulusPage2: React.FC<{
     const [choice, setChoice] = React.useState<number>(0);
     return (
       <>
-        <div className="trial-instruction">
-          <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
-            Which of the two solutions do you find easier to understand?
-          </span>
+        <div>
+          <div className="trial-instruction">
+            <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
+              Which of the two solutions do you find easier to understand?
+            </span>
+            <div
+              id="progress-bar"
+              style={{
+                display: "flex",
+                minWidth: "100%",
+                minHeight: ".5rem",
+                backgroundColor: "#efefef",
+                borderRadius: "1rem",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                id="progress-bar-inner"
+                style={{
+                  minHeight: "100%",
+                  backgroundColor: "steelblue",
+                  width: `${progress}%`,
+                }}
+              ></div>
+            </div>
+            <div className="stimulus-2-response-buttons" style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
+              {
+                Array.from({ length: 4 }).map((_, i) => (
+                  <Button
+                    key={i}
+                    size="large"
+                    variant="contained"
+                    style={{
+                      color: "#000",
+                      background: "#f2f2f2",
+                      textTransform: "none",
+                      padding: ".3rem 3rem .3rem 3rem",
+                      margin: "1rem 1rem 0rem 1rem",
+                    }}
+
+                    onClick={() => {
+                      setChoice(i + 1);
+                      onComplete(i + 1);
+                    }}
+                  >
+                    {["<< prefer left", "< slightly prefer left", "slightly prefer right >", "prefer right >>"][i]}
+                  </Button>
+                ))
+              }
+            </div>
+          </div>
           <div
-            id="progress-bar"
+            className="stimulus-pair-container"
             style={{
               display: "flex",
-              minWidth: "100%",
-              minHeight: ".5rem",
-              backgroundColor: "#efefef",
-              borderRadius: "1rem",
-              overflow: "hidden",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "space-evenly",
+              cursor: "default",
             }}
           >
             <div
-              id="progress-bar-inner"
-              style={{
-                minHeight: "100%",
-                backgroundColor: "steelblue",
-                width: `${progress}%`,
-              }}
-            ></div>
-          </div>
-        </div>
-        <div
-          className="stimulus-pair-container"
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            justifyContent: "space-evenly",
-            cursor: "default",
-          }}
-        >
-          <div
-            onClick={() => {
-              setChoice(1);
-              onComplete(1);
-            }}
-            style={
-              choice === 1
-                ? {
-                  border: "5px solid lightgreen",
-                  cursor: "pointer",
-                }
-                : {
+              style={
+                {
                   border: "5px solid #efefef",
-                  cursor: "pointer",
+                  marginRight: "3px"
                 }
-            }
-          >
-            <GAP
-              tasks={tasks}
-              assignments={assignments1}
-              workers={workers}
-              freeze={false}
-              icons={false}
-            />
-          </div>
-          <div
-            onClick={() => {
-              setChoice(2);
-              onComplete(2);
-            }}
-            style={
-              choice === 2
-                ? {
-                  border: "5px solid lightgreen",
-                  cursor: "pointer",
-                }
-                : {
+              }
+            >
+              <GAP
+                tasks={tasks}
+                assignments={assignments1}
+                workers={workers}
+                freeze={false}
+                icons={false}
+              />
+            </div>
+            <div
+              style={
+                {
                   border: "5px solid #efefef",
-                  cursor: "pointer",
                 }
-            }
-          >
-            <GAP
-              tasks={tasks}
-              assignments={assignments2}
-              workers={workers}
-              freeze={false}
-              icons={false}
-            />
+              }
+            >
+              <GAP
+                tasks={tasks}
+                assignments={assignments2}
+                workers={workers}
+                freeze={false}
+                icons={false}
+              />
+            </div>
           </div>
+          <Button
+            size="large"
+            variant="contained"
+            style={{
+              color: "#000",
+              background: "#ff000082",
+              textTransform: "none",
+              padding: ".3rem 3rem .3rem 3rem",
+              margin: "1rem 1rem 1rem 1rem",
+            }}
+            onClick={() => {
+              setChoice(0);
+              onComplete(0);
+            }}
+          >
+            Completely identical
+          </Button>
         </div>
       </>
     );
