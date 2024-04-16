@@ -51,7 +51,7 @@ const ConfirmationPage: React.FC<{
               {optimal_utility > utility ? (
                 <div id="confirmation-page-1-ongoing">
                   <div>
-                    <b>Complete trial {trial} of {nTrials}!</b> Your score is <b>{utility}</b>
+                    <b>Completed trial {trial} of {nTrials}!</b> Your score is <b>{utility}</b>
                     , the optimal solution is <b>{optimal_utility}</b>.
                   </div>
                   <br />
