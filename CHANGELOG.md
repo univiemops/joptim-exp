@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.19](https://github.com/univiemops/joptim-exp/compare/v0.1.18...v0.1.19) (2024-04-30)
+
+
+### Bug Fixes
+
+* add 'definitely' to clear preference buttons, remove choice state ([5a27d7c](https://github.com/univiemops/joptim-exp/commit/5a27d7c97f2b22324630c21de68ebefd33d1e645))
+* mention the red 'identical' button in the instructions ([5117315](https://github.com/univiemops/joptim-exp/commit/51173155885ad4dadf4df74a8af5f0fa943fbad8))
+
 ## [0.1.18](https://github.com/univiemops/joptim-exp/compare/v0.1.17...v0.1.18) (2024-04-16)
 
 
