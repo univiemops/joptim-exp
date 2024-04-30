@@ -32,7 +32,10 @@ const ConfirmationPage2: React.FC<{
               Now that you have a good understanding of our problem-solving task, let's start with <b>part two</b>!
             </p>
             <p>
-              In the following trials, instead of solving problems as before, you will see two solutions that have the same score. We want you to tell us which of these two solutions you find easier to understand.
+              In the following trials, instead of solving problems as before, you will see two solutions side by side. These pairs of solutions have the same score, which means they are equally good. We want to know if you still prefer one of the two solutions.
+
+              Note: Sometimes the solutions are completely identical, which means that all assignments are completely identical. If you see such pairs, indicate this by clicking on the red "Totally identical" button.
+
             </p>
           </div>
         ) : (

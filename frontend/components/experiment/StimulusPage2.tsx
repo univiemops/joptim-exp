@@ -20,7 +20,6 @@ const StimulusPage2: React.FC<{
   onComplete,
 }) => {
     const progress = (100 * (trial - 1)) / nTrials;
-    const [choice, setChoice] = React.useState<number>(0);
     return (
       <>
         <div>
@@ -64,11 +63,10 @@ const StimulusPage2: React.FC<{
                     }}
 
                     onClick={() => {
-                      setChoice(i + 1);
                       onComplete(i + 1);
                     }}
                   >
-                    {["<< prefer left", "< slightly prefer left", "slightly prefer right >", "prefer right >>"][i]}
+                    {["<< definitely prefer left", "< slightly prefer left", "slightly prefer right >", "definitely prefer right >>"][i]}
                   </Button>
                 ))
               }
@@ -127,7 +125,6 @@ const StimulusPage2: React.FC<{
               margin: "1rem 1rem 1rem 1rem",
             }}
             onClick={() => {
-              setChoice(0);
               onComplete(0);
             }}
           >
