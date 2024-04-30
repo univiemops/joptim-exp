@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.20](https://github.com/univiemops/joptim-exp/compare/v0.1.19...v0.1.20) (2024-04-30)
+
+
+### Bug Fixes
+
+* Change button label to 'Duplicated solutions' ([8b16a00](https://github.com/univiemops/joptim-exp/commit/8b16a0013eac1e6532c8db069dff0301cde7f8a5))
+
 ## [0.1.19](https://github.com/univiemops/joptim-exp/compare/v0.1.18...v0.1.19) (2024-04-30)
 
 
