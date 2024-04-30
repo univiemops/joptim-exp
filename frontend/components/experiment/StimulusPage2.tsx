@@ -128,7 +128,7 @@ const StimulusPage2: React.FC<{
               onComplete(0);
             }}
           >
-            Completely identical
+            Duplicated solutions
           </Button>
         </div>
       </>

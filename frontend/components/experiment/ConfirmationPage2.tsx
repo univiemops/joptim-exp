@@ -34,7 +34,7 @@ const ConfirmationPage2: React.FC<{
             <p>
               In the following trials, instead of solving problems as before, you will see two solutions side by side. These pairs of solutions have the same score, which means they are equally good. We want to know if you still prefer one of the two solutions.
 
-              Note: Sometimes the solutions are completely identical, which means that all assignments are completely identical. If you see such pairs, indicate this by clicking on the red "Totally identical" button.
+              <b>Note: </b>Sometimes the solutions are completely identical, which means that all assignments are completely identical. If you see such pairs, indicate this by clicking on the red "Duplicated solutions" button.
 
             </p>
           </div>
