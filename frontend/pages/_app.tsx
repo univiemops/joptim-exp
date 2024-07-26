@@ -6,7 +6,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useScript } from "../utils/useScript";
 
-
 const OPTIONAL_SUBURI: string =
   process.env.NEXT_PUBLIC_API_URL?.toString() ?? "no-valid-url";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -19,7 +18,6 @@ enum EventType {
   Meta,
 }
 
-
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const XIDRef = React.useRef("");
@@ -31,10 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router.query]);
 
-
   // // websocket stuff begin (remove if not needed)
-  const rrwebScript = `${basePath}/rrweb/rrweb-record.js`
-  const rrwebPlayerScript = `${basePath}/rrweb/player/index.js`
+  const rrwebScript = `${basePath}/rrweb/rrweb-record.js`;
+  const rrwebPlayerScript = `${basePath}/rrweb/player/index.js`;
   const status1 = useScript(rrwebScript, {
     removeOnUnmount: false,
   });
@@ -45,7 +42,6 @@ export default function App({ Component, pageProps }: AppProps) {
   const [socket, setSocket] = React.useState<any>(null);
   const [hostname, setHostname] = React.useState<string>("");
   const [connectionLost, setConnectionLost] = React.useState<boolean>(false);
-
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -62,14 +58,14 @@ export default function App({ Component, pageProps }: AppProps) {
     }
 
     base_url = `${base_url.replace(/^https?:\/\//, (match) =>
-      match === "http://" ? "ws://" : "wss://",
+      match === "http://" ? "ws://" : "wss://"
     )}`;
     const newSocket = new WebSocket(`${base_url}/rrweb-ws`);
-    setSocket(newSocket)
-    setConnectionLost(false)
+    setSocket(newSocket);
+    setConnectionLost(false);
     newSocket.addEventListener("close", () => {
-      setConnectionLost(true)
-      newSocket.close()
+      setConnectionLost(true);
+      newSocket.close();
       console.log("WebSocket connection closed unexpectedly. Reconnecting...");
       setTimeout(initWebSocket, 500);
     });
@@ -95,7 +91,6 @@ export default function App({ Component, pageProps }: AppProps) {
       // console.log(EventType[event.type], "event NOT sent to backend")
     }
   };
-
 
   React.useEffect(() => {
     const xid = XIDRef.current;
