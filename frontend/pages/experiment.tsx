@@ -47,8 +47,8 @@ const Experiment: React.FC = () => {
   const [tasks, setTasks] = useState<Array<number>>([]);
   const [workers, setWorkers] = useState<Array<number>>([]);
   const [tasks1, setTasks1] = useState<Array<number>>([]);
-  const [workers1, setWorkers1] = useState<Array<number>>([]);
   const [tasks2, setTasks2] = useState<Array<number>>([]);
+  const [workers1, setWorkers1] = useState<Array<number>>([]);
   const [workers2, setWorkers2] = useState<Array<number>>([]);
   const [solution1, setSolution1] = useState<Array<[number, number]>>([]);
   const [solution2, setSolution2] = useState<Array<[number, number]>>([]);
@@ -141,10 +141,27 @@ const Experiment: React.FC = () => {
   };
 
   const setCSSvar = () => {
-    if (!isTrialCompleted1 && instructed) {
+    if (!userData["trials_1"] && instructed) {
+      console.log(
+        "changed CSS for solving trials to",
+        tasks.length,
+        "rows and",
+        workers.length,
+        "columns"
+      );
       document.documentElement.style.setProperty(`--rows`, `${tasks.length}`);
       document.documentElement.style.setProperty(`--cols`, `${workers.length}`);
     } else if (instructed) {
+      console.log(
+        "changed CSS for preference trials to",
+        tasks1.length,
+        "rows and",
+        workers1.length,
+        "columns"
+      );
+
+      console.log("workers1", workers1);
+
       // The assumption here is that tasks1 and tasks2 and workers2 and workers1 are of same length
       document.documentElement.style.setProperty(`--rows`, `${tasks1.length}`);
       document.documentElement.style.setProperty(
@@ -413,6 +430,8 @@ const Experiment: React.FC = () => {
 
   // UE 2
   useEffect(() => {
+    console.log("useEffect for setCssvar ran.");
+
     setCSSvar();
   }, [indexSolvingTrial, indexPreferenceTrial]);
 
