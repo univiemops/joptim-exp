@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.21](https://github.com/univiemops/joptim-exp/compare/v0.1.20...v0.1.21) (2024-07-28)
+
+
+### Features
+
+* many adapations for sampling plan 7/2024, eye-tracking temporarily removed. ([951814b](https://github.com/univiemops/joptim-exp/commit/951814b578a308be72802c5bfe1f3e1a1a4a9d4c))
+* new API call for number of trials, no more random index for trial (frontend requests the next trial in order) ([c93868f](https://github.com/univiemops/joptim-exp/commit/c93868f51a262697e2ef88528f1a3f22690a244d))
+* number of trials is given by backend ([59bf4a0](https://github.com/univiemops/joptim-exp/commit/59bf4a03b7a18e41f0126d7b3dd824f6572579fe))
+* use different task and worker order for the left and the right solution ([8a48fc9](https://github.com/univiemops/joptim-exp/commit/8a48fc93522eb5557d194a7da213b244c9d71fca))
+
+
+### Bug Fixes
+
+* dockerfile and docker-compose ([4ade6b8](https://github.com/univiemops/joptim-exp/commit/4ade6b864d69dec2efb815298d46ec628217db96))
+* GPT4o suggestion ([0dff24d](https://github.com/univiemops/joptim-exp/commit/0dff24d00bb6a44d83bd745166a2a61059d26454))
+* remove install ([7f5be35](https://github.com/univiemops/joptim-exp/commit/7f5be35c078b856b8d33bf59e283f61718a728e8))
+* websockets ([978e455](https://github.com/univiemops/joptim-exp/commit/978e45597c843ea399824d84cc7b31a2966ba350))
+
 ## [0.1.20](https://github.com/univiemops/joptim-exp/compare/v0.1.19...v0.1.20) (2024-04-30)
 
 
