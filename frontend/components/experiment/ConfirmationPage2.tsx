@@ -26,21 +26,27 @@ const ConfirmationPage2: React.FC<{
         }}
       >
         {trial === 0 ? (
-          <div
-            id="confirmation-page-2-initial">
+          <div id="confirmation-page-2-initial">
             <p>
-              Now that you have a good understanding of our problem-solving task, let's start with <b>part two</b>!
+              Now that you have a good understanding of our problem-solving
+              task, let's start with <b>part two</b>!
             </p>
             <p>
-              In the following trials, instead of solving problems as before, you will see two solutions side by side. These pairs of solutions have the same score, which means they are equally good. We want to know if you still prefer one of the two solutions.
-
-              <b>Note: </b>Sometimes the solutions are completely identical, which means that all assignments are completely identical. If you see such pairs, indicate this by clicking on the red "Duplicated solutions" button.
-
+              In the following trials, instead of solving problems as before,
+              you will see two solutions side by side. These pairs of solutions
+              have the same score, which means they are equally good. We want to
+              know if you still prefer one of the two solutions.
+              <b>Note: </b>Sometimes the solutions are completely identical,
+              which means that all assignments are completely identical. If you
+              see such pairs, indicate this by clicking on the red "Duplicated
+              solutions" button.
             </p>
           </div>
         ) : (
           <div id="confirmation-page-2-ongoing">
-            <b>Finished trial {trial} of {nTrials}.</b>
+            <b>
+              Finished trial {trial} of {nTrials}.
+            </b>
           </div>
         )}
       </div>

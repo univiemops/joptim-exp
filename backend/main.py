@@ -50,7 +50,6 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
-
 ########
 # MODELS
 ########
@@ -158,7 +157,20 @@ app.add_middleware(
 # LOAD TRIALS FROM FILE #
 #########################
 
+try:
+    with open("samples_all.pkl", "rb") as pickle_file:
+        samples = pickle.load(pickle_file)
+        print(len(samples), "experiments loaded.")
+        # decide for one participants (will later be decided by some logic and loaded from database instead of pickle file)
+        p_i = 0
+        samples = samples[p_i]
+        print("picked participant", p_i)
+        print(len(samples['solving_trials']), "solving trials")
+        print(len(samples['preference_trials']), "preference trials")
+except Exception as e:
+    print("Failed to load trials from trials.pkl:",e)
 
+# TODO: remove this once we use above only
 try:
     with open("trials.pkl", "rb") as pickle_file:
         trials = pickle.load(pickle_file)
@@ -263,29 +275,81 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
         return new_user_values
 
 
-@app.get("/game/")
-def new_game():
+@app.get("/new-solving-trial/{i}")
+def new_solving_trial(i: int):
     """Take trials from file."""
-    random_trial_idx = np.random.randint(len(trials))
-    tasks = trials[random_trial_idx]["task_loads"].tolist()
-    agents = trials[random_trial_idx]["worker_capacities"].tolist()
-    sm_1 = trials[random_trial_idx]["solution_matrix_1"]
-    sm_2 = trials[random_trial_idx]["solution_matrix_2"]
-    utility = trials[random_trial_idx]["utility"]
-    assignments_1 = [
-        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm_1 == 1)).T)
-    ]
-    assignments_2 = [
-        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm_2 == 1)).T)
+    solving_trials = samples["solving_trials"]
+    trial = solving_trials[i]
+    print(f"picked trial no. {i}")
+    tasks = trial["task_loads"].tolist()
+    workers = trial["worker_capacities"].tolist()
+    example_solution = trial["example_solution"]
+    utility = trial["utility"]
+    example_solution = [
+        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(example_solution == 1)).T)
     ]
     return {
         "tasks": tasks,
-        "agents": agents,
+        "workers": workers,
         "utility": utility,
-        "assignments_optimal_1": assignments_1,
-        "assignments_optimal_2": assignments_2,
+        "example_solution": example_solution,
     }
 
+@app.get("/new-preference-trial/{i}")
+def new_preference_trial(i: int):
+    """Take trials from file."""
+    preference_trials = samples["preference_trials"]
+    trial = preference_trials[i]
+    print(f"picked trial no. {i}: {trial['use_case']}, id:{trial['id']}")
+    tasks = trial["task_loads"].tolist()
+    workers = trial["worker_capacities"].tolist()
+    task_order_1 = trial["task_order_1"].tolist()
+    task_order_2 = trial["task_order_2"].tolist()
+    worker_order_1 = trial["worker_order_1"].tolist()
+    worker_order_2 = trial["worker_order_2"].tolist()
+    tasks_visual_1 = (np.array(tasks)[task_order_1]).tolist()
+    tasks_visual_2 = (np.array(tasks)[task_order_2]).tolist()
+    workers_visual_1 = (np.array(workers)[worker_order_1]).tolist()
+    workers_visual_2 = (np.array(workers)[worker_order_2]).tolist()
+    sm_1 = trial["solution_1"]
+    sm_2 = trial["solution_2"]
+    sm_visual_1 = trial["solution_1"][task_order_1][:, worker_order_1]
+    sm_visual_2 = trial["solution_2"][task_order_2][:, worker_order_2]
+    utility = trial["utility"]
+    solution_original_1 = [
+        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm_1 == 1)).T)
+    ]
+    solution_original_2 = [
+        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm_2 == 1)).T)
+    ]
+    solution_visual_1 = [
+        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm_visual_1 == 1)).T)
+    ]
+    solution_visual_2 = [
+        [int(i), int(j)] for i, j in np.flip(np.flip(np.where(sm_visual_2 == 1)).T)
+    ]
+    return {
+        "tasks_1": tasks_visual_1,
+        "workers_1": workers_visual_1,
+        "tasks_2": tasks_visual_2,
+        "workers_2": workers_visual_2,
+        "utility": utility,
+        "assignments_optimal_1": solution_original_1,
+        "assignments_optimal_2": solution_original_2,
+        "solution_1": solution_visual_1,
+        "solution_2": solution_visual_2,
+        "type": [trial["use_case"], trial["difficulty"], trial["visual_manipulation"]],
+    }
+
+@app.get("/n-trials/")
+def n_trials():
+    """Take trials from file."""
+    n_trials_solving = len(samples["solving_trials"])
+    n_trials_preference = len(samples["preference_trials"])
+    return {
+        "n_trials_solving": n_trials_solving,
+        "n_trials_preference": n_trials_preference
+    }
 
 @app.post("/results-trials-1/", response_model=schemas.Result)
 async def create_results_trials_1(result: schemas.ResultIn):

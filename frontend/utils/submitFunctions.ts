@@ -1,3 +1,5 @@
+import { UserDataProps } from "@/components/experiment/types";
+
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
 type DynamicDictionary = Record<string, string | boolean>;
@@ -104,12 +106,12 @@ export const handleSubmitSurvey = async (
 
 export const handleUpdateUser = async (
   XID: string,
-  field: string,
+  field: keyof UserDataProps,
   value: boolean,
 ): Promise<void> => {
-  const update: DynamicDictionary = {};
+  const update: Record<string, any> = {};
   update["xid"] = XID;
-  update[field] = value;
+  update[field as string] = value;  // Note: Ensure payload field is still a string
   try {
     const res = await fetch(`${OPTIONAL_SUBURI}/user-update/`, {
       method: "POST",
@@ -126,3 +128,29 @@ export const handleUpdateUser = async (
     console.error(error);
   }
 };
+
+
+// export const handleUpdateUser = async (
+//   XID: string,
+//   field: string,
+//   value: boolean,
+// ): Promise<void> => {
+//   const update: DynamicDictionary = {};
+//   update["xid"] = XID;
+//   update[field] = value;
+//   try {
+//     const res = await fetch(`${OPTIONAL_SUBURI}/user-update/`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(update),
+//     });
+
+//     if (!res.ok) {
+//       throw new Error("Failed to update user");
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
