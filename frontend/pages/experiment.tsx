@@ -12,7 +12,6 @@ import StrategiesSolving from "../components/experiment/StrategiesSolving";
 import PSI from "../components/experiment/PSI";
 import Consent from "../components/experiment/Consent";
 import Instructions from "../components/experiment/Instructions";
-import { nTrialsIntro, nTrialsMain } from "../constants/trials";
 import { useRouter } from "next/router";
 import {
   handleSubmit1,
@@ -20,8 +19,6 @@ import {
   handleUpdateUser,
   handleSubmitSurvey,
 } from "../utils/submitFunctions";
-import EyeTracking from "../eyetracking/EyeTracking"; // remove this if you do not need eyetracking
-import Calibration from "../eyetracking/Calibration"; // remove this if you do not need eyetracking
 import Head from "next/head";
 import { UserDataProps } from "@/components/experiment/types";
 
@@ -42,15 +39,25 @@ const initialUserData: UserDataProps = {
 
 const Experiment: React.FC = () => {
   const [assignments, setAssignments] = useState<Array<[number, number]>>([]);
-  const [tileEvents, setTileEvents] = useState<Array<[number, [number, number]]>>([]);
+  const [tileEvents, setTileEvents] = useState<
+    Array<[number, [number, number]]>
+  >([]);
+  const [nTrialsSolving, setNTrialsSolving] = useState<number>();
+  const [nTrialsPreference, setNTrialsPreference] = useState<number>();
   const [tasks, setTasks] = useState<Array<number>>([]);
   const [workers, setWorkers] = useState<Array<number>>([]);
+  const [tasks1, setTasks1] = useState<Array<number>>([]);
+  const [workers1, setWorkers1] = useState<Array<number>>([]);
+  const [tasks2, setTasks2] = useState<Array<number>>([]);
+  const [workers2, setWorkers2] = useState<Array<number>>([]);
+  const [solution1, setSolution1] = useState<Array<[number, number]>>([]);
+  const [solution2, setSolution2] = useState<Array<[number, number]>>([]);
   const [assignmentsOptimal, setAssignmentsOptimal] = useState<
     Array<[number, number]>
-  >([]);
+  >([]); // remove
   const [assignmentsOptimal2, setAssignmentsOptimal2] = useState<
     Array<[number, number]>
-  >([]);
+  >([]); // remove
   const [utility, setUtility] = useState<number>(0);
   const [prevTasks, setPrevTasks] = useState<Array<number>>([]);
   const [prevWorkers, setPrevWorkers] = useState<Array<number>>([]);
@@ -60,28 +67,16 @@ const Experiment: React.FC = () => {
   const [prevAssignmentsOptimal, setPrevAssignmentsOptimal] = useState<
     Array<[number, number]>
   >([]);
-  const [prevAssignmentsOptimal2, setPrevAssignmentsOptimal2] = useState<
-    Array<[number, number]>
-  >([]);
   const [prevUtility, setPrevUtility] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [trial, setTrial] = useState<number>(0);
+  const [indexSolvingTrial, setIndexSolvingTrial] = useState<number>();
   const [isTrialCompleted1, setTrialCompleted1] = useState<boolean>(true);
-  const [trial2, setTrial2] = useState<number>(0);
+  const [indexPreferenceTrial, setIndexPreferenceTrial] = useState<number>();
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserDataProps>(initialUserData);
-  const [completedEverything, setCompletedEverything] =
-    useState<boolean>(false);
   const router = useRouter();
   const { XID } = router.query;
   const [instructed, setInstructed] = React.useState<boolean>(false);
-  // remove this block if you do not need eyetracking
-  const [webcamAvailable, setWebcamAvailable] = React.useState<boolean>(true);
-  const [calibrated, setCalibrated] = React.useState<boolean>(false);
-  const [accuracy, setAccuracy] = React.useState<number | null>(null);
-  const handleCalibrated = () => {
-    setCalibrated(true);
-  };
 
   const handleScrollToTop = () => {
     if (window) {
@@ -89,17 +84,53 @@ const Experiment: React.FC = () => {
     }
   };
 
-  const fetchGame = () => {
-    fetch(`${OPTIONAL_SUBURI}/game/`)
+  const fetchNumberOfTrials = () => {
+    fetch(`${OPTIONAL_SUBURI}/n-trials/`)
+      .then((response) => response.json())
+      .then((json) => {
+        setNTrialsSolving(json["n_trials_solving"]);
+        setNTrialsPreference(json["n_trials_preference"]);
+        console.log("fetched number of trials.");
+      })
+
+      .catch((error) => {
+        console.error(error);
+        alert("Oops! Unable to connect to the server. Please try again later.");
+      });
+  };
+
+  const fetchSolvingTrial = (i: number) => {
+    fetch(`${OPTIONAL_SUBURI}/new-solving-trial/${i}`)
       .then((response) => response.json())
       .then((json) => {
         setTasks(json["tasks"]);
-        setWorkers(json["agents"]);
+        setWorkers(json["workers"]);
         setUtility(json["utility"]);
-        setAssignmentsOptimal(json["assignments_optimal_1"]);
-        setAssignmentsOptimal2(json["assignments_optimal_2"]);
+        setAssignmentsOptimal(json["example_solution"]);
         setAssignments([]);
         setLoading(false);
+        console.log("fetched solving trial no.", i);
+      })
+
+      .catch((error) => {
+        console.error(error);
+        alert("Oops! Unable to connect to the server. Please try again later.");
+      });
+  };
+
+  const fetchPreferenceTrial = (i: number) => {
+    fetch(`${OPTIONAL_SUBURI}/new-preference-trial/${i}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setTasks1(json["tasks_1"]);
+        setWorkers1(json["workers_1"]);
+        setTasks2(json["tasks_2"]);
+        setWorkers2(json["workers_2"]);
+        setUtility(json["utility"]);
+        setSolution1(json["solution_1"]);
+        setSolution2(json["solution_2"]);
+        setLoading(false);
+        console.log("fetched preference trial", i);
       })
       .catch((error) => {
         console.error(error);
@@ -108,14 +139,23 @@ const Experiment: React.FC = () => {
   };
 
   const setCSSvar = () => {
-    document.documentElement.style.setProperty(`--rows`, `${tasks.length}`);
-    document.documentElement.style.setProperty(`--cols`, `${workers.length}`);
+    if (!isTrialCompleted1 && instructed) {
+      document.documentElement.style.setProperty(`--rows`, `${tasks.length}`);
+      document.documentElement.style.setProperty(`--cols`, `${workers.length}`);
+    } else if (instructed) {
+      // The assumption here is that tasks1 and tasks2 and workers2 and workers1 are of same length
+      document.documentElement.style.setProperty(`--rows`, `${tasks1.length}`);
+      document.documentElement.style.setProperty(
+        `--cols`,
+        `${workers2.length}`
+      );
+    }
   };
 
   const handleTrialComplete1 = () => {
+    // solving trials
     if (startTime !== null) {
       const endTime: number = Date.now();
-
       if (!isNaN(endTime)) {
         const xidFromUserData: string | boolean = userData["xid"];
         if (typeof xidFromUserData === "string") {
@@ -126,31 +166,35 @@ const Experiment: React.FC = () => {
             assignments,
             tileEvents,
             startTime,
-            endTime,
+            endTime
           );
           setLoading(true);
           setPrevAssignments(assignments);
           setTrialCompleted1(true);
-          if (trial < nTrialsIntro) {
-            fetchGame();
+          if (
+            indexSolvingTrial != null &&
+            nTrialsSolving != null &&
+            indexSolvingTrial < nTrialsSolving
+          ) {
+            fetchSolvingTrial(indexSolvingTrial);
             startTime = Date.now();
-            console.log("fetched game for part 1");
           }
           setTrialCompleted1(true);
         } else {
           console.error(
-            "Variable xid is not a valid string. Trial not submitted.",
+            "Variable xid is not a valid string. Trial not submitted."
           );
         }
       } else {
         console.error(
-          "Variable endTime is not a valid number. Trial not submitted.",
+          "Variable endTime is not a valid number. Trial not submitted."
         );
       }
     }
   };
 
   const handleTrialComplete2 = (choice: number) => {
+    // preference trials
     if (startTime !== null) {
       const endTime: number = Date.now();
       if (!isNaN(endTime)) {
@@ -164,30 +208,37 @@ const Experiment: React.FC = () => {
             assignmentsOptimal2,
             startTime,
             endTime,
-            choice,
+            choice
           );
           setLoading(true);
           setTrialCompleted2(true);
-          if (trial2 < nTrialsMain) {
-            fetchGame();
+          if (
+            indexPreferenceTrial != null &&
+            nTrialsPreference != null &&
+            indexPreferenceTrial < nTrialsPreference
+          ) {
+            fetchPreferenceTrial(indexPreferenceTrial);
             startTime = Date.now();
-            console.log("fetched game for part 2");
           }
         } else {
           console.error(
-            "Variable xid is not a valid string. Trial not submitted.",
+            "Variable xid is not a valid string. Trial not submitted."
           );
         }
       } else {
         console.error(
-          "Variable endTime is not a valid number. Trial not submitted.",
+          "Variable endTime is not a valid number. Trial not submitted."
         );
       }
     }
   };
 
   const handleContinue1 = () => {
-    if (trial >= nTrialsIntro) {
+    if (
+      indexSolvingTrial != null &&
+      nTrialsSolving != null &&
+      indexSolvingTrial >= nTrialsSolving
+    ) {
       if (XID !== undefined && typeof XID === "string") {
         setUserData((prevUser) => ({ ...prevUser, trials_1: true }));
         handleUpdateUser(XID, "trials_1", true);
@@ -195,12 +246,18 @@ const Experiment: React.FC = () => {
         console.error("XID is undefined or not a string");
       }
     }
-    setTrial(trial + 1);
-    setTrialCompleted1(false);
+    if (indexSolvingTrial != null) {
+      setIndexSolvingTrial(indexSolvingTrial + 1);
+      setTrialCompleted1(false);
+    }
   };
 
   const handleContinue2 = () => {
-    if (trial2 >= nTrialsMain) {
+    if (
+      indexPreferenceTrial != null &&
+      nTrialsPreference != null &&
+      indexPreferenceTrial >= nTrialsPreference
+    ) {
       if (XID !== undefined && typeof XID === "string") {
         setUserData((prevUser) => ({ ...prevUser, trials_2: true }));
         handleUpdateUser(XID, "trials_2", true);
@@ -208,8 +265,10 @@ const Experiment: React.FC = () => {
         console.error("XID is undefined or not a string");
       }
     }
-    setTrial2(trial2 + 1);
-    setTrialCompleted2(false);
+    if (indexPreferenceTrial != null) {
+      setIndexPreferenceTrial(indexPreferenceTrial + 1);
+      setTrialCompleted2(false);
+    }
   };
 
   // TODO: integrate all three into one function
@@ -309,46 +368,34 @@ const Experiment: React.FC = () => {
     }
     try {
       const res = await fetch(
-        `${OPTIONAL_SUBURI}/user-trials-1-completed/${XID}`,
+        `${OPTIONAL_SUBURI}/user-trials-1-completed/${XID}`
       );
 
       if (!res.ok) {
         throw new Error("Failed to fetch user");
       }
       const nTrialsNew = await res.json();
-      setTrial(nTrialsNew);
+      setIndexSolvingTrial(nTrialsNew);
     } catch (error) {
       console.error(error);
     }
 
     try {
       const res = await fetch(
-        `${OPTIONAL_SUBURI}/user-trials-2-completed/${XID}`,
+        `${OPTIONAL_SUBURI}/user-trials-2-completed/${XID}`
       );
 
       if (!res.ok) {
         throw new Error("Failed to fetch user");
       }
       const nTrialsNew = await res.json();
-      setTrial2(nTrialsNew);
+      setIndexPreferenceTrial(nTrialsNew);
     } catch (error) {
       console.error(error);
     }
   };
 
-  function areAllBooleanFieldsTrue(obj: UserDataProps) {
-    for (const key in obj) {
-      if (typeof obj[key] === "boolean" && !obj[key]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  useEffect(() => {
-    setCompletedEverything(areAllBooleanFieldsTrue(userData));
-  }, [userData]);
-
+  // UE 1
   useEffect(() => {
     if (XID != undefined) {
       if (Array.isArray(XID)) {
@@ -356,171 +403,207 @@ const Experiment: React.FC = () => {
       } else {
         getUserData(XID);
       }
+      fetchNumberOfTrials();
     }
   }, [XID]);
 
-  // runs on every trial change
+  // UE 2
   useEffect(() => {
     setCSSvar();
-  }, [isTrialCompleted1, isTrialCompleted2]);
+  }, [indexSolvingTrial, indexPreferenceTrial]);
 
-  // runs when Trial in part 1 is completed
+  // UE 3: runs once to set the inital values solving trials
+  let ranEffect = 0;
   useEffect(() => {
-    if (isTrialCompleted1 === false && trial <= nTrialsIntro) {
+    if (
+      ranEffect === 0 &&
+      isTrialCompleted1 &&
+      indexSolvingTrial != null &&
+      nTrialsSolving != null &&
+      indexSolvingTrial < nTrialsSolving
+    ) {
+      fetchSolvingTrial(indexSolvingTrial);
+      startTime = Date.now();
+      ranEffect = 1;
+    }
+  }, [indexSolvingTrial, nTrialsSolving]);
+
+  // UE 4: runs once to set the inital values preference trials
+  let ranEffect2 = 0;
+  useEffect(() => {
+    if (
+      ranEffect2 === 0 &&
+      isTrialCompleted2 &&
+      indexPreferenceTrial != null &&
+      nTrialsPreference != null &&
+      indexPreferenceTrial < nTrialsPreference
+    ) {
+      fetchPreferenceTrial(indexPreferenceTrial);
+      startTime = Date.now();
+      ranEffect2 = 1;
+    }
+  }, [isTrialCompleted2, indexPreferenceTrial, nTrialsPreference]);
+
+  // UE 5
+  // runs when a solving trial (part 1 of the experiment) is completed
+  useEffect(() => {
+    if (
+      isTrialCompleted1 === false &&
+      indexSolvingTrial != null &&
+      nTrialsSolving != null &&
+      indexSolvingTrial <= nTrialsSolving
+    ) {
       setPrevTasks(tasks);
       setPrevWorkers(workers);
       setPrevUtility(utility);
       setPrevAssignmentsOptimal(assignmentsOptimal);
-      setPrevAssignmentsOptimal2(assignmentsOptimal2);
     }
   }, [isTrialCompleted1]);
 
-  // runs once to set the inital values
-  // part 1
-  let ranEffect = 0;
-  useEffect(() => {
-    if (ranEffect === 0) {
-      fetchGame();
-      startTime = Date.now();
-      console.log("fetched inital game (part 1).");
-      ranEffect = 1;
+  const renderMainContent = () => {
+    // Check if consent was given
+    if (!userData["consent"]) {
+      return (
+        <Consent
+          onSubmit={handleFinishConsent}
+          finished={userData["consent"]}
+        />
+      );
     }
-  }, []);
 
-  // runs once to set the inital values
-  // part 2
-  let ranEffect2 = 0;
-  useEffect(() => {
-    if (ranEffect2 === 0 && userData["trials_1"]) {
-      fetchGame();
-      startTime = Date.now();
-      console.log("fetched inital game (part2).");
-      ranEffect2 = 1;
+    // Check if survey was taken
+    else if (!userData["survey"]) {
+      return <PSI onSubmit={handleFinishPSI} finished={userData["survey"]} />;
     }
-  }, [isTrialCompleted1]);
 
-  // remove this if you do not need eyetracking
-  const handleFail = () => {
-    console.log("No webcam!");
-    setWebcamAvailable(false);
-  }; // TODO: needs a better solution that permanently check webcam access.
+    // Check if instructed
+    else if (!instructed) {
+      return <Instructions onSubmit={handleFinishInstructions} />;
+    }
+
+    // Check if solving trials completed
+    else if (!userData["trials_1"]) {
+      if (
+        isTrialCompleted1 &&
+        indexSolvingTrial != null &&
+        nTrialsSolving != null
+      ) {
+        return (
+          <ConfirmationPage
+            trial={indexSolvingTrial}
+            nTrials={nTrialsSolving}
+            utility={getUtility(prevTasks, prevAssignments)}
+            optimal_utility={prevUtility}
+            assignments={prevAssignments}
+            assignmentsOptimal={prevAssignmentsOptimal}
+            tasks={prevTasks}
+            workers={prevWorkers}
+            onContinue={handleContinue1}
+          />
+        );
+      }
+      if (loading) {
+        return <div className="loading-spinner"></div>;
+      }
+      if (indexSolvingTrial != null && nTrialsSolving != null) {
+        return (
+          <StimulusPage
+            trial={indexSolvingTrial}
+            nTrials={nTrialsSolving}
+            assignments={assignments}
+            setAssignments={setAssignments}
+            tileEvents={tileEvents}
+            setTileEvents={setTileEvents}
+            tasks={tasks}
+            workers={workers}
+            onComplete={handleTrialComplete1}
+          />
+        );
+      }
+    }
+
+    // Check if solving strategies completed
+    else if (!userData["strategies_1"]) {
+      return (
+        <StrategiesSolving
+          onSubmit={handleFinishStrategiesSolving}
+          finished={userData["strategies_1"]}
+        />
+      );
+    }
+
+    // Check if preference trials completed
+    else if (!userData["trials_2"]) {
+      if (
+        isTrialCompleted2 &&
+        indexPreferenceTrial != null &&
+        nTrialsPreference != null
+      ) {
+        return (
+          <ConfirmationPage2
+            trial={indexPreferenceTrial}
+            nTrials={nTrialsPreference}
+            onContinue={handleContinue2}
+          />
+        );
+      }
+      if (loading) {
+        return <div className="loading-spinner"></div>;
+      }
+      if (indexPreferenceTrial != null && nTrialsPreference != null) {
+        return (
+          <StimulusPage2
+            trial={indexPreferenceTrial}
+            nTrials={nTrialsPreference}
+            tasks1={tasks1}
+            tasks2={tasks2}
+            workers1={workers1}
+            workers2={workers2}
+            solution1={solution1}
+            solution2={solution2}
+            onComplete={handleTrialComplete2}
+          />
+        );
+      }
+    }
+
+    // Check if preference strategies completed
+    else if (!userData["strategies_2"]) {
+      return (
+        <Strategies
+          onSubmit={handleFinishStrategies}
+          finished={userData["strategies_2"]}
+        />
+      );
+    }
+
+    // Check if demographics completed
+    else if (!userData["demographics"]) {
+      return (
+        <AdditionalDemographics
+          onSubmit={handleFinishDemographics}
+          finished={userData["demographics"]}
+        />
+      );
+    }
+
+    // if everything's finished show debrief
+    else {
+      return (
+        <Debrief
+          onSubmit={handleFinishDebrief}
+          finished={userData["debrief"]}
+        />
+      );
+    }
+  };
 
   return (
     <div className="App">
       <Head>
         <title>Online experiment</title>
       </Head>
-      {instructed &&
-        typeof XID === "string" &&
-        completedEverything === false ? ( // eyetracking
-        <EyeTracking xid={XID} calibrated={calibrated} onFail={handleFail} /> // eyetracking
-      ) : null}{" "}
-      {/* remove this if you do not need eyetracking */}
-      {userData["xid"] === "" ? (
-        <div></div>
-      ) : !webcamAvailable ? (
-        <div>
-          <p>
-            <b>No webcam detected.</b>
-          </p>
-          <p>Please refresh this page and allow webcam access.</p>
-        </div>
-      ) : userData["consent"] ? (
-        userData["survey"] ? (
-          instructed ? (
-            calibrated || completedEverything ? ( // remove this conditional if you do not need eyetracking
-              userData["trials_1"] ? (
-                userData["strategies_1"] ? (
-                  userData["trials_2"] ? (
-                    userData["strategies_2"] ? (
-                      userData["demographics"] ? (
-                        <Debrief
-                          onSubmit={handleFinishDebrief}
-                          finished={userData["debrief"]}
-                        />
-                      ) : (
-                        <AdditionalDemographics
-                          onSubmit={handleFinishDemographics}
-                          finished={userData["demographics"]}
-                        />
-                      )
-                    ) : (
-                      <Strategies
-                        onSubmit={handleFinishStrategies}
-                        finished={userData["strategies_2"]}
-                      />
-                    )
-                  ) : isTrialCompleted2 ? (
-                    <ConfirmationPage2
-                      trial={trial2}
-                      nTrials={nTrialsMain}
-                      onContinue={handleContinue2}
-                    />
-                  ) : loading ? (
-                    <div className="loading-spinner"></div>
-                  ) : (
-                    <StimulusPage2
-                      trial={trial2}
-                      nTrials={nTrialsMain}
-                      assignments1={assignmentsOptimal}
-                      assignments2={assignmentsOptimal2}
-                      tasks={tasks}
-                      workers={workers}
-                      onComplete={handleTrialComplete2}
-                    />
-                  )
-                ) : (
-                  <StrategiesSolving
-                    onSubmit={handleFinishStrategiesSolving}
-                    finished={userData["strategies_1"]}
-                  />
-                )
-              ) : isTrialCompleted1 ? (
-                <ConfirmationPage
-                  trial={trial}
-                  nTrials={nTrialsIntro}
-                  utility={getUtility(prevTasks, prevAssignments)}
-                  optimal_utility={prevUtility}
-                  assignments={prevAssignments}
-                  assignmentsOptimal={prevAssignmentsOptimal}
-                  tasks={prevTasks}
-                  workers={prevWorkers}
-                  onContinue={handleContinue1}
-                />
-              ) : loading ? (
-                <div className="loading-spinner"></div>
-              ) : (
-                <StimulusPage
-                  trial={trial}
-                  nTrials={nTrialsIntro}
-                  assignments={assignments}
-                  setAssignments={setAssignments}
-                  tileEvents={tileEvents}
-                  setTileEvents={setTileEvents}
-                  tasks={tasks}
-                  workers={workers}
-                  onComplete={handleTrialComplete1}
-                />
-              )
-            ) : (
-              <Calibration
-                onCalibrated={handleCalibrated}
-                setAccuracy={setAccuracy}
-                accuracy={accuracy}
-              /> /* remove this if you do not need eyetracking */
-            )
-          ) : (
-            <Instructions onSubmit={handleFinishInstructions} />
-          )
-        ) : (
-          <PSI onSubmit={handleFinishPSI} finished={userData["survey"]} />
-        )
-      ) : (
-        <Consent
-          onSubmit={handleFinishConsent}
-          finished={userData["consent"]}
-        />
-      )}
+      {userData["xid"] === "" ? <div></div> : renderMainContent()}
     </div>
   );
 };
