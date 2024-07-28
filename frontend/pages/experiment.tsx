@@ -103,6 +103,8 @@ const Experiment: React.FC = () => {
     fetch(`${OPTIONAL_SUBURI}/new-solving-trial/${i}`)
       .then((response) => response.json())
       .then((json) => {
+        console.log("solving trial fetched");
+        console.log(json);
         setTasks(json["tasks"]);
         setWorkers(json["workers"]);
         setUtility(json["utility"]);
@@ -122,6 +124,8 @@ const Experiment: React.FC = () => {
     fetch(`${OPTIONAL_SUBURI}/new-preference-trial/${i}`)
       .then((response) => response.json())
       .then((json) => {
+        console.log("preference trial fetched");
+        console.log(json);
         setTasks1(json["tasks_1"]);
         setWorkers1(json["workers_1"]);
         setTasks2(json["tasks_2"]);
@@ -202,10 +206,12 @@ const Experiment: React.FC = () => {
         if (typeof xidFromUserData === "string") {
           handleSubmit2(
             xidFromUserData,
-            tasks,
-            workers,
-            assignmentsOptimal,
-            assignmentsOptimal2,
+            tasks1,
+            tasks2,
+            workers1,
+            workers2,
+            solution1,
+            solution2,
             startTime,
             endTime,
             choice
@@ -432,6 +438,7 @@ const Experiment: React.FC = () => {
   let ranEffect2 = 0;
   useEffect(() => {
     if (
+      userData["trials_1"] &&
       ranEffect2 === 0 &&
       isTrialCompleted2 &&
       indexPreferenceTrial != null &&
@@ -442,7 +449,7 @@ const Experiment: React.FC = () => {
       startTime = Date.now();
       ranEffect2 = 1;
     }
-  }, [isTrialCompleted2, indexPreferenceTrial, nTrialsPreference]);
+  }, [indexPreferenceTrial, nTrialsPreference]);
 
   // UE 5
   // runs when a solving trial (part 1 of the experiment) is completed
