@@ -14,16 +14,6 @@ export const handleSubmit1 = async (
   endTime: number,
 ): Promise<void> => {
   try {
-    console.log("submitting solving trial")
-    console.log({
-      "xid": xid,
-      "tasks": tasks,
-      "workers": workers,
-      "assignments": assignments,
-      "tileEvents": tileEvents,
-      "start_time": startTime,
-      "end_time": endTime,
-    })
     const res = await fetch(`${OPTIONAL_SUBURI}/results-trials-1/`, {
       method: "POST",
       headers: {
@@ -63,20 +53,6 @@ export const handleSubmit2 = async (
   choice: number,
 ): Promise<void> => {
   try {
-
-    console.log("submitting preference trial")
-    console.log({
-      "xid": xid,
-      "tasks1": tasks1,
-      "tasks2": tasks2,
-      "workers1": workers1,
-      "workers2": workers2,
-      "solution1": solution1,
-      "solution2": solution2,
-      "start_time": startTime,
-      "end_time": endTime,
-      "choice": choice
-    })
     const res = await fetch(`${OPTIONAL_SUBURI}/results-trials-2/`, {
       method: "POST",
       headers: {
