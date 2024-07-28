@@ -77,6 +77,8 @@ const Experiment: React.FC = () => {
   const router = useRouter();
   const { XID } = router.query;
   const [instructed, setInstructed] = React.useState<boolean>(false);
+  const [ranEffect1, setRanEffect1] = useState<boolean>(false);
+  const [ranEffect2, setRanEffect2] = useState<boolean>(false);
 
   const handleScrollToTop = () => {
     if (window) {
@@ -90,7 +92,7 @@ const Experiment: React.FC = () => {
       .then((json) => {
         setNTrialsSolving(json["n_trials_solving"]);
         setNTrialsPreference(json["n_trials_preference"]);
-        console.log("fetched number of trials.");
+        console.log("fetched numbers of trials.");
       })
 
       .catch((error) => {
@@ -103,8 +105,6 @@ const Experiment: React.FC = () => {
     fetch(`${OPTIONAL_SUBURI}/new-solving-trial/${i}`)
       .then((response) => response.json())
       .then((json) => {
-        console.log("solving trial fetched");
-        console.log(json);
         setTasks(json["tasks"]);
         setWorkers(json["workers"]);
         setUtility(json["utility"]);
@@ -124,8 +124,6 @@ const Experiment: React.FC = () => {
     fetch(`${OPTIONAL_SUBURI}/new-preference-trial/${i}`)
       .then((response) => response.json())
       .then((json) => {
-        console.log("preference trial fetched");
-        console.log(json);
         setTasks1(json["tasks_1"]);
         setWorkers1(json["workers_1"]);
         setTasks2(json["tasks_2"]);
@@ -419,37 +417,48 @@ const Experiment: React.FC = () => {
   }, [indexSolvingTrial, indexPreferenceTrial]);
 
   // UE 3: runs once to set the inital values solving trials
-  let ranEffect = 0;
   useEffect(() => {
     if (
-      ranEffect === 0 &&
+      !ranEffect1 &&
       isTrialCompleted1 &&
       indexSolvingTrial != null &&
       nTrialsSolving != null &&
       indexSolvingTrial < nTrialsSolving
     ) {
+      console.log("useEffect for initial solving trial ran.");
       fetchSolvingTrial(indexSolvingTrial);
       startTime = Date.now();
-      ranEffect = 1;
+      setRanEffect1(true);
     }
-  }, [indexSolvingTrial, nTrialsSolving]);
+  }, [
+    ranEffect1,
+    isTrialCompleted1,
+    indexSolvingTrial,
+    nTrialsSolving,
+    fetchSolvingTrial,
+  ]);
 
   // UE 4: runs once to set the inital values preference trials
-  let ranEffect2 = 0;
   useEffect(() => {
     if (
-      userData["trials_1"] &&
-      ranEffect2 === 0 &&
-      isTrialCompleted2 &&
+      userData.trials_1 &&
+      !ranEffect2 &&
       indexPreferenceTrial != null &&
       nTrialsPreference != null &&
       indexPreferenceTrial < nTrialsPreference
     ) {
+      console.log("useEffect for initial preference trial ran.");
       fetchPreferenceTrial(indexPreferenceTrial);
       startTime = Date.now();
-      ranEffect2 = 1;
+      setRanEffect2(true);
     }
-  }, [indexPreferenceTrial, nTrialsPreference]);
+  }, [
+    userData.trials_1,
+    ranEffect2,
+    indexPreferenceTrial,
+    nTrialsPreference,
+    fetchPreferenceTrial,
+  ]);
 
   // UE 5
   // runs when a solving trial (part 1 of the experiment) is completed
