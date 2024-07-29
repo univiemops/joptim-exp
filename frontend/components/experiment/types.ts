@@ -8,6 +8,7 @@ export interface InstructionsProps {
 }
 
 export interface UserDataProps {
+  id: string;
   xid: string;
   consent: boolean;
   survey: boolean;

@@ -159,25 +159,10 @@ app.add_middleware(
 
 try:
     with open("samples_all.pkl", "rb") as pickle_file:
-        samples = pickle.load(pickle_file)
-        print(len(samples), "experiments loaded.")
-        # decide for one participants (will later be decided by some logic and loaded from database instead of pickle file)
-        p_i = 0
-        samples = samples[p_i]
-        print("picked participant", p_i)
-        print(len(samples['solving_trials']), "solving trials")
-        print(len(samples['preference_trials']), "preference trials")
+        trial_data = pickle.load(pickle_file)
+        print(len(trial_data), "experiments loaded.")
 except Exception as e:
     print("Failed to load trials from trials.pkl:",e)
-
-# TODO: remove this once we use above only
-try:
-    with open("trials.pkl", "rb") as pickle_file:
-        trials = pickle.load(pickle_file)
-        print(len(trials), "trials loaded.")
-except Exception as e:
-    print("Failed to load trials from trials.pkl:", e)
-
 
 #############
 # API CALLS #
@@ -275,12 +260,13 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
         return new_user_values
 
 
-@app.get("/new-solving-trial/{i}")
-def new_solving_trial(i: int):
+@app.get("/new-solving-trial/{user_id}/{i}")
+def new_solving_trial(user_id:int, i: int):
     """Take trials from file."""
-    solving_trials = samples["solving_trials"]
-    trial = solving_trials[i]
-    print(f"picked trial no. {i}")
+    if user_id-1 >= len(trial_data):
+        raise HTTPException(status_code=400, detail="No more trial sets available")
+    trial = trial_data[user_id-1]["solving_trials"][i]
+    print(f"picked solving trial no. {i} for user {user_id}")
     tasks = trial["task_loads"].tolist()
     workers = trial["worker_capacities"].tolist()
     example_solution = trial["example_solution"]
@@ -295,12 +281,13 @@ def new_solving_trial(i: int):
         "example_solution": example_solution,
     }
 
-@app.get("/new-preference-trial/{i}")
-def new_preference_trial(i: int):
+@app.get("/new-preference-trial/{user_id}/{i}")
+def new_preference_trial(user_id: int, i: int):
     """Take trials from file."""
-    preference_trials = samples["preference_trials"]
-    trial = preference_trials[i]
-    print(f"picked trial no. {i}: {trial['use_case']}, id:{trial['id']}")
+    if user_id-1 >= len(trial_data):
+        raise HTTPException(status_code=400, detail="No more trial sets available")
+    trial = trial_data[user_id-1]["preference_trials"][i]
+    print(f"picked trial no. {i}: {trial['use_case']}, id:{trial['id']}, user_id: {user_id}")
     tasks = trial["task_loads"].tolist()
     workers = trial["worker_capacities"].tolist()
     task_order_1 = trial["task_order_1"].tolist()
@@ -341,11 +328,14 @@ def new_preference_trial(i: int):
         "type": [trial["use_case"], trial["difficulty"], trial["visual_manipulation"]],
     }
 
-@app.get("/n-trials/")
-def n_trials():
+@app.get("/n-trials/{user_id}")
+def n_trials(user_id: int):
     """Take trials from file."""
-    n_trials_solving = len(samples["solving_trials"])
-    n_trials_preference = len(samples["preference_trials"])
+    if user_id-1 >= len(trial_data):
+        raise HTTPException(status_code=400, detail="No more trial sets available")
+    trial_data_user = trial_data[user_id-1]
+    n_trials_solving = len(trial_data_user["solving_trials"])
+    n_trials_preference = len(trial_data_user["preference_trials"])
     return {
         "n_trials_solving": n_trials_solving,
         "n_trials_preference": n_trials_preference

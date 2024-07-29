@@ -2,7 +2,7 @@ import { UserDataProps } from "@/components/experiment/types";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
-type DynamicDictionary = Record<string, string | boolean>;
+// type DynamicDictionary = Record<string, string | boolean>;
 
 export const handleSubmit1 = async (
   xid: string,
@@ -42,10 +42,12 @@ export const handleSubmit1 = async (
 
 export const handleSubmit2 = async (
   xid: string,
-  tasks: Array<number>,
-  workers: Array<number>,
-  assignments1: Array<[number, number]>,
-  assignments2: Array<[number, number]>,
+  tasks1: Array<number>,
+  tasks2: Array<number>,
+  workers1: Array<number>,
+  workers2: Array<number>,
+  solution1: Array<[number, number]>,
+  solution2: Array<[number, number]>,
   startTime: number,
   endTime: number,
   choice: number,
@@ -59,10 +61,12 @@ export const handleSubmit2 = async (
       body: JSON.stringify({
         xid: xid,
         result: {
-          tasks: tasks,
-          workers: workers,
-          assignments_1: assignments1,
-          assignments_2: assignments2,
+          tasks1: tasks1,
+          tasks2: tasks2,
+          workers1: workers1,
+          workers2: workers2,
+          solution1: solution1,
+          solution2: solution2,
           start_time: startTime,
           end_time: endTime,
           choice: choice,

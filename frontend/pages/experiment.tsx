@@ -26,6 +26,7 @@ const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
 
 const initialUserData: UserDataProps = {
+  id: "",
   xid: "",
   consent: false,
   survey: false,
@@ -47,8 +48,8 @@ const Experiment: React.FC = () => {
   const [tasks, setTasks] = useState<Array<number>>([]);
   const [workers, setWorkers] = useState<Array<number>>([]);
   const [tasks1, setTasks1] = useState<Array<number>>([]);
-  const [workers1, setWorkers1] = useState<Array<number>>([]);
   const [tasks2, setTasks2] = useState<Array<number>>([]);
+  const [workers1, setWorkers1] = useState<Array<number>>([]);
   const [workers2, setWorkers2] = useState<Array<number>>([]);
   const [solution1, setSolution1] = useState<Array<[number, number]>>([]);
   const [solution2, setSolution2] = useState<Array<[number, number]>>([]);
@@ -77,6 +78,8 @@ const Experiment: React.FC = () => {
   const router = useRouter();
   const { XID } = router.query;
   const [instructed, setInstructed] = React.useState<boolean>(false);
+  const [ranEffect1, setRanEffect1] = useState<boolean>(false);
+  const [ranEffect2, setRanEffect2] = useState<boolean>(false);
 
   const handleScrollToTop = () => {
     if (window) {
@@ -85,12 +88,13 @@ const Experiment: React.FC = () => {
   };
 
   const fetchNumberOfTrials = () => {
-    fetch(`${OPTIONAL_SUBURI}/n-trials/`)
+    console.log("fetching number of trials for userData.id", userData.id);
+    fetch(`${OPTIONAL_SUBURI}/n-trials/${userData.id || 0}`)
       .then((response) => response.json())
       .then((json) => {
         setNTrialsSolving(json["n_trials_solving"]);
         setNTrialsPreference(json["n_trials_preference"]);
-        console.log("fetched number of trials.");
+        console.log("fetched numbers of trials.");
       })
 
       .catch((error) => {
@@ -99,50 +103,92 @@ const Experiment: React.FC = () => {
       });
   };
 
-  const fetchSolvingTrial = (i: number) => {
-    fetch(`${OPTIONAL_SUBURI}/new-solving-trial/${i}`)
-      .then((response) => response.json())
-      .then((json) => {
-        setTasks(json["tasks"]);
-        setWorkers(json["workers"]);
-        setUtility(json["utility"]);
-        setAssignmentsOptimal(json["example_solution"]);
-        setAssignments([]);
-        setLoading(false);
-        console.log("fetched solving trial no.", i);
-      })
+  const fetchSolvingTrial = async (i: number) => {
+    try {
+      const response = await fetch(
+        `${OPTIONAL_SUBURI}/new-solving-trial/${userData.id}/${i}`
+      );
 
-      .catch((error) => {
-        console.error(error);
-        alert("Oops! Unable to connect to the server. Please try again later.");
-      });
+      // Check if the response status is not in the range 200-299
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP error! status: ${response.status}: ${errorData.detail}`
+        );
+      }
+
+      const json = await response.json();
+
+      setTasks(json["tasks"]);
+      setWorkers(json["workers"]);
+      setUtility(json["utility"]);
+      setAssignmentsOptimal(json["example_solution"]);
+      setAssignments([]);
+      setLoading(false);
+      console.log("Fetched preference trial", i, "for user", userData.id);
+      console.log(json);
+    } catch (error) {
+      console.error("Fetching preference trials failed:", error);
+
+      alert("Oops! Unable to connect to the server. Please try again later.");
+    }
   };
 
-  const fetchPreferenceTrial = (i: number) => {
-    fetch(`${OPTIONAL_SUBURI}/new-preference-trial/${i}`)
-      .then((response) => response.json())
-      .then((json) => {
-        setTasks1(json["tasks_1"]);
-        setWorkers1(json["workers_1"]);
-        setTasks2(json["tasks_2"]);
-        setWorkers2(json["workers_2"]);
-        setUtility(json["utility"]);
-        setSolution1(json["solution_1"]);
-        setSolution2(json["solution_2"]);
-        setLoading(false);
-        console.log("fetched preference trial", i);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Oops! Unable to connect to the server. Please try again later.");
-      });
+  const fetchPreferenceTrial = async (i: number) => {
+    try {
+      const response = await fetch(
+        `${OPTIONAL_SUBURI}/new-preference-trial/${userData.id}/${i}`
+      );
+
+      // Check if the response status is not in the range 200-299
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP error! status: ${response.status}: ${errorData.detail}`
+        );
+      }
+
+      const json = await response.json();
+
+      setTasks1(json["tasks_1"]);
+      setWorkers1(json["workers_1"]);
+      setTasks2(json["tasks_2"]);
+      setWorkers2(json["workers_2"]);
+      setUtility(json["utility"]);
+      setSolution1(json["solution_1"]);
+      setSolution2(json["solution_2"]);
+      setLoading(false);
+      console.log("Fetched preference trial", i, "for user", userData.id);
+      console.log(json);
+    } catch (error) {
+      console.error("Fetching preference trials failed:", error);
+
+      alert("Oops! Unable to connect to the server. Please try again later.");
+    }
   };
 
   const setCSSvar = () => {
-    if (!isTrialCompleted1 && instructed) {
+    if (!userData["trials_1"] && instructed) {
+      console.log(
+        "changed CSS for solving trials to",
+        tasks.length,
+        "rows and",
+        workers.length,
+        "columns"
+      );
       document.documentElement.style.setProperty(`--rows`, `${tasks.length}`);
       document.documentElement.style.setProperty(`--cols`, `${workers.length}`);
     } else if (instructed) {
+      console.log(
+        "changed CSS for preference trials to",
+        tasks1.length,
+        "rows and",
+        workers1.length,
+        "columns"
+      );
+
+      console.log("workers1", workers1);
+
       // The assumption here is that tasks1 and tasks2 and workers2 and workers1 are of same length
       document.documentElement.style.setProperty(`--rows`, `${tasks1.length}`);
       document.documentElement.style.setProperty(
@@ -202,10 +248,12 @@ const Experiment: React.FC = () => {
         if (typeof xidFromUserData === "string") {
           handleSubmit2(
             xidFromUserData,
-            tasks,
-            workers,
-            assignmentsOptimal,
-            assignmentsOptimal2,
+            tasks1,
+            tasks2,
+            workers1,
+            workers2,
+            solution1,
+            solution2,
             startTime,
             endTime,
             choice
@@ -409,40 +457,54 @@ const Experiment: React.FC = () => {
 
   // UE 2
   useEffect(() => {
+    console.log("useEffect for setCssvar ran.");
+
     setCSSvar();
   }, [indexSolvingTrial, indexPreferenceTrial]);
 
   // UE 3: runs once to set the inital values solving trials
-  let ranEffect = 0;
   useEffect(() => {
     if (
-      ranEffect === 0 &&
+      !ranEffect1 &&
       isTrialCompleted1 &&
       indexSolvingTrial != null &&
       nTrialsSolving != null &&
       indexSolvingTrial < nTrialsSolving
     ) {
+      console.log("useEffect for initial solving trial ran.");
       fetchSolvingTrial(indexSolvingTrial);
       startTime = Date.now();
-      ranEffect = 1;
+      setRanEffect1(true);
     }
-  }, [indexSolvingTrial, nTrialsSolving]);
+  }, [
+    ranEffect1,
+    isTrialCompleted1,
+    indexSolvingTrial,
+    nTrialsSolving,
+    fetchSolvingTrial,
+  ]);
 
   // UE 4: runs once to set the inital values preference trials
-  let ranEffect2 = 0;
   useEffect(() => {
     if (
-      ranEffect2 === 0 &&
-      isTrialCompleted2 &&
+      userData.trials_1 &&
+      !ranEffect2 &&
       indexPreferenceTrial != null &&
       nTrialsPreference != null &&
       indexPreferenceTrial < nTrialsPreference
     ) {
+      console.log("useEffect for initial preference trial ran.");
       fetchPreferenceTrial(indexPreferenceTrial);
       startTime = Date.now();
-      ranEffect2 = 1;
+      setRanEffect2(true);
     }
-  }, [isTrialCompleted2, indexPreferenceTrial, nTrialsPreference]);
+  }, [
+    userData.trials_1,
+    ranEffect2,
+    indexPreferenceTrial,
+    nTrialsPreference,
+    fetchPreferenceTrial,
+  ]);
 
   // UE 5
   // runs when a solving trial (part 1 of the experiment) is completed
