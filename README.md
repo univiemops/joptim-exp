@@ -20,7 +20,7 @@ This repo uses our own fork of webgazer. If you want to make changes to webgazer
 
 ## Prerequisite
 
-Place `trials.pkl` file into the backend folder. If file is missing or the backend is not set up correctly, the frontend will report an error message.
+Place `samples_all.pkl` file into the backend folder. If file is missing or the backend is not set up correctly, the frontend will report an error message.
 
 ## Data
 
