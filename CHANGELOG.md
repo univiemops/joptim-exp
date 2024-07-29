@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.22](https://github.com/univiemops/joptim-exp/compare/v0.1.21...v0.1.22) (2024-07-29)
+
+
+### Features
+
+* add reset_database script for development ([3a6f5e3](https://github.com/univiemops/joptim-exp/commit/3a6f5e3b0c79a311cd8ce0da5da727835a975629))
+* determinstic assignment of trials to participants by unique id field in 'user' database-table. ([547e97a](https://github.com/univiemops/joptim-exp/commit/547e97acb8b7cf6f1b6286e0eb47d7d79cc52c55))
+
+
+### Bug Fixes
+
+* adapt submit functions to new data structure ([2b366c9](https://github.com/univiemops/joptim-exp/commit/2b366c916323cce4f29bba3e48eb4ba24f3f4006))
+* clear separation between type of trials infor manipulation of CSS ([c56bdfe](https://github.com/univiemops/joptim-exp/commit/c56bdfe347cf2d8ba91ec0487244000beff49584))
+
 ## [0.1.21](https://github.com/univiemops/joptim-exp/compare/v0.1.20...v0.1.21) (2024-07-28)
 
 
