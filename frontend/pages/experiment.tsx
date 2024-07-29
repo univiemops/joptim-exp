@@ -26,6 +26,7 @@ const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
 
 const initialUserData: UserDataProps = {
+  id: "",
   xid: "",
   consent: false,
   survey: false,
@@ -87,7 +88,8 @@ const Experiment: React.FC = () => {
   };
 
   const fetchNumberOfTrials = () => {
-    fetch(`${OPTIONAL_SUBURI}/n-trials/`)
+    console.log("fetching number of trials for userData.id", userData.id);
+    fetch(`${OPTIONAL_SUBURI}/n-trials/${userData.id || 0}`)
       .then((response) => response.json())
       .then((json) => {
         setNTrialsSolving(json["n_trials_solving"]);
@@ -101,43 +103,68 @@ const Experiment: React.FC = () => {
       });
   };
 
-  const fetchSolvingTrial = (i: number) => {
-    fetch(`${OPTIONAL_SUBURI}/new-solving-trial/${i}`)
-      .then((response) => response.json())
-      .then((json) => {
-        setTasks(json["tasks"]);
-        setWorkers(json["workers"]);
-        setUtility(json["utility"]);
-        setAssignmentsOptimal(json["example_solution"]);
-        setAssignments([]);
-        setLoading(false);
-        console.log("fetched solving trial no.", i);
-      })
+  const fetchSolvingTrial = async (i: number) => {
+    try {
+      const response = await fetch(
+        `${OPTIONAL_SUBURI}/new-solving-trial/${userData.id}/${i}`
+      );
 
-      .catch((error) => {
-        console.error(error);
-        alert("Oops! Unable to connect to the server. Please try again later.");
-      });
+      // Check if the response status is not in the range 200-299
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP error! status: ${response.status}: ${errorData.detail}`
+        );
+      }
+
+      const json = await response.json();
+
+      setTasks(json["tasks"]);
+      setWorkers(json["workers"]);
+      setUtility(json["utility"]);
+      setAssignmentsOptimal(json["example_solution"]);
+      setAssignments([]);
+      setLoading(false);
+      console.log("Fetched preference trial", i, "for user", userData.id);
+      console.log(json);
+    } catch (error) {
+      console.error("Fetching preference trials failed:", error);
+
+      alert("Oops! Unable to connect to the server. Please try again later.");
+    }
   };
 
-  const fetchPreferenceTrial = (i: number) => {
-    fetch(`${OPTIONAL_SUBURI}/new-preference-trial/${i}`)
-      .then((response) => response.json())
-      .then((json) => {
-        setTasks1(json["tasks_1"]);
-        setWorkers1(json["workers_1"]);
-        setTasks2(json["tasks_2"]);
-        setWorkers2(json["workers_2"]);
-        setUtility(json["utility"]);
-        setSolution1(json["solution_1"]);
-        setSolution2(json["solution_2"]);
-        setLoading(false);
-        console.log("fetched preference trial", i);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Oops! Unable to connect to the server. Please try again later.");
-      });
+  const fetchPreferenceTrial = async (i: number) => {
+    try {
+      const response = await fetch(
+        `${OPTIONAL_SUBURI}/new-preference-trial/${userData.id}/${i}`
+      );
+
+      // Check if the response status is not in the range 200-299
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP error! status: ${response.status}: ${errorData.detail}`
+        );
+      }
+
+      const json = await response.json();
+
+      setTasks1(json["tasks_1"]);
+      setWorkers1(json["workers_1"]);
+      setTasks2(json["tasks_2"]);
+      setWorkers2(json["workers_2"]);
+      setUtility(json["utility"]);
+      setSolution1(json["solution_1"]);
+      setSolution2(json["solution_2"]);
+      setLoading(false);
+      console.log("Fetched preference trial", i, "for user", userData.id);
+      console.log(json);
+    } catch (error) {
+      console.error("Fetching preference trials failed:", error);
+
+      alert("Oops! Unable to connect to the server. Please try again later.");
+    }
   };
 
   const setCSSvar = () => {
