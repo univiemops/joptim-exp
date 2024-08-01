@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.27](https://github.com/univiemops/joptim-exp/compare/v0.1.26...v0.1.27) (2024-08-01)
+
+
+### Bug Fixes
+
+* render assigned tasks inside workers in order (ascending from bottom to top). ([f14a895](https://github.com/univiemops/joptim-exp/commit/f14a89595af0dda18b289bb869476de8f0a039bd))
+
 ## [0.1.26](https://github.com/univiemops/joptim-exp/compare/v0.1.25...v0.1.26) (2024-08-01)
 
 
