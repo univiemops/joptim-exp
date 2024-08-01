@@ -11,6 +11,7 @@ const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 const ReplayPage = () => {
   const [XID, setXID] = React.useState("");
   const [participants, setParticipants] = React.useState<UserDataProps[]>([]);
+  const [downloadUri, setDownloadUri] = React.useState();
 
   let loadedPlayer = 0;
 
@@ -44,33 +45,43 @@ const ReplayPage = () => {
   }
 
   useEffect(() => {
-    const loadParticipants = async () => {
+    const loadAccess = async () => {
       try {
-        const getUriEndpoint = `${OPTIONAL_SUBURI}/get-rrweb-access`;
-        console.log(`Fetching download URI from: ${getUriEndpoint}`);
-        const uriRes = await fetch(getUriEndpoint);
-        if (!uriRes.ok) {
-          throw new Error("Failed to fetch download URI");
-        }
-        const uriJson = await uriRes.json();
-        const DOWNLOAD_URI = uriJson.download_uri;
-
-        const fetchParticipantsEndpoint = `${OPTIONAL_SUBURI}/${DOWNLOAD_URI}/tables/user`;
-        console.log(`Fetching participants from: ${fetchParticipantsEndpoint}`);
-        const res = await fetch(fetchParticipantsEndpoint);
+        const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
         if (!res.ok) {
-          throw new Error("Failed to fetch users");
+          throw new Error("Failed to fetch rrweb-access-uri");
         }
         const json = await res.json();
-        json.sort((a: any, b: any) => a.pid - b.pid);
-        setParticipants(json);
+        setDownloadUri(json.download_uri);
       } catch (error) {
         console.error(error);
       }
     };
 
-    loadParticipants();
+    loadAccess();
   }, []);
+
+  useEffect(() => {
+    console.log("downloadUri", downloadUri);
+    if (downloadUri != null) {
+      const loadParticipants = async () => {
+        try {
+          const res = await fetch(
+            `${OPTIONAL_SUBURI}/${downloadUri}/tables/user`
+          );
+          if (!res.ok) {
+            throw new Error("Failed to fetch users");
+          }
+          const json = await res.json();
+          json.sort((a: any, b: any) => a.pid > b.pid);
+          setParticipants(json);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      loadParticipants();
+    }
+  }, [downloadUri]);
 
   let replayer: any;
 
