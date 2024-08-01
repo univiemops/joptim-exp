@@ -71,11 +71,9 @@ const ReplayPage = () => {
       console.log("1 ... OPTIONAL_SUBURI in loadParticipants", OPTIONAL_SUBURI);
       const loadAccessURI = async () => {
         try {
-          const res = await fetch(
-            `${OPTIONAL_SUBURI}/${downloadUri}/tables/user`
-          );
+          const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
           if (!res.ok) {
-            throw new Error("Failed to fetch users");
+            throw new Error("Failed to fetch rrweb access URI");
           }
           const json = await res.json();
         } catch (error) {

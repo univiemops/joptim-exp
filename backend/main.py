@@ -634,7 +634,7 @@ async def ws_test_endpoint(websocket: WebSocket):
 
 # PASS DOWNLOAD_URI
 
-@app.get("/get-rrweb-access/")
+@app.get("/get-rrweb-access")
 async def get_rrweb_access():
     return {"download_uri": DOWNLOAD_URI}
 
