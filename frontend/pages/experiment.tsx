@@ -82,6 +82,7 @@ const Experiment: React.FC = () => {
   const [instructed, setInstructed] = React.useState<boolean>(false);
   const [ranEffect1, setRanEffect1] = useState<boolean>(false);
   const [ranEffect2, setRanEffect2] = useState<boolean>(false);
+  const [completionURL, setCompletionURL] = useState<boolean>();
 
   // BEGIN: eye-tracking
   const [webcamAvailable, setWebcamAvailable] = React.useState<boolean>(true);
@@ -98,6 +99,20 @@ const Experiment: React.FC = () => {
     if (window) {
       window.scrollTo(0, 0);
     }
+  };
+
+  const fetchCompletionURL = () => {
+    console.log("fetching completion URL for userData.id", userData.id);
+    fetch(`${OPTIONAL_SUBURI}/completion-url/${userData.id || 0}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setCompletionURL(json["completion_url"]);
+      })
+
+      .catch((error) => {
+        console.error(error);
+        alert("Oops! Unable to connect to the server. Please try again later.");
+      });
   };
 
   const fetchNumberOfTrials = () => {
@@ -535,6 +550,11 @@ const Experiment: React.FC = () => {
     }
   }, [isTrialCompleted1]);
 
+  // UE 7
+  useEffect(() => {
+    fetchCompletionURL();
+  }, []);
+
   // BEGIN: eye-tracking
   function areAllBooleanFieldsTrue(obj: UserDataProps) {
     for (const key in obj) {
@@ -549,12 +569,13 @@ const Experiment: React.FC = () => {
   useEffect(() => {
     setCompletedEverything(areAllBooleanFieldsTrue(userData));
   }, [userData]);
-  // END: eye-tracking
 
   const handleFail = () => {
     console.log("No webcam!");
     setWebcamAvailable(false);
   }; // TODO: needs a better solution that permanently check webcam access.
+
+  // END: eye-tracking
 
   const renderMainContent = () => {
     // BEGIN: eye-tracking
@@ -716,6 +737,7 @@ const Experiment: React.FC = () => {
         <Debrief
           onSubmit={handleFinishDebrief}
           finished={userData["debrief"]}
+          completionURL={completionURL}
         />
       );
     }
