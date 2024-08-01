@@ -20,15 +20,21 @@ const GAP: React.FC<GAPProps> = ({
   handleTileClick,
   freeze,
   icons,
-  mini
+  mini,
 }) => {
   return (
     <div className={mini ? styles.outer_mini : styles.outer}>
       <div className={mini ? styles.outer_left_mini : styles.outer_left}>
-        <div className={mini ? styles.outer_left_empty_mini : styles.outer_left_empty}></div>
+        <div
+          className={
+            mini ? styles.outer_left_empty_mini : styles.outer_left_empty
+          }
+        ></div>
         <div className={mini ? styles.ylabels_mini : styles.ylabels}>
           <EmptyTileY mini={mini} />
-          <div className={mini ? styles.ylabels_inner_mini : styles.ylabels_inner}>
+          <div
+            className={mini ? styles.ylabels_inner_mini : styles.ylabels_inner}
+          >
             {tasks.map((size, idx) => {
               const assigned =
                 assignments.filter((innerArray) => innerArray[0] === idx)
@@ -50,7 +56,9 @@ const GAP: React.FC<GAPProps> = ({
       <div className={mini ? styles.outer_right_mini : styles.outer_right}>
         <div className={mini ? styles.xlabels_mini : styles.xlabels}>
           <EmptyTileXLeft mini={mini} />
-          <div className={mini ? styles.xlabels_inner_mini : styles.xlabels_inner}>
+          <div
+            className={mini ? styles.xlabels_inner_mini : styles.xlabels_inner}
+          >
             {workers.map((size, i) => {
               const activeTasks = assignments
                 .filter((innerArray) => innerArray[1] === i)
@@ -92,26 +100,50 @@ const GAP: React.FC<GAPProps> = ({
               );
             })}
           </div>
-          <div className={mini ? styles.inner_middle_mini : styles.inner_middle}>
-            <div className={mini ? styles.tile_row_workers_mini : styles.tile_row_workers}>
+          <div
+            className={mini ? styles.inner_middle_mini : styles.inner_middle}
+          >
+            <div
+              className={
+                mini ? styles.tile_row_workers_mini : styles.tile_row_workers
+              }
+            >
               {workers.map((size, i) => {
                 const activeTasks = assignments
                   .filter((innerArray) => innerArray[1] === i)
                   .map((innerArray) => innerArray[0]);
+
+                // Sort activeTasks by size and store in new array
+                const activeSizes = activeTasks.map((index) => ({
+                  index: index,
+                  value: tasks[index],
+                }));
+                activeSizes.sort((a, b) => b.value - a.value);
+                const activeTasksSorted = activeSizes.map((item) => item.index);
+
+                // Use the sorted activeTasksSorted here to have larger tasks
+                // displayed as assigned first
                 return (
                   <WorkerTile
                     key={i}
                     size={size}
-                    activeTasks={activeTasks}
+                    activeTasks={activeTasksSorted}
                     tasks={tasks}
                     mini={mini}
                   />
                 );
               })}
             </div>
-            <div className={mini ? styles.tile_container_mini : styles.tile_container}>
+            <div
+              className={
+                mini ? styles.tile_container_mini : styles.tile_container
+              }
+            >
               {tasks.map((_, i) => (
-                <div key={i} className={mini ? styles.tile_row_mini : styles.tile_row}>
+                <div
+                  key={i}
+                  className={mini ? styles.tile_row_mini : styles.tile_row}
+                >
                   {workers.map((_, j) => {
                     let active = false;
                     if (
@@ -135,7 +167,9 @@ const GAP: React.FC<GAPProps> = ({
               ))}
             </div>
           </div>
-          <div className={mini ? styles.inner_right_mini : styles.inner_right}></div>
+          <div
+            className={mini ? styles.inner_right_mini : styles.inner_right}
+          ></div>
         </div>
       </div>
     </div>
