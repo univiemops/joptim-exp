@@ -82,7 +82,7 @@ const Experiment: React.FC = () => {
   const [instructed, setInstructed] = React.useState<boolean>(false);
   const [ranEffect1, setRanEffect1] = useState<boolean>(false);
   const [ranEffect2, setRanEffect2] = useState<boolean>(false);
-  const [completionURL, setCompletionURL] = useState<boolean>();
+  const [completionURL, setCompletionURL] = useState<string>("");
 
   // BEGIN: eye-tracking
   const [webcamAvailable, setWebcamAvailable] = React.useState<boolean>(true);
