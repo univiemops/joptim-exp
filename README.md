@@ -118,5 +118,4 @@ Then go to:
 * Alembic reintegration
 
 ## ISSUES
-- Rendering of tasks inside workers not in ascending order in case of trials that received visual problem manipulation
 - API test calls still open for development purposes. Close them and allow fetching data only through a secret endpoint. 
