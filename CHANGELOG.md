@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.26](https://github.com/univiemops/joptim-exp/compare/v0.1.25...v0.1.26) (2024-08-01)
+
+
+### Features
+
+* add timer for the redirect to be able to execute the last API call without interruption. ([f040efa](https://github.com/univiemops/joptim-exp/commit/f040efa4dedfe48ac3869de771bfca974d16803e))
+
 ## [0.1.25](https://github.com/univiemops/joptim-exp/compare/v0.1.24...v0.1.25) (2024-08-01)
 
 
