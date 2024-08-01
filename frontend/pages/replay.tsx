@@ -68,26 +68,29 @@ const ReplayPage = () => {
 
   useEffect(() => {
     if (downloadUri != null) {
-      console.log("OPTIONAL_SUBURI in downloadUri", OPTIONAL_SUBURI);
-      const loadDownloadUri = async () => {
+      console.log("1 ... OPTIONAL_SUBURI in loadParticipants", OPTIONAL_SUBURI);
+      const loadParticipants = async () => {
         try {
-          const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
+          const res = await fetch(
+            `${OPTIONAL_SUBURI}/${downloadUri}/tables/user`
+          );
           if (!res.ok) {
             throw new Error("Failed to fetch users");
           }
           const json = await res.json();
-          // setDownloadUri(json);
+          json.sort((a: any, b: any) => a.pid > b.pid);
+          setParticipants(json);
         } catch (error) {
           console.error(error);
         }
       };
-      loadDownloadUri();
+      loadParticipants();
     }
   }, []);
 
   useEffect(() => {
     if (downloadUri != null) {
-      console.log("OPTIONAL_SUBURI in loadParticipants", OPTIONAL_SUBURI);
+      console.log("2 ... OPTIONAL_SUBURI in loadParticipants", OPTIONAL_SUBURI);
       const loadParticipants = async () => {
         try {
           const res = await fetch(
