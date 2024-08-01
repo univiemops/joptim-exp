@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import Head from 'next/head'
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Head from "next/head";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { UserDataProps } from "@/components/experiment/types";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
@@ -13,7 +13,6 @@ const ReplayPage = () => {
   const [participants, setParticipants] = React.useState<UserDataProps[]>([]);
 
   let loadedPlayer = 0;
-
 
   function checkBooleanFields(fields: UserDataProps): string {
     const entries = Object.entries(fields);
@@ -34,7 +33,9 @@ const ReplayPage = () => {
     if (allCompleted) {
       return "all completed";
     } else if (!nothingCompleted) {
-      if (lastCompletedKey === "xid") { return "nothing completed" } else {
+      if (lastCompletedKey === "xid") {
+        return "nothing completed";
+      } else {
         return `${lastCompletedKey} completed`;
       }
     } else {
@@ -42,7 +43,7 @@ const ReplayPage = () => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const loadParticipants = async () => {
       try {
         const res = await fetch(`${OPTIONAL_SUBURI}/tables/user`);
@@ -51,17 +52,15 @@ const ReplayPage = () => {
         }
         const json = await res.json();
         json.sort((a: any, b: any) => a.pid > b.pid);
-        setParticipants(json)
+        setParticipants(json);
       } catch (error) {
         console.error(error);
       }
     };
     loadParticipants();
-  }, [])
+  }, []);
 
   let replayer: any;
-
-
 
   // const calcuateReplayerSize = () => {
   //   const remInPixels = parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -79,11 +78,13 @@ const ReplayPage = () => {
   const calculateReplayerSize = (): ResizeConfig => {
     const maxWidth = 1024;
     const aspectRatio = 3 / 2;
-    const dropdownHeight = 56 // TODO: query this
-    const replayMenuHeight = 80 // TODO: query this
+    const dropdownHeight = 56; // TODO: query this
+    const replayMenuHeight = 80; // TODO: query this
     const maxHeight = 1024 / aspectRatio;
 
-    const remInPixels = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const remInPixels = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
     const marginInPixels = 2 * remInPixels;
 
     const currentWidth = window.innerWidth;
@@ -94,14 +95,14 @@ const ReplayPage = () => {
     // based on height
     const width2: number = currentHeight * aspectRatio;
 
-    let width: number = width1 - marginInPixels
-    let height: number
+    let width: number = width1 - marginInPixels;
+    let height: number;
 
     // choose the smaller height
     if (width1 > width2) {
-      height = (width2) / aspectRatio
+      height = width2 / aspectRatio;
     } else {
-      height = (width1) / aspectRatio
+      height = width1 / aspectRatio;
     }
 
     // Check if the width exceeds the maximum allowed width
@@ -117,10 +118,10 @@ const ReplayPage = () => {
     }
 
     if (currentHeight < height) {
-      height = currentHeight
+      height = currentHeight;
     }
-    height = height - 1.5 * marginInPixels - dropdownHeight - replayMenuHeight
-    console.log("width", width, "height", height)
+    height = height - 1.5 * marginInPixels - dropdownHeight - replayMenuHeight;
+    console.log("width", width, "height", height);
     return {
       width,
       height,
@@ -128,16 +129,16 @@ const ReplayPage = () => {
   };
 
   const handleResize = () => {
-    const { width: newWidth, height: newHeight } = calculateReplayerSize()
+    const { width: newWidth, height: newHeight } = calculateReplayerSize();
     replayer.$set({
       width: newWidth,
       height: newHeight,
     });
-  }
+  };
 
-  React.useEffect(() => {
-    console.log("removing element div.rr-player element")
-    document.querySelectorAll("div.rr-player").forEach(el => el.remove());
+  useEffect(() => {
+    console.log("removing element div.rr-player element");
+    document.querySelectorAll("div.rr-player").forEach((el) => el.remove());
     if (window && XID !== "" && replayer === undefined && loadedPlayer === 0) {
       loadedPlayer++;
       const loadEvents = async () => {
@@ -148,7 +149,8 @@ const ReplayPage = () => {
           }
           const events = await res.json();
           console.log("rrweb: loaded", events.length, "events");
-          const { width: newWidth, height: newHeight } = calculateReplayerSize()
+          const { width: newWidth, height: newHeight } =
+            calculateReplayerSize();
           replayer = new window.rrwebPlayer({
             target: document.getElementById("fixed-player-container"),
             props: {
@@ -186,13 +188,22 @@ const ReplayPage = () => {
     setXID(event.target.value as string);
   };
 
-
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", width: "100vw", height: "100vh", padding: "1rem" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        width: "100vw",
+        height: "100vh",
+        padding: "1rem",
+      }}
+    >
       <Head>
         <title>Replay</title>
       </Head>
-      <FormControl >
+      <FormControl>
         <InputLabel id="demo-simple-select-helper-label">PID</InputLabel>
         <Select
           label="PID"
@@ -201,16 +212,40 @@ const ReplayPage = () => {
           autoWidth={false}
           value={XID}
           onChange={handleChange}
-        >{participants.map((item, key) => <MenuItem key={key} value={String(item.pid)}>
-          <div id="participant-to-select" style={{ display: "flex", justifyContent: "space-between", width: "100%" }} >
-            <span >{item.pid}</span>
-            <span style={{ color: "gray" }}> {checkBooleanFields(item)}</span>
-          </div>
-        </MenuItem>)}
+        >
+          {participants.map((item, key) => (
+            <MenuItem key={key} value={String(item.pid)}>
+              <div
+                id="participant-to-select"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <span>{item.pid}</span>
+                <span style={{ color: "gray" }}>
+                  {" "}
+                  {checkBooleanFields(item)}
+                </span>
+              </div>
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-      <div id="fixed-player-container" style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center", maxWidth: "calc(100vw - 2rem)", width: "100vw", height: "100vh", padding: "1rem" }}>
-      </div>
+      <div
+        id="fixed-player-container"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          maxWidth: "calc(100vw - 2rem)",
+          width: "100vw",
+          height: "100vh",
+          padding: "1rem",
+        }}
+      ></div>
     </div>
   );
 };
