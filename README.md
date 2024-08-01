@@ -114,8 +114,8 @@ Then go to:
 - Store experiment's version and basic browser/OS info in database (user info, survey and results)
 - Store timestamps instead of boolean in user table and add timestamp for user creation (`created`)
 * Finalize experimental design
-* Admin page for downloading the collected data via browser (Authentication required)
+* Replace hidden download endpoints with admin page for downloading the collected data via browser (Authentication required)
 * Alembic reintegration
 
 ## ISSUES
-- API test calls still open for development purposes. Close them and allow fetching data only through a secret endpoint. 
+-
