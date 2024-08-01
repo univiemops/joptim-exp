@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.24](https://github.com/univiemops/joptim-exp/compare/v0.1.23...v0.1.24) (2024-08-01)
+
+
+### Features
+
+* redirect after completion ([d2cc692](https://github.com/univiemops/joptim-exp/commit/d2cc6922aee3c670b83b635395000f268fc5dfdc))
+
 ## [0.1.23](https://github.com/univiemops/joptim-exp/compare/v0.1.22...v0.1.23) (2024-08-01)
 
 
