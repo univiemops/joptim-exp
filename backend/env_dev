@@ -2,3 +2,4 @@ DATABASE_URL=postgresql://user:pass@db/db
 EYETRACKING_DATA_DIR=eyetracking_data_dev
 RRWEB_DATA_DIR=rrweb_data_dev
 COMPLETION_URL=https://prolific.com
+DOWNLOAD_URI=download
