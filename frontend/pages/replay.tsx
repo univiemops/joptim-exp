@@ -67,8 +67,24 @@ const ReplayPage = () => {
   // }, []);
 
   useEffect(() => {
-    console.log(OPTIONAL_SUBURI);
-    console.log("downloadUri", downloadUri);
+    if (downloadUri != null) {
+      const loadDownloadUri = async () => {
+        try {
+          const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
+          if (!res.ok) {
+            throw new Error("Failed to fetch users");
+          }
+          const json = await res.json();
+          // setDownloadUri(json);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      loadDownloadUri();
+    }
+  }, []);
+
+  useEffect(() => {
     if (downloadUri != null) {
       const loadParticipants = async () => {
         try {
