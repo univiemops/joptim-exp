@@ -43,6 +43,7 @@ Make sure these are the same as in db.Dockerfile
 cd backend
 echo "DATABASE_URL=postgresql://user:pass@db/db" > .env
 ```
+and check if `backend/.env` contains all the relevant information (see `backend/env_dev` for an example).
 
 Create `alembic.ini`, 
 
