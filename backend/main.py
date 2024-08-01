@@ -570,7 +570,7 @@ async def eyetracking_endpoint(websocket: WebSocket):
         pass
 
 
-@app.get("/eyetracking/{id}")
+@app.get(f"/{DOWNLOAD_URI}" + "/eyetracking/{id}")
 async def get_eyetracking_text(id: str) -> list:
     """Get the eyetracking events of a user."""
     try:
@@ -601,7 +601,9 @@ async def close_connection_after_timeout(websocket: WebSocket):
     await asyncio.sleep(15)
     await websocket.close()
 
-
+    
+# remove if not necessary
+    
 @app.websocket("/ws-test")
 async def ws_test_endpoint(websocket: WebSocket):
     """
@@ -630,6 +632,13 @@ async def ws_test_endpoint(websocket: WebSocket):
         pass
 
 
+# PASS DOWNLOAD_URI
+
+@app.get("/get-rrweb-access/")
+async def get_rrweb_access():
+    return {"download_uri": DOWNLOAD_URI}
+
+    
 # DOWNLOAD/TEST CALLS
 
 @app.get(f"/{DOWNLOAD_URI}/tables/")
