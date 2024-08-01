@@ -125,6 +125,7 @@ user = sqlalchemy.Table(
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 EYETRACKING_DATA_DIR = os.getenv("EYETRACKING_DATA_DIR")
+COMPLETION_URL = os.getenv("COMPLETION_URL")
 RRWEB_DATA_DIR = os.getenv("RRWEB_DATA_DIR")
 database = databases.Database(DATABASE_URL)
 engine = sqlalchemy.create_engine(DATABASE_URL)
@@ -339,6 +340,13 @@ def n_trials(user_id: int):
     return {
         "n_trials_solving": n_trials_solving,
         "n_trials_preference": n_trials_preference
+    }
+
+
+@app.get("/completion-url/{user_id}")
+def get_completion_url(user_id: int):
+    return {
+        "completion_url": COMPLETION_URL
     }
 
 @app.post("/results-trials-1/", response_model=schemas.Result)
