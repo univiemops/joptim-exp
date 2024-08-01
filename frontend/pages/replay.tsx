@@ -11,7 +11,9 @@ const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 const ReplayPage = () => {
   const [XID, setXID] = React.useState("");
   const [participants, setParticipants] = React.useState<UserDataProps[]>([]);
-  const [downloadUri, setDownloadUri] = React.useState();
+  const [downloadUri, setDownloadUri] = React.useState<string>(
+    "gfkj39rfkjl323G.39f"
+  );
 
   let loadedPlayer = 0;
 
@@ -44,24 +46,28 @@ const ReplayPage = () => {
     }
   }
 
-  useEffect(() => {
-    const loadAccess = async () => {
-      try {
-        const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch rrweb-access-uri");
-        }
-        const json = await res.json();
-        setDownloadUri(json.download_uri);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // useEffect(() => {
+  //   console.log(OPTIONAL_SUBURI);
+  //   const protocol = window.location.protocol;
+  //   console.log(protocol);
+  //   const loadAccess = async () => {
+  //     try {
+  //       const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
+  //       if (!res.ok) {
+  //         throw new Error("Failed to fetch rrweb-access-uri");
+  //       }
+  //       const json = await res.json();
+  //       setDownloadUri(json.download_uri);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    loadAccess();
-  }, []);
+  //   loadAccess();
+  // }, []);
 
   useEffect(() => {
+    console.log(OPTIONAL_SUBURI);
     console.log("downloadUri", downloadUri);
     if (downloadUri != null) {
       const loadParticipants = async () => {
