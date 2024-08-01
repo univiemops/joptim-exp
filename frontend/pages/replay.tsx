@@ -46,23 +46,23 @@ const ReplayPage = () => {
   useEffect(() => {
     const loadParticipants = async () => {
       try {
-        // Fetch the download URI first
-        const uriRes = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
+        const getUriEndpoint = `${OPTIONAL_SUBURI}/get-rrweb-access`;
+        console.log(`Fetching download URI from: ${getUriEndpoint}`);
+        const uriRes = await fetch(getUriEndpoint);
         if (!uriRes.ok) {
           throw new Error("Failed to fetch download URI");
         }
         const uriJson = await uriRes.json();
         const DOWNLOAD_URI = uriJson.download_uri;
 
-        // Fetch the participants using the retrieved download URI
-        const res = await fetch(
-          `${OPTIONAL_SUBURI}/${DOWNLOAD_URI}/tables/user`
-        );
+        const fetchParticipantsEndpoint = `${OPTIONAL_SUBURI}/${DOWNLOAD_URI}/tables/user`;
+        console.log(`Fetching participants from: ${fetchParticipantsEndpoint}`);
+        const res = await fetch(fetchParticipantsEndpoint);
         if (!res.ok) {
           throw new Error("Failed to fetch users");
         }
         const json = await res.json();
-        json.sort((a: any, b: any) => a.pid - b.pid); // Corrected the sort comparison to work as intended
+        json.sort((a: any, b: any) => a.pid - b.pid);
         setParticipants(json);
       } catch (error) {
         console.error(error);
