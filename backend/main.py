@@ -127,6 +127,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 EYETRACKING_DATA_DIR = os.getenv("EYETRACKING_DATA_DIR")
 COMPLETION_URL = os.getenv("COMPLETION_URL")
 RRWEB_DATA_DIR = os.getenv("RRWEB_DATA_DIR")
+DOWNLOAD_URI = os.getenv("DOWNLOAD_URI")
 database = databases.Database(DATABASE_URL)
 engine = sqlalchemy.create_engine(DATABASE_URL)
 metadata.create_all(engine)
@@ -629,21 +630,9 @@ async def ws_test_endpoint(websocket: WebSocket):
         pass
 
 
-# DOWNLOAD CALLS
+# DOWNLOAD/TEST CALLS
 
-
-@app.get("/results-trials-1/", response_model=List[schemas.Result])
-async def read_results_trials_1():
-    """Read results."""
-    query = results_trials_1.select()
-    response = await database.fetch_all(query)
-    return response
-
-
-# TEST CALLS
-
-
-@app.get("/tables")
+@app.get(f"/{DOWNLOAD_URI}/tables/")
 async def get_tables():
     """Read list of all tables in database."""
     async with database.transaction():
@@ -651,7 +640,7 @@ async def get_tables():
         return {"tables": tables}
 
 
-@app.get("/tables/{table_name}", response_model=List[dict])
+@app.get(f"/{DOWNLOAD_URI}" + "/tables/{table_name}", response_model=List[dict])
 async def get_table_content(table_name: str):
     """Read list of content in table."""
     async with database.transaction():
@@ -665,7 +654,7 @@ async def get_table_content(table_name: str):
         return result
 
 
-@app.get("/table_fields/{table_name}", response_model=List[str])
+@app.get(f"/{DOWNLOAD_URI}" + "/table_fields/{table_name}", response_model=List[str])
 async def get_table_fields(table_name: str):
     """Read list of all fields in table."""
     async with database.transaction():
