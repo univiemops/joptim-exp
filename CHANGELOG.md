@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.30](https://github.com/univiemops/joptim-exp/compare/v0.1.29...v0.1.30) (2024-08-01)
+
+
+### Bug Fixes
+
+* endpoints for rrweb access 2 ([8bee9c4](https://github.com/univiemops/joptim-exp/commit/8bee9c4ad2cfd4cad49d3ca81832ce3de361833e))
+
 ## [0.1.29](https://github.com/univiemops/joptim-exp/compare/v0.1.28...v0.1.29) (2024-08-01)
 
 
