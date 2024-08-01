@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.28](https://github.com/univiemops/joptim-exp/compare/v0.1.27...v0.1.28) (2024-08-01)
+
+
+### Features
+
+* enable hidden API calls to download data ([79d5c1a](https://github.com/univiemops/joptim-exp/commit/79d5c1ad482dccfee2fe10102f7aef6fdf78c378))
+
 ## [0.1.27](https://github.com/univiemops/joptim-exp/compare/v0.1.26...v0.1.27) (2024-08-01)
 
 
