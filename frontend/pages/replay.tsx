@@ -11,9 +11,7 @@ const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 const ReplayPage = () => {
   const [XID, setXID] = React.useState("");
   const [participants, setParticipants] = React.useState<UserDataProps[]>([]);
-  const [downloadUri, setDownloadUri] = React.useState<string>(
-    "gfkj39rfkjl323G.39f"
-  );
+  const [downloadUri, setDownloadUri] = React.useState<string>();
 
   let loadedPlayer = 0;
 
@@ -67,26 +65,23 @@ const ReplayPage = () => {
   // }, []);
 
   useEffect(() => {
-    if (downloadUri != null) {
-      console.log("1 ... OPTIONAL_SUBURI in loadParticipants", OPTIONAL_SUBURI);
-      const loadAccessURI = async () => {
-        try {
-          const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
-          if (!res.ok) {
-            throw new Error("Failed to fetch rrweb access URI");
-          }
-          const json = await res.json();
-        } catch (error) {
-          console.error(error);
+    const loadAccessURI = async () => {
+      try {
+        const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch rrweb access URI");
         }
-      };
-      loadAccessURI();
-    }
+        const json = await res.json();
+        setDownloadUri(json.download_uri);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadAccessURI();
   }, []);
 
   useEffect(() => {
     if (downloadUri != null) {
-      console.log("2 ... OPTIONAL_SUBURI in loadParticipants", OPTIONAL_SUBURI);
       const loadParticipants = async () => {
         try {
           const res = await fetch(
