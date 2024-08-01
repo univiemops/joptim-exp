@@ -68,6 +68,7 @@ const ReplayPage = () => {
 
   useEffect(() => {
     if (downloadUri != null) {
+      console.log("OPTIONAL_SUBURI in downloadUri", OPTIONAL_SUBURI);
       const loadDownloadUri = async () => {
         try {
           const res = await fetch(`${OPTIONAL_SUBURI}/get-rrweb-access`);
@@ -86,6 +87,7 @@ const ReplayPage = () => {
 
   useEffect(() => {
     if (downloadUri != null) {
+      console.log("OPTIONAL_SUBURI in loadParticipants", OPTIONAL_SUBURI);
       const loadParticipants = async () => {
         try {
           const res = await fetch(
