@@ -69,7 +69,7 @@ const ReplayPage = () => {
   useEffect(() => {
     if (downloadUri != null) {
       console.log("1 ... OPTIONAL_SUBURI in loadParticipants", OPTIONAL_SUBURI);
-      const loadParticipants = async () => {
+      const loadAccessURI = async () => {
         try {
           const res = await fetch(
             `${OPTIONAL_SUBURI}/${downloadUri}/tables/user`
@@ -78,13 +78,11 @@ const ReplayPage = () => {
             throw new Error("Failed to fetch users");
           }
           const json = await res.json();
-          json.sort((a: any, b: any) => a.pid > b.pid);
-          setParticipants(json);
         } catch (error) {
           console.error(error);
         }
       };
-      loadParticipants();
+      loadAccessURI();
     }
   }, []);
 
