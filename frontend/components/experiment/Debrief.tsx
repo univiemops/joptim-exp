@@ -74,7 +74,9 @@ const Debrief: React.FC<ExtendedQuestionnaireProps> = ({
     if (finished) {
       console.log("Experiment finished, redirecting to", completionURL);
       if (completionURL != null) {
-        window.location.href = completionURL;
+        const timer = setTimeout(() => {
+          window.location.href = completionURL;
+        }, 3000);
       }
       return (
         <p>

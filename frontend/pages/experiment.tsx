@@ -371,10 +371,10 @@ const Experiment: React.FC = () => {
 
   const handleFinishDebrief = (responses: Record<string, string>) => {
     if (XID !== undefined && typeof XID === "string") {
-      setUserData((prevUser) => ({ ...prevUser, debrief: true }));
       handleUpdateUser(XID, "debrief", true);
       handleSubmitSurvey("debrief", XID, responses); // first entry defines the type of survey
       handleScrollToTop();
+      setUserData((prevUser) => ({ ...prevUser, debrief: true }));
     } else {
       console.error("XID is undefined or not a string");
     }
