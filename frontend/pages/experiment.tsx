@@ -22,6 +22,11 @@ import {
 import Head from "next/head";
 import { UserDataProps } from "@/components/experiment/types";
 
+// BEGIN: eye-tracking
+import EyeTracking from "../eyetracking/EyeTracking";
+import Calibration from "../eyetracking/Calibration";
+// END: eye-tracking
+
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 let startTime: number | null = null;
 
@@ -55,10 +60,7 @@ const Experiment: React.FC = () => {
   const [solution2, setSolution2] = useState<Array<[number, number]>>([]);
   const [assignmentsOptimal, setAssignmentsOptimal] = useState<
     Array<[number, number]>
-  >([]); // remove
-  const [assignmentsOptimal2, setAssignmentsOptimal2] = useState<
-    Array<[number, number]>
-  >([]); // remove
+  >([]);
   const [utility, setUtility] = useState<number>(0);
   const [prevTasks, setPrevTasks] = useState<Array<number>>([]);
   const [prevWorkers, setPrevWorkers] = useState<Array<number>>([]);
@@ -80,6 +82,17 @@ const Experiment: React.FC = () => {
   const [instructed, setInstructed] = React.useState<boolean>(false);
   const [ranEffect1, setRanEffect1] = useState<boolean>(false);
   const [ranEffect2, setRanEffect2] = useState<boolean>(false);
+
+  // BEGIN: eye-tracking
+  const [webcamAvailable, setWebcamAvailable] = React.useState<boolean>(true);
+  const [calibrated, setCalibrated] = React.useState<boolean>(false);
+  const [accuracy, setAccuracy] = React.useState<number | null>(null);
+  const [completedEverything, setCompletedEverything] =
+    useState<boolean>(false);
+  const handleCalibrated = () => {
+    setCalibrated(true);
+  };
+  // END: eye-tracking
 
   const handleScrollToTop = () => {
     if (window) {
@@ -522,7 +535,42 @@ const Experiment: React.FC = () => {
     }
   }, [isTrialCompleted1]);
 
+  // BEGIN: eye-tracking
+  function areAllBooleanFieldsTrue(obj: UserDataProps) {
+    for (const key in obj) {
+      if (typeof obj[key] === "boolean" && !obj[key]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // UE 6
+  useEffect(() => {
+    setCompletedEverything(areAllBooleanFieldsTrue(userData));
+  }, [userData]);
+  // END: eye-tracking
+
+  const handleFail = () => {
+    console.log("No webcam!");
+    setWebcamAvailable(false);
+  }; // TODO: needs a better solution that permanently check webcam access.
+
   const renderMainContent = () => {
+    // BEGIN: eye-tracking
+    // Check if webcam available
+    if (!webcamAvailable) {
+      return (
+        <div>
+          <p>
+            <b>No webcam detected.</b>
+          </p>
+          <p>Please refresh this page and allow webcam access.</p>
+        </div>
+      );
+    }
+    // END: eye-tracking
+
     // Check if consent was given
     if (!userData["consent"]) {
       return (
@@ -542,6 +590,19 @@ const Experiment: React.FC = () => {
     else if (!instructed) {
       return <Instructions onSubmit={handleFinishInstructions} />;
     }
+
+    // BEGIN: eye-tracking
+    // Check if webcam is calibrated
+    else if (!calibrated && !completedEverything) {
+      return (
+        <Calibration
+          onCalibrated={handleCalibrated}
+          setAccuracy={setAccuracy}
+          accuracy={accuracy}
+        />
+      );
+    }
+    // END: eye-tracking
 
     // Check if solving trials completed
     else if (!userData["trials_1"]) {
@@ -665,6 +726,13 @@ const Experiment: React.FC = () => {
       <Head>
         <title>Online experiment</title>
       </Head>
+      {/* BEGIN: eye-tracking */}
+      {instructed &&
+      typeof XID === "string" &&
+      completedEverything === false ? (
+        <EyeTracking xid={XID} calibrated={calibrated} onFail={handleFail} />
+      ) : null}
+      {/* END: eye-tracking */}
       {userData["xid"] === "" ? <div></div> : renderMainContent()}
     </div>
   );
