@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.23](https://github.com/univiemops/joptim-exp/compare/v0.1.22...v0.1.23) (2024-08-01)
+
+
+### Features
+
+* added eye-tracking to new experiment setup ([7457aa2](https://github.com/univiemops/joptim-exp/commit/7457aa21e5b892519b47e119808174960954815e))
+
 ## [0.1.22](https://github.com/univiemops/joptim-exp/compare/v0.1.21...v0.1.22) (2024-07-29)
 
 
