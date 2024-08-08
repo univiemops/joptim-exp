@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.31](https://github.com/univiemops/joptim-exp/compare/v0.1.30...v0.1.31) (2024-08-08)
+
+
+### Bug Fixes
+
+* **frontend:** correct starttime position in solving and preference trials ([a90fb75](https://github.com/univiemops/joptim-exp/commit/a90fb75a9829fac65f70a547cc9878b5cb321c92))
+
 ## [0.1.30](https://github.com/univiemops/joptim-exp/compare/v0.1.29...v0.1.30) (2024-08-01)
 
 
