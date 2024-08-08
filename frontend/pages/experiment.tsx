@@ -153,10 +153,10 @@ const Experiment: React.FC = () => {
       setAssignmentsOptimal(json["example_solution"]);
       setAssignments([]);
       setLoading(false);
-      console.log("Fetched preference trial", i, "for user", userData.id);
+      console.log("Fetched solving trial", i, "for user", userData.id);
       console.log(json);
     } catch (error) {
-      console.error("Fetching preference trials failed:", error);
+      console.error("Fetching solving trials failed:", error);
 
       alert("Oops! Unable to connect to the server. Please try again later.");
     }
@@ -230,6 +230,13 @@ const Experiment: React.FC = () => {
     // solving trials
     if (startTime !== null) {
       const endTime: number = Date.now();
+      console.log(
+        "handleTrialComplete1(): endTime set",
+        endTime,
+        "duration:",
+        (endTime - startTime) / 1000,
+        "s"
+      );
       if (!isNaN(endTime)) {
         const xidFromUserData: string | boolean = userData["xid"];
         if (typeof xidFromUserData === "string") {
@@ -252,6 +259,7 @@ const Experiment: React.FC = () => {
           ) {
             fetchSolvingTrial(indexSolvingTrial);
             startTime = Date.now();
+            console.log("handleTrialComplete1(): startTime set", startTime);
           }
           setTrialCompleted1(true);
         } else {
@@ -271,6 +279,13 @@ const Experiment: React.FC = () => {
     // preference trials
     if (startTime !== null) {
       const endTime: number = Date.now();
+      console.log(
+        "handleTrialComplete2(): endTime set",
+        endTime,
+        "duration:",
+        (endTime - startTime) / 1000,
+        "s"
+      );
       if (!isNaN(endTime)) {
         const xidFromUserData: string | boolean = userData["xid"];
         if (typeof xidFromUserData === "string") {
@@ -295,6 +310,7 @@ const Experiment: React.FC = () => {
           ) {
             fetchPreferenceTrial(indexPreferenceTrial);
             startTime = Date.now();
+            console.log("handleTrialComplete2(): startTime set", startTime);
           }
         } else {
           console.error(
@@ -310,6 +326,9 @@ const Experiment: React.FC = () => {
   };
 
   const handleContinue1 = () => {
+    console.log("Solving Trials: Continue Button Clicked!");
+    startTime = Date.now();
+    console.log("handleContinue1 (for solving): startTime set", startTime);
     if (
       indexSolvingTrial != null &&
       nTrialsSolving != null &&
@@ -329,6 +348,10 @@ const Experiment: React.FC = () => {
   };
 
   const handleContinue2 = () => {
+    console.log("Preference Trials: Continue Button Clicked!");
+    startTime = Date.now();
+    console.log("handleContinue1 (for solving): startTime set", startTime);
+
     if (
       indexPreferenceTrial != null &&
       nTrialsPreference != null &&
@@ -501,7 +524,6 @@ const Experiment: React.FC = () => {
     ) {
       console.log("useEffect for initial solving trial ran.");
       fetchSolvingTrial(indexSolvingTrial);
-      startTime = Date.now();
       setRanEffect1(true);
     }
   }, [
@@ -523,7 +545,6 @@ const Experiment: React.FC = () => {
     ) {
       console.log("useEffect for initial preference trial ran.");
       fetchPreferenceTrial(indexPreferenceTrial);
-      startTime = Date.now();
       setRanEffect2(true);
     }
   }, [
@@ -614,15 +635,15 @@ const Experiment: React.FC = () => {
 
     // BEGIN: eye-tracking
     // Check if webcam is calibrated
-    else if (!calibrated && !completedEverything) {
-      return (
-        <Calibration
-          onCalibrated={handleCalibrated}
-          setAccuracy={setAccuracy}
-          accuracy={accuracy}
-        />
-      );
-    }
+    // else if (!calibrated && !completedEverything) {
+    //   return (
+    //     <Calibration
+    //       onCalibrated={handleCalibrated}
+    //       setAccuracy={setAccuracy}
+    //       accuracy={accuracy}
+    //     />
+    //   );
+    // }
     // END: eye-tracking
 
     // Check if solving trials completed
@@ -748,13 +769,17 @@ const Experiment: React.FC = () => {
       <Head>
         <title>Online experiment</title>
       </Head>
+
       {/* BEGIN: eye-tracking */}
-      {instructed &&
+
+      {/* {instructed &&
       typeof XID === "string" &&
       completedEverything === false ? (
         <EyeTracking xid={XID} calibrated={calibrated} onFail={handleFail} />
-      ) : null}
+      ) : null} */}
+
       {/* END: eye-tracking */}
+
       {userData["xid"] === "" ? <div></div> : renderMainContent()}
     </div>
   );
