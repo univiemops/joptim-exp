@@ -635,15 +635,15 @@ const Experiment: React.FC = () => {
 
     // BEGIN: eye-tracking
     // Check if webcam is calibrated
-    // else if (!calibrated && !completedEverything) {
-    //   return (
-    //     <Calibration
-    //       onCalibrated={handleCalibrated}
-    //       setAccuracy={setAccuracy}
-    //       accuracy={accuracy}
-    //     />
-    //   );
-    // }
+    else if (!calibrated && !completedEverything) {
+      return (
+        <Calibration
+          onCalibrated={handleCalibrated}
+          setAccuracy={setAccuracy}
+          accuracy={accuracy}
+        />
+      );
+    }
     // END: eye-tracking
 
     // Check if solving trials completed
@@ -772,11 +772,11 @@ const Experiment: React.FC = () => {
 
       {/* BEGIN: eye-tracking */}
 
-      {/* {instructed &&
+      {instructed &&
       typeof XID === "string" &&
       completedEverything === false ? (
         <EyeTracking xid={XID} calibrated={calibrated} onFail={handleFail} />
-      ) : null} */}
+      ) : null}
 
       {/* END: eye-tracking */}
 

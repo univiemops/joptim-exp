@@ -3,13 +3,13 @@ import { useEffect, useState, useLayoutEffect, useRef } from "react";
 import { getURLParameter } from "../utils/webFunctions";
 import React from "react";
 import { Button } from "@mui/material";
-import Head from 'next/head'
+import Head from "next/head";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
 const getXid = async (
   pid: string,
-  setXid: React.Dispatch<React.SetStateAction<string | undefined>>,
+  setXid: React.Dispatch<React.SetStateAction<string | undefined>>
 ) => {
   try {
     const res = await fetch(`${OPTIONAL_SUBURI}/xid/`, {
@@ -35,12 +35,17 @@ const getXid = async (
 
 export default function Home() {
   const [xid, setXid] = useState<string | undefined>();
+  const [studyId, setStudyId] = useState<string>(""); // TODO: make use of this information (store it in the user table at first interaction with db)
   const [leavePage, setLeavePage] = useState<boolean>(false);
   const router = useRouter();
   const getXidCalled = useRef(false); // Ref to track if getXid was called
 
   useEffect(() => {
     const prolificPid = getURLParameter("PROLIFIC_PID");
+    const studyIdRaw = getURLParameter("STUDY_ID");
+    if (studyIdRaw !== undefined) {
+      setStudyId(studyIdRaw);
+    }
     if (!xid && prolificPid && prolificPid !== "" && !getXidCalled.current) {
       getXidCalled.current = true; // Set to true to prevent further calls
       getXid(prolificPid, setXid);
