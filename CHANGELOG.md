@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.32](https://github.com/univiemops/joptim-exp/compare/v0.1.31...v0.1.32) (2024-08-08)
+
+
+### Features
+
+* **frontend:** get prolific STUDY_ID from url, enable eye-tracking. ([c562f64](https://github.com/univiemops/joptim-exp/commit/c562f64d81e772ee0228cfc0b05d555dacc8a1b5))
+
 ## [0.1.31](https://github.com/univiemops/joptim-exp/compare/v0.1.30...v0.1.31) (2024-08-08)
 
 
