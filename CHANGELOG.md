@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.33](https://github.com/univiemops/joptim-exp/compare/v0.1.32...v0.1.33) (2024-08-10)
+
+
+### Features
+
+* **eyetracking:** record stimulus position preference trials. ([d7b48c4](https://github.com/univiemops/joptim-exp/commit/d7b48c42703c13c08145de97b3d50ccdecfd406d))
+
+
+### Bug Fixes
+
+* define  explicitly for  component. ([0d1e28a](https://github.com/univiemops/joptim-exp/commit/0d1e28aa90ef712c85dbaa4a98e3a1e03aa82142))
+
 ## [0.1.32](https://github.com/univiemops/joptim-exp/compare/v0.1.31...v0.1.32) (2024-08-08)
 
 
