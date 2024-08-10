@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getUtility } from "../utils/helperFunctions";
 import StimulusPage from "../components/experiment/StimulusPage";
 import StimulusPage2 from "../components/experiment/StimulusPage2";
@@ -93,6 +93,8 @@ const Experiment: React.FC = () => {
   const handleCalibrated = () => {
     setCalibrated(true);
   };
+  const eyeTrackingRef = useRef<HTMLDivElement>(null);
+
   // END: eye-tracking
 
   const handleScrollToTop = () => {
@@ -718,6 +720,7 @@ const Experiment: React.FC = () => {
       if (indexPreferenceTrial != null && nTrialsPreference != null) {
         return (
           <StimulusPage2
+            ref={eyeTrackingRef}
             trial={indexPreferenceTrial}
             nTrials={nTrialsPreference}
             tasks1={tasks1}
@@ -775,7 +778,12 @@ const Experiment: React.FC = () => {
       {instructed &&
       typeof XID === "string" &&
       completedEverything === false ? (
-        <EyeTracking xid={XID} calibrated={calibrated} onFail={handleFail} />
+        <EyeTracking
+          xid={XID}
+          calibrated={calibrated}
+          onFail={handleFail}
+          eyeTrackingRef={eyeTrackingRef}
+        />
       ) : null}
 
       {/* END: eye-tracking */}
