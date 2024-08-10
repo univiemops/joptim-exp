@@ -4,4 +4,5 @@ export interface GazeData {
   x: string;
   y: string;
   viewport: string;
+  stimulus2box: string
 }
