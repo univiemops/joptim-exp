@@ -178,4 +178,8 @@ const StimulusPage2 = React.forwardRef<
   }
 );
 
+// Necessary as this functions with e.g. React.forwardRef
+// create components that do not automatically inherit a display
+// name from the function that defines them
+StimulusPage2.displayName = "StimulusPage2";
 export default StimulusPage2;
