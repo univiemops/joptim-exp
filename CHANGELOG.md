@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.35](https://github.com/univiemops/joptim-exp/compare/v0.1.34...v0.1.35) (2024-08-12)
+
+
+### Features
+
+* **frontend:** send userAgent information to backend/database (per sovling an preference trials). ([e6a02c9](https://github.com/univiemops/joptim-exp/commit/e6a02c9876fcf88e319be5503a3550f2e14016f5))
+
+
+### Bug Fixes
+
+* **frontend:** merge handleFinish functions into one. ([636e630](https://github.com/univiemops/joptim-exp/commit/636e63086486bec5892c5c7f97857e68fa3d4378))
+
 ## [0.1.34](https://github.com/univiemops/joptim-exp/compare/v0.1.33...v0.1.34) (2024-08-12)
 
 
