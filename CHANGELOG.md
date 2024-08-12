@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.34](https://github.com/univiemops/joptim-exp/compare/v0.1.33...v0.1.34) (2024-08-12)
+
+
+### Bug Fixes
+
+* **style:** adapted breakpoints to account for screens with wide but low viewports. ([fb90d1b](https://github.com/univiemops/joptim-exp/commit/fb90d1bba26237cb953c5bb6d1807b189de5dedb))
+
 ## [0.1.33](https://github.com/univiemops/joptim-exp/compare/v0.1.32...v0.1.33) (2024-08-10)
 
 
