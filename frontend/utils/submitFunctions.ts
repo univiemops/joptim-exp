@@ -28,6 +28,7 @@ export const handleSubmit1 = async (
           tileEvents: tileEvents,
           start_time: startTime,
           end_time: endTime,
+          user_agent: window.navigator.userAgent
         },
       }),
     });
@@ -70,6 +71,8 @@ export const handleSubmit2 = async (
           start_time: startTime,
           end_time: endTime,
           choice: choice,
+          user_agent: window.navigator.userAgent
+
         },
       }),
     });

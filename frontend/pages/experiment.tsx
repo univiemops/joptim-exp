@@ -372,80 +372,49 @@ const Experiment: React.FC = () => {
     }
   };
 
-  // TODO: integrate all three into one function
-  function handleFinishConsent(): void {
+  // Utility function
+  function handleFinish(
+    field?: string,
+    surveyType?: string,
+    responses?: Record<string, string>,
+    simpleUpdate?: () => void
+  ) {
     if (XID !== undefined && typeof XID === "string") {
-      setUserData((prevUser) => ({ ...prevUser, consent: true }));
-      handleUpdateUser(XID, "consent", true);
+      if (field) setUserData((prevUser) => ({ ...prevUser, [field]: true }));
+      if (field) handleUpdateUser(XID, field, true);
+
+      if (responses && surveyType) {
+        handleSubmitSurvey(surveyType, XID, responses);
+      }
+
+      if (simpleUpdate) simpleUpdate();
+
       handleScrollToTop();
     } else {
       console.error("XID is undefined or not a string");
     }
   }
 
-  const handleFinishPSI = (responses: Record<string, string>) => {
-    if (XID !== undefined && typeof XID === "string") {
-      setUserData((prevUser) => ({ ...prevUser, survey: true }));
-      handleUpdateUser(XID, "survey", true);
-      handleSubmitSurvey("psi", XID, responses); // first entry defines the type of survey
-      handleScrollToTop();
-    } else {
-      console.error("XID is undefined or not a string");
-    }
-  };
+  // Specific handlers using the utility function
+  const handleFinishConsent = () => handleFinish("consent");
 
-  const handleFinishDebrief = (responses: Record<string, string>) => {
-    if (XID !== undefined && typeof XID === "string") {
-      handleUpdateUser(XID, "debrief", true);
-      handleSubmitSurvey("debrief", XID, responses); // first entry defines the type of survey
-      handleScrollToTop();
-      setUserData((prevUser) => ({ ...prevUser, debrief: true }));
-    } else {
-      console.error("XID is undefined or not a string");
-    }
-  };
+  const handleFinishPSI = (responses: Record<string, string>) =>
+    handleFinish("survey", "psi", responses);
 
-  const handleFinishStrategiesSolving = (responses: Record<string, string>) => {
-    if (XID !== undefined && typeof XID === "string") {
-      setUserData((prevUser) => ({ ...prevUser, strategies_1: true }));
-      handleUpdateUser(XID, "strategies_1", true);
-      handleSubmitSurvey("strategies_1", XID, responses); // first entry defines the type of survey
-      handleScrollToTop();
-    } else {
-      console.error("XID is undefined or not a string");
-    }
-  };
+  const handleFinishDebrief = (responses: Record<string, string>) =>
+    handleFinish("debrief", "debrief", responses);
 
-  const handleFinishStrategies = (responses: Record<string, string>) => {
-    if (XID !== undefined && typeof XID === "string") {
-      setUserData((prevUser) => ({ ...prevUser, strategies_2: true }));
-      handleUpdateUser(XID, "strategies_2", true);
-      handleSubmitSurvey("strategies_2", XID, responses); // first entry defines the type of survey
-      handleScrollToTop();
-    } else {
-      console.error("XID is undefined or not a string");
-    }
-  };
+  const handleFinishStrategiesSolving = (responses: Record<string, string>) =>
+    handleFinish("strategies_1", "strategies_1", responses);
 
-  const handleFinishDemographics = (responses: Record<string, string>) => {
-    if (XID !== undefined && typeof XID === "string") {
-      setUserData((prevUser) => ({ ...prevUser, demographics: true }));
-      handleUpdateUser(XID, "demographics", true);
-      handleSubmitSurvey("demographics", XID, responses); // first entry defines the type of survey
-      handleScrollToTop();
-    } else {
-      console.error("XID is undefined or not a string");
-    }
-  };
+  const handleFinishStrategies = (responses: Record<string, string>) =>
+    handleFinish("strategies_2", "strategies_2", responses);
 
-  const handleFinishInstructions = () => {
-    if (XID !== undefined && typeof XID === "string") {
-      setInstructed(true);
-      handleScrollToTop();
-    } else {
-      console.error("XID is undefined or not a string");
-    }
-  };
+  const handleFinishDemographics = (responses: Record<string, string>) =>
+    handleFinish("demographics", "demographics", responses);
+
+  const handleFinishInstructions = () =>
+    handleFinish(undefined, undefined, undefined, () => setInstructed(true));
 
   const getUserData = async (XID: string) => {
     try {
