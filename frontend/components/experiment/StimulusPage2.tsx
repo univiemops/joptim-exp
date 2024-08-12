@@ -32,28 +32,6 @@ const StimulusPage2 = React.forwardRef<
   ) => {
     const progress = (100 * (trial - 1)) / nTrials;
 
-    useEffect(() => {
-      if (eyeTrackingRef && "current" in eyeTrackingRef) {
-        const element = (
-          eyeTrackingRef as MutableRefObject<HTMLDivElement | null>
-        ).current;
-
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const elementPositionAndSize = {
-            top: rect.top,
-            right: rect.right,
-            bottom: rect.bottom,
-            left: rect.left,
-            width: rect.width,
-            height: rect.height,
-          };
-          // console.log("elementPositionAndSize", elementPositionAndSize);
-          // Record the data as needed
-        }
-      }
-    }, [eyeTrackingRef]);
-
     return (
       <>
         <div>
