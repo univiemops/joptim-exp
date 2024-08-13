@@ -117,7 +117,6 @@ const EyeTracking: React.FC<EyeTrackingProps> = ({
                   stimulus2box = JSON.stringify(
                     eyeTrackingRef.current.getBoundingClientRect()
                   );
-                  // console.log(stimulus2box); // DEBUG TODO: sent to websocket / include in gazeData
                 }
                 const gazeData: GazeData = {
                   xid: xid,
