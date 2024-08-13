@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.36](https://github.com/univiemops/joptim-exp/compare/v0.1.35...v0.1.36) (2024-08-13)
+
+
+### Bug Fixes
+
+* **eyetracking:** remove unneeded code. ([4deb888](https://github.com/univiemops/joptim-exp/commit/4deb888719eff8012221f087e130ce899efe85d9))
+
 ## [0.1.35](https://github.com/univiemops/joptim-exp/compare/v0.1.34...v0.1.35) (2024-08-12)
 
 
