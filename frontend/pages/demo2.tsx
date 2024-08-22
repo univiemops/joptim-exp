@@ -14,12 +14,27 @@ const Demo2: React.FC = () => {
   const [solution1, setSolution1] = useState<Array<[number, number]>>([]);
   const [solution2, setSolution2] = useState<Array<[number, number]>>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [indexPreferenceTrial, setIndexPreferenceTrial] = useState<number>(1);
+  const [indexPreferenceTrial, setIndexPreferenceTrial] = useState<number>(0);
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [ranEffect2, setRanEffect2] = useState<boolean>(false);
+  const [nTrialsPreference, setNTrialsPreference] = useState<number>();
 
   const userId = 123;
-  const nTrialsPreference = 500;
+
+  const fetchNumberOfTrials = () => {
+    console.log("fetching number of trials for userData.id", userId);
+    fetch(`${OPTIONAL_SUBURI}/n-trials/${userId || 0}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setNTrialsPreference(json["n_trials_preference"]);
+        console.log("fetched numbers of trials.");
+      })
+
+      .catch((error) => {
+        console.error(error);
+        alert("Oops! Unable to connect to the server. Please try again later.");
+      });
+  };
 
   const fetchPreferenceTrial = async (i: number) => {
     try {
@@ -89,6 +104,10 @@ const Demo2: React.FC = () => {
   };
 
   useEffect(() => {
+    fetchNumberOfTrials();
+  }, []);
+
+  useEffect(() => {
     console.log("useEffect for setCssvar ran.");
 
     setCSSvar();
@@ -127,7 +146,15 @@ const Demo2: React.FC = () => {
         />
       );
     }
-    if (loading) {
+    if (nTrialsPreference && indexPreferenceTrial > nTrialsPreference) {
+      return <div>Finished. Press F5 to repeat.</div>;
+    }
+
+    if (
+      nTrialsPreference &&
+      loading &&
+      indexPreferenceTrial < nTrialsPreference
+    ) {
       return <div className="loading-spinner"></div>;
     }
     if (indexPreferenceTrial != null && nTrialsPreference != null) {

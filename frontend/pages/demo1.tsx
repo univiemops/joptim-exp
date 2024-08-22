@@ -31,9 +31,24 @@ const Demo1: React.FC = () => {
   const [indexSolvingTrial, setIndexSolvingTrial] = useState<number>(0);
   const [isTrialCompleted1, setTrialCompleted1] = useState<boolean>(true);
   const [ranEffect1, setRanEffect1] = useState<boolean>(false);
+  const [nTrialsSolving, setNTrialsSolving] = useState<number>();
 
   const userId = 123;
-  const nTrialsSolving = 500;
+
+  const fetchNumberOfTrials = () => {
+    console.log("fetching number of trials for userData.id", userId);
+    fetch(`${OPTIONAL_SUBURI}/n-trials/${userId || 0}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setNTrialsSolving(json["n_trials_solving"]);
+        console.log("fetched numbers of trials.");
+      })
+
+      .catch((error) => {
+        console.error(error);
+        alert("Oops! Unable to connect to the server. Please try again later.");
+      });
+  };
 
   const fetchSolvingTrial = async (i: number) => {
     try {
@@ -101,6 +116,10 @@ const Demo1: React.FC = () => {
   };
 
   useEffect(() => {
+    fetchNumberOfTrials();
+  }, []);
+
+  useEffect(() => {
     console.log("useEffect for setCssvar ran.");
 
     setCSSvar();
@@ -156,7 +175,11 @@ const Demo1: React.FC = () => {
         />
       );
     }
-    if (loading) {
+    if (nTrialsSolving && indexSolvingTrial > nTrialsSolving) {
+      return <div>Finished. Press F5 to repeat.</div>;
+    }
+
+    if (nTrialsSolving && loading && indexSolvingTrial < nTrialsSolving) {
       return <div className="loading-spinner"></div>;
     }
     if (indexSolvingTrial != null && nTrialsSolving != null) {
