@@ -62,7 +62,7 @@ export const ConsentForm: Questionnaire = {
       id: "txt9",
       type: "info",
       title: "9. Will there be any costs for the participants? Will they receive reimbursement or remuneration? ",
-      text: "You will not incur any costs from participating in this study. Your will receive a financial compensation of 6,5 USD for your participation through “Prolific”.",
+      text: "You will not incur any costs from participating in this study. You will receive financial compensation for your participation through prolific.com in the amount specified in the study description on prolific.com.",
     },
     {
       id: "txt10",

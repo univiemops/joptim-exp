@@ -34,12 +34,19 @@ const ConfirmationPage2: React.FC<{
             <p>
               In the following trials, instead of solving problems as before,
               you will see two solutions side by side. These pairs of solutions
-              have the same score, which means they are equally good. We want to
-              know if you still prefer one of the two solutions.
-              <b>Note: </b>Sometimes the solutions are completely identical,
-              which means that all assignments are completely identical. If you
-              see such pairs, indicate this by clicking on the red "Duplicated
-              solutions" button.
+              are equally optimal have the same score, meaning they both provide
+              equally good results. Since you already have experience of how to
+              solve solving such problems, we are interested in which of the two
+              solutions you find easier to understand.
+            </p>
+            <p style={{ color: "red" }}>
+              <b>IMPORTANT: </b>Occasionally you will see identical solutions on
+              the screen. This means that everything about them is exactly the
+              same, including the assignment dots, the arrangement, and the
+              colors. When you see these identical pairs, please click on the
+              red "Duplicated Solutions" button, but only in such scenarios.
+              Usually it will not be very difficult to spot these identical
+              solutions.
             </p>
           </div>
         ) : (

@@ -85,10 +85,10 @@ const StimulusPage2 = React.forwardRef<
                 >
                   {
                     [
-                      "<< definitely prefer left",
-                      "< slightly prefer left",
-                      "slightly prefer right >",
-                      "definitely prefer right >>",
+                      "<< left",
+                      "< slightly left",
+                      "slightly right >",
+                      "right >>",
                     ][i]
                   }
                 </Button>
