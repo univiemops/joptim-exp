@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.37](https://github.com/univiemops/joptim-exp/compare/v0.1.36...v0.1.37) (2024-08-22)
+
+
+### Features
+
+* **backend:** send visual order (tasks and workers) information to frontend ([26c2334](https://github.com/univiemops/joptim-exp/commit/26c2334dba9ff6d14ff2610339aada5fffb4cf21))
+* **frontend:** add demo for preference/understanding task. ([91909ef](https://github.com/univiemops/joptim-exp/commit/91909efeb4b071a66ba82927a685e672d5d297e3))
+* **frontend:** add demo for solving task. ([917d050](https://github.com/univiemops/joptim-exp/commit/917d050be72dad8f7dd2955e315f69eae3cc0d01))
+* **frontend:** assign colors to tasks independent of (un)sortedness, i.e., in preference trials same tasks have same color in both solutions. ([1605582](https://github.com/univiemops/joptim-exp/commit/1605582ff4713f8128d234444478e6c8d88b0631))
+
+
+### Bug Fixes
+
+* **frontend:** demos have correct indexing and an final page after all trials are completed. ([8b582ed](https://github.com/univiemops/joptim-exp/commit/8b582ed5a61f342fac07ec2031de8dca22f7166c))
+* **frontend:** improved wording ([3afe6a9](https://github.com/univiemops/joptim-exp/commit/3afe6a9b56c6534b67b0b5aaf43986ec08990784))
+* **frontend:** remove unnecessary imports. ([e47b0a8](https://github.com/univiemops/joptim-exp/commit/e47b0a89aaaa41ae9961f694ca35cbdf7e00b765))
+* **frontend:** WorkerTile gets cmap from parent component. ([ed70687](https://github.com/univiemops/joptim-exp/commit/ed70687899079aefb42b47ca8335df433dd31dcd))
+
 ## [0.1.36](https://github.com/univiemops/joptim-exp/compare/v0.1.35...v0.1.36) (2024-08-13)
 
 
