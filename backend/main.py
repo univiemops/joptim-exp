@@ -328,6 +328,10 @@ def new_preference_trial(user_id: int, i: int):
         "solution_1": solution_visual_1,
         "solution_2": solution_visual_2,
         "type": [trial["use_case"], trial["difficulty"], trial["visual_manipulation"]],
+        "task_order_1": task_order_1,
+        "task_order_2": task_order_2,
+        "worker_order_1": worker_order_1,
+        "worker_order_2": worker_order_2,
     }
 
 @app.get("/n-trials/{user_id}")
