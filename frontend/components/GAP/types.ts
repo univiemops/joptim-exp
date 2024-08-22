@@ -11,4 +11,5 @@ export interface GAPProps {
   freeze: boolean;
   icons: boolean;
   mini?: boolean;
+  taskOrder?: number[];
 }

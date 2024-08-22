@@ -56,6 +56,8 @@ const Experiment: React.FC = () => {
   const [tasks2, setTasks2] = useState<Array<number>>([]);
   const [workers1, setWorkers1] = useState<Array<number>>([]);
   const [workers2, setWorkers2] = useState<Array<number>>([]);
+  const [taskOrder1, setTaskOrder1] = useState<Array<number>>([]);
+  const [taskOrder2, setTaskOrder2] = useState<Array<number>>([]);
   const [solution1, setSolution1] = useState<Array<[number, number]>>([]);
   const [solution2, setSolution2] = useState<Array<[number, number]>>([]);
   const [assignmentsOptimal, setAssignmentsOptimal] = useState<
@@ -187,6 +189,8 @@ const Experiment: React.FC = () => {
       setUtility(json["utility"]);
       setSolution1(json["solution_1"]);
       setSolution2(json["solution_2"]);
+      setTaskOrder1(json["task_order_1"]);
+      setTaskOrder2(json["task_order_2"]);
       setLoading(false);
       console.log("Fetched preference trial", i, "for user", userData.id);
       console.log(json);
@@ -696,6 +700,8 @@ const Experiment: React.FC = () => {
             tasks2={tasks2}
             workers1={workers1}
             workers2={workers2}
+            taskOrder1={taskOrder1}
+            taskOrder2={taskOrder2}
             solution1={solution1}
             solution2={solution2}
             onComplete={handleTrialComplete2}

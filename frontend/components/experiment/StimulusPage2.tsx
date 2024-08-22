@@ -1,4 +1,4 @@
-import React, { MutableRefObject, ForwardedRef, useEffect } from "react";
+import React, { ForwardedRef } from "react";
 import GAP from "../GAP/GAP";
 import { Button } from "@mui/material";
 
@@ -11,6 +11,8 @@ const StimulusPage2 = React.forwardRef<
     tasks2: number[];
     workers1: number[];
     workers2: number[];
+    taskOrder1: number[];
+    taskOrder2: number[];
     solution1: [number, number][];
     solution2: [number, number][];
     onComplete: (choice: number) => void;
@@ -24,6 +26,8 @@ const StimulusPage2 = React.forwardRef<
       tasks2,
       workers1,
       workers2,
+      taskOrder1,
+      taskOrder2,
       solution1,
       solution2,
       onComplete,
@@ -85,10 +89,10 @@ const StimulusPage2 = React.forwardRef<
                 >
                   {
                     [
-                      "<< definitely prefer left",
-                      "< slightly prefer left",
-                      "slightly prefer right >",
-                      "definitely prefer right >>",
+                      "<< left",
+                      "< slightly left",
+                      "slightly right >",
+                      "right >>",
                     ][i]
                   }
                 </Button>
@@ -118,6 +122,7 @@ const StimulusPage2 = React.forwardRef<
                 workers={workers1}
                 freeze={false}
                 icons={false}
+                taskOrder={taskOrder1}
               />
             </div>
             <div
@@ -131,6 +136,7 @@ const StimulusPage2 = React.forwardRef<
                 workers={workers2}
                 freeze={false}
                 icons={false}
+                taskOrder={taskOrder2}
               />
             </div>
           </div>
