@@ -89,7 +89,6 @@ const Demo1: React.FC = () => {
       workers.length,
       "columns"
     );
-    console.log("workers", workers);
     document.documentElement.style.setProperty(`--rows`, `${tasks.length}`);
     document.documentElement.style.setProperty(`--cols`, `${workers.length}`);
   };

@@ -21,7 +21,13 @@ const GAP: React.FC<GAPProps> = ({
   freeze,
   icons,
   mini,
+  taskOrder,
 }) => {
+  let cmapSorted = cmap;
+
+  if (taskOrder) {
+    cmapSorted = taskOrder.map((index) => cmap[index]);
+  }
   return (
     <div className={mini ? styles.outer_mini : styles.outer}>
       <div className={mini ? styles.outer_left_mini : styles.outer_left}>
@@ -43,7 +49,7 @@ const GAP: React.FC<GAPProps> = ({
                 <YLabelTile
                   key={idx}
                   size={size}
-                  color={cmap[idx]}
+                  color={cmapSorted[idx]}
                   assigned={assigned}
                   icons={icons}
                   mini={mini}
@@ -93,7 +99,7 @@ const GAP: React.FC<GAPProps> = ({
                 <TaskTile
                   key={idx}
                   size={size}
-                  color={cmap[idx]}
+                  color={cmapSorted[idx]}
                   assigned={assigned}
                   mini={mini}
                 />
@@ -130,6 +136,7 @@ const GAP: React.FC<GAPProps> = ({
                     activeTasks={activeTasksSorted}
                     tasks={tasks}
                     mini={mini}
+                    cmap={cmapSorted}
                   />
                 );
               })}

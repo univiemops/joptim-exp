@@ -11,6 +11,8 @@ const Demo2: React.FC = () => {
   const [tasks2, setTasks2] = useState<Array<number>>([]);
   const [workers1, setWorkers1] = useState<Array<number>>([]);
   const [workers2, setWorkers2] = useState<Array<number>>([]);
+  const [taskOrder1, setTaskOrder1] = useState<Array<number>>([]);
+  const [taskOrder2, setTaskOrder2] = useState<Array<number>>([]);
   const [solution1, setSolution1] = useState<Array<[number, number]>>([]);
   const [solution2, setSolution2] = useState<Array<[number, number]>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -58,6 +60,8 @@ const Demo2: React.FC = () => {
       setWorkers2(json["workers_2"]);
       setSolution1(json["solution_1"]);
       setSolution2(json["solution_2"]);
+      setTaskOrder1(json["task_order_1"]);
+      setTaskOrder2(json["task_order_2"]);
       setLoading(false);
       console.log("Fetched preference trial", i, "for user", userId);
       console.log(json);
@@ -76,8 +80,6 @@ const Demo2: React.FC = () => {
       workers1.length,
       "columns"
     );
-
-    console.log("workers1", workers1);
 
     // The assumption here is that tasks1 and tasks2 and workers2 and workers1 are of same length
     document.documentElement.style.setProperty(`--rows`, `${tasks1.length}`);
@@ -166,6 +168,8 @@ const Demo2: React.FC = () => {
           tasks2={tasks2}
           workers1={workers1}
           workers2={workers2}
+          taskOrder1={taskOrder1}
+          taskOrder2={taskOrder2}
           solution1={solution1}
           solution2={solution2}
           onComplete={handleTrialComplete2}
