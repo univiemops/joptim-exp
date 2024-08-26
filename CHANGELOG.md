@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.38](https://github.com/univiemops/joptim-exp/compare/v0.1.37...v0.1.38) (2024-08-26)
+
+
+### Bug Fixes
+
+* **frontend:** bring back 'definitely' for strength of preference, correct instructions. ([8d83c15](https://github.com/univiemops/joptim-exp/commit/8d83c157033ed92fe427b14e276b1063d2e0d27b))
+
 ## [0.1.37](https://github.com/univiemops/joptim-exp/compare/v0.1.36...v0.1.37) (2024-08-22)
 
 
