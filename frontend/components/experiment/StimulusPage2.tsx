@@ -120,7 +120,7 @@ const StimulusPage2 = React.forwardRef<
                 tasks={tasks1}
                 assignments={solution1}
                 workers={workers1}
-                freeze={false}
+                freeze={true}
                 icons={false}
                 taskOrder={taskOrder1}
               />
@@ -134,7 +134,7 @@ const StimulusPage2 = React.forwardRef<
                 tasks={tasks2}
                 assignments={solution2}
                 workers={workers2}
-                freeze={false}
+                freeze={true}
                 icons={false}
                 taskOrder={taskOrder2}
               />
