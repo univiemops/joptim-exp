@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.40](https://github.com/univiemops/joptim-exp/compare/v0.1.39...v0.1.40) (2024-08-27)
+
+
+### Bug Fixes
+
+* **frontend:** improve clarity of catch trial instructions ([b38094d](https://github.com/univiemops/joptim-exp/commit/b38094d37c76d8ec1dd4224e74024b52648c54b3))
+
 ## [0.1.39](https://github.com/univiemops/joptim-exp/compare/v0.1.38...v0.1.39) (2024-08-27)
 
 
