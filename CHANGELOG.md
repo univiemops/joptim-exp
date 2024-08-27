@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.39](https://github.com/univiemops/joptim-exp/compare/v0.1.38...v0.1.39) (2024-08-27)
+
+
+### Bug Fixes
+
+* default cursor instead of pointer on assign tiles in preference trials ([0e17ea7](https://github.com/univiemops/joptim-exp/commit/0e17ea709b818b36d5a1f6effea5dedbb3096df3))
+
 ## [0.1.38](https://github.com/univiemops/joptim-exp/compare/v0.1.37...v0.1.38) (2024-08-26)
 
 
