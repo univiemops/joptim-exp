@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.41](https://github.com/univiemops/joptim-exp/compare/v0.1.40...v0.1.41) (2024-09-03)
+
+
+### Bug Fixes
+
+* add url arg ID to pick trial set of specific participant in demo2 ([6c0bffe](https://github.com/univiemops/joptim-exp/commit/6c0bffed76f769ff55dec83324ff935000ab82d2))
+
 ## [0.1.40](https://github.com/univiemops/joptim-exp/compare/v0.1.39...v0.1.40) (2024-08-27)
 
 
