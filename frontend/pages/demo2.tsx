@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import StimulusPage2 from "../components/experiment/StimulusPage2";
 import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
 import Head from "next/head";
+import { getURLParameter } from "../utils/webFunctions";
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
@@ -20,8 +21,22 @@ const Demo2: React.FC = () => {
   const [isTrialCompleted2, setTrialCompleted2] = useState<boolean>(true);
   const [ranEffect2, setRanEffect2] = useState<boolean>(false);
   const [nTrialsPreference, setNTrialsPreference] = useState<number>();
+  const [userId, setUserId] = useState<number | undefined>();
 
-  const userId = 123;
+  useEffect(() => {
+    const userIdUrl = getURLParameter("ID");
+
+    if (userIdUrl && userIdUrl !== null) {
+      const parsedUserId = parseInt(userIdUrl, 10);
+      if (!isNaN(parsedUserId)) {
+        setUserId(parsedUserId);
+      } else {
+        setUserId(123);
+      }
+    } else {
+      setUserId(123);
+    }
+  }, []);
 
   const fetchNumberOfTrials = () => {
     console.log("fetching number of trials for userData.id", userId);
