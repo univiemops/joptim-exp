@@ -82,7 +82,7 @@ const Demo1: React.FC = () => {
           assignments={assignments}
           workers={workers}
           freeze={true}
-          icons={false}
+          icons={true}
         />
       );
     }
