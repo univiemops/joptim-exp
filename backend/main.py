@@ -389,6 +389,18 @@ async def create_result_survey(result: schemas.SurveyResultIn):
     else:
         HTTPException(status_code=400, detail="Invalid survey_id")
 
+@app.get("/a-problem-with-many-solutions/")
+def a_problem_with_many_solutions():
+    """Take problems from file."""
+    try:
+        with open("a_problem_with_many_solutions.pkl", "rb") as pickle_file:
+            problem = pickle.load(pickle_file)
+            print("loaded a problem with many solutions.")
+    except Exception as e:
+        print("Failed to load a problem with many solutions:",e)
+        
+    return problem
+        
 
 @app.post("/rrweb/")
 async def create_events_txt(event_data: Dict):
