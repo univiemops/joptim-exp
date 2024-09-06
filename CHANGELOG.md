@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.42](https://github.com/univiemops/joptim-exp/compare/v0.1.41...v0.1.42) (2024-09-06)
+
+
+### Features
+
+* add a problem with many solutions demo page ([e59c5bf](https://github.com/univiemops/joptim-exp/commit/e59c5bfcdb9cd8535aeb03897ad39f8021ba9278))
+
+
+### Bug Fixes
+
+* include icons in demo3 ([c274882](https://github.com/univiemops/joptim-exp/commit/c27488296cc4ca14b08a20750bd1e5f1a699429e))
+
 ## [0.1.41](https://github.com/univiemops/joptim-exp/compare/v0.1.40...v0.1.41) (2024-09-03)
 
 
