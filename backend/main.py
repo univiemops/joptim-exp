@@ -174,25 +174,6 @@ except Exception as e:
 # API CALLS #
 #############
 
-# temporary call, delete after implementation of conf. trials.
-
-
-@app.get("/update_users/", response_model=List[schemas.User])
-async def update_users():
-    """Update trial_file_id and trial_file_user_id for all users."""
-    # Update all records
-    update_query = user.update().values(
-        trial_file_id="1724688094.1341743",  # Assign string value
-        trial_file_user_id=user.c.id,
-    )
-    await database.execute(update_query)
-
-    # Fetch all updated records
-    select_query = user.select()
-    response = await database.fetch_all(select_query)
-    return response
-
-
 @app.on_event("startup")
 async def startup():
     """Open database connection."""
