@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.43](https://github.com/univiemops/joptim-exp/compare/v0.1.42...v0.1.43) (2024-09-13)
+
+
+### Bug Fixes
+
+* add basic collaboration task demo ([0c8f8a1](https://github.com/univiemops/joptim-exp/commit/0c8f8a186dc04808e320de04f436aced8cb2b56b))
+
 ## [0.1.42](https://github.com/univiemops/joptim-exp/compare/v0.1.41...v0.1.42) (2024-09-06)
 
 
