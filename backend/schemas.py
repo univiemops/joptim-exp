@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class EyeTrackingIn(BaseModel):
     xid: str
     x: str
@@ -73,3 +74,5 @@ class User(BaseModel):
     strategies_2: bool
     demographics: bool
     debrief: bool
+    trial_file_id: str
+    trial_file_user_id: int

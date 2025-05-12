@@ -106,8 +106,8 @@ const Experiment: React.FC = () => {
   };
 
   const fetchCompletionURL = () => {
-    console.log("fetching completion URL for userData.id", userData.id);
-    fetch(`${OPTIONAL_SUBURI}/completion-url/${userData.id || 0}`)
+  console.log("fetching completion URL for userData.trial_file_user_id in userData.trial_file_id", userData.trial_file_user_id, userData.trial_file_id);
+    fetch(`${OPTIONAL_SUBURI}/completion-url/${userData.trial_file_user_id || 0}`)
       .then((response) => response.json())
       .then((json) => {
         setCompletionURL(json["completion_url"]);
@@ -120,8 +120,8 @@ const Experiment: React.FC = () => {
   };
 
   const fetchNumberOfTrials = () => {
-    console.log("fetching number of trials for userData.id", userData.id);
-    fetch(`${OPTIONAL_SUBURI}/n-trials/${userData.id || 0}`)
+    console.log("fetching number of trials for userData.trial_file_user_id in userData.trial_file_id", userData.trial_file_user_id);
+    fetch(`${OPTIONAL_SUBURI}/n-trials/${userData.trial_file_user_id || 0}`)
       .then((response) => response.json())
       .then((json) => {
         setNTrialsSolving(json["n_trials_solving"]);
@@ -138,7 +138,7 @@ const Experiment: React.FC = () => {
   const fetchSolvingTrial = async (i: number) => {
     try {
       const response = await fetch(
-        `${OPTIONAL_SUBURI}/new-solving-trial/${userData.id}/${i}`
+        `${OPTIONAL_SUBURI}/new-solving-trial/${userData.trial_file_user_id}/${i}`
       );
 
       // Check if the response status is not in the range 200-299
@@ -157,7 +157,7 @@ const Experiment: React.FC = () => {
       setAssignmentsOptimal(json["example_solution"]);
       setAssignments([]);
       setLoading(false);
-      console.log("Fetched solving trial", i, "for user", userData.id);
+      console.log("Fetched solving trial", i, "for user", userData.trial_file_user_id, "in trial file", userData.trial_file_id);
       console.log(json);
     } catch (error) {
       console.error("Fetching solving trials failed:", error);
@@ -169,7 +169,7 @@ const Experiment: React.FC = () => {
   const fetchPreferenceTrial = async (i: number) => {
     try {
       const response = await fetch(
-        `${OPTIONAL_SUBURI}/new-preference-trial/${userData.id}/${i}`
+        `${OPTIONAL_SUBURI}/new-preference-trial/${userData.trial_file_user_id}/${i}`
       );
 
       // Check if the response status is not in the range 200-299
@@ -192,7 +192,7 @@ const Experiment: React.FC = () => {
       setTaskOrder1(json["task_order_1"]);
       setTaskOrder2(json["task_order_2"]);
       setLoading(false);
-      console.log("Fetched preference trial", i, "for user", userData.id);
+      console.log("Fetched preference trial", i, "for user", userData.trial_file_user_id, "in trial file", userData.trial_file_id);
       console.log(json);
     } catch (error) {
       console.error("Fetching preference trials failed:", error);
@@ -435,7 +435,9 @@ const Experiment: React.FC = () => {
       if (!res.ok) {
         throw new Error("Failed to fetch user");
       }
+
       const json = await res.json();
+      console.log("USER DATA res", json)
       setUserData(json);
     } catch (error) {
       console.error(error);

@@ -23,6 +23,7 @@ from fastapi import FastAPI, HTTPException, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from starlette.websockets import WebSocketDisconnect
+from sqlalchemy import select, func
 
 ##############
 # LOGGING    #
@@ -33,7 +34,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 # Create a file handler and set its level to DEBUG
-file_handler = logging.FileHandler(filename='server.log')
+file_handler = logging.FileHandler(filename="server.log")
 file_handler.setLevel(logging.DEBUG)
 
 # Create a stream handler and set its level to INFO
@@ -41,8 +42,8 @@ stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.INFO)
 
 # Create a formatter and add it to the handlers
-formatter = logging.Formatter('%(levelname)s:    %(message)s')
-formatter_file = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(levelname)s:    %(message)s")
+formatter_file = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(formatter_file)
 stream_handler.setFormatter(formatter)
 
@@ -114,6 +115,8 @@ user = sqlalchemy.Table(
     sqlalchemy.Column("strategies_2", sqlalchemy.Boolean),
     sqlalchemy.Column("demographics", sqlalchemy.Boolean),
     sqlalchemy.Column("debrief", sqlalchemy.Boolean),
+    sqlalchemy.Column("trial_file_id", sqlalchemy.String),
+    sqlalchemy.Column("trial_file_user_id", sqlalchemy.Integer),
 )
 
 
@@ -143,8 +146,7 @@ app = FastAPI(
     redoc_url=None,  # Disable redoc
 )
 
-origins = ["http://localhost",
-           "http://localhost:8080", "http://localhost:3000"]
+origins = ["http://localhost", "http://localhost:8080", "http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -160,15 +162,35 @@ app.add_middleware(
 #########################
 
 try:
-    with open("samples_all.pkl", "rb") as pickle_file:
-        trial_data = pickle.load(pickle_file)
+    with open("trials.pkl", "rb") as pickle_file:
+        data = pickle.load(pickle_file)
+        trial_file_id = str(data["file_id"])
+        trial_data = data["trials"]
         print(len(trial_data), "experiments loaded.")
 except Exception as e:
-    print("Failed to load trials from trials.pkl:",e)
+    print("Failed to load trials from trials.pkl:", e)
 
 #############
 # API CALLS #
 #############
+
+# temporary call, delete after implementation of conf. trials.
+
+
+@app.get("/update_users/", response_model=List[schemas.User])
+async def update_users():
+    """Update trial_file_id and trial_file_user_id for all users."""
+    # Update all records
+    update_query = user.update().values(
+        trial_file_id="1724688094.1341743",  # Assign string value
+        trial_file_user_id=user.c.id,
+    )
+    await database.execute(update_query)
+
+    # Fetch all updated records
+    select_query = user.select()
+    response = await database.fetch_all(select_query)
+    return response
 
 
 @app.on_event("startup")
@@ -239,14 +261,39 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
 
     query = user.select().where(user.c.pid == participant_id.pid)
     response = await database.fetch_one(query)
+
     if response is not None:
+
+        # safety check
+        if str(response.trial_file_id) != trial_file_id:
+            logger.warning(
+                f"Incompatible trial file: User started experiment with trial file {str(response.trial_file_id)}, but current trial file is {trial_file_id}. Cannot proceed."
+            )
+            return {}
+
         return {**response}
     else:
-        random_xid = "".join(random.choices(
-            string.ascii_letters + string.digits, k=32))
+        random_xid = "".join(random.choices(string.ascii_letters + string.digits, k=32))
+
+        query = select([func.max(user.c.trial_file_user_id)]).where(
+            user.c.trial_file_id == trial_file_id
+        )
+
+        result = await database.fetch_one(query)
+
+        if result is None:
+            raise HTTPException(status_code=404, detail="Trial file ID not found")
+
+        max_trial_file_user_id = result[0]  # Retrieve the maximum value
+        trial_file_user_id = (
+            1 if max_trial_file_user_id is None else max_trial_file_user_id + 1
+        )
+
         new_user_values = {
             "pid": participant_id.pid,
             "xid": random_xid,
+            "trial_file_id": trial_file_id,
+            "trial_file_user_id": trial_file_user_id,
             "consent": False,
             "survey": False,
             "trials_1": False,
@@ -263,11 +310,11 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
 
 
 @app.get("/new-solving-trial/{user_id}/{i}")
-def new_solving_trial(user_id:int, i: int):
+def new_solving_trial(user_id: int, i: int):
     """Take trials from file."""
-    if user_id-1 >= len(trial_data):
+    if user_id - 1 >= len(trial_data):
         raise HTTPException(status_code=400, detail="No more trial sets available")
-    trial = trial_data[user_id-1]["solving_trials"][i]
+    trial = trial_data[user_id - 1]["solving_trials"][i]
     print(f"picked solving trial no. {i} for user {user_id}")
     tasks = trial["task_loads"].tolist()
     workers = trial["worker_capacities"].tolist()
@@ -283,13 +330,16 @@ def new_solving_trial(user_id:int, i: int):
         "example_solution": example_solution,
     }
 
+
 @app.get("/new-preference-trial/{user_id}/{i}")
 def new_preference_trial(user_id: int, i: int):
     """Take trials from file."""
-    if user_id-1 >= len(trial_data):
+    if user_id - 1 >= len(trial_data):
         raise HTTPException(status_code=400, detail="No more trial sets available")
-    trial = trial_data[user_id-1]["preference_trials"][i]
-    print(f"picked trial no. {i}: {trial['use_case']}, id:{trial['id']}, user_id: {user_id}")
+    trial = trial_data[user_id - 1]["preference_trials"][i]
+    print(
+        f"picked trial no. {i}: {trial['use_case']}, id:{trial['id']}, user_id: {user_id}"
+    )
     tasks = trial["task_loads"].tolist()
     workers = trial["worker_capacities"].tolist()
     task_order_1 = trial["task_order_1"].tolist()
@@ -334,25 +384,25 @@ def new_preference_trial(user_id: int, i: int):
         "worker_order_2": worker_order_2,
     }
 
+
 @app.get("/n-trials/{user_id}")
 def n_trials(user_id: int):
     """Take trials from file."""
-    if user_id-1 >= len(trial_data):
+    if user_id - 1 >= len(trial_data):
         raise HTTPException(status_code=400, detail="No more trial sets available")
-    trial_data_user = trial_data[user_id-1]
+    trial_data_user = trial_data[user_id - 1]
     n_trials_solving = len(trial_data_user["solving_trials"])
     n_trials_preference = len(trial_data_user["preference_trials"])
     return {
         "n_trials_solving": n_trials_solving,
-        "n_trials_preference": n_trials_preference
+        "n_trials_preference": n_trials_preference,
     }
 
 
 @app.get("/completion-url/{user_id}")
 def get_completion_url(user_id: int):
-    return {
-        "completion_url": COMPLETION_URL
-    }
+    return {"completion_url": COMPLETION_URL}
+
 
 @app.post("/results-trials-1/", response_model=schemas.Result)
 async def create_results_trials_1(result: schemas.ResultIn):
@@ -376,18 +426,19 @@ async def create_result_survey(result: schemas.SurveyResultIn):
     column_to_update = "result_" + result.survey_id
 
     if column_to_update:
-        query = postgres_insert(survey).values(
-            xid=result.xid,
-            **{column_to_update: result.result}
-        ).on_conflict_do_update(
-            index_elements=['xid'],
-            set_={column_to_update: result.result}
+        query = (
+            postgres_insert(survey)
+            .values(xid=result.xid, **{column_to_update: result.result})
+            .on_conflict_do_update(
+                index_elements=["xid"], set_={column_to_update: result.result}
+            )
         )
 
         await database.execute(query)
 
     else:
         HTTPException(status_code=400, detail="Invalid survey_id")
+
 
 @app.get("/a-problem-with-many-solutions/")
 def a_problem_with_many_solutions():
@@ -397,10 +448,10 @@ def a_problem_with_many_solutions():
             problem = pickle.load(pickle_file)
             print("loaded a problem with many solutions.")
     except Exception as e:
-        print("Failed to load a problem with many solutions:",e)
-        
+        print("Failed to load a problem with many solutions:", e)
+
     return problem
-        
+
 
 @app.post("/rrweb/")
 async def create_events_txt(event_data: Dict):
@@ -426,7 +477,7 @@ async def rrweb_endpoint(websocket: WebSocket):
                 d = json.loads(data)
                 os.makedirs(RRWEB_DATA_DIR, exist_ok=True)
                 filename = f"{RRWEB_DATA_DIR}/{d['xid']}.txt"
-                with open(filename, mode='a', newline='') as fo:
+                with open(filename, mode="a", newline="") as fo:
                     fo.write(json.dumps(d) + "\n")
                 # for DB: comment out if not needed
                 # query = rrweb.insert().values(
@@ -539,6 +590,7 @@ async def get_events_text(id: str) -> list:
 
 # WEBSOCKET FOR EYE-TRACKING: remove if not needed
 
+
 @app.websocket("/eyetracking")
 async def eyetracking_endpoint(websocket: WebSocket):
     """Store real-time eyetracking data in CSV files."""
@@ -557,7 +609,7 @@ async def eyetracking_endpoint(websocket: WebSocket):
                 # Checking if the CSV file already exists
                 csv_filename = f"{EYETRACKING_DATA_DIR}/{d['xid']}.csv"
                 try:
-                    with open(csv_filename, 'x', newline='') as csv_file:
+                    with open(csv_filename, "x", newline="") as csv_file:
                         # Writing header with keys as column names
                         writer = csv.writer(csv_file)
                         writer.writerow(keys)
@@ -566,7 +618,7 @@ async def eyetracking_endpoint(websocket: WebSocket):
                     pass
 
                 # Appending the values to the CSV file
-                with open(csv_filename, mode='a', newline='') as csv_file:
+                with open(csv_filename, mode="a", newline="") as csv_file:
                     writer = csv.writer(csv_file)
                     writer.writerow(values)
 
@@ -591,7 +643,7 @@ async def get_eyetracking_text(id: str) -> list:
     """Get the eyetracking events of a user."""
     try:
         with open(f"./{EYETRACKING_DATA_DIR}/{id}.csv", "r") as fd:
-            reader = csv.reader(fd, delimiter=',', quotechar='"')
+            reader = csv.reader(fd, delimiter=",", quotechar='"')
             response = [line for line in reader]
     except Exception as e:
         print(e)
@@ -604,7 +656,7 @@ async def get_eyetracking_text(id: str) -> list:
         try:
             id = response_pid.xid
             with open(f"./{EYETRACKING_DATA_DIR}/{id}.csv", "r") as fd:
-                reader = csv.reader(fd, delimiter=',', quotechar='"')
+                reader = csv.reader(fd, delimiter=",", quotechar='"')
                 response = [line for line in reader]
         except Exception as e:
             print(e)
@@ -617,9 +669,10 @@ async def close_connection_after_timeout(websocket: WebSocket):
     await asyncio.sleep(15)
     await websocket.close()
 
-    
+
 # remove if not necessary
-    
+
+
 @app.websocket("/ws-test")
 async def ws_test_endpoint(websocket: WebSocket):
     """
@@ -628,13 +681,12 @@ async def ws_test_endpoint(websocket: WebSocket):
     """
     try:
         await websocket.accept()
-        close_task = asyncio.create_task(
-            close_connection_after_timeout(websocket))
+        close_task = asyncio.create_task(close_connection_after_timeout(websocket))
         while True:
             try:
                 data = await websocket.receive_text()
                 logger.info(data)
-                with open('websocket_test.txt', 'a', newline='') as fd:
+                with open("websocket_test.txt", "a", newline="") as fd:
                     fd.write(data + "\n")
                     # fd.write(json.dumps(data) + "\n")
             except Exception as e:
@@ -650,12 +702,14 @@ async def ws_test_endpoint(websocket: WebSocket):
 
 # PASS DOWNLOAD_URI
 
+
 @app.get("/get-rrweb-access")
 async def get_rrweb_access():
     return {"download_uri": DOWNLOAD_URI}
 
-    
+
 # DOWNLOAD/TEST CALLS
+
 
 @app.get(f"/{DOWNLOAD_URI}/tables/")
 async def get_tables():
