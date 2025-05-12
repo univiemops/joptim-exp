@@ -269,7 +269,7 @@ async def get_xid(participant_id: schemas.ParticipantIdIn) -> dict:
             logger.warning(
                 f"Incompatible trial file: User started experiment with trial file {str(response.trial_file_id)}, but current trial file is {trial_file_id}. Cannot proceed."
             )
-            return {}  # TODO: make sure the frontend understands what that means
+            return {}
 
         return {**response}
     else:

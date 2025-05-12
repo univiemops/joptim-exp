@@ -54,10 +54,11 @@ export default function Home() {
 
   useEffect(() => {
     if (leavePage) {
-      router.push({
+    if (xid) {
+       router.push({
         pathname: "/experiment",
         query: { XID: xid },
-      });
+        });} else {alert("No permission to proceed to experiment.")} // incompatible trial files
     }
   }, [leavePage]);
 
@@ -65,11 +66,12 @@ export default function Home() {
     if (leavePage) {
       // runs only if the user has already interacted with the page,
       // i.e. user has left the welcome page by clicking "continue"
+      if (xid){ // incompatible trial files
       try {
         document.documentElement.requestFullscreen();
       } catch (error) {
         console.error("Error requesting fullscreen:", error);
-      }
+        }}
     }
   });
 
