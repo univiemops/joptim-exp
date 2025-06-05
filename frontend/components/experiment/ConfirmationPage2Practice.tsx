@@ -65,9 +65,9 @@ const ConfirmationPage2Practice: React.FC<{
     } else {
       if (trialType === "catch") {
         response =
-          "You found the " +
+          "You found the solution on the " +
           text[1] +
-          " solution " +
+          " " +
           text[0] +
           " easier to understand, but the two solutions are identical!";
         color = "red";
@@ -75,9 +75,9 @@ const ConfirmationPage2Practice: React.FC<{
         rightBorder = "5px solid rgba(255, 0, 0, 0.30)";
       } else {
         response =
-          "Well done. You found the " +
+          "Well done. You found the solution on the " +
           text[1] +
-          " solution " +
+          " " +
           text[0] +
           " easier to understand.";
         color = "green";
@@ -183,25 +183,27 @@ const ConfirmationPage2Practice: React.FC<{
           </Button>
         </div>
       ) : (
-        <div className="trial-instruction">
-          <span style={{ fontSize: "xx-large", fontWeight: "bold" }}>
-            Finished practice trial {trial} of {nTrials}.
-          </span>
-          <div
-            style={{
-              display: "flex",
-              minWidth: "100%",
-              // backgroundColor: "#efefef",
-              // backgroundColor: color,
-              borderRadius: "0.2rem",
-              overflow: "hidden",
-              color: color,
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              justifyContent: "center",
-            }}
-          >
-            {response}
+        <div>
+          <div className="trial-instruction">
+            <span style={{ fontSize: "x-large", fontWeight: "bold" }}>
+              Finished practice trial {trial} of {nTrials}.
+            </span>
+            <div
+              style={{
+                display: "flex",
+                minWidth: "100%",
+                // backgroundColor: "#efefef",
+                // backgroundColor: color,
+                borderRadius: "0.2rem",
+                overflow: "hidden",
+                color: color,
+                marginTop: "1rem",
+                marginBottom: "1rem",
+                justifyContent: "center",
+              }}
+            >
+              {response}
+            </div>
           </div>
           <div
             className="stimulus-pair-container"
@@ -251,7 +253,7 @@ const ConfirmationPage2Practice: React.FC<{
               background: "#000000",
               textTransform: "none",
               padding: ".3rem 3rem .3rem 3rem",
-              margin: "1rem 1rem 1rem 1rem",
+              margin: "0.9rem 0.9rem 0.9rem 0.9rem",
             }}
             onClick={onContinue}
           >
