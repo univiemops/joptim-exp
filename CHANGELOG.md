@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.44](https://github.com/univiemops/joptim-exp/compare/v0.1.43...v0.1.44) (2025-06-05)
+
+
+### Features
+
+* implement basic preference trial practice page dev_practice ([71b3dac](https://github.com/univiemops/joptim-exp/commit/71b3dacba8013755d886312a4a5b133993a2982b))
+
+
+### Bug Fixes
+
+* **backend:** remove database upgrade API call. ([456bd31](https://github.com/univiemops/joptim-exp/commit/456bd319dda2d1ddb73e83bb3b9e9f53b50ffe18))
+
 ## [0.1.43](https://github.com/univiemops/joptim-exp/compare/v0.1.42...v0.1.43) (2024-09-13)
 
 
