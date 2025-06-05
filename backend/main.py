@@ -174,6 +174,7 @@ except Exception as e:
 # API CALLS #
 #############
 
+
 @app.on_event("startup")
 async def startup():
     """Open database connection."""
@@ -378,6 +379,179 @@ def n_trials(user_id: int):
         "n_trials_solving": n_trials_solving,
         "n_trials_preference": n_trials_preference,
     }
+
+
+@app.get("/new-preference-practice-trial/{i}")
+def new_preference_practice_trial(i: int):
+    """Take trials from file."""
+    practice_trials = [
+        {
+            "tasks_1": [90, 85, 70, 45, 30, 20, 15, 10],
+            "workers_1": [90, 60, 60, 50, 50, 10],
+            "tasks_2": [90, 85, 70, 45, 30, 20, 15, 10],
+            "workers_2": [90, 60, 60, 50, 50, 10],
+            "utility": 210,
+            "assignments_optimal_1": [[0, 0], [3, 1], [4, 3], [5, 3], [6, 1], [7, 5]],
+            "assignments_optimal_2": [[0, 0], [3, 4], [4, 1], [5, 3], [6, 2], [7, 2]],
+            "solution_1": [[0, 0], [3, 1], [4, 3], [5, 3], [6, 1], [7, 5]],
+            "solution_2": [[0, 0], [3, 4], [4, 1], [5, 3], [6, 2], [7, 2]],
+            "type": ["coherence", "medium", "none"],
+            "task_order_1": [0, 1, 2, 3, 4, 5, 6, 7],
+            "task_order_2": [0, 1, 2, 3, 4, 5, 6, 7],
+            "worker_order_1": [0, 1, 2, 3, 4, 5],
+            "worker_order_2": [0, 1, 2, 3, 4, 5],
+        },
+        {
+            "tasks_1": [85, 80, 75, 70, 65, 60, 45, 35],
+            "workers_1": [100, 90, 80, 50, 50, 50],
+            "tasks_2": [85, 80, 75, 70, 65, 60, 45, 35],
+            "workers_2": [100, 90, 80, 50, 50, 50],
+            "utility": 320,
+            "assignments_optimal_1": [[0, 0], [1, 2], [2, 1], [6, 5], [7, 3]],
+            "assignments_optimal_2": [[0, 0], [1, 2], [2, 1], [6, 5], [7, 3]],
+            "solution_1": [[0, 0], [1, 2], [2, 1], [6, 5], [7, 3]],
+            "solution_2": [[0, 0], [1, 2], [2, 1], [6, 5], [7, 3]],
+            "type": ["catch", "low", "none"],
+            "task_order_1": [0, 1, 2, 3, 4, 5, 6, 7],
+            "task_order_2": [0, 1, 2, 3, 4, 5, 6, 7],
+            "worker_order_1": [0, 1, 2, 3, 4, 5],
+            "worker_order_2": [0, 1, 2, 3, 4, 5],
+        },
+        {
+            "tasks_1": [95, 75, 60, 35, 30, 25, 15, 5],
+            "workers_1": [100, 100, 90, 40],
+            "tasks_2": [95, 75, 60, 35, 30, 25, 15, 5],
+            "workers_2": [100, 100, 90, 40],
+            "utility": 325,
+            "assignments_optimal_1": [
+                [0, 0],
+                [1, 1],
+                [2, 2],
+                [3, 3],
+                [4, 2],
+                [5, 1],
+                [7, 0],
+            ],
+            "assignments_optimal_2": [
+                [0, 0],
+                [1, 1],
+                [2, 2],
+                [3, 3],
+                [4, 2],
+                [5, 1],
+                [7, 3],
+            ],
+            "solution_1": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 2], [5, 1], [7, 0]],
+            "solution_2": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 2], [5, 1], [7, 3]],
+            "type": ["random", "high", "none"],
+            "task_order_1": [0, 1, 2, 3, 4, 5, 6, 7],
+            "task_order_2": [0, 1, 2, 3, 4, 5, 6, 7],
+            "worker_order_1": [0, 1, 2, 3],
+            "worker_order_2": [0, 1, 2, 3],
+        },
+        {
+            "tasks_1": [100, 95, 55, 40, 35, 25, 15, 10, 5],
+            "workers_1": [100, 90, 60, 60],
+            "tasks_2": [100, 95, 55, 40, 35, 25, 15, 10, 5],
+            "workers_2": [100, 90, 60, 60],
+            "utility": 285,
+            "assignments_optimal_1": [
+                [0, 0],
+                [2, 3],
+                [3, 1],
+                [4, 1],
+                [5, 2],
+                [6, 2],
+                [7, 1],
+                [8, 2],
+            ],
+            "assignments_optimal_2": [
+                [0, 0],
+                [2, 3],
+                [3, 1],
+                [4, 1],
+                [5, 2],
+                [6, 2],
+                [7, 1],
+                [8, 2],
+            ],
+            "solution_1": [
+                [0, 0],
+                [2, 3],
+                [3, 1],
+                [4, 1],
+                [5, 2],
+                [6, 2],
+                [7, 1],
+                [8, 2],
+            ],
+            "solution_2": [
+                [0, 0],
+                [2, 3],
+                [3, 1],
+                [4, 1],
+                [5, 2],
+                [6, 2],
+                [7, 1],
+                [8, 2],
+            ],
+            "type": ["catch", "low", "none"],
+            "task_order_1": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            "task_order_2": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            "worker_order_1": [0, 1, 2, 3],
+            "worker_order_2": [0, 1, 2, 3],
+        },
+        {
+            "tasks_1": [85, 75, 55, 50, 45, 30, 25, 15, 5],
+            "workers_1": [100, 100, 90, 60],
+            "tasks_2": [85, 75, 55, 50, 45, 30, 25, 15, 5],
+            "workers_2": [100, 100, 90, 60],
+            "utility": 340,
+            "assignments_optimal_1": [
+                [0, 2],
+                [1, 1],
+                [2, 3],
+                [3, 0],
+                [4, 0],
+                [6, 1],
+                [8, 3],
+            ],
+            "assignments_optimal_2": [
+                [0, 0],
+                [1, 1],
+                [2, 2],
+                [3, 3],
+                [5, 2],
+                [6, 1],
+                [7, 0],
+                [8, 3],
+            ],
+            "solution_1": [[0, 2], [1, 1], [2, 3], [3, 0], [4, 0], [6, 1], [8, 3]],
+            "solution_2": [
+                [0, 0],
+                [1, 1],
+                [2, 2],
+                [3, 3],
+                [5, 2],
+                [6, 1],
+                [7, 0],
+                [8, 3],
+            ],
+            "type": ["extreme_diff_ac", "medium", "none"],
+            "task_order_1": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            "task_order_2": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            "worker_order_1": [0, 1, 2, 3],
+            "worker_order_2": [0, 1, 2, 3],
+        },
+    ]
+
+    return practice_trials[i]
+
+
+@app.get("/n-preference-practice-trials")
+def n_preference_practice_trials():
+    """Take trials from file."""
+    return {"n_trials_preference_practice": 5}
 
 
 @app.get("/completion-url/{user_id}")
