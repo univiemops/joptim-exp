@@ -67,9 +67,9 @@ const ConfirmationPage2Practice: React.FC<{
         response =
           "You found the solution on the " +
           text[1] +
-          " " +
-          text[0] +
-          " easier to understand, but the two solutions are identical!";
+          // " " +
+          // text[0] +
+          " easier to understand, but they are identical!";
         color = "red";
         leftBorder = "5px solid rgba(255, 0, 0, 0.30)";
         rightBorder = "5px solid rgba(255, 0, 0, 0.30)";
@@ -200,6 +200,7 @@ const ConfirmationPage2Practice: React.FC<{
                 marginTop: "1rem",
                 marginBottom: "1rem",
                 justifyContent: "center",
+                fontSize: "xx-large",
               }}
             >
               {response}

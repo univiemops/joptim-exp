@@ -12,6 +12,7 @@ import StrategiesSolving from "../components/experiment/StrategiesSolving";
 import PSI from "../components/experiment/PSI";
 import Consent from "../components/experiment/Consent";
 import Instructions from "../components/experiment/Instructions";
+import Practice from "../components/experiment/Practice";
 import { useRouter } from "next/router";
 import {
   handleSubmit1,
@@ -82,6 +83,7 @@ const Experiment: React.FC = () => {
   const router = useRouter();
   const { XID } = router.query;
   const [instructed, setInstructed] = React.useState<boolean>(false);
+  const [practiced, setPracticed] = React.useState<boolean>(false);
   const [ranEffect1, setRanEffect1] = useState<boolean>(false);
   const [ranEffect2, setRanEffect2] = useState<boolean>(false);
   const [completionURL, setCompletionURL] = useState<string>("");
@@ -106,8 +108,14 @@ const Experiment: React.FC = () => {
   };
 
   const fetchCompletionURL = () => {
-  console.log("fetching completion URL for userData.trial_file_user_id in userData.trial_file_id", userData.trial_file_user_id, userData.trial_file_id);
-    fetch(`${OPTIONAL_SUBURI}/completion-url/${userData.trial_file_user_id || 0}`)
+    console.log(
+      "fetching completion URL for userData.trial_file_user_id in userData.trial_file_id",
+      userData.trial_file_user_id,
+      userData.trial_file_id
+    );
+    fetch(
+      `${OPTIONAL_SUBURI}/completion-url/${userData.trial_file_user_id || 0}`
+    )
       .then((response) => response.json())
       .then((json) => {
         setCompletionURL(json["completion_url"]);
@@ -120,7 +128,10 @@ const Experiment: React.FC = () => {
   };
 
   const fetchNumberOfTrials = () => {
-    console.log("fetching number of trials for userData.trial_file_user_id in userData.trial_file_id", userData.trial_file_user_id);
+    console.log(
+      "fetching number of trials for userData.trial_file_user_id in userData.trial_file_id",
+      userData.trial_file_user_id
+    );
     fetch(`${OPTIONAL_SUBURI}/n-trials/${userData.trial_file_user_id || 0}`)
       .then((response) => response.json())
       .then((json) => {
@@ -157,7 +168,14 @@ const Experiment: React.FC = () => {
       setAssignmentsOptimal(json["example_solution"]);
       setAssignments([]);
       setLoading(false);
-      console.log("Fetched solving trial", i, "for user", userData.trial_file_user_id, "in trial file", userData.trial_file_id);
+      console.log(
+        "Fetched solving trial",
+        i,
+        "for user",
+        userData.trial_file_user_id,
+        "in trial file",
+        userData.trial_file_id
+      );
       console.log(json);
     } catch (error) {
       console.error("Fetching solving trials failed:", error);
@@ -192,7 +210,14 @@ const Experiment: React.FC = () => {
       setTaskOrder1(json["task_order_1"]);
       setTaskOrder2(json["task_order_2"]);
       setLoading(false);
-      console.log("Fetched preference trial", i, "for user", userData.trial_file_user_id, "in trial file", userData.trial_file_id);
+      console.log(
+        "Fetched preference trial",
+        i,
+        "for user",
+        userData.trial_file_user_id,
+        "in trial file",
+        userData.trial_file_id
+      );
       console.log(json);
     } catch (error) {
       console.error("Fetching preference trials failed:", error);
@@ -420,6 +445,12 @@ const Experiment: React.FC = () => {
   const handleFinishInstructions = () =>
     handleFinish(undefined, undefined, undefined, () => setInstructed(true));
 
+  const handleFinishPractice = () =>
+    handleFinish(undefined, undefined, undefined, () => setPracticed(true));
+
+  const handleRepeatPractice = () =>
+    handleFinish(undefined, undefined, undefined, () => setPracticed(false));
+
   const getUserData = async (XID: string) => {
     try {
       const res = await fetch(`${OPTIONAL_SUBURI}/user/`, {
@@ -437,7 +468,7 @@ const Experiment: React.FC = () => {
       }
 
       const json = await res.json();
-      console.log("USER DATA res", json)
+      console.log("USER DATA res", json);
       setUserData(json);
     } catch (error) {
       console.error(error);
@@ -674,6 +705,11 @@ const Experiment: React.FC = () => {
       );
     }
 
+    // Check if practice completed
+    else if (!practiced) {
+      return <Practice onFinish={handleFinishPractice} />;
+    }
+
     // Check if preference trials completed
     else if (!userData["trials_2"]) {
       if (
@@ -685,7 +721,9 @@ const Experiment: React.FC = () => {
           <ConfirmationPage2
             trial={indexPreferenceTrial}
             nTrials={nTrialsPreference}
+            practiced={practiced}
             onContinue={handleContinue2}
+            onRepeatPractice={handleRepeatPractice}
           />
         );
       }
