@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.45](https://github.com/univiemops/joptim-exp/compare/v0.1.44...v0.1.45) (2025-06-06)
+
+
+### Features
+
+* integrate practice trials into the experiment ([511c5c9](https://github.com/univiemops/joptim-exp/commit/511c5c9d075d96ad4dfef8196a93a0185d56ae65))
+
+
+### Bug Fixes
+
+* better GAP alignment between practice trial and practice feedback ([5b383e2](https://github.com/univiemops/joptim-exp/commit/5b383e2c5f083673bf869b92163a7f7904ca426e))
+
 ## [0.1.44](https://github.com/univiemops/joptim-exp/compare/v0.1.43...v0.1.44) (2025-06-05)
 
 
