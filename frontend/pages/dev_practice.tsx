@@ -35,9 +35,6 @@ const Practice: React.FC = () => {
   const [solution2Prev, setSolution2Prev] = useState<Array<[number, number]>>(
     []
   );
-  // TODO: we add now 4 or 5 practice trials
-  // fixed set, harcode here or fetch from the backend
-  // via separate API call
 
   const fetchNumberOfTrials = () => {
     console.log("fetching number of practice trials");

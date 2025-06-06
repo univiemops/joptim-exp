@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import StimulusPage2 from "../components/experiment/StimulusPage2";
-import ConfirmationPage2 from "../components/experiment/ConfirmationPage2";
+import ConfirmationPage2Demo from "../components/experiment/ConfirmationPage2Demo";
 import Head from "next/head";
 import { getURLParameter } from "../utils/webFunctions";
 
@@ -156,7 +156,7 @@ const Demo2: React.FC = () => {
       nTrialsPreference != null
     ) {
       return (
-        <ConfirmationPage2
+        <ConfirmationPage2Demo
           trial={indexPreferenceTrial}
           nTrials={nTrialsPreference}
           onContinue={handleContinue2}
