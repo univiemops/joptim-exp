@@ -16,6 +16,7 @@ const ConfirmationPage2Practice: React.FC<{
   solution1: [number, number][];
   solution2: [number, number][];
   onContinue: () => void;
+  onMistake: () => void;
 }> = ({
   choice,
   trialType,
@@ -30,6 +31,7 @@ const ConfirmationPage2Practice: React.FC<{
   solution1,
   solution2,
   onContinue,
+  onMistake,
 }) => {
   let text = ["", ""];
   let response = "";
@@ -52,34 +54,41 @@ const ConfirmationPage2Practice: React.FC<{
 
     if (choice === 0) {
       if (trialType === "catch") {
-        response =
-          "Well done. You pressed the duplicated button. Both solutions are indeed identical.";
+        // response =
+        //   "Well done. You pressed the duplicated button. Both solutions are indeed identical.";
+        response = "Well done. The two solutions were indeed identical.";
         color = "green";
         leftBorder = "5px solid rgba(0, 128, 0, 0.30)";
         rightBorder = "5px solid rgba(0, 128, 0, 0.30)";
       } else {
-        response =
-          "You pressed the duplicated button, but the two solutions are not identical!";
+        onMistake();
+        // response =
+        //   "You pressed the duplicated button, but the two solutions are not identical!";
+
+        response = "Be careful—the two solutions were not identical.";
         color = "red";
       }
     } else {
       if (trialType === "catch") {
-        response =
-          "You found the solution on the " +
-          text[1] +
-          // " " +
-          // text[0] +
-          " easier to understand, but they are identical!";
+        onMistake();
+        // response =
+        //   "You found the solution on the " +
+        //   text[1] +
+        //   // " " +
+        //   // text[0] +
+        //   " easier to understand, but they are identical!";
+        response = "Be careful—the two solutions were actually identical.";
         color = "red";
         leftBorder = "5px solid rgba(255, 0, 0, 0.30)";
         rightBorder = "5px solid rgba(255, 0, 0, 0.30)";
       } else {
-        response =
-          "Well done. You found the solution on the " +
-          text[1] +
-          " " +
-          text[0] +
-          " easier to understand.";
+        // response =
+        //   "Well done. You found the solution on the " +
+        //   text[1] +
+        //   " " +
+        //   text[0] +
+        //   " easier to understand.";
+        response = "Well done. The two solutions were indeed not identical.";
         color = "green";
         if (text[1] === "left") {
           leftBorder = "5px solid rgba(0, 128, 0, 0.30)";
@@ -121,8 +130,8 @@ const ConfirmationPage2Practice: React.FC<{
                 you will see two solutions side by side. These pairs of
                 solutions have the same score, meaning they both provide equally
                 good results. Since you already have experience solving such
-                problems, we are interested in which of the two solutions you
-                find easier to understand.
+                problems, we are interested in{" "}
+                <b>which of the two solutions you find easier to understand.</b>
               </p>
               {/* <p style={{ color: "red" }}>
               <b>IMPORTANT: </b>Occasionally you will see identical solutions on
