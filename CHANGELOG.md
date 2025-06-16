@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.46](https://github.com/univiemops/joptim-exp/compare/v0.1.45...v0.1.46) (2025-06-16)
+
+
+### Bug Fixes
+
+* change response sentences. ([6249208](https://github.com/univiemops/joptim-exp/commit/6249208b46512b66b5c932e4142558df19665da8))
+* New structure of practice trials: 4 instead of 5, loop until all successfully completed, no repeat trial button in the main experiment, revised feedback messages ([da7dea4](https://github.com/univiemops/joptim-exp/commit/da7dea47172f9e0c92b0d8b3afb361689b60afe7))
+
 ## [0.1.45](https://github.com/univiemops/joptim-exp/compare/v0.1.44...v0.1.45) (2025-06-06)
 
 
