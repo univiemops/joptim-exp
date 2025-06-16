@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import StimulusPage2 from "../components/experiment/StimulusPage2";
 import ConfirmationPage2Practice from "../components/experiment/ConfirmationPage2Practice";
 import Head from "next/head";
+import { Button } from "@mui/material"; // NEW
 
 const OPTIONAL_SUBURI = process.env.NEXT_PUBLIC_API_URL;
 
@@ -35,6 +36,8 @@ const Practice: React.FC = () => {
   const [solution2Prev, setSolution2Prev] = useState<Array<[number, number]>>(
     []
   );
+  const [reachedEnd, setReachedEnd] = useState<boolean>(false); // NEW
+  const [mistakes, setMistakes] = useState<boolean>(false); // NEW
 
   const fetchNumberOfTrials = () => {
     console.log("fetching number of practice trials");
@@ -123,8 +126,32 @@ const Practice: React.FC = () => {
       fetchPreferenceTrial(indexPreferenceTrial);
     }
   };
+
+  // NEW
+  const handleMistake = () => {
+    setMistakes(true);
+  };
+
+  // NEW
+  const handleRepeatPractice = () => {
+    setIndexPreferenceTrial(0);
+    fetchPreferenceTrial(0);
+    setTrialCompleted2(true);
+    setReachedEnd(false);
+    setMistakes(false);
+  };
+
   const handleContinue2 = () => {
     if (indexPreferenceTrial != null) {
+      if (nTrialsPreference && indexPreferenceTrial >= nTrialsPreference) {
+        console.log("Reached end of practice!");
+        setReachedEnd(true); // NEW, this will take us to the summary screen
+        if (!mistakes) {
+          console.log("No mistakes made.");
+          // onFinish(); // NEW: uncomment this in Practice.tsx
+        }
+      }
+
       setIndexPreferenceTrial(indexPreferenceTrial + 1);
       setTrialCompleted2(false);
     }
@@ -180,11 +207,65 @@ const Practice: React.FC = () => {
           solution1={solution1Prev}
           solution2={solution2Prev}
           onContinue={handleContinue2}
+          onMistake={handleMistake} // NEW
         />
       );
     }
-    if (nTrialsPreference && indexPreferenceTrial > nTrialsPreference) {
-      return <div>Finished. Press F5 to repeat.</div>;
+
+    // NEW: changed condition to reachedEnd.
+    if (reachedEnd) {
+      if (!mistakes) {
+        return <div>Practice finished. Continuing with main experiment.</div>;
+      } else {
+        return (
+          <div
+            id="confirmation-page-2"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              maxWidth: "min(100%,900px)",
+            }}
+          >
+            <div
+              id="confirmation-page-2-inner"
+              style={{
+                color: "black",
+                fontSize: "x-large",
+                margin: "2rem",
+                maxWidth: "100%",
+                fontWeight: "bold",
+              }}
+            >
+              Practice Trials Unsuccessful
+            </div>
+            <span
+              style={{ color: "black", fontSize: "x-large", margin: "2rem" }}
+            >
+              You did not successfully complete the practice trials. Please
+              review the instructions and attempt them again to ensure you
+              understand the task. Click "REPEAT PRACTICE" to repeat the
+              practice trials.{" "}
+            </span>
+
+            {/* NEW */}
+            <Button
+              size="large"
+              variant="contained"
+              style={{
+                fontSize: "x-large",
+                background: "#000000",
+                textTransform: "none",
+                padding: ".3rem 3rem .3rem 3rem",
+                margin: "0.9rem 0.9rem 0.9rem 0.9rem",
+              }}
+              onClick={handleRepeatPractice}
+            >
+              REPEAT PRACTICE
+            </Button>
+          </div>
+        );
+      }
     }
 
     if (

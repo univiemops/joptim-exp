@@ -551,7 +551,7 @@ def new_preference_practice_trial(i: int):
 @app.get("/n-preference-practice-trials")
 def n_preference_practice_trials():
     """Take trials from file."""
-    return {"n_trials_preference_practice": 5}
+    return {"n_trials_preference_practice": 4}
 
 
 @app.get("/completion-url/{user_id}")

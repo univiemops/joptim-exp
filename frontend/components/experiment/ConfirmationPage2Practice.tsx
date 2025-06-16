@@ -16,6 +16,7 @@ const ConfirmationPage2Practice: React.FC<{
   solution1: [number, number][];
   solution2: [number, number][];
   onContinue: () => void;
+  onMistake: () => void;
 }> = ({
   choice,
   trialType,
@@ -30,6 +31,7 @@ const ConfirmationPage2Practice: React.FC<{
   solution1,
   solution2,
   onContinue,
+  onMistake,
 }) => {
   let text = ["", ""];
   let response = "";
@@ -59,13 +61,16 @@ const ConfirmationPage2Practice: React.FC<{
         leftBorder = "5px solid rgba(0, 128, 0, 0.30)";
         rightBorder = "5px solid rgba(0, 128, 0, 0.30)";
       } else {
+        onMistake();
         // response =
         //   "You pressed the duplicated button, but the two solutions are not identical!";
+
         response = "Be careful—the two solutions were not identical.";
         color = "red";
       }
     } else {
       if (trialType === "catch") {
+        onMistake();
         // response =
         //   "You found the solution on the " +
         //   text[1] +

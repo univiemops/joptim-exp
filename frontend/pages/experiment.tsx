@@ -448,9 +448,6 @@ const Experiment: React.FC = () => {
   const handleFinishPractice = () =>
     handleFinish(undefined, undefined, undefined, () => setPracticed(true));
 
-  const handleRepeatPractice = () =>
-    handleFinish(undefined, undefined, undefined, () => setPracticed(false));
-
   const getUserData = async (XID: string) => {
     try {
       const res = await fetch(`${OPTIONAL_SUBURI}/user/`, {
@@ -723,7 +720,6 @@ const Experiment: React.FC = () => {
             nTrials={nTrialsPreference}
             practiced={practiced}
             onContinue={handleContinue2}
-            onRepeatPractice={handleRepeatPractice}
           />
         );
       }
