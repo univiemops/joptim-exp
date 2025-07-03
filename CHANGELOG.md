@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.48](https://github.com/univiemops/joptim-exp/compare/v0.1.47...v0.1.48) (2025-07-03)
+
+
+### Bug Fixes
+
+* remove unnecessary useEffect inside of function ([4f7f323](https://github.com/univiemops/joptim-exp/commit/4f7f32359701c1fae1a2a13f996f548fc6887643))
+* remove unnecessary useEffect inside of function ([f6115ed](https://github.com/univiemops/joptim-exp/commit/f6115ed6409e4a70aecfe5fa2935dbea19e35cfd))
+
 ## [0.1.47](https://github.com/univiemops/joptim-exp/compare/v0.1.46...v0.1.47) (2025-07-03)
 
 
