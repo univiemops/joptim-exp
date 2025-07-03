@@ -61,6 +61,9 @@ const ConfirmationPage2Practice: React.FC<{
         leftBorder = "5px solid rgba(0, 128, 0, 0.30)";
         rightBorder = "5px solid rgba(0, 128, 0, 0.30)";
       } else {
+        console.log(
+          "running onMistake() because choice === 0 and trialType not 'catch'"
+        );
         onMistake();
         // response =
         //   "You pressed the duplicated button, but the two solutions are not identical!";
@@ -70,6 +73,9 @@ const ConfirmationPage2Practice: React.FC<{
       }
     } else {
       if (trialType === "catch") {
+        console.log(
+          "running onMistake() because choice not 0 and trialType === 'catch'"
+        );
         onMistake();
         // response =
         //   "You found the solution on the " +
@@ -121,16 +127,31 @@ const ConfirmationPage2Practice: React.FC<{
             }}
           >
             <div id="confirmation-page-2-initial">
-              <p style={{ textAlign: "left" }}>
+              {/* <p style={{ textAlign: "left" }}>
                 Now that you have a good understanding of our problem-solving
                 task, let's start with <b>part two</b>!
-              </p>
-              <p style={{ textAlign: "left" }}>
-                In the following trials, instead of solving problems as before,
+              </p> */}
+              {/* In the following trials, instead of solving problems as before,
                 you will see two solutions side by side. These pairs of
                 solutions have the same score, meaning they both provide equally
                 good results. Since you already have experience solving such
                 problems, we are interested in{" "}
+                <b>which of the two solutions you find easier to understand.</b> */}
+              <p style={{ textAlign: "left" }}>
+                <b>
+                  Now that you have a good understanding of our problem-solving
+                  task, let's start with part two!
+                </b>
+              </p>
+              <p style={{ textAlign: "left" }}>
+                In the following trials, instead of solving problems as before,
+                you will see <b>two solutions side by side</b>. These pairs of
+                solutions have the <b>same score</b>, meaning they both provide
+                equally good results.
+              </p>
+              <p style={{ textAlign: "left" }}>
+                Since you already have experience solving such problems, we are
+                interested in{" "}
                 <b>which of the two solutions you find easier to understand.</b>
               </p>
               {/* <p style={{ color: "red" }}>
@@ -153,24 +174,44 @@ const ConfirmationPage2Practice: React.FC<{
                 }}
               >
                 {/* <center> */}
-                <b style={{ color: "red" }}>IMPORTANT:</b> {/* </center> */}
+                {/* <b style={{ color: "red" }}>IMPORTANT:</b> */}
+                {/* </center> */}
                 {/* <br /> */}
-                In a few trials, you will see a pair of solutions that are{" "}
+                {/* In a few trials, you will see a pair of solutions that are{" "}
                 <b>exactly the same</b>: the order of books, boxes, and the
-                assignments of books into boxes (i.e., dots in the table) will
-                all be completely identical on the left and the right. Only in
-                these few trials you should click the{" "}
-                <b>"Duplicated solutions"</b> button.
-                <br />
-                If there is <b>any difference</b> between the two solutions—no
-                matter how small—then you should <b>not</b> click the
-                "Duplicated solutions" button. Instead, please indicate which
-                solution you find easier to understand.
-              </p>
-              <p style={{ textAlign: "left" }}>
-                To ensure you understand the instructions and everything works
-                correctly, we will now proceed with five practice trials before
-                beginning the main experiment.
+                assignments of books into boxes (i.e., the position of the gray
+                dots) will all be <b>completely identical</b> on the left and
+                the right. In these trials you should <b>click</b> the{" "}
+                <b>"Duplicated solutions"</b> button. If there is{" "}
+                <b>any difference</b> between the two solutions—no matter how
+                small—<b>do not click</b> the
+                <b>"Duplicated solutions"</b> button. */}
+                <center>
+                  <b style={{ color: "red" }}>Important Instructions</b>{" "}
+                  {/* </center> */}
+                </center>
+
+                <p style={{ textAlign: "left" }}>
+                  In a few trials, you will see a pair of solutions that are
+                  <u> exactly the same</u>: the order of books, boxes, and the
+                  assignments of books into boxes (i.e., the position of the
+                  gray dots) will all be completely identical on the left and
+                  the right.
+                </p>
+                <p style={{ textAlign: "left" }}>
+                  In these trials, please click the{" "}
+                  <b>"Duplicated solutions"</b> button.
+                </p>
+                <p style={{ textAlign: "left" }}>
+                  If there is <u>any difference</u> between the two solutions—no
+                  matter how small—do <b>not</b> click the{" "}
+                  <b>"Duplicated solutions"</b> button.
+                </p>
+                <p style={{ textAlign: "left" }}>
+                  To ensure you understand the instructions, we will now proceed
+                  with a few practice trials before beginning the main
+                  experiment.
+                </p>
               </p>
             </div>
           </div>

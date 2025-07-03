@@ -137,6 +137,7 @@ const Practice: React.FC<{
     fetchPreferenceTrial(0);
     setTrialCompleted2(true);
     setReachedEnd(false);
+    setChoice(undefined);
     setMistakes(false);
   };
 
@@ -211,6 +212,12 @@ const Practice: React.FC<{
       );
     }
 
+    useEffect(() => {
+      console.log("useEffect for setCssvar ran.");
+
+      setCSSvar();
+    }, [indexPreferenceTrial]);
+
     if (reachedEnd) {
       if (!mistakes) {
         return <div>Practice finished. Continuing with main experiment.</div>;
@@ -241,9 +248,8 @@ const Practice: React.FC<{
               style={{ color: "black", fontSize: "x-large", margin: "2rem" }}
             >
               You did not successfully complete the practice trials. Please
-              review the instructions and attempt them again to ensure you
-              understand the task. Click "REPEAT PRACTICE" to repeat the
-              practice trials.{" "}
+              review the instructions to ensure you understand the task. Click
+              below to repeat the practice trials.{" "}
             </span>
 
             <Button
