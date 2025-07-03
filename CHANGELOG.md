@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.47](https://github.com/univiemops/joptim-exp/compare/v0.1.46...v0.1.47) (2025-07-03)
+
+
+### Bug Fixes
+
+* reset choice after practice to prevent mistakes from being false… ([d5632fd](https://github.com/univiemops/joptim-exp/commit/d5632fd98c5de7ac9ce543e5419c9df3ec580537))
+* reset choice after practice to prevent mistakes from being falsely set to true, adapt instructions ([e753fb0](https://github.com/univiemops/joptim-exp/commit/e753fb04e9a5ae95336c2fa2ab334fd9ddbeb98c))
+
 ## [0.1.46](https://github.com/univiemops/joptim-exp/compare/v0.1.45...v0.1.46) (2025-06-16)
 
 
