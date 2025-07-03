@@ -138,6 +138,7 @@ const Practice: React.FC = () => {
     fetchPreferenceTrial(0);
     setTrialCompleted2(true);
     setReachedEnd(false);
+    setChoice(undefined);
     setMistakes(false);
   };
 
@@ -185,6 +186,11 @@ const Practice: React.FC = () => {
     nTrialsPreference,
     fetchPreferenceTrial,
   ]);
+
+  // DEBUG useEffect
+  useEffect(() => {
+    console.log("mistakes changed to:", mistakes);
+  }, [mistakes]);
 
   const renderMainContent = () => {
     if (
