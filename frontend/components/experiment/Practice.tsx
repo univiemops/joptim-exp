@@ -212,12 +212,6 @@ const Practice: React.FC<{
       );
     }
 
-    useEffect(() => {
-      console.log("useEffect for setCssvar ran.");
-
-      setCSSvar();
-    }, [indexPreferenceTrial]);
-
     if (reachedEnd) {
       if (!mistakes) {
         return <div>Practice finished. Continuing with main experiment.</div>;
