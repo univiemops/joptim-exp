@@ -2,7 +2,7 @@
 
 ![starter workflow](https://github.com/dominikpegler/joptim-game/actions/workflows/starter_wf.yml/badge.svg)
 
-* Web experiment for collecting human solutions in general assignment problems 
+* Web experiment for collecting human preferences for multiple subset sum solutions
 * Next.js + FastAPI + PostgreSQL
 
 ## Cloning the repo
@@ -20,7 +20,7 @@ This repo uses our own fork of webgazer. If you want to make changes to webgazer
 
 ## Prerequisite
 
-Place `samples_all.pkl` file into the backend folder. If file is missing or the backend is not set up correctly, the frontend will report an error message.
+Place `samples_all.pkl` file into the backend folder. If file is missing or the backend is not set up correctly, the frontend will report an error message. Make sure the environment variable `COMPLETION_URL` in `backened/.env` matches the *Redirect URL* in your prolific study under *Completion paths*.
 
 ## Data
 
