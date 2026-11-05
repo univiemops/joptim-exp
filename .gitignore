@@ -1,2 +1,26 @@
-# no emacs autosave files
+# editor backups
 *~
+.*~
+*.bak
+*.swp
+*.swo
+*.undo-tree~
+
+# frontend build output and caches
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/coverage/
+*.tsbuildinfo
+
+# local runtime data
+backend/rrweb_data/
+backend/rrweb_data_dev/
+backend/eyetracking_data/
+backend/eyetracking_data_dev/
+backend/websocket_test.txt
+
+# environment files with deployment secrets (tracked example: backend/.env.example)
+backend/.env
+.env

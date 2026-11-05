@@ -1,6 +1,6 @@
 # JOptim Experiment
 
-![starter workflow](https://github.com/dominikpegler/joptim-game/actions/workflows/starter_wf.yml/badge.svg)
+![starter workflow](https://github.com/univiemops/joptim-exp/actions/workflows/starter_wf.yml/badge.svg)
 
 * Web experiment for collecting human preferences for multiple subset sum solutions
 * Next.js + FastAPI + PostgreSQL
@@ -8,7 +8,7 @@
 ## Cloning the repo
 
 
-`git clone ssh://git@github.com/univiemops/joptim-exp`
+`git clone https://github.com/univiemops/joptim-exp`
 
 ## WebGazer
 
